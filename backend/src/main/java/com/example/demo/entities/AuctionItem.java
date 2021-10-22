@@ -26,14 +26,16 @@ public class AuctionItem {
     private String title;
     private String description;
     private Integer reservationPrice;
-    private LocalDateTime deadline;
+    private String deadline;
     //Here we have to have cross table?
     private String images;
     private Boolean sold;
     private Integer startPrice;
     private Double minimumBid;
    // private List<Bid> bids;
-    //private User owner;
+   @ManyToOne
+   @JsonIgnoreProperties({"myAuctionItems"})
+    private User owner;
 
 
 }
