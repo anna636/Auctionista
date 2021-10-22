@@ -1,5 +1,4 @@
 package com.example.demo.configs;
-
 import java.sql.Types;
 
 import org.hibernate.dialect.Dialect;

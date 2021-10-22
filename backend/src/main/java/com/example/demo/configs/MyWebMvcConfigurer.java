@@ -16,6 +16,7 @@ import java.io.IOException;
 
 @Configuration
 class MyWebMvcConfigurer implements WebMvcConfigurer {
+    private final String database = "auctionista.db";
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -42,12 +43,11 @@ class MyWebMvcConfigurer implements WebMvcConfigurer {
                 .allowedMethods("GET", "POST", "PUT", "DELETE");
     }
 
-    //Skapar databas om det inte finns
     @Bean
     public DataSource dataSource() {
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
         dataSourceBuilder.driverClassName("org.sqlite.JDBC");
-        dataSourceBuilder.url("jdbc:sqlite:auctionista.db");
+        dataSourceBuilder.url("jdbc:sqlite:" + database);
         return dataSourceBuilder.build();
     }
 }
