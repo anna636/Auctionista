@@ -23,6 +23,7 @@ public class Bid {
 
     private int currentBid;
     private LocalDateTime time;
+    private String user_id;
 
 
 }
