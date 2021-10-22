@@ -28,7 +28,7 @@ public class AuctionItem {
     private Integer reservationPrice;
     private LocalDateTime deadline;
     //Here we have to have cross table?
-    //private List<String> images;
+    private String images;
     private Boolean sold;
     private Integer startPrice;
     private Double minimumBid;
