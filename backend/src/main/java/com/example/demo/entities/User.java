@@ -22,7 +22,7 @@ public class User {
     private long id;
 
     private String fullName;
-    private String userName;
+    private String username;
     private String email;
     private String password;
 
@@ -30,10 +30,4 @@ public class User {
     @JsonIgnoreProperties({"owner"})
     private List<AuctionItem> myAuctionItems;
 
-    // mappedBy is the variable in the other class
-    //auctionItem relation later!
-    //@OneToMany(mappedBy = "owner")
-    //private List<Pet> pets;
-
-    // getters and setters
 }
