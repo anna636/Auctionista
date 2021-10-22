@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import javax.persistence.*;
+import java.util.LinkedList;
 import java.util.List;
 
 @Entity
@@ -35,7 +36,7 @@ public class AuctionItem {
 
     @OneToMany(mappedBy = "auctionItem")
     @JsonIgnoreProperties({"auctionItem"})
-    private List<Bid> bids;
+    public List<Bid> bids;
 
    @ManyToOne
    @JsonIgnoreProperties({"myAuctionItems"})

@@ -1,5 +1,6 @@
 package com.example.demo.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,6 +27,7 @@ public class Bid {
     private String user_id;
 
     @ManyToOne
+    @JsonIgnoreProperties({"bids"})
     private AuctionItem auctionItem;
 
 

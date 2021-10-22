@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 import com.example.demo.entities.AuctionItem;
+import com.example.demo.entities.Bid;
 import com.example.demo.services.AuctionItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -65,32 +66,4 @@ public class AuctionItemController {
         }
 
     }
-
-
-
-    //Request Bid object and id of an auctionItem
-    //Add bid into auctionItem list of bids and save auctionItem into db
-  /*@PostMapping ("/api/auctionItem/{id}")
-   public ResponseEntity<AuctionItem> addBidIntoAuctionItem(@PathVariable Long id, @RequestBody Bid bid){
-
-
-      AuctionItem auctionItemToChange=auctionItemService.getAuctionItemById(id).get();
-
-      if (auctionItemToChange!=null && bid !=null) {
-
-          auctionItemToChange.bids.add(bid);
-          createAuctionItem(auctionItemToChange);
-
-          return  ResponseEntity.ok(auctionItemToChange);
-      }
-
-      else {
-
-          return ResponseEntity.badRequest().build();
-
-          }
-
-
-
-  }*/
 }
