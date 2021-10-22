@@ -25,5 +25,9 @@ public class Bid {
     private LocalDateTime time;
     private String user_id;
 
+    @ManyToOne
+    private AuctionItem auctionItem;
+
+
 
 }

@@ -32,7 +32,11 @@ public class AuctionItem {
     private Boolean sold;
     private Integer startPrice;
     private Double minimumBid;
-   // private List<Bid> bids;
+
+    @OneToMany(mappedBy = "auctionItem")
+    @JsonIgnoreProperties({"auctionItem"})
+    private List<Bid> bids;
+
    @ManyToOne
    @JsonIgnoreProperties({"myAuctionItems"})
     private User owner;
