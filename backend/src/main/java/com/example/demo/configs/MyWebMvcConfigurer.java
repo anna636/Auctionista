@@ -47,7 +47,7 @@ class MyWebMvcConfigurer implements WebMvcConfigurer {
     public DataSource dataSource() {
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
         dataSourceBuilder.driverClassName("org.sqlite.JDBC");
-        dataSourceBuilder.url("jdbc:sqlite:" + database);
+        dataSourceBuilder.url("jdbc:sqlite:" + database );
         return dataSourceBuilder.build();
     }
 }

@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import javax.persistence.*;
+import java.util.LinkedList;
 import java.util.List;
 
 @Entity
@@ -26,13 +27,17 @@ public class AuctionItem {
     private String title;
     private String description;
     private Integer reservationPrice;
-    private String deadline;
+    private LocalDateTime deadline;
     //Here we have to have cross table?
     private String images;
     private Boolean sold;
     private Integer startPrice;
     private Double minimumBid;
-   // private List<Bid> bids;
+
+    @OneToMany(mappedBy = "auctionItem")
+    @JsonIgnoreProperties({"auctionItem"})
+    public List<Bid> bids;
+
    @ManyToOne
    @JsonIgnoreProperties({"myAuctionItems"})
     private User owner;
