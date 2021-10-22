@@ -52,7 +52,7 @@ public class AuctionItemController {
 
 
     //Create new auction item
-    @PostMapping("/rest/auctionItem")
+    @PostMapping("/rest/auctionItems")
     //sätta not null på alla fält av auctionItem
     public ResponseEntity<AuctionItem> createAuctionItem(@RequestBody AuctionItem auctionItem){
 
