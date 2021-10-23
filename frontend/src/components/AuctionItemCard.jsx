@@ -1,11 +1,19 @@
 import React from 'react'
 import "bootstrap/dist/css/bootstrap.css";
+import { useHistory } from "react-router-dom";
+
 
 
 
 const AuctionItemCard = (props) => {
+  const history = useHistory();
+  
+  function redirect() {
+    history.push("/details/"+ props.props.id)
+  }
+
   return (
-    <div className="itemWrapper" style={styles.itemWrapper}>
+    <div className="itemWrapper" style={styles.itemWrapper} onClick={redirect} >
       <div className="mainInfo" style={styles.mainInfo}>
         <div>
           {props.props.bids.length > 0 ? (

@@ -4,12 +4,13 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { NavDropdown } from "react-bootstrap";
 
+
 function Navbar() {
 
   const [currentUser, setCurrentUser]=useState("haha")
   return (
     <nav class="navbar navbar-expand-lg navbar-dark" style={styles.navbar}>
-      <a class="navbar-brand" href="#" style={styles.mainName}>
+      <a class="navbar-brand" href="/" style={styles.mainName}>
         Auctionista
       </a>
       <button

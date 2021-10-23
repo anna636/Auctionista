@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useAuctionItem } from "../contexts/AuctionItemContext"
 import AuctionItemCard from '../components/AuctionItemCard';
+import { useHistory } from "react-router-dom";
 
 function Home() {
+
+    const history = useHistory();
 
   const [offsetY, setOffsetY] = useState(0)
   const handleScroll = () => setOffsetY(window.pageYOffset);
