@@ -1,9 +1,18 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {useAuctionItem} from "../contexts/AuctionItemContext"
 
 function Home() {
 
-const {fetchAllAuctionItems} = useAuctionItem()
+  const [offsetY, setOffsetY] = useState(0)
+  const handleScroll = () => setOffsetY(window.pageYOffset);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll)
+    
+    return () => window.removeEventListener("scroll", handleScroll)
+  },[])
+
+const {auctionItems} = useAuctionItem()
   return (
     <div className="homeWrapper">
       <div className="homeImg">
@@ -12,13 +21,22 @@ const {fetchAllAuctionItems} = useAuctionItem()
           alt=""
           style={styles.stockImg}
         />
-        <img
-          style={styles.text}
-          src="https://www.coolgenerator.com/Data/Textdesign/202110/f2bbfa196417e52664c56938ca47c4e7.png"
-          alt=""
-        />
+        <div style={{ transform: `translateY(${offsetY * -0.8}px)` }}>
+          <img
+            style={styles.text}
+            src="https://www.coolgenerator.com/Data/Textdesign/202110/f2bbfa196417e52664c56938ca47c4e7.png"
+            alt=""
+          />
+        </div>
       </div>
-      <button onClick={fetchAllAuctionItems}>fetch</button>
+
+      <div className="listWrapper">
+        {auctionItems && auctionItems.length > 0
+          ? auctionItems.map((item) => (
+              <p>{item.title}</p>
+            ))
+          : <p>There are no auctions at this moment</p>}
+      </div>
     </div>
   );
 }
@@ -32,7 +50,7 @@ const styles = {
   },
   text: {
     position: "absolute",
-    top: "40vh",
+    top: "-40vh",
     left:"10vh"
   }
 }
