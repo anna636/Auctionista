@@ -15,7 +15,7 @@ function Home() {
 
 const {auctionItems} = useAuctionItem()
   return (
-    <div className="homeWrapper">
+    <div className="homeWrapper" style={styles.homeWrapper}>
       <div className="homeImg">
         <img
           src="https://images.unsplash.com/photo-1607603638553-6d54f6b4f668?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1503&q=80"
@@ -31,10 +31,10 @@ const {auctionItems} = useAuctionItem()
         </div>
       </div>
 
-      <div className="listWrapper">
+      <div className="listWrapper" style={styles.listWrapper}>
         {auctionItems && auctionItems.length > 0
           ? auctionItems.map((item) => (
-              <AuctionItemCard props={item}/>
+            <AuctionItemCard props={item} style={styles.item}/>
             ))
           : <p>There are no auctions at this moment :,(</p>}
       </div>
@@ -47,11 +47,25 @@ export default Home
 const styles = {
   stockImg: {
     height: "80vh",
-    width:"100%"
+    width: "100%",
   },
   text: {
     position: "absolute",
     top: "-40vh",
-    left:"10vh"
-  }
-}
+    left: "10vh",
+  },
+  listWrapper: {
+    display: "grid",
+    gridTemplateColumns: "repeat(2, 1fr)",
+    gap: "5vw",
+    padding:"0 2vw"
+  },
+  homeWrapper: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "10vh",
+  },
+  item: {
+    
+  },
+};
