@@ -20,8 +20,7 @@ function Footer() {
           >
             <img
               style={styles.img}
-              src="https://cdn-icons.flaticon.com/png/512/2875/premium/2875384.png?token=exp=1634977892~hmac=9d070c0d542ae489b859be50c1596c02"
-              alt=""
+              src="https://cdn-icons-png.flaticon.com/512/174/174883.png"
             />
           </a>
 
@@ -48,7 +47,7 @@ function Footer() {
           >
             <img
               style={styles.img}
-              src="https://cdn-icons.flaticon.com/png/512/3536/premium/3536505.png?token=exp=1634977916~hmac=0ebccf092be3ca483acce953bd7ee9fc"
+              src="https://cdn-icons-png.flaticon.com/512/145/145807.png"
               alt=""
             />
           </a>
