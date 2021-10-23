@@ -1,5 +1,5 @@
 import React from "react";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const AuctionItemContext = createContext();
 
@@ -8,6 +8,13 @@ export const useAuctionItem = () => {
 };
 
 const AuctionItemProvider = (props) => {
+
+    useEffect(() => {
+      fetchAllAuctionItems()
+      
+}, []);
+  
+  
   const fetchAllAuctionItems = async () => {
     const docs = [];
     let response=await fetch("/rest/auctionItems")
