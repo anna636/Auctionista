@@ -1,8 +1,5 @@
 import React from 'react'
-import { Tooltip } from 'react-bootstrap';
-import { OverlayTrigger } from "react-bootstrap";
-import { Button } from "react-bootstrap";
-import { Image } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.css";
 
 
 
@@ -16,9 +13,14 @@ const AuctionItemCard = (props) => {
           ) : (
             <p>There are no bids on this item yet</p>
           )}
-          <p>Minimum bid possible: {props.props.minimumBid} euro </p>
-  
-          <button>Place quick bid</button>
+          <p>
+            Minimum bid possible: {props.props.minimumBid} euro{" "}
+          </p>
+          
+
+          <button className="quickBid" style={styles.btn}>
+            Place quick bid
+          </button>
         </div>
         <img
           style={styles.img}
@@ -43,7 +45,9 @@ const styles = {
     flexDirection: "column",
     marginBottom: "10vh",
     padding: "5vh",
-    boxShadow: "5px 10px",
+    boxShadow: "0px 0px 8px 2px rgba(0,0,0,0.54)",
+    borderRadius: "20px",
+    cursor:"pointer"
   },
   mainInfo: {
     display: "flex",
@@ -57,4 +61,17 @@ const styles = {
     textAlign: "center",
     paddingTop: "1vh",
   },
+
+  btn: {
+    border: "none",
+    borderRadius: "5px",
+    padding: "0.5vw"
+    
+  },
+
+  hover: {
+    color:"white"
+  }
+
+
 };

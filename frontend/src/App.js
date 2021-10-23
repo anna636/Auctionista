@@ -14,7 +14,8 @@ function App() {
                   <main>
                     <Route path="/" exact component={Home} />
                   </main>
-                  <footer>
+          <footer>
+            <div style={styles.line}> </div>
                     <Footer />
                   </footer>
                     </Router>
@@ -24,3 +25,11 @@ function App() {
 }
 
 export default App;
+
+const styles = {
+  line: {
+    widht: "100%",
+    height: "1vh",
+    backgroundColor: "pink"
+  }
+}
