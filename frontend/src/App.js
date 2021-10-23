@@ -30,6 +30,6 @@ const styles = {
   line: {
     widht: "100%",
     height: "1vh",
-    backgroundColor: "pink"
-  }
-}
+    backgroundColor: "rgb(226, 89, 55)",
+  },
+};

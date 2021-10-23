@@ -102,24 +102,23 @@ const styles = {
 
   ul: {
     fontSize: "1.2em",
-    paddingLeft:"8vw"
+    paddingLeft: "8vw",
   },
   mainName: {
     fontSize: "1.7em",
+    
   },
   form: {
     display: "flex",
     flexDirection: "row",
     width: "50vw",
-    marginLeft:"8vw"
+    marginLeft: "8vw",
   },
 
   formButton: {
     marginLeft: "1vw",
-    color:"pink",
-    borderColor: "pink",
-    backgroundColor:"black"
-   
+    color: "rgb(226, 89, 55)",
+    borderColor: "rgb(226, 89, 55)",
+    backgroundColor: "black",
   },
- 
 };
