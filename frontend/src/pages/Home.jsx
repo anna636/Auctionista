@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import {useAuctionItem} from "../contexts/AuctionItemContext"
+import { useAuctionItem } from "../contexts/AuctionItemContext"
+import AuctionItemCard from '../components/AuctionItemCard';
 
 function Home() {
 
@@ -33,9 +34,9 @@ const {auctionItems} = useAuctionItem()
       <div className="listWrapper">
         {auctionItems && auctionItems.length > 0
           ? auctionItems.map((item) => (
-              <p>{item.title}</p>
+              <AuctionItemCard props={item}/>
             ))
-          : <p>There are no auctions at this moment</p>}
+          : <p>There are no auctions at this moment :,(</p>}
       </div>
     </div>
   );
