@@ -7,7 +7,7 @@ import { NavDropdown } from "react-bootstrap";
 
 function Navbar() {
 
-  const [currentUser, setCurrentUser]=useState("haha")
+  const [currentUser, setCurrentUser]=useState(null)
   return (
     <nav class="navbar navbar-expand-lg navbar-dark" style={styles.navbar}>
       <a class="navbar-brand" href="/" style={styles.mainName}>

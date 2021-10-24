@@ -44,6 +44,7 @@ function FileUpload() {
       if (img === primary) {
 
         setPrimaryImgIndex(imgPaths.indexOf(img))
+        console.log(imgPaths.indexOf(img));
       }
     }
     
@@ -52,6 +53,7 @@ function FileUpload() {
   return (
     <div>
       <input type="file" accept="image/*" multiple onChange={onFileLoad} />
+      <p>Set the primary picture</p>
       <div className="imgWrapper" style={styles.imgWrapper}>
         {imgPaths.length > 0
           ? imgPaths.map((img) => (
@@ -79,7 +81,7 @@ const styles = {
   primaryImg: {
     width: "15vw",
     height: "25vh",
-    boxShadow: "0px 0px 8px 2px RGB(255,166,255)",
+    boxShadow: "0px 0px 8px 2px RGB(104,0,255)",
   },
 
   notPrimaryImg: {
