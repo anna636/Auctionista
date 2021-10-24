@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useAuctionItem } from "../contexts/AuctionItemContext"
 import AuctionItemCard from '../components/AuctionItemCard';
 import { useHistory } from "react-router-dom";
+import FileUpload from '../components/FileUpload';
 
 function Home() {
 
@@ -35,12 +36,16 @@ const {auctionItems} = useAuctionItem()
       </div>
 
       <div className="listWrapper" style={styles.listWrapper}>
-        {auctionItems && auctionItems.length > 0
-          ? auctionItems.map((item) => (
-            <AuctionItemCard props={item} style={styles.item}/>
-            ))
-          : <p>There are no auctions at this moment :,(</p>}
+        {auctionItems && auctionItems.length > 0 ? (
+          auctionItems.map((item) => (
+            <AuctionItemCard props={item} style={styles.item} />
+          ))
+        ) : (
+          <p>There are no auctions at this moment :,(</p>
+        )}
       </div>
+
+      <FileUpload/>
     </div>
   );
 }
