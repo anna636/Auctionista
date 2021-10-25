@@ -16,7 +16,9 @@ function CreateNewListing() {
   const [startPrice, setStartPrice] = useState(0)
  
 
-
+const getChildData = (imgPaths, indexOfPrimaryImg) => {
+  console.log("img paths are" + imgPaths + "and index of primary img is " + indexOfPrimaryImg);
+};
 
 
 
@@ -103,7 +105,7 @@ function CreateNewListing() {
           <div style={styles.inputInside} className="inputInside">
             <label htmlFor="">Upload images and choose primary picture</label>
 
-            <FileUpload />
+            <FileUpload func={getChildData} />
           </div>
           <div style={styles.inputInside} className="inputInside">
             <label htmlFor="">Description</label>
@@ -135,7 +137,6 @@ function CreateNewListing() {
           style={styles.coolImg}
         />
       </div>
-
     </div>
   );
 }

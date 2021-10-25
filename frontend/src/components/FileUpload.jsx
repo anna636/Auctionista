@@ -1,8 +1,13 @@
 import React, { useState } from "react";
+import { useAuctionItem } from "../contexts/AuctionItemContext";
 
-function FileUpload() {
+function FileUpload(props) {
+  
+  
   const [imgPaths, setImgPaths] = useState([]);
-  const [primaryPicturePath, setPrimaryPicturePath]=useState("")
+  const [primaryImgIndex, setPrimaryImgIndex]=useState(0)
+  const { setPrimaryImgPath } = useAuctionItem()
+  props.func(imgPaths, primaryImgIndex);
 
   async function onFileLoad(e) {
     let files = e.target.files;
@@ -26,7 +31,7 @@ function FileUpload() {
       
 
       setImgPaths(filePaths);
-      console.log(filePaths)
+      
 
       e.target.value = "";
      }
@@ -35,7 +40,11 @@ function FileUpload() {
 
   function setPrimaryImg(e) {
     e.stopPropagation()
-    console.log(e.target.src.slice("3000")[1])
+    let choosenImg = e.target.src.split("3000")[1]
+    let indexOfChoosenImg = imgPaths.indexOf(choosenImg)
+    setPrimaryImgIndex(indexOfChoosenImg);
+    setPrimaryImgPath(choosenImg)
+  
   }
 
   return (
@@ -62,5 +71,9 @@ const styles = {
     flexDirection: "row",
     gap: "1vw",
    paddingTop:"2vh"
+  },
+
+  primaryImg: {
+    
   }
 }

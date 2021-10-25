@@ -9,7 +9,9 @@ export const useAuctionItem = () => {
 
 const AuctionItemProvider = (props) => {
 
-  const [auctionItems, setAuctionItems] =useState([])
+  const [auctionItems, setAuctionItems] = useState([])
+  const [primaryImgPath, setPrimaryImgPath] = useState("")
+  const [imgPaths, setImgPaths]=useState([])
 
     useEffect(() => {
       fetchAllAuctionItems()
@@ -39,7 +41,9 @@ const AuctionItemProvider = (props) => {
 
   const values = {
     postNewAuctionItem,
-    auctionItems
+    auctionItems,
+    setPrimaryImgPath,
+    setImgPaths,
   };
 
   return (
