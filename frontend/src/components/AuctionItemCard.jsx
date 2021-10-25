@@ -73,7 +73,7 @@ const styles = {
   mainInfo: {
     display: "flex",
     flexDirection: "row",
-    gap: "5vw",
+    gap: "2vw",
   },
   img: {
     width: "50%",
