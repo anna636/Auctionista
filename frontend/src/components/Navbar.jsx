@@ -1,17 +1,24 @@
 import React from 'react'
 import "bootstrap/dist/css/bootstrap.css";
 import styled from "styled-components";
-import { useState, useEffect } from "react";
+import { useState, useEffect,  } from "react";
 import { NavDropdown } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 
 function Navbar() {
+  const history=useHistory()
+  const [currentUser, setCurrentUser] = useState("haha")
 
-  const [currentUser, setCurrentUser]=useState("haha")
+  function redirect(path) {
+    history.push(path)
+  }
+  
   return (
     <nav class="navbar navbar-expand-lg navbar-dark" style={styles.navbar}>
-      <a class="navbar-brand" href="/" style={styles.mainName}>
-        Auctionista
+      <a class="navbar-brand" style={styles.mainName}>
+        <Link to="/" className="link">Auctionista</Link>
       </a>
       <button
         class="navbar-toggler"
@@ -54,9 +61,12 @@ function Navbar() {
               title="Hello #username"
               menuVariant="dark"
             >
-              <NavDropdown.Item href="#action/3.1">
-                Create new auction
+              <NavDropdown.Item>
+                <Link to="/create-new-listing" className="link">
+                  Create new auction
+                </Link>
               </NavDropdown.Item>
+
               <NavDropdown.Item href="#action/3.2">
                 Current listings
               </NavDropdown.Item>
