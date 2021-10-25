@@ -14,10 +14,20 @@ function CreateNewListing() {
   const [description, setDescription]=useState("")
   const [reservationPrice, setReservationPrice] = useState(0)
   const [startPrice, setStartPrice] = useState(0)
+  const [imgString, setImgString] = useState("")
+  const [indexOfPrimaryImg, setIndexOfPrimaryImg]=useState(0)
  
 
 const getChildData = (imgPaths, indexOfPrimaryImg) => {
-  console.log("img paths are" + imgPaths + "and index of primary img is " + indexOfPrimaryImg);
+  //console.log("img paths are" + imgPaths + "and index of primary img is " + indexOfPrimaryImg);
+  setIndexOfPrimaryImg(indexOfPrimaryImg);
+  let arrayOfStrings=[]
+  for (let path of imgPaths) {
+    let pathToSave = path
+    arrayOfStrings.push(pathToSave)
+   
+  }
+  setImgString(arrayOfStrings.toString())
 };
 
 
@@ -37,7 +47,8 @@ const getChildData = (imgPaths, indexOfPrimaryImg) => {
         reservationPrice: reservationPrice,
         startPrice: startPrice,
         deadline: "2016-02-26T10:29:05.743",
-        images: "test",
+        images: imgString,
+        primaryImgIndex: indexOfPrimaryImg,
         sold: false,
         minimumBid: 200,
         owner: {

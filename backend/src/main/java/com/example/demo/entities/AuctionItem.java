@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,7 +31,7 @@ public class AuctionItem {
     private Integer reservationPrice;
     private LocalDateTime deadline;
     //Here we have to have cross table?
-    private ArrayList<String> images;
+    private String images;
     private Boolean sold;
     private Integer startPrice;
     private Double minimumBid;
