@@ -48,7 +48,7 @@ export function Register(props) {
     <div>
       <Modal show={modal} onHide={toggle}>
         <Modal.Header closeButton>
-          <Modal.Title>Login</Modal.Title>
+          <Modal.Title>Register</Modal.Title>
         </Modal.Header>
         <div className="input-login-div-wrap">
         <div className="input-login-div line">
@@ -112,7 +112,7 @@ export function Register(props) {
           </div>
         </div>
         <Modal.Footer>
-          <Button color="primary" onClick={(e) => logIn(e)}>Login</Button>{' '}
+          <Button color="primary" onClick={(e) => logIn(e)}>Register</Button>{' '}
         </Modal.Footer>
       </Modal>
     </div>

@@ -8,15 +8,13 @@ import { Login } from "../components/Login"
 import { Register } from "../components/Register"
 
 
-function Navbar(props) {
+function Navbar() {
   const {getCurrentUser} = useContext(UserContext)
   const [login, setLogin] = useState(false);
   const [register, setRegister] = useState(false);
   const toggleLogin = () => setLogin(!login);
   const toggleRegister = () => setRegister(!register);
   console.log(getCurrentUser())
-  console.log(login, "logged in")
-  console.log(register, "registered")
 
 
   useEffect(() => {
@@ -68,7 +66,7 @@ function Navbar(props) {
       </div>
       
       }
-      
+      { getCurrentUser() &&
         <div
           class="collapse navbar-collapse"
           id="navbarNavDropdown"
@@ -93,25 +91,16 @@ function Navbar(props) {
             </NavDropdown>
           </ul>
         </div>
+      }
         <div
           class="collapse navbar-collapse"
           id="navbarNavDropdown"
           style={styles.ul}
         >
-          <ul class="navbar-nav">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">
-                Home
-              </a>
-            </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="#">
-                Log in
-              </a>
-            </li>
-          </ul>
+          
         </div>
-        )}
+  
+    
     </nav>
   );
 }
