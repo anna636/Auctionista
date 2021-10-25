@@ -35,6 +35,7 @@ function FileUpload(props) {
       
 
       e.target.value = "";
+      
      }
     
   }

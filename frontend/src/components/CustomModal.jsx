@@ -10,11 +10,19 @@ const CustomModal = (prop) => {
   }
  
   return (
-    <div style={prop.prop.show ? styles.show: styles.hide}>
-      <p onClick={close}>x</p>
-      <p>{prop.prop.text}</p>
+    <div style={prop.prop.show ? styles.show : styles.hide} className="customModal">
+      <div className="closeModal" style={styles.closeModal}>
+        <p onClick={close}>X</p>
+      </div>
+      <div className="mainInfo" style={styles.mainInfo}>
+        <p>{prop.prop.text}</p>
+      </div>
+
+      <div className="modalFooter" style={styles.modalFooter}>
+        <p>{prop.prop.footerText }</p>
+      </div>
     </div>
-  )
+  );
 }
 
 export default CustomModal
@@ -28,12 +36,26 @@ const styles = {
     display: "block",
     position: "fixed",
     width: "30vw",
-    height: "30vh",
+    height: "40vh",
     backgroundColor: "white",
     right: "35vw",
     top: "40vh",
     borderRadius: "20px",
-    opacity:"0.9"
+    opacity: "0.9",
+    display: "grid",
+    gridTemplateRows:"20% 60% 20%",
+    padding:"1vw"
     
+  },
+  closeModal: {
+    textAlign: "right",
+    cursor:"pointer"
+  },
+  modalFooter: {
+    borderTop:"1px solid black"
+  },
+  mainInfo: {
+    fontSize: "1.3em",
+    fontWeight:"bold"
   }
 }

@@ -56,7 +56,7 @@ const getChildData = (imgPaths, indexOfPrimaryImg) => {
       description === "" || !reservationPrice >0) {
      
       
-      setMyProp({show:true, text:"invalid data"})
+      setMyProp({show:true, text:"Invalid data, please try again"})
       
     } else {
       const itemToPost = {
@@ -88,7 +88,9 @@ const getChildData = (imgPaths, indexOfPrimaryImg) => {
 
          setMyProp({
            show: true,
-           text: "helooo from false",
+           text: "Your item has been published",
+           footerText:
+             "Our little team of developer chickens is grateful for using our website 🎉",
          });
       }
       else {
@@ -174,7 +176,6 @@ const getChildData = (imgPaths, indexOfPrimaryImg) => {
           style={styles.coolImg}
         />
       </div>
-
       <CustomModal prop={myProp} func={pull_data} />
     </div>
   );
@@ -190,6 +191,7 @@ const styles = {
   },
   coolImg: {
     width: "100%",
+    height:"970px"
   },
   form: {
     width: "100%",
