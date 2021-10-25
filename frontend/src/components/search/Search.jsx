@@ -16,10 +16,12 @@ const Search = () => {
     const filteredAuctionItems = [];
     for (let i = 0; i < auctionItems.length; i++) {
       let auctionItemTitle = auctionItems[i].title.toLowerCase();
+      // word array 1 och word array 2 som i foodharvester
       if (auctionItemTitle === userInput) {
         filteredAuctionItems.push(auctionItems[i]);
       }
     }
+    console.log(filteredAuctionItems)
   }
 
   return (
