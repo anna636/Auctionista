@@ -2,21 +2,38 @@ import {useState, useRef} from 'react'
 import FileUpload from '../components/FileUpload';
 import { useAuctionItem } from "../contexts/AuctionItemContext";
 import TooltipHelp from "../components/TooltipHelp"
-import { Modal } from 'bootstrap';
+
+import CustomModal from '../components/CustomModal';
 
 function CreateNewListing() {
 
-  function isNumber(n) {
-    return /^-?[\d.]+(?:e-?\d+)?$/.test(n);
-  } 
+ 
   const { postNewAuctionItem } = useAuctionItem();
   const [title, setTitle]=useState("")
   const [description, setDescription]=useState("")
   const [reservationPrice, setReservationPrice] = useState(0)
   const [startPrice, setStartPrice] = useState(0)
   const [imgString, setImgString] = useState("")
-  const [indexOfPrimaryImg, setIndexOfPrimaryImg]=useState(0)
+  const [indexOfPrimaryImg, setIndexOfPrimaryImg] = useState(0)
+  const [myProp, setMyProp] = useState({});
  
+   function isNumber(n) {
+     return /^-?[\d.]+(?:e-?\d+)?$/.test(n);
+  }
+  
+  const pull_data = (data) => {
+    console.log(data)
+    if (data == false) {
+      setMyProp({
+        show: false,
+        text:"helooo from false"
+      }  
+     )
+    }
+  };
+
+
+
 
 const getChildData = (imgPaths, indexOfPrimaryImg) => {
   //console.log("img paths are" + imgPaths + "and index of primary img is " + indexOfPrimaryImg);
@@ -38,7 +55,8 @@ const getChildData = (imgPaths, indexOfPrimaryImg) => {
       title === "" ||
       description === "" || !reservationPrice >0) {
      
-        console.log("data is not right!");
+      
+      setMyProp({show:true, text:"invalid data"})
       
     } else {
       const itemToPost = {
@@ -67,6 +85,14 @@ const getChildData = (imgPaths, indexOfPrimaryImg) => {
         setDescription("")
         setReservationPrice(0)
         setStartPrice(0)
+
+         setMyProp({
+           show: true,
+           text: "helooo from false",
+         });
+      }
+      else {
+        
       }
     }
 
@@ -148,6 +174,8 @@ const getChildData = (imgPaths, indexOfPrimaryImg) => {
           style={styles.coolImg}
         />
       </div>
+
+      <CustomModal prop={myProp} func={pull_data} />
     </div>
   );
 }

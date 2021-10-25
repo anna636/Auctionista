@@ -6,6 +6,7 @@ import { useHistory } from "react-router-dom";
 
 
 
+
 const AuctionItemCard = (props) => {
   const history = useHistory();
   const [primaryImgPath, setPrimaryImgPath]=useState("")
@@ -50,6 +51,7 @@ const AuctionItemCard = (props) => {
       <div className="title" style={styles.title}>
         <h5>{props.props.title}</h5>
       </div>
+       
     </div>
   );
 
