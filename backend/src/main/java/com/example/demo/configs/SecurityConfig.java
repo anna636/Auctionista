@@ -21,9 +21,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST,"/rest/bids").authenticated() //User should be logged in when placing a bid
-                .antMatchers(HttpMethod.GET,"/api/whoami").authenticated()  //User shoould be logged in to get information about this user
-                .antMatchers(HttpMethod.POST,"/rest/auctionItem").authenticated()  //User should be logged in to post new auction item
+                //.antMatchers(HttpMethod.POST,"/rest/bids").authenticated() //User should be logged in when placing a bid
+                //.antMatchers(HttpMethod.GET,"/api/whoami").authenticated()  //User shoould be logged in to get information about this user
+                .antMatchers(HttpMethod.POST,"/rest/auctionItems").permitAll()  //User should be logged in to post new auction item
                 //Chat with others?
                 .antMatchers(HttpMethod.GET, "/", "/rest/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/login").permitAll()     // doesn't require login

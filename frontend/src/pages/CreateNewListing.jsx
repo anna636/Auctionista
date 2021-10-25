@@ -1,9 +1,42 @@
 import {useState, useRef} from 'react'
 import FileUpload from '../components/FileUpload';
+import { useAuctionItem } from "../contexts/AuctionItemContext";
 import TooltipHelp from "../components/TooltipHelp"
 
 function CreateNewListing() {
 
+  const { postNewAuctionItem } = useAuctionItem();
+  const [title, setTitle]=useState("")
+  const [description, setDescription]=useState("")
+  const [reservationPrice, setReservationPrice] = useState(0)
+  const [startPrice, setStartPrice] = useState(0)
+
+  async function postNewAuctionItem() {
+    if (reservationPrice === parseInt(reservationPrice, 10) && startPrice === parseInt(startPrice, 10)) {
+       console.log("data type is right")
+
+      itemToPost = {
+        title: title,
+        description: description,
+        reservationPrice: reservationPrice,
+        startPrice: startPrice,
+        deadline: "2016-02-26T10:29:05.743",
+        images: "test",
+        sold: false,
+        minimumBid: 200,
+        owner: {
+          id: 1,
+          fullName: "anna",
+          username: null,
+          email: "hah@se"
+        },
+      };
+     }
+
+
+
+    
+  }
    
 
   return (

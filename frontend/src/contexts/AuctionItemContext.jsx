@@ -18,7 +18,7 @@ const AuctionItemProvider = (props) => {
   
   
   const fetchAllAuctionItems = async () => {
-    const docs = [];
+    
     let response=await fetch("/rest/auctionItems")
 
     console.log("setting auctionItems")
@@ -26,8 +26,17 @@ const AuctionItemProvider = (props) => {
     
   };
 
+  const postNewAuctionItem = async (itemToPost) => {
+    let response = await fetch("/rest/auctionItems", {
+      method: "POST",
+      body: itemToPost
+    })
+
+    console.log(await response.json())
+  }
+
   const values = {
-    fetchAllAuctionItems,
+    postNewAuctionItem,
     auctionItems
   };
 

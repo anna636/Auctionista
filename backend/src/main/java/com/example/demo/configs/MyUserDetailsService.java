@@ -23,13 +23,13 @@ public class MyUserDetailsService implements UserDetailsService {
     @Autowired
     private UserRepository userRepo;
 
-    @PostConstruct
+    /*@PostConstruct
     private void createDefaultUsers(){
         if (userRepo.findByUsername("user") == null) {
             User user=User.builder().username("user").password("password").build();
             addUser(user);
         }
-    }
+    }*/
 
 
     @Override
