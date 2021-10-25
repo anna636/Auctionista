@@ -36,15 +36,16 @@ const styles = {
     display: "block",
     position: "fixed",
     width: "30vw",
-    height: "40vh",
-    backgroundColor: "white",
+    height: "30vh",
+    backgroundColor: "black",
     right: "35vw",
     top: "40vh",
     borderRadius: "20px",
-    opacity: "0.9",
+    opacity: "0.8",
     display: "grid",
-    gridTemplateRows:"20% 60% 20%",
-    padding:"1vw"
+    gridTemplateRows:"20% 50% 30%",
+    padding: "1vw",
+    color:"white"
     
   },
   closeModal: {
@@ -52,7 +53,7 @@ const styles = {
     cursor:"pointer"
   },
   modalFooter: {
-    borderTop:"1px solid black"
+    borderTop:"1px solid white"
   },
   mainInfo: {
     fontSize: "1.3em",

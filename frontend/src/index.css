@@ -39,12 +39,12 @@ code {
 }
 
 .customModal{
-  animation: fadeInModal 5s;
-   animation-direction: alternate;
+  animation: fadeInModal 2s;
+   
   -webkit-animation: fadeInModal 2s;
-  -moz-animation: fadeInModal 5s;
-  -o-animation: fadeInModal 5s;
-  -ms-animation: fadeInModal 5s;
+  -moz-animation: fadeInModal 2s;
+  -o-animation: fadeInModal 2s;
+  -ms-animation: fadeInModal 2s;
   position: relative;
 }
 
@@ -61,7 +61,7 @@ code {
 }
 
 @keyframes fadeInModal {
-  0% {top:0px;}
+  0% {top: 0vh;}
  
   100% { top:40vh}
 }
