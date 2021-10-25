@@ -1,9 +1,18 @@
-import React from 'react'
+import {useState, useRef} from 'react'
+import FileUpload from '../components/FileUpload';
+import TooltipHelp from "../components/TooltipHelp"
 
 function CreateNewListing() {
+
+   
+
   return (
     <div className="newListingWrapper" style={styles.wrapper}>
       <div className="form" style={styles.form}>
+        <div className="tooltipWrapper" style={styles.tooltipWrapper}>
+          <TooltipHelp/>
+         
+        </div>
         <div className="inputs" style={styles.inputs}>
           <div style={styles.inputInside} className="inputInside">
             <label htmlFor="">Title</label>
@@ -18,6 +27,12 @@ function CreateNewListing() {
           <div style={styles.inputInside} className="inputInside">
             <label htmlFor="">Start price</label>
             <input type="number" style={styles.input} />
+          </div>
+
+          <div style={styles.inputInside} className="inputInside">
+            <label htmlFor="">Upload images</label>
+
+            <FileUpload />
           </div>
           <div style={styles.inputInside} className="inputInside">
             <label htmlFor="">Description</label>
@@ -63,7 +78,7 @@ const styles = {
     backgroundColor: "rgb(226, 89, 55)",
     display: "flex",
     flexDirection: "column",
-    padding: "5vw",
+    padding: "2vh 5vw 2vh 5vw",
     gap: "15vh",
   },
   inputs: {
@@ -109,4 +124,9 @@ const styles = {
     backgroundColor: "black",
     color:"white"
   },
+  tooltipWrapper: {
+    height: "2vh",
+    display: "flex",
+    alignItems:"left"
+  }
 };
