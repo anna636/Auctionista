@@ -16,7 +16,8 @@ function Home() {
     return () => window.removeEventListener("scroll", handleScroll)
   },[])
 
-const {auctionItems} = useAuctionItem()
+  const { auctionItems } = useAuctionItem()
+  
   return (
     <div className="homeWrapper" style={styles.homeWrapper}>
       <div className="homeImg">

@@ -1,0 +1,36 @@
+
+GET http://localhost:4000/rest/auctionItems
+
+###
+
+GET http://localhost:4000/rest/auctionItems/1
+
+
+
+###
+
+POST http://localhost:4000/rest/auctionItems
+Content-Type: application/json
+
+{
+    
+    "title": "Aberdeen Angus Cow",
+    "description": "Meat cow",
+    "reservationPrice": 5000,
+    "deadline": "2018-07-14T17:45:55.948",
+    "images": "tests",
+    "sold": false,
+    "startPrice": 200,
+    "minimumBid": 12.3,
+    "bids": [],
+    "owner": {
+      "id": 1,
+      "fullName": "anna",
+      "username": null,
+      "email": "hah@se",
+      "password": "123"
+    }
+  }
+
+
+

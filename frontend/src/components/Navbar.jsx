@@ -1,13 +1,12 @@
-import React from 'react'
+import React from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { NavDropdown } from "react-bootstrap";
-import Search from './search/Search';
+import Search from "./search/Search";
 
 function Navbar() {
-
-  const [currentUser, setCurrentUser]=useState("haha")
+  const [currentUser, setCurrentUser] = useState("haha");
   return (
     <nav class="navbar navbar-expand-lg navbar-dark" style={styles.navbar}>
       <a class="navbar-brand" href="/" style={styles.mainName}>
@@ -25,7 +24,7 @@ function Navbar() {
         <span class="navbar-toggler-icon"></span>
       </button>
       <div>
-       <Search />
+        <Search />
       </div>
 
       {currentUser != null ? (
@@ -77,8 +76,7 @@ function Navbar() {
   );
 }
 
-export default Navbar
-
+export default Navbar;
 
 const styles = {
   navbar: {
@@ -93,19 +91,5 @@ const styles = {
   },
   mainName: {
     fontSize: "1.7em",
-    
-  },
-  form: {
-    display: "flex",
-    flexDirection: "row",
-    width: "50vw",
-    marginLeft: "8vw",
-  },
-
-  formButton: {
-    marginLeft: "1vw",
-    color: "rgb(226, 89, 55)",
-    borderColor: "rgb(226, 89, 55)",
-    backgroundColor: "black",
   },
 };
