@@ -179,12 +179,13 @@ const styles = {
     borderColor: "#f00 #0f0 white #ff0",
     backgroundColor: "rgb(226, 89, 55)",
     color: "white",
+    width:"100%"
   },
 
   inputInside: {
     display: "grid",
-    gridTemplateColumns: "20vw 25vw",
-    gap: "5vh",
+    gridTemplateColumns: "15vw 35vw",
+    gap: "2vh",
     justifyContent: "center",
     width: "100%",
     textAlign: "left",

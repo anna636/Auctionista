@@ -10,6 +10,7 @@ function FileUpload(props) {
   props.func(imgPaths, primaryImgIndex);
 
   async function onFileLoad(e) {
+    setPrimaryImgIndex(0)
     let files = e.target.files;
     if (files.length > 3) {
       console.log("too mcuh!")
