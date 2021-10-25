@@ -61,4 +61,15 @@ code {
 }
 
 
+textarea:focus, input:focus{
+    outline: none;
+}
+textarea{
+  border-radius: 10px;
+}
 
+.postNewListing:hover{
+  background-color: transparent !important;
+  color:black !important;
+  border: solid black !important;
+}
