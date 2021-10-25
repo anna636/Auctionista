@@ -47,7 +47,7 @@ function CreateNewListing() {
         </div>
         <div className="submitBtn">
           <button className="postNewListing" style={styles.btn}>
-            Post new listing
+            Post
           </button>
         </div>
       </div>
@@ -109,7 +109,7 @@ const styles = {
     justifyContent: "center",
     width: "100%",
     textAlign: "left",
-    fontSize:"1.1em"
+    fontSize: "1.1em",
   },
 
   textArea: {
@@ -122,11 +122,12 @@ const styles = {
     padding: "0.5vw",
     fontSize: "1.2em",
     backgroundColor: "black",
-    color:"white"
+    color: "white",
+    width: "10vw",
   },
   tooltipWrapper: {
     height: "2vh",
     display: "flex",
-    alignItems:"left"
-  }
+    alignItems: "left",
+  },
 };
