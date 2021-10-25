@@ -4,22 +4,26 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import AuctionItemProvider from "./contexts/AuctionItemContext";
+import UserContextProvider from "./contexts/UserContext";
 
 function App() {
   return (
     <div className="App">
-      <AuctionItemProvider>
-            <Router>
-                  <Navbar />
-                  <main>
-                    <Route path="/" exact component={Home} />
-                  </main>
-          <footer>
-            <div style={styles.line}> </div>
-                    <Footer />
-                  </footer>
-                    </Router>
-      </AuctionItemProvider>
+      <UserContextProvider>
+        <AuctionItemProvider>
+          <Router>
+            <Navbar />
+            <main>
+              <Route path="/" exact component={Home} />
+            </main>
+            <footer>
+              <div style={styles.line}> </div>
+              <Footer />
+            </footer>
+          </Router>
+        </AuctionItemProvider>
+      </UserContextProvider>
+
     </div>
   );
 }
