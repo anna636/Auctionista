@@ -29,8 +29,9 @@ const AuctionItemProvider = (props) => {
   const postNewAuctionItem = async (itemToPost) => {
     let response = await fetch("/rest/auctionItems", {
       method: "POST",
-      body: itemToPost
-    })
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(itemToPost),
+    });
 
     console.log(await response.json())
   }

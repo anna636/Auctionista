@@ -5,17 +5,25 @@ import TooltipHelp from "../components/TooltipHelp"
 
 function CreateNewListing() {
 
+  function isNumber(n) {
+    return /^-?[\d.]+(?:e-?\d+)?$/.test(n);
+  } 
   const { postNewAuctionItem } = useAuctionItem();
   const [title, setTitle]=useState("")
   const [description, setDescription]=useState("")
   const [reservationPrice, setReservationPrice] = useState(0)
   const [startPrice, setStartPrice] = useState(0)
 
-  async function postNewAuctionItem() {
-    if (reservationPrice === parseInt(reservationPrice, 10) && startPrice === parseInt(startPrice, 10)) {
-       console.log("data type is right")
-
-      itemToPost = {
+  async function postNewItem() {
+    if (
+      (!isNumber(reservationPrice) || !isNumber(startPrice)) ||
+      title === "" ||
+      description === "" || !reservationPrice >0) {
+     
+        console.log("data is not right!");
+      
+    } else {
+      const itemToPost = {
         title: title,
         description: description,
         reservationPrice: reservationPrice,
@@ -25,13 +33,16 @@ function CreateNewListing() {
         sold: false,
         minimumBid: 200,
         owner: {
-          id: 1,
-          fullName: "anna",
-          username: null,
-          email: "hah@se"
+          id: 12,
+          fullName: "anna tch",
+          username: "anna2",
+          email: "anna@haha.se",
         },
       };
-     }
+
+    
+      await postNewAuctionItem(itemToPost);
+    }
 
 
 
@@ -43,23 +54,37 @@ function CreateNewListing() {
     <div className="newListingWrapper" style={styles.wrapper}>
       <div className="form" style={styles.form}>
         <div className="tooltipWrapper" style={styles.tooltipWrapper}>
-          <TooltipHelp/>
-         
+          <TooltipHelp />
         </div>
         <div className="inputs" style={styles.inputs}>
           <div style={styles.inputInside} className="inputInside">
             <label htmlFor="">Title</label>
-            <input type="text" style={styles.input} />
+            <input
+              type="text"
+              style={styles.input}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
           </div>
 
           <div style={styles.inputInside} className="inputInside">
             <label htmlFor="">Reservation price</label>
-            <input type="number" style={styles.input} />
+            <input
+              type="number"
+              style={styles.input}
+              value={reservationPrice}
+              onChange={(e) => setReservationPrice(e.target.value)}
+            />
           </div>
 
           <div style={styles.inputInside} className="inputInside">
             <label htmlFor="">Start price</label>
-            <input type="number" style={styles.input} />
+            <input
+              type="number"
+              style={styles.input}
+              value={startPrice}
+              onChange={(e) => setStartPrice(e.target.value)}
+            />
           </div>
 
           <div style={styles.inputInside} className="inputInside">
@@ -75,11 +100,17 @@ function CreateNewListing() {
               cols="30"
               rows="5"
               style={styles.textArea}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
             ></textarea>
           </div>
         </div>
         <div className="submitBtn">
-          <button className="postNewListing" style={styles.btn}>
+          <button
+            className="postNewListing"
+            style={styles.btn}
+            onClick={postNewItem}
+          >
             Post
           </button>
         </div>
