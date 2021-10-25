@@ -51,7 +51,9 @@ function FileUpload(props) {
     <div>
       <input type="file" accept="image/*" multiple onChange={onFileLoad} />
       <div className="renderedImgs" style={styles.renderedImgs}>
-        {imgPaths.length > 0 ? imgPaths.map((img) => <img src={img} style={styles.img} onClick={setPrimaryImg}/>) : null}
+        {imgPaths.length > 0 ? imgPaths.map((img) => <img src={img} onClick={setPrimaryImg}
+        style={primaryImgIndex == imgPaths.indexOf(img) ? styles.primaryImg : styles.img}
+        />) : null}
       </div>
     </div>
   );
@@ -62,18 +64,23 @@ export default FileUpload;
 const styles = {
   img: {
     width: "10vw",
-    height:"20vh"
-    
+    height: "20vh",
+    borderRadius: "10px",
   },
 
   renderedImgs: {
     display: "flex",
     flexDirection: "row",
     gap: "1vw",
-   paddingTop:"2vh"
+    paddingTop: "2vh",
   },
 
   primaryImg: {
-    
-  }
-}
+    boxShadow: "0px 0px 8px 2px RGB(104,0,255)",
+    width: "10vw",
+    height: "20vh",
+    transform: "scale(1.1)",
+    transition: "all .2s ease-in-out",
+    borderRadius: "5px",
+  },
+};
