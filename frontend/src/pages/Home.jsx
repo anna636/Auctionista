@@ -30,6 +30,7 @@ const {auctionItems} = useAuctionItem()
             style={styles.text}
             src="https://www.coolgenerator.com/Data/Textdesign/202110/f2bbfa196417e52664c56938ca47c4e7.png"
             alt=""
+            className="livestockAuction"
           />
         </div>
       </div>
