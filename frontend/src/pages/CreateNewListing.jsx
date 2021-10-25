@@ -101,7 +101,7 @@ function CreateNewListing() {
           </div>
 
           <div style={styles.inputInside} className="inputInside">
-            <label htmlFor="">Upload images</label>
+            <label htmlFor="">Upload images and choose primary picture</label>
 
             <FileUpload />
           </div>
