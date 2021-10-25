@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 function FileUpload() {
   const [imgPaths, setImgPaths] = useState([]);
+  const [primaryPicturePath, setPrimaryPicturePath]=useState("")
 
   async function onFileLoad(e) {
     let files = e.target.files;
@@ -22,20 +23,26 @@ function FileUpload() {
       });
 
       let filePaths = await res.json();
-      console.log(filePaths);
+      
 
       setImgPaths(filePaths);
+      console.log(filePaths)
 
       e.target.value = "";
      }
     
   }
 
+  function setPrimaryImg(e) {
+    e.stopPropagation()
+    console.log(e.target.src.slice("3000")[1])
+  }
+
   return (
     <div>
       <input type="file" accept="image/*" multiple onChange={onFileLoad} />
       <div className="renderedImgs" style={styles.renderedImgs}>
-        {imgPaths.length > 0 ? imgPaths.map((img) => <img src={img} style={styles.img }/>) : null}
+        {imgPaths.length > 0 ? imgPaths.map((img) => <img src={img} style={styles.img} onClick={setPrimaryImg}/>) : null}
       </div>
     </div>
   );
