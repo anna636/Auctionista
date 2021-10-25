@@ -32,13 +32,9 @@ const AuctionItemProvider = (props) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(itemToPost),
     });
-
-    if (response.status == 200) {
-      
-    }
-    else {
-      
-    }
+   console.log(await response.json())
+    return response
+   
   }
 
   const values = {

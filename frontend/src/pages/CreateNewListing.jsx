@@ -2,6 +2,7 @@ import {useState, useRef} from 'react'
 import FileUpload from '../components/FileUpload';
 import { useAuctionItem } from "../contexts/AuctionItemContext";
 import TooltipHelp from "../components/TooltipHelp"
+import { Modal } from 'bootstrap';
 
 function CreateNewListing() {
 
@@ -13,6 +14,11 @@ function CreateNewListing() {
   const [description, setDescription]=useState("")
   const [reservationPrice, setReservationPrice] = useState(0)
   const [startPrice, setStartPrice] = useState(0)
+ 
+
+
+
+
 
   async function postNewItem() {
     if (
@@ -41,7 +47,14 @@ function CreateNewListing() {
       };
 
     
-      await postNewAuctionItem(itemToPost);
+      let res = await postNewAuctionItem(itemToPost);
+     
+      if (res.status == 200) {
+        setTitle("")
+        setDescription("")
+        setReservationPrice(0)
+        setStartPrice(0)
+      }
     }
 
 
@@ -122,6 +135,7 @@ function CreateNewListing() {
           style={styles.coolImg}
         />
       </div>
+
     </div>
   );
 }
