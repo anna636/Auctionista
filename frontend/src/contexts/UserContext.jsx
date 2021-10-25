@@ -29,6 +29,7 @@ const UserContextProvider = (props) => {
       body: JSON.stringify(user),
     });
     res = await res.json();
+    setCurrentUser(res);
     console.log(res, " This is register ")
     return res;
   };
@@ -40,6 +41,7 @@ const UserContextProvider = (props) => {
       body: JSON.stringify(user),
     });
     res = await res.json();
+    setCurrentUser(res);
     console.log(res, " This is login ")
     return res;
   };

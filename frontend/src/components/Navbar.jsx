@@ -4,45 +4,24 @@ import styled from "styled-components";
 import { UserContext } from "../contexts/UserContext"
 import { useState, useEffect, useContext } from "react";
 import { NavDropdown, Modal, Button } from "react-bootstrap";
+import { Login } from "../components/Login"
+import { Register } from "../components/Register"
 
 
+function Navbar(props) {
+  const {getCurrentUser} = useContext(UserContext)
+  const [login, setLogin] = useState(false);
+  const [register, setRegister] = useState(false);
+  const toggleLogin = () => setLogin(!login);
+  const toggleRegister = () => setRegister(!register);
+  console.log(getCurrentUser())
+  console.log(login, "logged in")
+  console.log(register, "registered")
 
-function Navbar() {
 
-  const [show, setShow] = useState(false);
-  const { login,getCurrentUser, whoAmI } = useContext(UserContext)
-   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  const [loggedIn, setLoggedIn] = useState(false);
-
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [errorMessage, setErrorMessage] = useState(false)
-  const [successMsg, setSuccessMsg] = useState(false)
-  async function logIn(e) {
-    e.preventDefault()
-    let user = {
-      username: username,
-      password: password
-    }
-    const response = await login(user)
-    if (response.error) {
-      setErrorMessage(true);
-    } else if (response.success) {
-      setErrorMessage(false)
-      setSuccessMsg(true)
-
-      var delayInMilliseconds = 1000; //1 second
-
-      setTimeout(function () {
-        whoAmI()
-      
-      }, delayInMilliseconds);
-
-    }
-    setLoggedIn(true);
-  }
-  const [currentUser, setCurrentUser] = useState("haha")
+  useEffect(() => {
+    getCurrentUser()
+  }, []);
   return (
     <nav class="navbar navbar-expand-lg navbar-dark" style={styles.navbar}>
       <a class="navbar-brand" href="/" style={styles.mainName}>
@@ -76,52 +55,20 @@ function Navbar() {
           </button>
         </form>
       </div>
-     
-      {!loggedIn &&
-        
-      <Button variant="primary" onClick={handleShow}>
-        Login
-      </Button>
-        }
+      { !getCurrentUser() &&
+      <div>
+        <div>
+      <Button onClick={toggleLogin}>Login</Button>
+      <Login toggle={toggleLogin} modal={login}></Login>
+      </div>
+      <div>
+      <Button onClick={toggleRegister}>Register</Button>
+      <Register toggle={toggleRegister} modal={register}></Register>
+      </div>
+      </div>
       
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Login</Modal.Title>
-        </Modal.Header>
-        <div className="input-login-div-wrap">
-          <div className="input-login-div line">
-            <input
-              className="myModalInput"
-              type="text"
-              required
-              placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </div>
-          <div className="input-login-div">
-            <input
-              className="myModalInput"
-              type="password"
-              required
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          
-        </div>
-       
-        
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button color="primary" onClick={(e) => logIn(e)}>Login</Button>{' '}
-        </Modal.Footer>
-      </Modal>
+      }
       
-      {loggedIn &&
         <div
           class="collapse navbar-collapse"
           id="navbarNavDropdown"
@@ -130,7 +77,7 @@ function Navbar() {
           <ul class="navbar-nav">
             <NavDropdown
               id="nav-dropdown-dark-example"
-              title="Hello #username"
+              title="#Username"
               menuVariant="dark"
             >
               <NavDropdown.Item href="#action/3.1">
@@ -146,7 +93,6 @@ function Navbar() {
             </NavDropdown>
           </ul>
         </div>
-      }
         <div
           class="collapse navbar-collapse"
           id="navbarNavDropdown"
@@ -165,7 +111,7 @@ function Navbar() {
             </li>
           </ul>
         </div>
-      )}
+        )}
     </nav>
   );
 }
