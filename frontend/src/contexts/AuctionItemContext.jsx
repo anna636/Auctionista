@@ -28,8 +28,14 @@ const AuctionItemProvider = (props) => {
 
   const fetchAuctionItem = async (id) => {
     let res = await fetch("/rest/auction-items/" + id)
-    console.log("From fetchAuctionItem: ", res)
-    return res.json()
+    try {
+      let fetchedItem = await res.json()
+      console.log("From fetchAuctionItem: ", fetchedItem)
+      return fetchedItem;
+    }
+    catch {
+      console.log("No item found")
+    }
   }
 
   const values = {
