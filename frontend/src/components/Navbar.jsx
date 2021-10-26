@@ -1,20 +1,26 @@
 import React from 'react'
 import "bootstrap/dist/css/bootstrap.css";
 import styled from "styled-components";
-import { useState, useEffect,  } from "react";
-import { NavDropdown } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
+import { UserContext } from "../contexts/UserContext"
+import { useState, useEffect, useContext } from "react";
+import { NavDropdown, Modal, Button } from "react-bootstrap";
+import { Login } from "../components/Login"
+import { Register } from "../components/Register"
 import { Link } from 'react-router-dom';
 
 
 function Navbar() {
-  const history=useHistory()
-  const [currentUser, setCurrentUser] = useState("haha")
+  const {getCurrentUser} = useContext(UserContext)
+  const [login, setLogin] = useState(false);
+  const [register, setRegister] = useState(false);
+  const toggleLogin = () => setLogin(!login);
+  const toggleRegister = () => setRegister(!register);
+  console.log("current user is" ,getCurrentUser())
 
-  function redirect(path) {
-    history.push(path)
-  }
-  
+
+  useEffect(() => {
+    getCurrentUser()
+  }, []);
   return (
     <nav class="navbar navbar-expand-lg navbar-dark" style={styles.navbar}>
       <a class="navbar-brand" style={styles.mainName}>
@@ -48,8 +54,20 @@ function Navbar() {
           </button>
         </form>
       </div>
-
-      {currentUser != null ? (
+      { !getCurrentUser() &&
+      <div>
+        <div>
+      <Button onClick={toggleLogin}>Login</Button>
+      <Login toggle={toggleLogin} modal={login}></Login>
+      </div>
+      <div>
+      <Button onClick={toggleRegister}>Register</Button>
+      <Register toggle={toggleRegister} modal={register}></Register>
+      </div>
+      </div>
+      
+      }
+      { getCurrentUser() &&
         <div
           class="collapse navbar-collapse"
           id="navbarNavDropdown"
@@ -58,7 +76,7 @@ function Navbar() {
           <ul class="navbar-nav">
             <NavDropdown
               id="nav-dropdown-dark-example"
-              title="Hello #username"
+              title="#Username"
               menuVariant="dark"
             >
               <NavDropdown.Item>
@@ -77,26 +95,16 @@ function Navbar() {
             </NavDropdown>
           </ul>
         </div>
-      ) : (
+      }
         <div
           class="collapse navbar-collapse"
           id="navbarNavDropdown"
           style={styles.ul}
         >
-          <ul class="navbar-nav">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">
-                Home
-              </a>
-            </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="#">
-                Log in
-              </a>
-            </li>
-          </ul>
+          
         </div>
-      )}
+  
+    
     </nav>
   );
 }
@@ -117,7 +125,7 @@ const styles = {
   },
   mainName: {
     fontSize: "1.7em",
-    
+
   },
   form: {
     display: "flex",
