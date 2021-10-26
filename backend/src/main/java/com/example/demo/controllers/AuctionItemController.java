@@ -21,7 +21,7 @@ public class AuctionItemController {
 
 
     //Get all auction items in db
-    @GetMapping("/rest/auctionItems")
+    @GetMapping("/rest/auction-items")
     public ResponseEntity<List<AuctionItem>> getAll(){
         List<AuctionItem> auctionItems=auctionItemService.getAllAuctionItems();
 
@@ -36,7 +36,7 @@ public class AuctionItemController {
 
 
     //Get auction item by id
-    @GetMapping("/rest/auctionItems/{id}")
+    @GetMapping("/rest/auction-items/{id}")
     public ResponseEntity<Optional<AuctionItem>>getById(@PathVariable Long id){
 
         Optional<AuctionItem> auctionItem=auctionItemService.getAuctionItemById(id);
@@ -53,7 +53,7 @@ public class AuctionItemController {
 
 
     //Create new auction item
-    @PostMapping("/rest/auctionItems")
+    @PostMapping("/rest/auction-items")
     //sätta not null på alla fält av auctionItem
     public ResponseEntity<AuctionItem> createAuctionItem(@RequestBody AuctionItem auctionItem){
 
