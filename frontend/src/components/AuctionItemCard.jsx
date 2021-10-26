@@ -72,6 +72,7 @@ const styles = {
     flexDirection: "column",
     marginBottom: "10vh",
     padding: "5vh",
+    paddingBottom:"2vh",
     boxShadow: "0px 0px 8px 2px rgba(0,0,0,0.54)",
     borderRadius: "20px",
     cursor: "pointer",

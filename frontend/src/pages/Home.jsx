@@ -69,7 +69,7 @@ const styles = {
     display: "grid",
     gridTemplateColumns: "repeat(2, 1fr)",
     gap: "5vw",
-    padding:"0 2vw"
+    padding:"0 5vw"
   },
   homeWrapper: {
     display: "flex",
