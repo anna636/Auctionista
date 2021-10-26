@@ -13,17 +13,12 @@ const AuctionItemProvider = (props) => {
   const [primaryImgPath, setPrimaryImgPath] = useState("")
   const [imgPaths, setImgPaths]=useState([])
 
-    useEffect(() => {
-      fetchAllAuctionItems()
-      
-}, []);
-  
-  
+   
   const fetchAllAuctionItems = async () => {
     
     let response=await fetch("/rest/auctionItems")
 
-    console.log("setting auctionItems")
+    
     setAuctionItems(await response.json())
     
   };
@@ -44,6 +39,7 @@ const AuctionItemProvider = (props) => {
     auctionItems,
     setPrimaryImgPath,
     setImgPaths,
+    fetchAllAuctionItems,
   };
 
   return (

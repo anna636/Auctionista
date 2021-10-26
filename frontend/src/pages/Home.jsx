@@ -12,11 +12,12 @@ function Home() {
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll)
+    fetchAllAuctionItems()
     
     return () => window.removeEventListener("scroll", handleScroll)
   },[])
 
-const {auctionItems} = useAuctionItem()
+const {auctionItems, fetchAllAuctionItems} = useAuctionItem()
   return (
     <div className="homeWrapper" style={styles.homeWrapper}>
       <div className="homeImg">

@@ -103,7 +103,10 @@ const getChildData = (imgPaths, indexOfPrimaryImg) => {
          });
       }
       else {
-        
+         setMyProp({
+           show: true,
+           text: "Something went wrong, try again later"
+         });
       }
     }
 
