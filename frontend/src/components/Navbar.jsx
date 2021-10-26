@@ -24,7 +24,10 @@ function Navbar() {
   return (
     <nav class="navbar navbar-expand-lg navbar-dark" style={styles.navbar}>
       <a class="navbar-brand" style={styles.mainName}>
-        <Link to="/" className="link"> Auctionista</Link>
+        <Link to="/" className="link">
+          {" "}
+          Auctionista
+        </Link>
       </a>
       <button
         class="navbar-toggler"
@@ -54,20 +57,18 @@ function Navbar() {
           </button>
         </form>
       </div>
-      { !getCurrentUser() &&
-      <div>
+      {!getCurrentUser() || getCurrentUser().id ===undefined ? (
         <div>
-      <Button onClick={toggleLogin}>Login</Button>
-      <Login toggle={toggleLogin} modal={login}></Login>
-      </div>
-      <div>
-      <Button onClick={toggleRegister}>Register</Button>
-      <Register toggle={toggleRegister} modal={register}></Register>
-      </div>
-      </div>
-      
-      }
-      { getCurrentUser() &&
+          <div>
+            <Button onClick={toggleLogin}>Login</Button>
+            <Login toggle={toggleLogin} modal={login}></Login>
+          </div>
+          <div>
+            <Button onClick={toggleRegister}>Register</Button>
+            <Register toggle={toggleRegister} modal={register}></Register>
+          </div>
+        </div>
+      ) : (
         <div
           class="collapse navbar-collapse"
           id="navbarNavDropdown"
@@ -95,16 +96,12 @@ function Navbar() {
             </NavDropdown>
           </ul>
         </div>
-      }
-        <div
-          class="collapse navbar-collapse"
-          id="navbarNavDropdown"
-          style={styles.ul}
-        >
-          
-        </div>
-  
-    
+      )}
+      <div
+        class="collapse navbar-collapse"
+        id="navbarNavDropdown"
+        style={styles.ul}
+      ></div>
     </nav>
   );
 }
