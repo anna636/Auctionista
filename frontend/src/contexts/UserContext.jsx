@@ -41,7 +41,10 @@ const UserContextProvider = (props) => {
       body: JSON.stringify(user),
     });
     res = await res.json();
-    setCurrentUser(res);
+    if (res.status !==403) {
+      setCurrentUser(res);
+    }
+    console.log(res.status)
     console.log(res, " This is login ")
     return res;
   };

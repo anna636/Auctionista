@@ -20,6 +20,7 @@ function Navbar() {
 
   useEffect(() => {
     getCurrentUser()
+
   }, []);
   return (
     <nav class="navbar navbar-expand-lg navbar-dark" style={styles.navbar}>
@@ -57,7 +58,7 @@ function Navbar() {
           </button>
         </form>
       </div>
-      {!getCurrentUser() || getCurrentUser().id ===undefined ? (
+      {!getCurrentUser() ? (
         <div>
           <div>
             <Button onClick={toggleLogin}>Login</Button>
@@ -77,7 +78,7 @@ function Navbar() {
           <ul class="navbar-nav">
             <NavDropdown
               id="nav-dropdown-dark-example"
-              title="#Username"
+              title={"Hello " + getCurrentUser().username}
               menuVariant="dark"
             >
               <NavDropdown.Item>
