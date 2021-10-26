@@ -164,7 +164,7 @@ const getChildData = (imgPaths, indexOfPrimaryImg) => {
           <div style={styles.inputInside} className="inputInside">
             <label htmlFor="">Description</label>
             <textarea
-              name="descrition"
+              name="description"
               id=""
               cols="30"
               rows="5"
