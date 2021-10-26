@@ -20,7 +20,8 @@ const AuctionItemCard = (props) => {
 
 
   function redirect() {
-    history.push("/details/"+ props.props.id)
+    history.push("/details/" + props.props.id)
+    window.scrollTo(0, 0);
   }
 
   return (

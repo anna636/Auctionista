@@ -13,6 +13,10 @@ function AuctionItemDetails() {
     getAuctionItem(id);
   }, [id]);
 
+  // useEffect(() => {
+  //   getBids(auctionItem);
+  // }, [id])
+
   const getAuctionItem = async (auctionItemId) => {
     let fetchedItem = await fetchAuctionItem(auctionItemId);
     setAuctionItem(fetchedItem);
