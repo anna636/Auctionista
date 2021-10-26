@@ -84,10 +84,11 @@ const styles = {
   },
   img: {
     width: "50%",
+    
   },
   title: {
     textAlign: "center",
-    paddingTop: "5vh",
+    paddingTop: "3vh",
   },
 
   btn: {

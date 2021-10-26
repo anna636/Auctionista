@@ -1,75 +1,62 @@
-import {useState, useRef, useContext} from 'react'
-import FileUpload from '../components/FileUpload';
+import { useState, useRef, useContext } from "react";
+import FileUpload from "../components/FileUpload";
 import { useAuctionItem } from "../contexts/AuctionItemContext";
-import TooltipHelp from "../components/TooltipHelp"
+import TooltipHelp from "../components/TooltipHelp";
 import { UserContext } from "../contexts/UserContext";
 
-import CustomModal from '../components/CustomModal';
+import CustomModal from "../components/CustomModal";
 
 function CreateNewListing() {
-
- 
   const { postNewAuctionItem } = useAuctionItem();
   const { getCurrentUser, currentUser } = useContext(UserContext);
-  const [title, setTitle]=useState("")
-  const [description, setDescription]=useState("")
-  const [reservationPrice, setReservationPrice] = useState(0)
-  const [startPrice, setStartPrice] = useState(0)
-  const [imgString, setImgString] = useState("")
-  const [indexOfPrimaryImg, setIndexOfPrimaryImg] = useState(0)
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [reservationPrice, setReservationPrice] = useState(0);
+  const [startPrice, setStartPrice] = useState(0);
+  const [imgString, setImgString] = useState("");
+  const [indexOfPrimaryImg, setIndexOfPrimaryImg] = useState(0);
   const [myProp, setMyProp] = useState({});
- 
-   function isNumber(n) {
-     return /^-?[\d.]+(?:e-?\d+)?$/.test(n);
+
+  function isNumber(n) {
+    return /^-?[\d.]+(?:e-?\d+)?$/.test(n);
   }
 
-   function addDays(date, days) {
-     var result = new Date(date);
-     result.setDate(result.getDate() + days);
-     return result;
-   }
-  
+  function addDays(date, days) {
+    var result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
+  }
+
   const pull_data = (data) => {
-    console.log(data)
+    console.log(data);
     if (data == false) {
       setMyProp({
         show: false,
-        text:"helooo from false"
-      }  
-     )
+      });
     }
   };
 
-
-
-
-
-const getChildData = (imgPaths, indexOfPrimaryImg) => {
-  //console.log("img paths are" + imgPaths + "and index of primary img is " + indexOfPrimaryImg);
-  setIndexOfPrimaryImg(indexOfPrimaryImg);
-  let arrayOfStrings=[]
-  for (let path of imgPaths) {
-    let pathToSave = path
-    arrayOfStrings.push(pathToSave)
-   
-  }
-  setImgString(arrayOfStrings.toString())
-};
-
-
+  const getChildData = (imgPaths, indexOfPrimaryImg) => {
+    //console.log("img paths are" + imgPaths + "and index of primary img is " + indexOfPrimaryImg);
+    setIndexOfPrimaryImg(indexOfPrimaryImg);
+    let arrayOfStrings = [];
+    for (let path of imgPaths) {
+      let pathToSave = path;
+      arrayOfStrings.push(pathToSave);
+    }
+    setImgString(arrayOfStrings.toString());
+  };
 
   async function postNewItem() {
     if (
-      (!isNumber(reservationPrice) || !isNumber(startPrice)) ||
+      !isNumber(reservationPrice) ||
+      !isNumber(startPrice) ||
       title === "" ||
-      description === "" || !reservationPrice >0) {
-     
-      
-      setMyProp({ show: true, text: "Invalid data, please try again" })
-      console.log(getCurrentUser().id)
-     
-     
-      
+      description === "" ||
+      !reservationPrice > 0
+    ) {
+      setMyProp({ show: true, text: "Invalid data, please try again" });
+      console.log(getCurrentUser().id);
     } else {
       const itemToPost = {
         title: title,
@@ -80,7 +67,7 @@ const getChildData = (imgPaths, indexOfPrimaryImg) => {
         images: imgString,
         primaryImgIndex: indexOfPrimaryImg,
         sold: false,
-        minimumBid: Math.round((110/100)*startPrice),
+        minimumBid: Math.round((110 / 100) * startPrice),
         owner: {
           id: getCurrentUser().id,
           fullName: getCurrentUser().fullName,
@@ -89,35 +76,28 @@ const getChildData = (imgPaths, indexOfPrimaryImg) => {
         },
       };
 
-    
       let res = await postNewAuctionItem(itemToPost);
-     
-      if (res.status == 200) {
-        setTitle("")
-        setDescription("")
-        setReservationPrice(0)
-        setStartPrice(0)
 
-         setMyProp({
-           show: true,
-           text: "Your item has been published",
-           footerText:
-             "Our little team of developer chickens is grateful for using our website 🎉",
-         });
-      }
-      else {
-         setMyProp({
-           show: true,
-           text: "Something went wrong, try again later"
-         });
+      if (res.status == 200) {
+        setTitle("");
+        setDescription("");
+        setReservationPrice(0);
+        setStartPrice(0);
+
+        setMyProp({
+          show: true,
+          text: "Your item has been published",
+          footerText:
+            "Our little team of developer chickens is grateful for using our website 🎉",
+        });
+      } else {
+        setMyProp({
+          show: true,
+          text: "Something went wrong, try again later",
+        });
       }
     }
-
-
-
-    
   }
-   
 
   return (
     <div className="newListingWrapper" style={styles.wrapper}>
@@ -196,7 +176,7 @@ const getChildData = (imgPaths, indexOfPrimaryImg) => {
   );
 }
 
-export default CreateNewListing
+export default CreateNewListing;
 
 const styles = {
   wrapper: {
@@ -206,7 +186,7 @@ const styles = {
   },
   coolImg: {
     width: "100%",
-    height:"970px"
+    height: "970px",
   },
   form: {
     width: "100%",
@@ -235,7 +215,7 @@ const styles = {
     borderColor: "#f00 #0f0 white #ff0",
     backgroundColor: "rgb(226, 89, 55)",
     color: "white",
-    width:"100%"
+    width: "100%",
   },
 
   inputInside: {
