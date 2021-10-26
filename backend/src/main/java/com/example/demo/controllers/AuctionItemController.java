@@ -66,4 +66,7 @@ public class AuctionItemController {
         }
 
     }
+
+    @GetMapping("/rest/auctionItem/search") //change to auciton-item
+
 }

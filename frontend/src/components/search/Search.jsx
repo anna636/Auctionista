@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useAuctionItem } from "../../contexts/AuctionItemContext";
 
 const Search = () => {
-  const { addIsInList } = useAuctionItem();
   const [userInput, setUserInput] = useState();
   const { auctionItems } = useAuctionItem();
 
