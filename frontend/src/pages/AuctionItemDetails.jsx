@@ -2,8 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuctionItem } from "../contexts/AuctionItemContext";
-import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
+import { Button, Container, Col, Row, Card, Form, OverlayTrigger, Tooltip } from "react-bootstrap";
 
 function AuctionItemDetails() {
   const { id } = useParams();
@@ -21,12 +20,40 @@ function AuctionItemDetails() {
 
   return (
     <div>
-      {" "}
+      {!auctionItem && <h1>Auction item not found</h1>}
       {auctionItem && (
-        <Container fluid className="p-3">
-          <h1>Auction Item Details ID: {id}</h1>
-          <Button>Test</Button>
-          <h2>Auction item: {auctionItem.title}</h2>
+        <Container className="p-5" fluid>
+          <Row>
+            <Col>
+              <h2>{auctionItem.title}</h2>
+              <p>{auctionItem.description}</p>
+              <Card>
+                <Card.Title className="mt-3">Highest bid: (#currentBid) </Card.Title>
+                <Card.Body>
+                  <Form className="mx-5">
+                    <OverlayTrigger
+                      placement="top"
+                      overlay={
+                        <Tooltip id="tooltip-top">
+                          The minimum bid that can be placed is:
+                          (#currentBid*1.10)
+                        </Tooltip>
+                      }
+                    >
+                      <Form.Control size="sm" type="number"></Form.Control>
+                    </OverlayTrigger>
+                    <Button variant="success" className="mt-1">
+                      Place bid
+                    </Button>
+                  </Form>
+                </Card.Body>
+                <Card.Footer>Time left: (#timeLeft) </Card.Footer>
+              </Card>
+            </Col>
+            <Col>
+              <h2>Image</h2>
+            </Col>
+          </Row>
         </Container>
       )}
     </div>
