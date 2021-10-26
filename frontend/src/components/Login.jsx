@@ -23,8 +23,8 @@ export function Login(props) {
   const {
     modal, toggle
   } = props;
-  const { login,getCurrentUser, whoAmI } = useContext(UserContext)
-  const [loggedIn, setLoggedIn] = useState(false);
+  const { login, whoAmI} = useContext(UserContext)
+
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -37,7 +37,16 @@ export function Login(props) {
       password: password
     }
     const response = await login(user)
-    
+    if (response == null) {
+      
+      e.preventDefault()
+      setErrorMessage(true);
+    } else if (response) {
+      setErrorMessage(false)
+      setSuccessMsg(true)
+      whoAmI()
+    }
+   
   }
   return(
     <div>

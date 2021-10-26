@@ -23,8 +23,7 @@ export function Register(props) {
   const {
     modal, toggle
   } = props;
-  const { register , whoAmI } = useContext(UserContext)
-  const [loggedIn, setLoggedIn] = useState(false);
+  const { register , login } = useContext(UserContext)
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -35,7 +34,7 @@ export function Register(props) {
   const [errorMessage, setErrorMessage] = useState(false)
   const [successMsg, setSuccessMsg] = useState(false)
   const [passwordError, setpasswordError] = useState(false)
-  async function logIn(e) {
+  async function registerUser(e) {
     e.preventDefault()
     if (password === '' || confirmPassword !== password) {
       setpasswordError(true);
@@ -55,9 +54,12 @@ export function Register(props) {
       fullName: fullName,
       email: email
     }
+    let userLogin = {
+      username: username,
+      password: password,
+    }
     const response = await register(user)
-    
-    setLoggedIn(true);
+    const responseUser = await login(userLogin)
   }
   return(
     <div>
@@ -132,7 +134,7 @@ export function Register(props) {
         {successMsg && <SuccessMessage>Successfully registered a new user!</SuccessMessage>}
         </div>
         <Modal.Footer>
-          <Button color="primary" onClick={(e) => logIn(e)}>Register</Button>{' '}
+          <Button color="primary" onClick={(e) => registerUser(e)}>Register</Button>{' '}
         </Modal.Footer>
       </Modal>
     </div>
