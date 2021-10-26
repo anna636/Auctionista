@@ -1,13 +1,24 @@
-import React from 'react'
+import { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import { useHistory } from "react-router-dom";
 
 
 
 
+
+
 const AuctionItemCard = (props) => {
   const history = useHistory();
-  
+  const [primaryImgPath, setPrimaryImgPath]=useState("")
+
+   useEffect(() => {
+    let imagePathArr = props.props.images.split(",");
+     let primaryImgPath = imagePathArr[props.props.primaryImgIndex];
+     setPrimaryImgPath(primaryImgPath)
+   }, []);
+
+
+
   function redirect() {
     history.push("/details/"+ props.props.id)
   }
@@ -32,13 +43,15 @@ const AuctionItemCard = (props) => {
         </div>
         <img
           style={styles.img}
-          src="https://us.123rf.com/450wm/khmel/khmel1611/khmel161100006/67107397-three-budgies-are-in-the-roost.jpg?ver=6"
+          src={primaryImgPath}
           alt=""
+          
         />
       </div>
       <div className="title" style={styles.title}>
         <h5>{props.props.title}</h5>
       </div>
+       
     </div>
   );
 
@@ -60,7 +73,7 @@ const styles = {
   mainInfo: {
     display: "flex",
     flexDirection: "row",
-    gap: "5vw",
+    gap: "2vw",
   },
   img: {
     width: "50%",

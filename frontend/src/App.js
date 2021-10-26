@@ -5,16 +5,20 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import AuctionItemProvider from "./contexts/AuctionItemContext";
 import AuctionItemDetails from "./pages/AuctionItemDetails";
+import CreateNewListing from "./pages/CreateNewListing";
+import UserContextProvider from "./contexts/UserContext";
 
 function App() {
   return (
     <div className="App">
-      <AuctionItemProvider>
+  <UserContextProvider>    
+  <AuctionItemProvider>
         <Router>
           <Navbar />
           <main>
             <Switch>
-            <Route path="/" exact component={Home} />
+              <Route path="/" exact component={Home} />
+              <Route path="/create-new-listing" exact component={CreateNewListing} />
             <Route exact path="/details/:id" component={AuctionItemDetails} />
             </Switch>
           </main>
@@ -23,7 +27,8 @@ function App() {
             <Footer />
           </footer>
         </Router>
-      </AuctionItemProvider>
+    </AuctionItemProvider>
+    </UserContextProvider>
     </div>
   );
 }

@@ -7,23 +7,20 @@ export const useAuctionItem = () => {
   return useContext(AuctionItemContext);
 };
 
+
 const AuctionItemProvider = (props) => {
 
   const [auctionItems, setAuctionItems] = useState([])
+    const [primaryImgPath, setPrimaryImgPath] = useState("")
+  const [imgPaths, setImgPaths]=useState([])
 
-    useEffect(() => {
+  useEffect(() => {
       fetchAllAuctionItems()
-      
-}, []);
-  
-  
-  const fetchAllAuctionItems = async () => {
-    const docs = [];
+      }, []);
+   
+  const fetchAllAuctionItems = async () => { 
     let response=await fetch("/rest/auction-items")
-
-    console.log("setting auctionItems")
     setAuctionItems(await response.json())
-    
   };
 
   const fetchAuctionItem = async (id) => {
@@ -38,11 +35,24 @@ const AuctionItemProvider = (props) => {
     }
   }
 
-  const values = {
-    fetchAllAuctionItems,
-    auctionItems,
-    fetchAuctionItem
+  const postNewAuctionItem = async (itemToPost) => {
+    let response = await fetch("/rest/auction-items", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(itemToPost),
+    });
+   console.log(await response.json())
+    return response
+   
+  }
 
+  const values = {
+    postNewAuctionItem,
+    auctionItems,
+    setPrimaryImgPath,
+    setImgPaths,
+    fetchAllAuctionItems,
+    fetchAuctionItem
   };
 
   return (

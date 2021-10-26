@@ -1,17 +1,33 @@
 import React from 'react'
 import "bootstrap/dist/css/bootstrap.css";
 import styled from "styled-components";
-import { useState, useEffect } from "react";
-import { NavDropdown } from "react-bootstrap";
+import { UserContext } from "../contexts/UserContext"
+import { useState, useEffect, useContext } from "react";
+import { NavDropdown, Modal, Button } from "react-bootstrap";
+import { Login } from "../components/Login"
+import { Register } from "../components/Register"
+import { Link } from 'react-router-dom';
 
 
 function Navbar() {
+  const {getCurrentUser, logout} = useContext(UserContext)
+  const [login, setLogin] = useState(false);
+  const [register, setRegister] = useState(false);
+  const toggleLogin = () => setLogin(!login);
+  const toggleRegister = () => setRegister(!register);
+  
+  useEffect(() => {
+    getCurrentUser()
 
-  const [currentUser, setCurrentUser]=useState("haha")
+  }, []);
+
   return (
     <nav class="navbar navbar-expand-lg navbar-dark" style={styles.navbar}>
-      <a class="navbar-brand" href="/" style={styles.mainName}>
-        Auctionista
+      <a class="navbar-brand" style={styles.mainName}>
+        <Link to="/" className="link">
+          {" "}
+          Auctionista
+        </Link>
       </a>
       <button
         class="navbar-toggler"
@@ -41,8 +57,18 @@ function Navbar() {
           </button>
         </form>
       </div>
-
-      {currentUser != null ? (
+      { !getCurrentUser() ? (
+      <div>
+        <div>
+      <Button onClick={toggleLogin}>Login</Button>
+      <Login toggle={toggleLogin} modal={login}></Login>
+      </div>
+      <div>
+      <Button onClick={toggleRegister}>Register</Button>
+      <Register toggle={toggleRegister} modal={register}></Register>
+      </div>
+      </div>
+      ) : (
         <div
           class="collapse navbar-collapse"
           id="navbarNavDropdown"
@@ -51,42 +77,35 @@ function Navbar() {
           <ul class="navbar-nav">
             <NavDropdown
               id="nav-dropdown-dark-example"
-              title="Hello #username"
+              title={"Hello " + getCurrentUser().username}
               menuVariant="dark"
             >
-              <NavDropdown.Item href="#action/3.1">
-                Create new auction
+              <NavDropdown.Item>
+                <Link to="/create-new-listing" className="link">
+                  Create new auction
+                </Link>
               </NavDropdown.Item>
+
               <NavDropdown.Item href="#action/3.2">
                 Current listings
               </NavDropdown.Item>
               <NavDropdown.Item href="#action/3.3">Chat</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.3">My profile</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">Log out</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.4" onClick={logout}>Log out</NavDropdown.Item>
             </NavDropdown>
           </ul>
         </div>
-      ) : (
+      )}
         <div
           class="collapse navbar-collapse"
           id="navbarNavDropdown"
           style={styles.ul}
         >
-          <ul class="navbar-nav">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">
-                Home
-              </a>
-            </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="#">
-                Log in
-              </a>
-            </li>
-          </ul>
+          
         </div>
-      )}
+  
+    
     </nav>
   );
 }
@@ -107,7 +126,7 @@ const styles = {
   },
   mainName: {
     fontSize: "1.7em",
-    
+
   },
   form: {
     display: "flex",

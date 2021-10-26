@@ -12,11 +12,12 @@ function Home() {
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll)
+    fetchAllAuctionItems()
     
     return () => window.removeEventListener("scroll", handleScroll)
   },[])
 
-const {auctionItems} = useAuctionItem()
+const {auctionItems, fetchAllAuctionItems} = useAuctionItem()
   return (
     <div className="homeWrapper" style={styles.homeWrapper}>
       <div className="homeImg">
@@ -30,6 +31,7 @@ const {auctionItems} = useAuctionItem()
             style={styles.text}
             src="https://www.coolgenerator.com/Data/Textdesign/202110/f2bbfa196417e52664c56938ca47c4e7.png"
             alt=""
+            className="livestockAuction"
           />
         </div>
       </div>

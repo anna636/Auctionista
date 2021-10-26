@@ -16,3 +16,76 @@ code {
   color:white;
   background-color: rgb(226, 89, 55);
 }
+
+.coolImg{
+ 
+  animation: fadeIn 5s;
+   animation-direction: alternate;
+  -webkit-animation: fadeIn 2s;
+  -moz-animation: fadeIn 5s;
+  -o-animation: fadeIn 5s;
+  -ms-animation: fadeIn 5s;
+  position: relative;
+}
+
+.form{
+  animation: fadeInForm 5s;
+   animation-direction: alternate;
+  -webkit-animation: fadeInForm 2s;
+  -moz-animation: fadeInForm 5s;
+  -o-animation: fadeInForm 5s;
+  -ms-animation: fadeInForm 5s;
+  position: relative;
+}
+
+.customModal{
+  animation: fadeInModal 2s;
+   
+  -webkit-animation: fadeInModal 2s;
+  -moz-animation: fadeInModal 2s;
+  -o-animation: fadeInModal 2s;
+  -ms-animation: fadeInModal 2s;
+  position: relative;
+}
+
+
+@keyframes fadeIn {
+  0% {opacity:0; left:200px;}
+ 
+  100% {opacity:1; left:0}
+}
+@keyframes fadeInForm {
+  0% {opacity:0; right:200px;}
+ 
+  100% {opacity:1; right:0}
+}
+
+@keyframes fadeInModal {
+  0% {top: 0vh;}
+ 
+  100% { top:40vh}
+}
+
+.link{
+ text-decoration: none;
+ color:white;
+}
+
+
+.link:hover{
+  color:white;
+}
+
+
+textarea:focus, input:focus{
+    outline: none;
+}
+textarea{
+  border-radius: 10px;
+}
+
+.postNewListing:hover{
+  background-color: transparent !important;
+  color:black !important;
+  border: solid black !important;
+}
