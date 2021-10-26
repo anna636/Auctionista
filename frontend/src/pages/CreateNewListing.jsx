@@ -80,7 +80,7 @@ const getChildData = (imgPaths, indexOfPrimaryImg) => {
         images: imgString,
         primaryImgIndex: indexOfPrimaryImg,
         sold: false,
-        minimumBid: 200,
+        minimumBid: Math.round((110/100)*startPrice),
         owner: {
           id: getCurrentUser().id,
           fullName: getCurrentUser().fullName,
