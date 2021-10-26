@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import AuctionItemProvider from "./contexts/AuctionItemContext";
 import CreateNewListing from "./pages/CreateNewListing";
 import UserContextProvider from "./contexts/UserContext";
+import MyListings from "./pages/MyListings";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <main>
               <Route path="/" exact component={Home} />
               <Route path="/create-new-listing" exact component={CreateNewListing} />
+              <Route path="/my-listings" exact component={MyListings} />
             </main>
             <footer>
               <div style={styles.line}> </div>
