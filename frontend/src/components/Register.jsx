@@ -5,6 +5,20 @@ import { UserContext } from "../contexts/UserContext"
 import { useState, useEffect, useContext } from "react";
 import { Modal, Button, InputGroup, FormControl } from "react-bootstrap";
 
+const ErrorMessage = styled.span`
+  display: flex;
+  justify-content: center;
+  background: red;
+  color: white;
+  `
+
+const SuccessMessage = styled.span`
+  display: flex;
+  justify-content: center;
+  background: green;
+  color: white;
+`
+
 export function Register(props) {
   const {
     modal, toggle
@@ -17,10 +31,19 @@ export function Register(props) {
   const [confirmPassword, setConfirmedPassword] = useState('')
   const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
-  const [errorMessage, setErrorMessage] = useState(false)
+  const [errorMsg, setErrorMsg] = useState(false)
   const [successMsg, setSuccessMsg] = useState(false)
+  const [passwordError, setpasswordError] = useState(false)
   async function logIn(e) {
     e.preventDefault()
+    if (password === '' || confirmPassword !== password) {
+      setpasswordError(true);
+      return;
+    } else { setpasswordError(false) }
+    if (!email.includes('@')) {
+      setErrorMsg(true);
+      return;
+    } else { setErrorMsg(false) }
     let user = {
       username: username,
       password: password,
@@ -29,9 +52,9 @@ export function Register(props) {
     }
     const response = await register(user)
     if (response.error) {
-      setErrorMessage(true);
+      setErrorMsg(true);
     } else if (response.success) {
-      setErrorMessage(false)
+      setErrorMsg(false)
       setSuccessMsg(true)
 
       var delayInMilliseconds = 1000; //1 second
@@ -51,7 +74,7 @@ export function Register(props) {
           <Modal.Title>Register</Modal.Title>
         </Modal.Header>
         <div className="input-login-div-wrap">
-        <div className="input-login-div line">
+          <div className="input-login-div line">
           <InputGroup className="mb-3">
           <FormControl
             aria-describedby="inputGroup-sizing-default"
@@ -107,9 +130,13 @@ export function Register(props) {
             type="password"
             placeholder="Confirm Password"
             value={confirmPassword}
+            onChange={(e) => setConfirmedPassword(e.target.value)}
           /> 
           </InputGroup>
           </div>
+        {passwordError && <ErrorMessage>Password did not match</ErrorMessage>}
+        {errorMsg && <ErrorMessage>Choose another email.</ErrorMessage>}
+        {successMsg && <SuccessMessage>Successfully registered a new user!</SuccessMessage>}
         </div>
         <Modal.Footer>
           <Button color="primary" onClick={(e) => logIn(e)}>Register</Button>{' '}
