@@ -79,7 +79,7 @@ const UserContextProvider = (props) => {
     getCurrentUser,
     whoAmI,
     currentUser,
-    users
+    users,
   };
   
 

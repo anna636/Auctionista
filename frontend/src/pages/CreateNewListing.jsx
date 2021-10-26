@@ -1,7 +1,8 @@
-import {useState, useRef} from 'react'
+import {useState, useRef, useContext} from 'react'
 import FileUpload from '../components/FileUpload';
 import { useAuctionItem } from "../contexts/AuctionItemContext";
 import TooltipHelp from "../components/TooltipHelp"
+import { UserContext } from "../contexts/UserContext";
 
 import CustomModal from '../components/CustomModal';
 
@@ -9,6 +10,7 @@ function CreateNewListing() {
 
  
   const { postNewAuctionItem } = useAuctionItem();
+  const { getCurrentUser, currentUser } = useContext(UserContext);
   const [title, setTitle]=useState("")
   const [description, setDescription]=useState("")
   const [reservationPrice, setReservationPrice] = useState(0)
@@ -64,6 +66,7 @@ const getChildData = (imgPaths, indexOfPrimaryImg) => {
      
       
       setMyProp({ show: true, text: "Invalid data, please try again" })
+      console.log(getCurrentUser().id)
      
      
       
@@ -79,10 +82,10 @@ const getChildData = (imgPaths, indexOfPrimaryImg) => {
         sold: false,
         minimumBid: 200,
         owner: {
-          id: 12,
-          fullName: "anna tch",
-          username: "anna2",
-          email: "anna@haha.se",
+          id: getCurrentUser().id,
+          fullName: getCurrentUser().fullName,
+          username: getCurrentUser().username,
+          email: getCurrentUser().email,
         },
       };
 
