@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 
 
 function Navbar() {
-  const {getCurrentUser} = useContext(UserContext)
+  const {getCurrentUser, logout} = useContext(UserContext)
   const [login, setLogin] = useState(false);
   const [register, setRegister] = useState(false);
   const toggleLogin = () => setLogin(!login);
@@ -22,6 +22,7 @@ function Navbar() {
     getCurrentUser()
 
   }, []);
+
   return (
     <nav class="navbar navbar-expand-lg navbar-dark" style={styles.navbar}>
       <a class="navbar-brand" style={styles.mainName}>
@@ -93,7 +94,7 @@ function Navbar() {
               <NavDropdown.Item href="#action/3.3">Chat</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.3">My profile</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">Log out</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.4" onClick={logout}>Log out</NavDropdown.Item>
             </NavDropdown>
           </ul>
         </div>
