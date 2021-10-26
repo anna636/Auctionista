@@ -5,12 +5,26 @@ import { UserContext } from "../contexts/UserContext"
 import { useState, useEffect, useContext } from "react";
 import { Modal, Button, InputGroup, FormControl } from "react-bootstrap";
 
+const ErrorMessage = styled.span`
+  display: flex;
+  justify-content: center;
+  background: red;
+  color: white;
+  `
+
+const SuccessMessage = styled.span`
+  display: flex;
+  justify-content: center;
+  background: green;
+  color: white;
+`
+
 export function Login(props) {
   const {
     modal, toggle
   } = props;
-  const { login,getCurrentUser, whoAmI } = useContext(UserContext)
-  const [loggedIn, setLoggedIn] = useState(false);
+  const { login, whoAmI} = useContext(UserContext)
+
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -23,22 +37,16 @@ export function Login(props) {
       password: password
     }
     const response = await login(user)
-    if (response.error) {
+    if (response == null) {
+      
+      e.preventDefault()
       setErrorMessage(true);
-    } else if (response.success) {
+    } else if (response) {
       setErrorMessage(false)
       setSuccessMsg(true)
-
-      var delayInMilliseconds = 1000; //1 second
-
-      setTimeout(function () {
-        whoAmI()
-      
-      }, delayInMilliseconds);
-
+      whoAmI()
     }
-    
-    setLoggedIn(true);
+   
   }
   return(
     <div>
@@ -71,7 +79,8 @@ export function Login(props) {
           />
           </InputGroup>
           </div>
-          
+          {errorMessage && <ErrorMessage>Bad credentials</ErrorMessage>}
+          {successMsg && <SuccessMessage>Login successfull</SuccessMessage>}
         </div>
 
         <Modal.Footer>

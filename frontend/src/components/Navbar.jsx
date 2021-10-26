@@ -15,9 +15,7 @@ function Navbar() {
   const [register, setRegister] = useState(false);
   const toggleLogin = () => setLogin(!login);
   const toggleRegister = () => setRegister(!register);
-  console.log("current user is" ,getCurrentUser())
-
-
+  
   useEffect(() => {
     getCurrentUser()
 
@@ -59,17 +57,17 @@ function Navbar() {
           </button>
         </form>
       </div>
-      {!getCurrentUser() ? (
+      { !getCurrentUser() ? (
+      <div>
         <div>
-          <div>
-            <Button onClick={toggleLogin}>Login</Button>
-            <Login toggle={toggleLogin} modal={login}></Login>
-          </div>
-          <div>
-            <Button onClick={toggleRegister}>Register</Button>
-            <Register toggle={toggleRegister} modal={register}></Register>
-          </div>
-        </div>
+      <Button onClick={toggleLogin}>Login</Button>
+      <Login toggle={toggleLogin} modal={login}></Login>
+      </div>
+      <div>
+      <Button onClick={toggleRegister}>Register</Button>
+      <Register toggle={toggleRegister} modal={register}></Register>
+      </div>
+      </div>
       ) : (
         <div
           class="collapse navbar-collapse"
@@ -99,11 +97,15 @@ function Navbar() {
           </ul>
         </div>
       )}
-      <div
-        class="collapse navbar-collapse"
-        id="navbarNavDropdown"
-        style={styles.ul}
-      ></div>
+        <div
+          class="collapse navbar-collapse"
+          id="navbarNavDropdown"
+          style={styles.ul}
+        >
+          
+        </div>
+  
+    
     </nav>
   );
 }
