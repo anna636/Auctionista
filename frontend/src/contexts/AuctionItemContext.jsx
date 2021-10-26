@@ -9,7 +9,7 @@ export const useAuctionItem = () => {
 
 const AuctionItemProvider = (props) => {
 
-  const [auctionItems, setAuctionItems] =useState([])
+  const [auctionItems, setAuctionItems] = useState([])
 
     useEffect(() => {
       fetchAllAuctionItems()
@@ -26,9 +26,17 @@ const AuctionItemProvider = (props) => {
     
   };
 
+  const fetchAuctionItem = async (id) => {
+    let res = await fetch("/rest/auction-items/" + id)
+    console.log("From fetchAuctionItem: ", res)
+    return res.json()
+  }
+
   const values = {
     fetchAllAuctionItems,
-    auctionItems
+    auctionItems,
+    fetchAuctionItem
+
   };
 
   return (

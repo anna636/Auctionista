@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -13,8 +13,10 @@ function App() {
         <Router>
           <Navbar />
           <main>
+            <Switch>
             <Route path="/" exact component={Home} />
             <Route exact path="/details/:id" component={AuctionItemDetails} />
+            </Switch>
           </main>
           <footer>
             <div style={styles.line}> </div>
