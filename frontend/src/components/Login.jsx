@@ -37,7 +37,7 @@ export function Login(props) {
       }, delayInMilliseconds);
 
     }
-     console.log(getCurrentUser());
+    
     setLoggedIn(true);
   }
   return(
