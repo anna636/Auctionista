@@ -12,6 +12,10 @@ code {
     monospace;
 }
 
+main{
+ min-height: 100vh;
+}
+
 .quickBid:hover{
   color:white;
   background-color: rgb(226, 89, 55);
