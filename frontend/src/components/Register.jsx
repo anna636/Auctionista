@@ -31,7 +31,8 @@ export function Register(props) {
   const [confirmPassword, setConfirmedPassword] = useState('')
   const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
-  const [errorMsg, setErrorMsg] = useState(false)
+  const [emailError, setEmailError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState(false)
   const [successMsg, setSuccessMsg] = useState(false)
   const [passwordError, setpasswordError] = useState(false)
   async function logIn(e) {
@@ -41,9 +42,13 @@ export function Register(props) {
       return;
     } else { setpasswordError(false) }
     if (!email.includes('@')) {
-      setErrorMsg(true);
+      setEmailError(true);
       return;
-    } else { setErrorMsg(false) }
+    } else { setEmailError(false) }
+    if(!username || !fullName) {
+      setErrorMessage(true);
+      return;
+    } else { setErrorMessage(false) }
     let user = {
       username: username,
       password: password,
@@ -51,20 +56,7 @@ export function Register(props) {
       email: email
     }
     const response = await register(user)
-    if (response.error) {
-      setErrorMsg(true);
-    } else if (response.success) {
-      setErrorMsg(false)
-      setSuccessMsg(true)
-
-      var delayInMilliseconds = 1000; //1 second
-
-      setTimeout(function () {
-        whoAmI()
-      
-      }, delayInMilliseconds);
-
-    }
+    
     setLoggedIn(true);
   }
   return(
@@ -135,7 +127,8 @@ export function Register(props) {
           </InputGroup>
           </div>
         {passwordError && <ErrorMessage>Password did not match</ErrorMessage>}
-        {errorMsg && <ErrorMessage>Choose another email.</ErrorMessage>}
+        {emailError && <ErrorMessage>Choose another email.</ErrorMessage>}
+        {errorMessage && <ErrorMessage>You must fill all input fields!</ErrorMessage>}
         {successMsg && <SuccessMessage>Successfully registered a new user!</SuccessMessage>}
         </div>
         <Modal.Footer>

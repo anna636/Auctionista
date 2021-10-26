@@ -37,15 +37,7 @@ export function Login(props) {
       password: password
     }
     const response = await login(user)
-    if (response == null) {
-      e.preventDefault()
-      setErrorMessage(true);
-    } else if (response) {
-      setErrorMessage(false)
-      setSuccessMsg(true)
-      whoAmI()
-      setLoggedIn(true);
-    }
+    
   }
   return(
     <div>
