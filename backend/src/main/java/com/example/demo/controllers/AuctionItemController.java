@@ -4,6 +4,7 @@ import com.example.demo.entities.AuctionItem;
 import com.example.demo.entities.Bid;
 import com.example.demo.services.AuctionItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -67,6 +68,22 @@ public class AuctionItemController {
 
     }
 
-    @GetMapping("/rest/auctionItem/search") //change to auciton-item
+    @GetMapping("/api/auction-items/search")
+    public ResponseEntity<List<AuctionItem>>getAuctionItemByTitle(@RequestParam(required = true) String title){
+
+        List<AuctionItem> auctionItems=auctionItemService.getByTitle(title);
+        System.out.println(title);
+
+        if(!auctionItems.isEmpty()){
+            return ResponseEntity.ok(auctionItems);
+        }
+
+        else{
+            return ResponseEntity.noContent().build();
+        }
+
+    }
+
+
 
 }

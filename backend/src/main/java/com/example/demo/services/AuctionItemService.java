@@ -3,6 +3,7 @@ package com.example.demo.services;
 import com.example.demo.entities.AuctionItem;
 import com.example.demo.repositories.AuctionItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -36,4 +37,11 @@ public class AuctionItemService {
         }
 
     }
+
+    public List<AuctionItem> getByTitle(String title){
+        return auctionItemRepository.customFindAllByTitleIgnoreCase(title);
+    }
+
 }
+
+
