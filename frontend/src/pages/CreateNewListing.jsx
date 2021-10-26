@@ -20,6 +20,12 @@ function CreateNewListing() {
    function isNumber(n) {
      return /^-?[\d.]+(?:e-?\d+)?$/.test(n);
   }
+
+   function addDays(date, days) {
+     var result = new Date(date);
+     result.setDate(result.getDate() + days);
+     return result;
+   }
   
   const pull_data = (data) => {
     console.log(data)
@@ -31,6 +37,7 @@ function CreateNewListing() {
      )
     }
   };
+
 
 
 
@@ -56,7 +63,9 @@ const getChildData = (imgPaths, indexOfPrimaryImg) => {
       description === "" || !reservationPrice >0) {
      
       
-      setMyProp({show:true, text:"Invalid data, please try again"})
+      setMyProp({ show: true, text: "Invalid data, please try again" })
+     
+     
       
     } else {
       const itemToPost = {
@@ -64,7 +73,7 @@ const getChildData = (imgPaths, indexOfPrimaryImg) => {
         description: description,
         reservationPrice: reservationPrice,
         startPrice: startPrice,
-        deadline: "2016-02-26T10:29:05.743",
+        deadline: addDays(new Date(), 3),
         images: imgString,
         primaryImgIndex: indexOfPrimaryImg,
         sold: false,
