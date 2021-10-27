@@ -134,7 +134,7 @@ export function Register(props) {
         {successMsg && <SuccessMessage>Successfully registered a new user!</SuccessMessage>}
         </div>
         <Modal.Footer>
-          <Button color="primary" onClick={(e) => registerUser(e)}>Register</Button>{' '}
+          <button class="btn btn-dark btn-lg" onClick={(e) => registerUser(e)}>Register</button>{' '}
         </Modal.Footer>
       </Modal>
     </div>

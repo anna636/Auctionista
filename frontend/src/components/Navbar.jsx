@@ -16,6 +16,8 @@ function Navbar() {
   const toggleLogin = () => setLogin(!login);
   const toggleRegister = () => setRegister(!register);
   
+
+
   useEffect(() => {
     getCurrentUser()
 
@@ -58,13 +60,13 @@ function Navbar() {
         </form>
       </div>
       { !getCurrentUser() ? (
-      <div>
+      <div style={styles.loginButtons}>
         <div>
-      <Button onClick={toggleLogin}>Login</Button>
+            <button  class="btn btn-outline-light btn-lg" onClick={toggleLogin}>Login</button>
       <Login toggle={toggleLogin} modal={login}></Login>
       </div>
-      <div>
-      <Button onClick={toggleRegister}>Register</Button>
+      <div style={styles.registerButton}>
+            <button class="btn btn-outline-light btn-lg" onClick={toggleRegister}>Register</button>
       <Register toggle={toggleRegister} modal={register}></Register>
       </div>
       </div>
@@ -113,11 +115,22 @@ function Navbar() {
 export default Navbar
 
 
+
 const styles = {
   navbar: {
     backgroundColor: "black",
     padding: "1vw 2vw 1vw 3vw",
     color: "white",
+  },
+  loginButtons: {
+    display: "flex",
+    flexDirection: "row",
+    position: "absolute",
+    right: "0",
+    marginRight: "10px",
+  },
+  registerButton: {
+    marginLeft: "10px",
   },
 
   ul: {
@@ -141,4 +154,5 @@ const styles = {
     borderColor: "rgb(226, 89, 55)",
     backgroundColor: "black",
   },
+  
 };

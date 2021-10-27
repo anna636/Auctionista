@@ -30,23 +30,20 @@ export function Login(props) {
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState(false)
   const [successMsg, setSuccessMsg] = useState(false)
+  
   async function logIn(e) {
     e.preventDefault()
+    setErrorMessage(false)
     let user = {
       username: username,
       password: password
     }
     const response = await login(user)
-    if (response == null) {
-      
-      e.preventDefault()
-      setErrorMessage(true);
-    } else if (response) {
-      setErrorMessage(false)
-      setSuccessMsg(true)
+      if (response) {
+      setErrorMessage(true)
       whoAmI()
     }
-   
+  
   }
   return(
     <div>
@@ -84,7 +81,7 @@ export function Login(props) {
         </div>
 
         <Modal.Footer>
-          <Button color="primary" onClick={(e) => logIn(e)}>Login</Button>{' '}
+          <button class="btn btn-dark btn-lg" onClick={(e) => logIn(e)}>Login</button>{' '}
         </Modal.Footer>
       </Modal>
     </div>
