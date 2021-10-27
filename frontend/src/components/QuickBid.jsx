@@ -19,12 +19,20 @@ function QuickBid(props) {
     
     
     if (!getCurrentUser()) {
-      console.log("fel!")
+      
        toggleModal();
-     }
-    const bidToPost = {
-        
-      }
+    }
+    else {
+      const bidToPost = {
+        currentBid: props.props.minimumBid,
+        time: new Date(),
+        user_id: getCurrentUser().id,
+        auctionItem: props.props
+      };
+
+      placeQuickBid(bidToPost);
+    }
+    
   }
   
 

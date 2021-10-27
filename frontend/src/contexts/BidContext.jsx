@@ -10,8 +10,14 @@ export const useBid = () => {
 
 const BidProvider = (props) => {
   
-  const placeQuickBid = async () => {
-
+  const placeQuickBid = async (bid) => {
+    let res = await fetch("/rest/bids", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(bid)
+    })
+    
+    console.log("posted ", await res.json())
   }
 
   const values = {
