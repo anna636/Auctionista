@@ -34,13 +34,17 @@ const BidProvider = (props) => {
   }
 
   const postNewBid = async (itemToPost) => {
-    let response = await fetch("/rest/bids", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(itemToPost),
-    });
-   console.log(await response.json())
-    return response
+    try {
+      let response = await fetch("/rest/bids", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(itemToPost),
+      });
+      console.log(await response.json())
+      return response
+    } catch {
+      console.log("Posting bid failed")
+    }
    
   }
 

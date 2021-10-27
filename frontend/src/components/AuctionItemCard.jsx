@@ -11,10 +11,12 @@ const AuctionItemCard = (props) => {
   const history = useHistory();
   const [primaryImgPath, setPrimaryImgPath]=useState("")
 
-   useEffect(() => {
-    let imagePathArr = props.props.images.split(",");
-     let primaryImgPath = imagePathArr[props.props.primaryImgIndex];
-     setPrimaryImgPath(primaryImgPath)
+  useEffect(() => {
+    if (props.props.images !== null) {
+      let imagePathArr = props.props.images.split(",");
+      let primaryImgPath = imagePathArr[props.props.primaryImgIndex];
+      setPrimaryImgPath(primaryImgPath)
+    }
    }, []);
 
 

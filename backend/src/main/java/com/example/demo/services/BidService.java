@@ -20,6 +20,7 @@ public class BidService {  //omvandla unix timestamp här
     public Optional<Bid> getById(long id){
         return bidRepository.findById(id);
     }
+
     public Bid saveBid(Bid bid){
         return bidRepository.save(bid);
     }

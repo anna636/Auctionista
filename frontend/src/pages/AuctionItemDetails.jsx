@@ -3,11 +3,14 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuctionItem } from "../contexts/AuctionItemContext";
 import { Button, Container, Col, Row, Card, Form, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { useBidContext } from "../contexts/BidContext";
 
 function AuctionItemDetails() {
   const { id } = useParams();
   const { fetchAuctionItem } = useAuctionItem();
   const [auctionItem, setAuctionItem] = useState();
+  const { postNewBid } = useBidContext();
+  const [bid, setBid] = useState('');
 
   useEffect(() => {
     getAuctionItem(id);
@@ -22,6 +25,17 @@ function AuctionItemDetails() {
     setAuctionItem(fetchedItem);
   };
 
+  async function placeBid(e) {
+    e.preventDefault()
+    let newBid = {
+      "amount": parseInt(bid),
+      "auctionItem": auctionItem
+    }
+    let res = await postNewBid(newBid)
+    console.log(res)
+    
+  }
+
   return (
     <div>
       {!auctionItem && <h1>Auction item not found</h1>}
@@ -34,7 +48,7 @@ function AuctionItemDetails() {
               <Card>
                 <Card.Title className="mt-3">Highest bid: (#currentBid) </Card.Title>
                 <Card.Body>
-                  <Form className="mx-5">
+                  <Form className="mx-5" onSubmit={placeBid}>
                     <OverlayTrigger
                       placement="top"
                       overlay={
@@ -44,9 +58,9 @@ function AuctionItemDetails() {
                         </Tooltip>
                       }
                     >
-                      <Form.Control size="sm" type="number"></Form.Control>
+                      <Form.Control size="sm" type="number" max="1000000" value={bid} onChange={e => setBid(e.target.value)}></Form.Control>
                     </OverlayTrigger>
-                    <Button variant="success" className="mt-1">
+                    <Button type="submit" variant="success" className="mt-2">
                       Place bid
                     </Button>
                   </Form>
