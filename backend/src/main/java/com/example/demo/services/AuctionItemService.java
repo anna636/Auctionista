@@ -63,6 +63,9 @@ public class AuctionItemService {
 
                 }
             }
+
+            //If time has exceeded but there are no bids, delete item
+            
             else if (ifDeadlineIsExceeded){
                 deletedItemIds.add(item.getId());
                 auctionItemRepository.deleteById(item.getId());
