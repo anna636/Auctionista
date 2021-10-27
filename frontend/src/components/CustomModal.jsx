@@ -45,7 +45,8 @@ const styles = {
     display: "grid",
     gridTemplateRows:"20% 50% 30%",
     padding: "1vw",
-    color:"white"
+    color: "white",
+    zIndex:"100"
     
   },
   closeModal: {

@@ -21,6 +21,21 @@ main{
   background-color: rgb(226, 89, 55);
 }
 
+.modal-content{
+  border-radius: 10px !important;
+  background-color:rgb(226, 89, 55) !important ;
+  opacity: 0.8 !important;
+ 
+}
+
+.btn-group-lg>.btn, .btn-lg{
+  font-size: 1rem !important;
+}
+
+.modal-header{
+border:none !important;
+}
+
 .coolImg{
  
   animation: fadeIn 5s;

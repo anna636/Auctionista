@@ -7,6 +7,7 @@ import AuctionItemProvider from "./contexts/AuctionItemContext";
 import AuctionItemDetails from "./pages/AuctionItemDetails";
 import CreateNewListing from "./pages/CreateNewListing";
 import UserContextProvider from "./contexts/UserContext";
+import BidContextProvider from "./contexts/BidContext"
 import MyListings from "./pages/MyListings";
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
     <div className="App">
       <UserContextProvider>
         <AuctionItemProvider>
+          <BidContextProvider>
           <Router>
             <Navbar />
             <main>
@@ -41,6 +43,7 @@ function App() {
               <Footer />
             </footer>
           </Router>
+        </BidContextProvider>
         </AuctionItemProvider>
       </UserContextProvider>
     </div>
