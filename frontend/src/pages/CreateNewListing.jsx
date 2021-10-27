@@ -24,6 +24,7 @@ function CreateNewListing() {
   function addDays(date, days) {
     var result = new Date(date);
     result.setDate(result.getDate() + days);
+    result.setHours(result.getHours() + 2);
     return result;
   }
 
