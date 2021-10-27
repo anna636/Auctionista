@@ -33,26 +33,39 @@ public class AuctionItemService {
         List<AuctionItem> allItems= auctionItemRepository.findAll();
 
         for(AuctionItem item : allItems){
-            if(item.getDeadline().isBefore(currentDate) || item.getDeadline().isEqual(currentDate)){
 
 
-               /* auctionItemRepository.deleteById(item.getId());
+            //If item has exceeded deadline and got desirable reservation price, set sold to true
 
-                deletedItemIds.add(item.getId());*/
+            Boolean ifDeadlineIsExceeded = item.getDeadline().isBefore(currentDate) || item.getDeadline().isEqual(currentDate);
 
-                if(item.getBids().size() > 0){
+            if(item.getBids().size() > 0  && ifDeadlineIsExceeded) {
 
-                    Bid lastBid=item.getBids().get(item.getBids().size()-1);
+                Bid lastBid = item.getBids().get(item.getBids().size() - 1);
 
-                    if(lastBid.getCurrentBid() >= item.getReservationPrice())
-                    {
 
-                        AuctionItem itemToModify=auctionItemRepository.findById(item.getId()).get();
-                        itemToModify.setSold(true);
-                        auctionItemRepository.save(itemToModify);
-                    }
+
+                if (lastBid.getCurrentBid() >= item.getReservationPrice()) {
+
+                    AuctionItem itemToModify = auctionItemRepository.findById(item.getId()).get();
+                    itemToModify.setSold(true);
+                    auctionItemRepository.save(itemToModify);
+
+
                 }
 
+                //else if deadline is exceeded but reservation price has not been achieved, delete item
+
+                else if(lastBid.getCurrentBid() < item.getReservationPrice()){
+
+                    deletedItemIds.add(item.getId());
+                    auctionItemRepository.deleteById(item.getId());
+
+                }
+            }
+            else if (ifDeadlineIsExceeded){
+                deletedItemIds.add(item.getId());
+                auctionItemRepository.deleteById(item.getId());
 
             }
         }
@@ -70,7 +83,7 @@ public class AuctionItemService {
         return allItems;
     }
 
-    
+
 
     public Optional<AuctionItem> getAuctionItemById(Long id){
         return auctionItemRepository.findById(id);
