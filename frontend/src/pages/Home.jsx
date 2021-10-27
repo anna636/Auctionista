@@ -3,9 +3,11 @@ import { useAuctionItem } from "../contexts/AuctionItemContext"
 import AuctionItemCard from '../components/AuctionItemCard';
 import { useHistory } from "react-router-dom";
 
+
 function Home() {
 
-    const history = useHistory();
+  const history = useHistory();
+ 
 
   const [offsetY, setOffsetY] = useState(0)
   const handleScroll = () => setOffsetY(window.pageYOffset);
@@ -14,6 +16,7 @@ function Home() {
     window.addEventListener("scroll", handleScroll)
     deleteExpiredItems()
     fetchAllAuctionItems()
+    
     
     return () => window.removeEventListener("scroll", handleScroll)
   },[])
@@ -37,13 +40,16 @@ const { auctionItems, fetchAllAuctionItems, deleteExpiredItems } =
           />
         </div>
       </div>
+      
 
       <div className="listWrapper" style={styles.listWrapper}>
-        {auctionItems && auctionItems.length > 0
-          ? auctionItems.map((item) => (
-            <AuctionItemCard props={item} style={styles.item}/>
-            ))
-          : <p>There are no auctions at this moment :,(</p>}
+        {auctionItems && auctionItems.length > 0 ? (
+          auctionItems.map((item) => (
+            <AuctionItemCard props={item} style={styles.item} />
+          ))
+        ) : (
+          <p>There are no auctions at this moment :,(</p>
+        )}
       </div>
     </div>
   );
@@ -65,7 +71,7 @@ const styles = {
     display: "grid",
     gridTemplateColumns: "repeat(2, 1fr)",
     gap: "5vw",
-    padding:"0 2vw"
+    padding:"0 5vw"
   },
   homeWrapper: {
     display: "flex",
