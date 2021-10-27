@@ -48,7 +48,7 @@ public class AuctionItem {
 
    public void addBid(Bid bid) {
        this.bids.add(bid);
-       System.out.println(this.bids.get(0).getAmount());
+       this.startPrice = bid.getAmount();
    }
 
 }

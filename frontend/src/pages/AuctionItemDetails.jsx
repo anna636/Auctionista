@@ -18,29 +18,37 @@ function AuctionItemDetails() {
     getAuctionItem(id);
   }, [id]);
 
-  // useEffect(() => {
-  //   getBids(auctionItem);
-  // }, [id])
 
   const getAuctionItem = async (auctionItemId) => {
     let fetchedItem = await fetchAuctionItem(auctionItemId);
     setAuctionItem(fetchedItem);
   };
 
+
   async function placeBid(e) {
     e.preventDefault();
 
-    let newBid = {
-      "amount": parseInt(bid),
-      "time": null,
-      "user_id": currentUser.id.toString(),
-      "auctionItem": auctionItem,
-      
+    if (checkBid) {
+      let newBid = {
+        "amount": parseInt(bid),
+        "time": null,
+        "user_id": currentUser.id.toString(),
+        "auctionItem": auctionItem,
+      }
+
+      let res = await postNewBid(newBid)
+      console.log(res)
+    } else {
+      console.log("Bid too low")
     }
-    let res = await postNewBid(newBid)
-    console.log(res)
     
   }
+
+
+  function checkBid() {
+    return (bid >= (auctionItem.startPrice * 1.1)) ? true : false
+  }
+
 
   return (
     <div>
@@ -52,19 +60,28 @@ function AuctionItemDetails() {
               <h2>{auctionItem.title}</h2>
               <p>{auctionItem.description}</p>
               <Card>
-                <Card.Title className="mt-3">Highest bid: (#currentBid) </Card.Title>
+                <Card.Title className="mt-3">
+                  Highest bid: {auctionItem.startPrice}{" "}
+                </Card.Title>
                 <Card.Body>
                   <Form className="mx-5" onSubmit={placeBid}>
                     <OverlayTrigger
                       placement="top"
                       overlay={
                         <Tooltip id="tooltip-top">
-                          The minimum bid that can be placed is:
-                          (#currentBid*1.10)
+                          The minimum bid that can be placed is: 
+                          {auctionItem.startPrice * 1.1}
                         </Tooltip>
                       }
                     >
-                      <Form.Control size="sm" type="number" max="1000000" value={bid} onChange={e => setBid(e.target.value)}></Form.Control>
+                      <Form.Control
+                        size="sm"
+                        type="number"
+                        max="1000000"
+                        min={auctionItem.startPrice * 1.1}
+                        value={bid}
+                        onChange={(e) => setBid(e.target.value)}
+                      ></Form.Control>
                     </OverlayTrigger>
                     <Button type="submit" variant="success" className="mt-2">
                       Place bid
