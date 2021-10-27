@@ -11,15 +11,16 @@ function QuickBid(props) {
 
   const { placeQuickBid } = useBid()
   const { getCurrentUser } = useContext(UserContext);
-    const [show, setShow] = useState(false);
+  const [show, setShow] = useState(false);
+  const [modalText, setModalText]=useState("")
    const toggleModal = () => setShow(!show);
 
-  function quickBid(e) {
+  async function quickBid(e) {
     e.preventDefault()
     
     
     if (!getCurrentUser()) {
-      
+      setModalText("Please log in")
        toggleModal();
     }
     else {
@@ -30,7 +31,13 @@ function QuickBid(props) {
         auctionItem: props.props
       };
 
-      placeQuickBid(bidToPost);
+      let res = await placeQuickBid(bidToPost);
+     
+      if (res.status == 200) {
+         
+        setModalText("You placed bid worth of "+ bidToPost.currentBid + " euros")
+        toggleModal()
+     }
     }
     
   }
@@ -42,7 +49,7 @@ function QuickBid(props) {
       <button className="quickBid" style={styles.btn} onClick={quickBid}>
         Place quick bid
       </button>
-      <BootstrapModal toggle={toggleModal} modal={show} text={"Please log in" }/>
+      <BootstrapModal toggle={toggleModal} modal={show} text={modalText}/>
     </div>
   );
 }

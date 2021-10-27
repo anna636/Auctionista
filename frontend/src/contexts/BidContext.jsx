@@ -16,8 +16,10 @@ const BidProvider = (props) => {
       headers: { "content-type": "application/json" },
       body: JSON.stringify(bid)
     })
+
+    console.log("placed quick bid",await res.json())
     
-    console.log("posted ", await res.json())
+    return res
   }
 
   const values = {
