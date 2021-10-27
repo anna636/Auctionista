@@ -27,7 +27,7 @@ public class Bid {
     private String user_id;
 
     @ManyToOne
-    @JsonIgnoreProperties({"bids"})
+    @JsonIgnoreProperties({"bids", "owner"})
     private AuctionItem auctionItem;
 
 

@@ -26,7 +26,7 @@ public class User {
     private String email;
     private String password;
 
-    @OneToMany(mappedBy="owner")
+   @OneToMany(mappedBy="owner")
     @JsonIgnoreProperties({"owner"})
     private List<AuctionItem> myAuctionItems;
 

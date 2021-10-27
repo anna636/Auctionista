@@ -92,6 +92,7 @@ const styles = {
     gridGap: "5vw",
     padding: "1vw 4vw",
     color: "rgba(255, 255, 255, 0.55)",
+    
   },
 
   text: {
