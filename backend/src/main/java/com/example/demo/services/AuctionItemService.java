@@ -1,6 +1,7 @@
 package com.example.demo.services;
 
 import com.example.demo.entities.AuctionItem;
+import com.example.demo.entities.Bid;
 import com.example.demo.repositories.AuctionItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ public class AuctionItemService {
 
     private LocalDateTime currentTime=LocalDateTime.now();
 
+    //postconstruct
 
 
     public List<Long> deleteExpiredItems(){
@@ -31,12 +33,25 @@ public class AuctionItemService {
         List<AuctionItem> allItems= auctionItemRepository.findAll();
 
         for(AuctionItem item : allItems){
-            if(currentDate.isAfter(item.getDeadline()) || item.getDeadline().isEqual(currentDate)){
+            if(item.getDeadline().isBefore(currentDate) || item.getDeadline().isEqual(currentDate)){
 
 
-                auctionItemRepository.deleteById(item.getId());
+               /* auctionItemRepository.deleteById(item.getId());
 
-                deletedItemIds.add(item.getId());
+                deletedItemIds.add(item.getId());*/
+
+                if(item.getBids().size() > 0){
+
+                    Bid lastBid=item.getBids().get(item.getBids().size()-1);
+
+                    if(lastBid.getCurrentBid() >= item.getReservationPrice())
+                    {
+
+                        AuctionItem itemToModify=auctionItemRepository.findById(item.getId()).get();
+                        itemToModify.setSold(true);
+                        auctionItemRepository.save(itemToModify);
+                    }
+                }
 
 
             }
