@@ -15,7 +15,7 @@ function Navbar() {
   const [register, setRegister] = useState(false);
   const toggleLogin = () => setLogin(!login);
   const toggleRegister = () => setRegister(!register);
-  console.log("current user is" ,getCurrentUser())
+  
 
 
   useEffect(() => {
@@ -59,17 +59,17 @@ function Navbar() {
           </button>
         </form>
       </div>
-      {!getCurrentUser() ? (
+      { !getCurrentUser() ? (
+      <div style={styles.loginButtons}>
         <div>
-          <div>
-            <Button onClick={toggleLogin}>Login</Button>
-            <Login toggle={toggleLogin} modal={login}></Login>
-          </div>
-          <div>
-            <Button onClick={toggleRegister}>Register</Button>
-            <Register toggle={toggleRegister} modal={register}></Register>
-          </div>
-        </div>
+            <button  class="btn btn-outline-light btn-lg" onClick={toggleLogin}>Login</button>
+      <Login toggle={toggleLogin} modal={login}></Login>
+      </div>
+      <div style={styles.registerButton}>
+            <button class="btn btn-outline-light btn-lg" onClick={toggleRegister}>Register</button>
+      <Register toggle={toggleRegister} modal={register}></Register>
+      </div>
+      </div>
       ) : (
         <div
           class="collapse navbar-collapse"
@@ -103,11 +103,15 @@ function Navbar() {
           </ul>
         </div>
       )}
-      <div
-        class="collapse navbar-collapse"
-        id="navbarNavDropdown"
-        style={styles.ul}
-      ></div>
+        <div
+          class="collapse navbar-collapse"
+          id="navbarNavDropdown"
+          style={styles.ul}
+        >
+          
+        </div>
+  
+    
     </nav>
   );
 }
@@ -115,11 +119,22 @@ function Navbar() {
 export default Navbar
 
 
+
 const styles = {
   navbar: {
     backgroundColor: "black",
     padding: "1vw 2vw 1vw 3vw",
     color: "white",
+  },
+  loginButtons: {
+    display: "flex",
+    flexDirection: "row",
+    position: "absolute",
+    right: "0",
+    marginRight: "10px",
+  },
+  registerButton: {
+    marginLeft: "10px",
   },
 
   ul: {
@@ -143,4 +158,5 @@ const styles = {
     borderColor: "rgb(226, 89, 55)",
     backgroundColor: "black",
   },
+  
 };

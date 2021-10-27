@@ -5,40 +5,45 @@ import { UserContext } from "../contexts/UserContext"
 import { useState, useEffect, useContext } from "react";
 import { Modal, Button, InputGroup, FormControl } from "react-bootstrap";
 
+const ErrorMessage = styled.span`
+  display: flex;
+  justify-content: center;
+  background: red;
+  color: white;
+  `
+
+const SuccessMessage = styled.span`
+  display: flex;
+  justify-content: center;
+  background: green;
+  color: white;
+`
+
 export function Login(props) {
   const {
     modal, toggle
   } = props;
-  const { login,getCurrentUser, whoAmI } = useContext(UserContext)
-  const [loggedIn, setLoggedIn] = useState(false);
+  const { login, whoAmI} = useContext(UserContext)
+
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState(false)
   const [successMsg, setSuccessMsg] = useState(false)
+  
   async function logIn(e) {
     e.preventDefault()
+    setErrorMessage(false)
     let user = {
       username: username,
       password: password
     }
     const response = await login(user)
-    if (response.error) {
-      setErrorMessage(true);
-    } else if (response.success) {
-      setErrorMessage(false)
-      setSuccessMsg(true)
-
-      var delayInMilliseconds = 1000; //1 second
-
-      setTimeout(function () {
-        whoAmI()
-      
-      }, delayInMilliseconds);
-
+      if (response) {
+      setErrorMessage(true)
+      whoAmI()
     }
-    
-    setLoggedIn(true);
+  
   }
   return(
     <div>
@@ -71,11 +76,12 @@ export function Login(props) {
           />
           </InputGroup>
           </div>
-          
+          {errorMessage && <ErrorMessage>Bad credentials</ErrorMessage>}
+          {successMsg && <SuccessMessage>Login successfull</SuccessMessage>}
         </div>
 
         <Modal.Footer>
-          <Button color="primary" onClick={(e) => logIn(e)}>Login</Button>{' '}
+          <button class="btn btn-dark btn-lg" onClick={(e) => logIn(e)}>Login</button>{' '}
         </Modal.Footer>
       </Modal>
     </div>

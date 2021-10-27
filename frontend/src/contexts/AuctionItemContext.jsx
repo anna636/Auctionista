@@ -7,21 +7,33 @@ export const useAuctionItem = () => {
   return useContext(AuctionItemContext);
 };
 
+
 const AuctionItemProvider = (props) => {
 
   const [auctionItems, setAuctionItems] = useState([])
-  const [primaryImgPath, setPrimaryImgPath] = useState("")
+    const [primaryImgPath, setPrimaryImgPath] = useState("")
   const [imgPaths, setImgPaths]=useState([])
 
+  useEffect(() => {
+      fetchAllAuctionItems()
+      }, []);
    
-  const fetchAllAuctionItems = async () => {
-    
+  const fetchAllAuctionItems = async () => { 
     let response=await fetch("/rest/auction-items")
-
-    
     setAuctionItems(await response.json())
-    
   };
+
+  const fetchAuctionItem = async (id) => {
+    let res = await fetch("/rest/auction-items/" + id)
+    try {
+      let fetchedItem = await res.json()
+      console.log("From fetchAuctionItem: ", fetchedItem)
+      return fetchedItem;
+    }
+    catch {
+      console.log("No item found")
+    }
+  }
 
   const postNewAuctionItem = async (itemToPost) => {
     let response = await fetch("/rest/auction-items", {
@@ -40,6 +52,7 @@ const AuctionItemProvider = (props) => {
     setPrimaryImgPath,
     setImgPaths,
     fetchAllAuctionItems,
+    fetchAuctionItem
   };
 
   return (
