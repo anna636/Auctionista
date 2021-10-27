@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,9 +17,23 @@ public class AuctionItemService {
     @Autowired
     private AuctionItemRepository auctionItemRepository;
 
+    private LocalDateTime currentTime=LocalDateTime.now();
+
 
     public List<AuctionItem> getAllAuctionItems(){
-        return auctionItemRepository.findAll();
+
+
+
+
+
+        List<AuctionItem> allItems= auctionItemRepository.findAll();
+        for(AuctionItem item :allItems){
+            System.out.println(item.getDeadline());
+            if(item.getDeadline() == currentTime){
+
+            }
+        }
+        return allItems;
     }
 
     public Optional<AuctionItem> getAuctionItemById(Long id){
