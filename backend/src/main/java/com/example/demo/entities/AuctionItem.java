@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -39,10 +40,15 @@ public class AuctionItem {
 
     @OneToMany(mappedBy = "auctionItem")
     @JsonIgnoreProperties({"auctionItem"})
-    public List<Bid> bids;
+    private List<Bid> bids = new ArrayList<>();
 
    @ManyToOne()
    @JsonIgnoreProperties({"email", "password", "myAuctionItems"})
     private User owner;
+
+   public void addBid(Bid bid) {
+       this.bids.add(bid);
+       System.out.println(this.bids.get(0).getAmount());
+   }
 
 }

@@ -26,7 +26,7 @@ public class Bid {
     private LocalDateTime time;
     private String user_id;
 
-    @ManyToOne
+    @ManyToOne()
     @JsonIgnoreProperties({"bids", "owner"})
     private AuctionItem auctionItem;
 

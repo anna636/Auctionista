@@ -1,9 +1,10 @@
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { useAuctionItem } from "../contexts/AuctionItemContext";
 import { Button, Container, Col, Row, Card, Form, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useBidContext } from "../contexts/BidContext";
+import { UserContext } from "../contexts/UserContext"
 
 function AuctionItemDetails() {
   const { id } = useParams();
@@ -11,6 +12,7 @@ function AuctionItemDetails() {
   const [auctionItem, setAuctionItem] = useState();
   const { postNewBid } = useBidContext();
   const [bid, setBid] = useState('');
+  const { currentUser } = useContext(UserContext);
 
   useEffect(() => {
     getAuctionItem(id);
@@ -26,10 +28,14 @@ function AuctionItemDetails() {
   };
 
   async function placeBid(e) {
-    e.preventDefault()
+    e.preventDefault();
+
     let newBid = {
       "amount": parseInt(bid),
-      "auctionItem": auctionItem
+      "time": null,
+      "user_id": currentUser.id.toString(),
+      "auctionItem": auctionItem,
+      
     }
     let res = await postNewBid(newBid)
     console.log(res)
