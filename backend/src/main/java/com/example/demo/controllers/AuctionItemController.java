@@ -66,4 +66,10 @@ public class AuctionItemController {
         }
 
     }
+
+    @GetMapping("/rest/delete/auction-items")
+    public List<Long> deleteAuctionItems(){
+
+        return auctionItemService.deleteExpiredItems();
+    }
 }

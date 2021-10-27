@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,19 +21,37 @@ public class AuctionItemService {
     private LocalDateTime currentTime=LocalDateTime.now();
 
 
-    public List<AuctionItem> getAllAuctionItems(){
 
+    public List<Long> deleteExpiredItems(){
 
+        List<Long> deletedItemIds=new ArrayList<>();
 
-
+        LocalDateTime currentDate=LocalDateTime.now();
 
         List<AuctionItem> allItems= auctionItemRepository.findAll();
-        for(AuctionItem item :allItems){
-            System.out.println(item.getDeadline());
-            if(item.getDeadline() == currentTime){
+
+        for(AuctionItem item : allItems){
+            if(currentDate.isAfter(item.getDeadline()) || item.getDeadline().isEqual(currentDate)){
+
+
+                auctionItemRepository.deleteById(item.getId());
+
+                deletedItemIds.add(item.getId());
+
 
             }
         }
+        return  deletedItemIds;
+    }
+
+
+
+
+
+    public List<AuctionItem> getAllAuctionItems(){
+
+        List<AuctionItem> allItems= auctionItemRepository.findAll();
+
         return allItems;
     }
 
@@ -50,5 +69,9 @@ public class AuctionItemService {
             return null;
         }
 
+    }
+
+    public void deleteItem(Long id){
+         auctionItemRepository.deleteById(id);
     }
 }
