@@ -131,7 +131,7 @@ const styles = {
     flexDirection: "row",
     position: "absolute",
     right: "0",
-    marginRight: "10px",
+    marginRight: "60px",
   },
   registerButton: {
     marginLeft: "10px",
