@@ -65,10 +65,12 @@ public class AuctionItemService {
 
     public List<AuctionItem> getAllAuctionItems(){
 
-        List<AuctionItem> allItems= auctionItemRepository.findAll();
+        List<AuctionItem> allItems= auctionItemRepository.findBySold(false);
 
         return allItems;
     }
+
+    
 
     public Optional<AuctionItem> getAuctionItemById(Long id){
         return auctionItemRepository.findById(id);
