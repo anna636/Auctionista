@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import { useHistory } from "react-router-dom";
-
-
-
-
+import { useLocation } from "react-router-dom";
+import DateComponent from "./DateComponent";
 
 
 const AuctionItemCard = (props) => {
+
+   const location = useLocation(); 
   const history = useHistory();
   const [primaryImgPath, setPrimaryImgPath]=useState("")
 
@@ -15,9 +15,8 @@ const AuctionItemCard = (props) => {
     let imagePathArr = props.props.images.split(",");
      let primaryImgPath = imagePathArr[props.props.primaryImgIndex];
      setPrimaryImgPath(primaryImgPath)
+     console.log(new Date(props.props.deadline))
    }, []);
-
-
 
   function redirect() {
     history.push("/details/"+ props.props.id)
@@ -36,10 +35,17 @@ const AuctionItemCard = (props) => {
             Minimum bid possible: {props.props.minimumBid} euro{" "}
           </p>
           
-
-          <button className="quickBid" style={styles.btn}>
+        {location.pathname ==="/" ? ( <button className="quickBid" style={styles.btn}>
             Place quick bid
-          </button>
+          </button>) : (
+              <>
+              <p>Expiration date: </p>
+              <div>
+                <DateComponent props={new Date(props.props.deadline)}/>
+                </div>
+                </>
+          ) }
+         
         </div>
         <img
           style={styles.img}
@@ -66,9 +72,11 @@ const styles = {
     flexDirection: "column",
     marginBottom: "10vh",
     padding: "5vh",
+    paddingBottom:"2vh",
     boxShadow: "0px 0px 8px 2px rgba(0,0,0,0.54)",
     borderRadius: "20px",
-    cursor:"pointer"
+    cursor: "pointer",
+    color:"black"
   },
   mainInfo: {
     display: "flex",
@@ -77,10 +85,11 @@ const styles = {
   },
   img: {
     width: "50%",
+    
   },
   title: {
     textAlign: "center",
-    paddingTop: "1vh",
+    paddingTop: "3vh",
   },
 
   btn: {
