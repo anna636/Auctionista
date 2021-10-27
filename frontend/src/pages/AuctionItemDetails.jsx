@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuctionItem } from "../contexts/AuctionItemContext";
 import { Button, Container, Col, Row, Card, Form, OverlayTrigger, Tooltip } from "react-bootstrap";
+import Counter from "../components/Counter"
+
 
 function AuctionItemDetails() {
   const { id } = useParams();
@@ -47,7 +49,7 @@ function AuctionItemDetails() {
                     </Button>
                   </Form>
                 </Card.Body>
-                <Card.Footer>Time left: (#timeLeft) </Card.Footer>
+                <Card.Footer>Time left: <Counter dateFrom={auctionItem.deadline}></Counter> </Card.Footer>
               </Card>
             </Col>
             <Col>
