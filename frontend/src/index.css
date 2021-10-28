@@ -93,3 +93,7 @@ textarea{
   color:black !important;
   border: solid black !important;
 }
+
+.itemWrapper:hover{
+transform:scale(1.05) !important;
+}
