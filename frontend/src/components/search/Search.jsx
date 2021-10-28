@@ -24,12 +24,9 @@ const Search = () => {
     }
   };
 
-  function togglePopoverMessage() {
-    setPopoverMessage(!popoverMessage);
-  }
 
   const popover = (
-    <Popover id="popover-basic" style={styles.popover}>
+    <Popover id="popover-basic" style={styles.popover} >
       <Popover.Body style={styles.popover}>
         No items found. Try searching for something else...
       </Popover.Body>
@@ -52,7 +49,8 @@ const Search = () => {
           placement="right"
           overlay={popover}
           show={popoverMessage}
-          onToggle={togglePopoverMessage}
+          delay={3000}
+          autohide
         >
           <button
             class="btn btn-outline-secondary my-2 my-sm-0"
