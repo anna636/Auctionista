@@ -20,7 +20,7 @@ function Home() {
   useEffect(() => {
     window.addEventListener("scroll", handleScroll)
     //fetchAllAuctionItems()
-    fetchItemsInBatch(0)
+   
     
     
     return () => window.removeEventListener("scroll", handleScroll)
