@@ -2,57 +2,88 @@ import React from "react";
 import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { useAuctionItem } from "../contexts/AuctionItemContext";
-import { Button, Container, Col, Row, Card, Form, OverlayTrigger, Tooltip } from "react-bootstrap";
+import {
+  Button,
+  Container,
+  Col,
+  Row,
+  Card,
+  Form,
+  OverlayTrigger,
+  Tooltip,
+  Spinner,
+} from "react-bootstrap";
 import { useBidContext } from "../contexts/BidContext";
-import { UserContext } from "../contexts/UserContext"
+import { UserContext } from "../contexts/UserContext";
+import CustomModal from "../components/CustomModal";
+import { render } from "react-dom";
 
 function AuctionItemDetails() {
   const { id } = useParams();
   const { fetchAuctionItem } = useAuctionItem();
   const [auctionItem, setAuctionItem] = useState();
   const { postNewBid } = useBidContext();
-  const [bid, setBid] = useState('');
+  const [bid, setBid] = useState("");
   const { currentUser } = useContext(UserContext);
+  const [myProp, setMyProp] = useState({});
+  const [highestBid, setHighestBid] = useState();
 
   useEffect(() => {
     getAuctionItem(id);
-  }, [id]);
-
+  }, [id, highestBid]);
 
   const getAuctionItem = async (auctionItemId) => {
     let fetchedItem = await fetchAuctionItem(auctionItemId);
     setAuctionItem(fetchedItem);
   };
 
-
   async function placeBid(e) {
     e.preventDefault();
 
     if (checkBid) {
       let newBid = {
-        "amount": parseInt(bid),
-        "time": null,
-        "user_id": currentUser.id.toString(),
-        "auctionItem": auctionItem,
+        amount: parseInt(bid),
+        time: null,
+        user_id: currentUser.id.toString(),
+        auctionItem: auctionItem,
+      };
+
+      let res = await postNewBid(newBid);
+      console.log(res);
+      if (res.status === 200) {
+        setHighestBid(bid);
+        setMyProp({
+          show: true,
+          text: "Bid placed!"
+        });
+        setBid("");
       }
-
-      let res = await postNewBid(newBid)
-      console.log(res)
     } else {
-      console.log("Bid too low")
+      console.log("Bid too low");
     }
-    
   }
-
 
   function checkBid() {
-    return (bid >= (auctionItem.startPrice * 1.1)) ? true : false
+    return bid >= auctionItem.minimumBid ? true : false;
   }
 
+  const pull_data = (data) => {
+    console.log(data);
+    if (data === false) {
+      setMyProp({
+        show: false,
+        text: "",
+      });
+    }
+  };
 
   return (
     <div>
-      {!auctionItem && <h1>Auction item not found</h1>}
+      {!auctionItem && (
+        <Spinner animation="border" role="status" className="mt-5">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      )}
       {auctionItem && (
         <Container className="p-5" fluid>
           <Row>
@@ -62,6 +93,9 @@ function AuctionItemDetails() {
               <Card>
                 <Card.Title className="mt-3">
                   Highest bid: {auctionItem.startPrice}{" "}
+                  <span>
+                    <i class="bi bi-currency-bitcoin"></i>{" "}
+                  </span>
                 </Card.Title>
                 <Card.Body>
                   <Form className="mx-5" onSubmit={placeBid}>
@@ -69,8 +103,11 @@ function AuctionItemDetails() {
                       placement="top"
                       overlay={
                         <Tooltip id="tooltip-top">
-                          The minimum bid that can be placed is: 
-                          {auctionItem.startPrice * 1.1}
+                          The minimum bid that can be placed is:{" "}
+                          <strong>{auctionItem.minimumBid}</strong>{" "}
+                          <span>
+                            <i class="bi bi-currency-bitcoin"></i>{" "}
+                          </span>
                         </Tooltip>
                       }
                     >
@@ -78,7 +115,7 @@ function AuctionItemDetails() {
                         size="sm"
                         type="number"
                         max="1000000"
-                        min={auctionItem.startPrice * 1.1}
+                        min={auctionItem.minimumBid}
                         value={bid}
                         onChange={(e) => setBid(e.target.value)}
                       ></Form.Control>
@@ -87,14 +124,23 @@ function AuctionItemDetails() {
                       Place bid
                     </Button>
                   </Form>
+                  {myProp.show === true && (
+                    <div style={{ color: "green" }} className="mt-2">
+                      <strong> Your bid: {highestBid} </strong>
+                      <span>
+                        <i class="bi bi-currency-bitcoin"></i>{" "}
+                      </span>
+                    </div>
+                  )}
                 </Card.Body>
                 <Card.Footer>Time left: (#timeLeft) </Card.Footer>
               </Card>
             </Col>
             <Col>
-              <h2>Image</h2>
+              <img src={auctionItem.images} alt="" />
             </Col>
           </Row>
+          <CustomModal prop={myProp} func={pull_data} />
         </Container>
       )}
     </div>

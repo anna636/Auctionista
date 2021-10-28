@@ -31,16 +31,12 @@ public class BidService {  //omvandla unix timestamp här
     public Bid saveBid(Bid bid){
 
         try{
-        Long auctionItemId = bid.getAuctionItem().getId();
-        AuctionItem auctionItem = auctionItemRepository.getById(auctionItemId);
-        System.out.println(auctionItem.getTitle());
+            Long auctionItemId = bid.getAuctionItem().getId();
+            AuctionItem auctionItem = auctionItemRepository.getById(auctionItemId);
 
-        Bid savedBid = bidRepository.save(bid);
+            auctionItem.updateValues(bid);
 
-        auctionItem.addBid(savedBid);
-        auctionItemRepository.save(auctionItem);
-
-        return savedBid;
+            return bidRepository.save(bid);
 
         } catch (Exception e) {
             e.printStackTrace();
