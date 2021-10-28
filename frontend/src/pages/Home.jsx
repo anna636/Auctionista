@@ -12,15 +12,27 @@ function Home() {
   const [offsetY, setOffsetY] = useState(0)
   const handleScroll = () => setOffsetY(window.pageYOffset);
 
+
+   async function fetchBatch(offsetValue) {
+     await fetchItemsInBatch(offsetValue);
+   }
+
   useEffect(() => {
     window.addEventListener("scroll", handleScroll)
-    fetchAllAuctionItems()
+    //fetchAllAuctionItems()
+    fetchItemsInBatch(0)
     
     
     return () => window.removeEventListener("scroll", handleScroll)
-  },[])
+  }, [])
+  
 
-const {auctionItems, fetchAllAuctionItems} = useAuctionItem()
+  function loadMore() {
+    fetchItemsInBatch(auctionItems.length)
+  }
+ 
+
+const { auctionItems, fetchAllAuctionItems, fetchItemsInBatch } =useAuctionItem();
   return (
     <div className="homeWrapper" style={styles.homeWrapper}>
       <div className="homeImg">
@@ -37,8 +49,8 @@ const {auctionItems, fetchAllAuctionItems} = useAuctionItem()
             className="livestockAuction"
           />
         </div>
+        
       </div>
-      
 
       <div className="listWrapper" style={styles.listWrapper}>
         {auctionItems && auctionItems.length > 0 ? (
@@ -49,6 +61,7 @@ const {auctionItems, fetchAllAuctionItems} = useAuctionItem()
           <p>There are no auctions at this moment :,(</p>
         )}
       </div>
+      <button onClick={loadMore}>Load more</button>
     </div>
   );
 }

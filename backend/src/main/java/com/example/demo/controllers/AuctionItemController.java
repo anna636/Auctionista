@@ -19,15 +19,13 @@ public class AuctionItemController {
     @Autowired
     private AuctionItemService auctionItemService;
 
-    @Autowired
-    private AuctionItemRepository auctionItemRepository;
 
 
 
     @GetMapping("/rest/auction-items/batch/{offset}")
     public List<AuctionItem> getItemsInBatch(@PathVariable String offset)
     {
-        return auctionItemRepository.getItemsInBatch(offset);
+        return auctionItemService.getItemsInBatch(offset);
     }
 
     //Get all auction items in db
