@@ -2,6 +2,7 @@ package com.example.demo.controllers;
 
 import com.example.demo.entities.AuctionItem;
 import com.example.demo.entities.Bid;
+import com.example.demo.repositories.AuctionItemRepository;
 import com.example.demo.services.AuctionItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,16 @@ public class AuctionItemController {
     @Autowired
     private AuctionItemService auctionItemService;
 
+    @Autowired
+    private AuctionItemRepository auctionItemRepository;
 
+
+
+    @GetMapping("/rest/auction-items/batch/{offset}")
+    public List<AuctionItem> getItemsInBatch(@PathVariable String offset)
+    {
+        return auctionItemRepository.getItemsInBatch(offset);
+    }
 
     //Get all auction items in db
     @GetMapping("/rest/auction-items")
