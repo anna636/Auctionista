@@ -40,10 +40,18 @@ function AuctionItemDetails() {
   async function placeBid(e) {
     e.preventDefault();
 
+    if (currentUser === null || currentUser === undefined) {
+              setMyProp({
+                show: true,
+                text: "You must log in to place a bid",
+              });
+      return
+    }
+
     if (checkBid) {
       let newBid = {
         amount: parseInt(bid),
-        time: null,
+        time: new Date(),
         user_id: currentUser.id.toString(),
         auctionItem: auctionItem,
       };
