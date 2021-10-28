@@ -1,26 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuctionItem } from "../../contexts/AuctionItemContext";
 
 const Search = () => {
   const [userInput, setUserInput] = useState();
-  const { auctionItems } = useAuctionItem();
+  const { fetchAuctionItemByTitle } = useAuctionItem();
+
+
+   useEffect(() => {
+     getAuctionItemByTitle();
+   }, []);
 
   function handleSearch(event) {
     event.preventDefault();
-    filterAuctionItems();
+    //filterAuctionItems();
+    getAuctionItemByTitle();
     // setUserInput("");
   }
 
-  function filterAuctionItems() {
-    const filteredAuctionItems = [];
-    for (let i = 0; i < auctionItems.length; i++) {
-      let auctionItemTitle = auctionItems[i].title.toLowerCase();
-      if (auctionItemTitle === userInput) {
-        filteredAuctionItems.push(auctionItems[i]);
-      }
-    }
-    console.log(filteredAuctionItems)
-  }
+
+const getAuctionItemByTitle = async (auctionItemTitle) => {
+  let fetchedItem = await fetchAuctionItemByTitle(auctionItemTitle);
+  setUserInput(fetchedItem);
+  console.log("fetched item: ", fetchedItem)
+
+};
+
+
+  // function filterAuctionItems() {
+  //   const filteredAuctionItems = [];
+  //   for (let i = 0; i < auctionItems.length; i++) {
+  //     let auctionItemTitle = auctionItems[i].title.toLowerCase();
+  //     if (auctionItemTitle === userInput) {
+  //       filteredAuctionItems.push(auctionItems[i]);
+  //     }
+  //   }
+  //   console.log(filteredAuctionItems)
+  // }
 
   return (
     <div>

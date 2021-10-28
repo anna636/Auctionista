@@ -35,6 +35,21 @@ const AuctionItemProvider = (props) => {
     }
   }
 
+  const fetchAuctionItemByTitle = async (title) => {
+    let res = await fetch("/api/auction-items/search" + title, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(title),
+    });
+    try {
+      let fetchedItem = await res.json();
+      console.log("From fetchAuctionItemByTitle: ", fetchedItem);
+      return fetchedItem;
+    } catch(error) {
+      console.log("No item found", error);
+    }
+  };
+
   const postNewAuctionItem = async (itemToPost) => {
     let response = await fetch("/rest/auction-items", {
       method: "POST",
@@ -52,7 +67,8 @@ const AuctionItemProvider = (props) => {
     setPrimaryImgPath,
     setImgPaths,
     fetchAllAuctionItems,
-    fetchAuctionItem
+    fetchAuctionItem,
+    fetchAuctionItemByTitle
   };
 
   return (
