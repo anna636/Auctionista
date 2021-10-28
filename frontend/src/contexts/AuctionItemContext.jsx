@@ -34,15 +34,6 @@ const AuctionItemProvider = (props) => {
       console.log("setting items when 0")
     }
     else {
-     
-      /* let updatedItems=[...auctionItems]
-       for (let item in items) {
-        
-         let a = updatedItems.indexOf(item)
-         if (a === -1) {
-           updatedItems.push(item)
-         }
-       } */
        setAuctionItems([...auctionItems, ...items]);
     }
 
