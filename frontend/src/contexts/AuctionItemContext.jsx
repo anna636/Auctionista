@@ -7,46 +7,40 @@ export const useAuctionItem = () => {
   return useContext(AuctionItemContext);
 };
 
-
 const AuctionItemProvider = (props) => {
-
-  const [auctionItems, setAuctionItems] = useState([])
-    const [primaryImgPath, setPrimaryImgPath] = useState("")
-  const [imgPaths, setImgPaths]=useState([])
+  const [auctionItems, setAuctionItems] = useState([]);
+  const [primaryImgPath, setPrimaryImgPath] = useState("");
+  const [imgPaths, setImgPaths] = useState([]);
 
   useEffect(() => {
-      fetchAllAuctionItems()
-      }, []);
-   
-  const fetchAllAuctionItems = async () => { 
-    let response=await fetch("/rest/auction-items")
-    setAuctionItems(await response.json())
+    fetchAllAuctionItems();
+  }, []);
+
+  const fetchAllAuctionItems = async () => {
+    let response = await fetch("/rest/auction-items");
+    setAuctionItems(await response.json());
   };
 
   const fetchAuctionItem = async (id) => {
-    let res = await fetch("/rest/auction-items/" + id)
-    try {
-      let fetchedItem = await res.json()
-      console.log("From fetchAuctionItem: ", fetchedItem)
-      return fetchedItem;
-    }
-    catch {
-      console.log("No item found")
-    }
-  }
-
-  const fetchAuctionItemByTitle = async (title) => {
-    let res = await fetch("/api/auction-items/search" + title, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(title),
-    });
+    let res = await fetch("/rest/auction-items/" + id);
     try {
       let fetchedItem = await res.json();
-      console.log("From fetchAuctionItemByTitle: ", fetchedItem);
+      console.log("From fetchAuctionItem: ", fetchedItem);
       return fetchedItem;
-    } catch(error) {
-      console.log("No item found", error);
+    } catch {
+      console.log("No item found");
+    }
+  };
+
+  const fetchAuctionItemByTitle = async (userInput) => {
+    let res = await fetch("/api/auction-items/search?title=" + userInput);
+    try {
+      let fetchedItems = await res.json();
+      console.log("From fetchAuctionItemByTitle: ", fetchedItems);
+      setAuctionItems(fetchedItems)
+      return fetchedItems;
+    } catch {
+      console.log(res.statusText);
     }
   };
 
@@ -56,10 +50,9 @@ const AuctionItemProvider = (props) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(itemToPost),
     });
-   console.log(await response.json())
-    return response
-   
-  }
+    console.log(await response.json());
+    return response;
+  };
 
   const values = {
     postNewAuctionItem,
@@ -68,7 +61,7 @@ const AuctionItemProvider = (props) => {
     setImgPaths,
     fetchAllAuctionItems,
     fetchAuctionItem,
-    fetchAuctionItemByTitle
+    fetchAuctionItemByTitle,
   };
 
   return (

@@ -1,41 +1,45 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useAuctionItem } from "../../contexts/AuctionItemContext";
+import { Popover, OverlayTrigger } from "react-bootstrap";
 
 const Search = () => {
   const [userInput, setUserInput] = useState();
   const { fetchAuctionItemByTitle } = useAuctionItem();
+  const [ popoverMessage, setPopoverMessage ] = useState(false)
 
-
-   useEffect(() => {
-     getAuctionItemByTitle();
-   }, []);
 
   function handleSearch(event) {
     event.preventDefault();
-    //filterAuctionItems();
     getAuctionItemByTitle();
-    // setUserInput("");
+    setUserInput("");
   }
 
 
-const getAuctionItemByTitle = async (auctionItemTitle) => {
-  let fetchedItem = await fetchAuctionItemByTitle(auctionItemTitle);
-  setUserInput(fetchedItem);
-  console.log("fetched item: ", fetchedItem)
+const getAuctionItemByTitle = async () => {
+  let fetchedItem = await fetchAuctionItemByTitle(userInput);
+  if (fetchedItem) {
+    console.log("fetched item: ", fetchedItem)
+    setPopoverMessage(false)
+  }
+  else {
+    console.log("No items found")
+    setPopoverMessage(true)
+  }
 
-};
+  };
 
+  function togglePopoverMessage() {
+    setPopoverMessage(!popoverMessage)
+  }
+  
+  const popover = (
+    <Popover id="popover-basic">
+      <Popover.Body>
+        No items found. Try searching for something else...
+      </Popover.Body>
+    </Popover>
+  );
 
-  // function filterAuctionItems() {
-  //   const filteredAuctionItems = [];
-  //   for (let i = 0; i < auctionItems.length; i++) {
-  //     let auctionItemTitle = auctionItems[i].title.toLowerCase();
-  //     if (auctionItemTitle === userInput) {
-  //       filteredAuctionItems.push(auctionItems[i]);
-  //     }
-  //   }
-  //   console.log(filteredAuctionItems)
-  // }
 
   return (
     <div>
@@ -48,14 +52,15 @@ const getAuctionItemByTitle = async (auctionItemTitle) => {
           value={userInput}
           onChange={(e) => setUserInput(e.target.value)}
         />
-
-        <button
-          class="btn btn-outline-secondary my-2 my-sm-0"
-          type="submit"
-          style={styles.formButton}
-        >
-          Search
-        </button>
+        <OverlayTrigger trigger="click" placement="right" overlay={popover} show={popoverMessage} onToggle={togglePopoverMessage}>
+          <button
+            class="btn btn-outline-secondary my-2 my-sm-0"
+            type="submit"
+            style={styles.formButton}
+          >
+            Search
+          </button>
+        </OverlayTrigger>
       </form>
     </div>
   );
