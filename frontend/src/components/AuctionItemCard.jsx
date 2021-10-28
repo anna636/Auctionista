@@ -9,16 +9,10 @@ const AuctionItemCard = (props) => {
 
    const location = useLocation(); 
   const history = useHistory();
-  const [primaryImgPath, setPrimaryImgPath] = useState("")
+
   
 
-   useEffect(() => {
-    let imagePathArr = props.props.images.split(",");
-     let primaryImgPath = imagePathArr[props.props.primaryImgIndex];
-     setPrimaryImgPath(primaryImgPath)
-     console.log(new Date(props.props.deadline))
-   }, []);
-
+   
   function redirect() {
     history.push("/details/" + props.props.id)
     window.scrollTo(0, 0);
