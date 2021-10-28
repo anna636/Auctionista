@@ -7,10 +7,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,10 +32,9 @@ public class AuctionItem {
     private long id;
 
     private String title;
-   private String description;
+    private String description;
     private Integer reservationPrice;
     private LocalDateTime deadline;
-    //Here we have to have cross table?
     private String images;
     private Boolean sold;
     private Integer startPrice;
@@ -39,10 +43,17 @@ public class AuctionItem {
 
     @OneToMany(mappedBy = "auctionItem")
     @JsonIgnoreProperties({"auctionItem"})
-    public List<Bid> bids;
+    private List<Bid> bids = new ArrayList<>();
 
    @ManyToOne()
    @JsonIgnoreProperties({"email", "password", "myAuctionItems"})
     private User owner;
+
+   public void updateValues(Bid bid) {
+       // Updates the startprice to the latest bid
+       this.startPrice = bid.getAmount();
+       // Updates next minimum bid
+       this.minimumBid = (double) Math.round(this.startPrice * 1.1);
+   }
 
 }

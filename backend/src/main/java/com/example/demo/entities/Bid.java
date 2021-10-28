@@ -22,11 +22,11 @@ public class Bid {
     @GeneratedValue
     private long id;
 
-    private int currentBid;
+    private int amount;
     private LocalDateTime time;
     private String user_id;
 
-    @ManyToOne
+    @ManyToOne()
     @JsonIgnoreProperties({"bids", "owner"})
     private AuctionItem auctionItem;
 

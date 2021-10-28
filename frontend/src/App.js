@@ -7,6 +7,7 @@ import AuctionItemProvider from "./contexts/AuctionItemContext";
 import AuctionItemDetails from "./pages/AuctionItemDetails";
 import CreateNewListing from "./pages/CreateNewListing";
 import UserContextProvider from "./contexts/UserContext";
+import BidProvider from "./contexts/BidContext";
 import MyListings from "./pages/MyListings";
 
 function App() {
@@ -14,33 +15,31 @@ function App() {
     <div className="App">
       <UserContextProvider>
         <AuctionItemProvider>
-          <Router>
-            <Navbar />
-            <main>
-              <Switch>
-                <Route path="/" exact component={Home} />
-                <Route
-                  path="/create-new-listing"
-                  exact
-                  component={CreateNewListing}
-                />
-                <Route
-                  exact
-                  path="/details/:id"
-                  component={AuctionItemDetails}
-                />
-                <Route
-                  exact
-                  path="/my-listings"
-                  component={MyListings}
-                />
-              </Switch>
-            </main>
-            <footer>
-              <div style={styles.line}> </div>
-              <Footer />
-            </footer>
-          </Router>
+          <BidProvider>
+            <Router>
+              <Navbar />
+              <main>
+                <Switch>
+                  <Route path="/" exact component={Home} />
+                  <Route
+                    path="/create-new-listing"
+                    exact
+                    component={CreateNewListing}
+                  />
+                  <Route
+                    exact
+                    path="/details/:id"
+                    component={AuctionItemDetails}
+                  />
+                  <Route exact path="/my-listings" component={MyListings} />
+                </Switch>
+              </main>
+              <footer>
+                <div style={styles.line}> </div>
+                <Footer />
+              </footer>
+            </Router>
+          </BidProvider>
         </AuctionItemProvider>
       </UserContextProvider>
     </div>
