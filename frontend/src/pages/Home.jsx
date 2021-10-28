@@ -2,25 +2,29 @@ import React, { useEffect, useState } from 'react'
 import { useAuctionItem } from "../contexts/AuctionItemContext"
 import AuctionItemCard from '../components/AuctionItemCard';
 import { useHistory } from "react-router-dom";
+import PaginatedList from '../components/PaginatedList';
 
 
 function Home() {
 
   const history = useHistory();
- 
+  
 
   const [offsetY, setOffsetY] = useState(0)
   const handleScroll = () => setOffsetY(window.pageYOffset);
 
+  const { auctionItems, fetchAllAuctionItems } = useAuctionItem();
+  
+
   useEffect(() => {
     window.addEventListener("scroll", handleScroll)
     fetchAllAuctionItems()
-    
-    
     return () => window.removeEventListener("scroll", handleScroll)
   },[])
 
-const {auctionItems, fetchAllAuctionItems} = useAuctionItem()
+
+  
+
   return (
     <div className="homeWrapper" style={styles.homeWrapper}>
       <div className="homeImg">
@@ -39,16 +43,8 @@ const {auctionItems, fetchAllAuctionItems} = useAuctionItem()
         </div>
       </div>
       
-
-      <div className="listWrapper" style={styles.listWrapper}>
-        {auctionItems && auctionItems.length > 0 ? (
-          auctionItems.map((item) => (
-            <AuctionItemCard props={item} style={styles.item} />
-          ))
-        ) : (
-          <p>There are no auctions at this moment :,(</p>
-        )}
-      </div>
+    <PaginatedList/>
+     
     </div>
   );
 }

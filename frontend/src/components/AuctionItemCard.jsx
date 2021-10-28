@@ -15,7 +15,7 @@ const AuctionItemCard = (props) => {
     let imagePathArr = props.props.images.split(",");
      let primaryImgPath = imagePathArr[props.props.primaryImgIndex];
      setPrimaryImgPath(primaryImgPath)
-     console.log(new Date(props.props.deadline))
+    console.log(props.props.id+ " has primary img index " + props.props.primaryImgIndex + " with img paths " + props.props.images)
    }, []);
 
   function redirect() {
@@ -76,7 +76,8 @@ const styles = {
     boxShadow: "0px 0px 8px 2px rgba(0,0,0,0.54)",
     borderRadius: "20px",
     cursor: "pointer",
-    color:"black"
+    color: "black",
+    minWidth:"500px"
   },
   mainInfo: {
     display: "flex",

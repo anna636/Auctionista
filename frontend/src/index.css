@@ -21,6 +21,12 @@ main{
   background-color: rgb(226, 89, 55);
 }
 
+.pagesBtn:hover{
+  background-color: transparent !important;
+  color:black !important;
+  
+}
+
 .coolImg{
  
   animation: fadeIn 5s;
