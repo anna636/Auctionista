@@ -10,16 +10,22 @@ const CustomModal = (prop) => {
   }
  
   return (
-    <div style={prop.prop.show ? styles.show : styles.hide} className="customModal">
+    <div
+      style={prop.prop.show ? styles.show : styles.hide}
+      className="customModal"
+      
+    >
       <div className="closeModal" style={styles.closeModal}>
-        <p onClick={close}>X</p>
+        <p>
+        <i class="bi bi-x-square" color="white" onClick={close}></i>
+        </p>
       </div>
       <div className="mainInfo" style={styles.mainInfo}>
         <p>{prop.prop.text}</p>
       </div>
 
       <div className="modalFooter" style={styles.modalFooter}>
-        <p>{prop.prop.footerText }</p>
+        <p>{prop.prop.footerText}</p>
       </div>
     </div>
   );
@@ -37,7 +43,7 @@ const styles = {
     position: "fixed",
     width: "30vw",
     height: "30vh",
-    backgroundColor: "black",
+    backgroundColor: "green",
     right: "35vw",
     top: "40vh",
     borderRadius: "20px",

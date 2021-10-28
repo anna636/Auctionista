@@ -76,13 +76,17 @@ function Navbar() {
                 </Link>
               </NavDropdown.Item>
 
-              <NavDropdown.Item href="#action/3.2">
-                Current listings
+              <NavDropdown.Item>
+                <Link to="/my-listings" className="link">
+                  Current listings
+                </Link>
               </NavDropdown.Item>
               <NavDropdown.Item href="#action/3.3">Chat</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.3">My profile</NavDropdown.Item>
               <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4" onClick={logout}>Log out</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.4" onClick={logout}>
+                Log out
+              </NavDropdown.Item>
             </NavDropdown>
           </ul>
         </div>

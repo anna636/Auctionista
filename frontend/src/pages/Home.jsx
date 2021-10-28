@@ -3,18 +3,23 @@ import { useAuctionItem } from "../contexts/AuctionItemContext";
 import AuctionItemCard from "../components/AuctionItemCard";
 import { useHistory } from "react-router-dom";
 
+
 function Home() {
+
   const history = useHistory();
-  const [offsetY, setOffsetY] = useState(0);
+ 
+
+  const [offsetY, setOffsetY] = useState(0)
   const handleScroll = () => setOffsetY(window.pageYOffset);
   const { auctionItems, fetchAllAuctionItems } = useAuctionItem();
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    fetchAllAuctionItems();
-
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    window.addEventListener("scroll", handleScroll)
+    fetchAllAuctionItems()
+    
+    
+    return () => window.removeEventListener("scroll", handleScroll)
+  },[])
 
   return (
     <div className="homeWrapper" style={styles.homeWrapper}>
@@ -33,6 +38,7 @@ function Home() {
           />
         </div>
       </div>
+      
 
       <div className="listWrapper" style={styles.listWrapper}>
         {auctionItems && auctionItems.length > 0 ? (
@@ -63,7 +69,7 @@ const styles = {
     display: "grid",
     gridTemplateColumns: "repeat(2, 1fr)",
     gap: "5vw",
-    padding: "0 2vw",
+    padding:"0 5vw"
   },
   homeWrapper: {
     display: "flex",
