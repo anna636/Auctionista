@@ -62,6 +62,7 @@ function AuctionItemDetails() {
         setHighestBid(bid);
         setMyProp({
           show: true,
+          colour: "green",
           text: "Bid placed!"
         });
         setBid("");
