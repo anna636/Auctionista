@@ -16,7 +16,6 @@ import {
 import { useBidContext } from "../contexts/BidContext";
 import { UserContext } from "../contexts/UserContext";
 import CustomModal from "../components/CustomModal";
-import { render } from "react-dom";
 
 function AuctionItemDetails() {
   const { id } = useParams();
@@ -36,6 +35,12 @@ function AuctionItemDetails() {
     let fetchedItem = await fetchAuctionItem(auctionItemId);
     setAuctionItem(fetchedItem);
   };
+
+  const checkUser = () => {
+    if (currentUser) {
+      return currentUser.id === auctionItem.owner.id ? false : true
+    } else { return true }
+  }
 
   async function placeBid(e) {
     e.preventDefault();
@@ -69,7 +74,7 @@ function AuctionItemDetails() {
         setMyProp({
           show: true,
           colour: "red",
-          text: "Something went wrong, please try again"
+          text: "Something went wrong, bid not placed"
         })
       }
     } else {
@@ -112,42 +117,52 @@ function AuctionItemDetails() {
                     <i class="bi bi-currency-bitcoin"></i>{" "}
                   </span>
                 </Card.Title>
-                <Card.Body>
-                  <Form className="mx-5" onSubmit={placeBid}>
-                    <OverlayTrigger
-                      placement="top"
-                      overlay={
-                        <Tooltip id="tooltip-top">
-                          The minimum bid that can be placed is:{" "}
-                          <strong>{auctionItem.minimumBid}</strong>{" "}
-                          <span>
-                            <i class="bi bi-currency-bitcoin"></i>{" "}
-                          </span>
-                        </Tooltip>
-                      }
-                    >
-                      <Form.Control
-                        size="sm"
-                        type="number"
-                        max="1000000"
-                        min={auctionItem.minimumBid}
-                        value={bid}
-                        onChange={(e) => setBid(e.target.value)}
-                      ></Form.Control>
-                    </OverlayTrigger>
-                    <Button type="submit" variant="success" className="mt-2">
-                      Place bid
-                    </Button>
-                  </Form>
-                  {myProp.show === true && (
-                    <div style={{ color: "green" }} className="mt-2">
-                      <strong> Your bid: {highestBid} </strong>
-                      <span>
-                        <i class="bi bi-currency-bitcoin"></i>{" "}
-                      </span>
-                    </div>
-                  )}
-                </Card.Body>
+                {!checkUser() && (
+                  <Card.Body>
+                    <p className="text-success">
+                      This is your auction item{" "}
+                      <i class="bi bi-emoji-smile"></i>
+                    </p>
+                  </Card.Body>
+                )}
+                {checkUser() && (
+                  <Card.Body>
+                    <Form className="mx-5" onSubmit={placeBid}>
+                      <OverlayTrigger
+                        placement="top"
+                        overlay={
+                          <Tooltip id="tooltip-top">
+                            The minimum bid that can be placed is:{" "}
+                            <strong>{auctionItem.minimumBid}</strong>{" "}
+                            <span>
+                              <i class="bi bi-currency-bitcoin"></i>{" "}
+                            </span>
+                          </Tooltip>
+                        }
+                      >
+                        <Form.Control
+                          size="sm"
+                          type="number"
+                          max="1000000"
+                          min={auctionItem.minimumBid}
+                          value={bid}
+                          onChange={(e) => setBid(e.target.value)}
+                        ></Form.Control>
+                      </OverlayTrigger>
+                      <Button type="submit" variant="success" className="mt-2">
+                        Place bid
+                      </Button>
+                    </Form>
+                    {myProp.show === true && (
+                      <div style={{ color: "green" }} className="mt-2">
+                        <strong> Your bid: {highestBid} </strong>
+                        <span>
+                          <i class="bi bi-currency-bitcoin"></i>{" "}
+                        </span>
+                      </div>
+                    )}
+                  </Card.Body>
+                )}
                 <Card.Footer>Time left: (#timeLeft) </Card.Footer>
               </Card>
             </Col>
