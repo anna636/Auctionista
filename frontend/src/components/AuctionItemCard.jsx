@@ -41,10 +41,6 @@ const AuctionItemCard = (props) => {
             <p>There are no bids on this item yet</p>
           )}
           <p>Minimum bid possible: {item.minimumBid} euro </p>
-          <div >
-              <Counter dateFrom={props.props.deadline}></Counter>
-          </div>
-
           {location.pathname === "/" ? (
             <QuickBid props={props.props} />
           ) : (
@@ -56,6 +52,9 @@ const AuctionItemCard = (props) => {
                 </div>
             </>
           )}
+          <div style={styles.counter}>
+              <Counter dateFrom={props.props.deadline}></Counter>
+          </div>
         </div>
         <img
           style={styles.img}
@@ -109,4 +108,7 @@ const styles = {
   hover: {
     color: "white",
   },
+  counter: {
+    marginTop: "15px"
+  }
 };
