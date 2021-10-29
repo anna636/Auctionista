@@ -51,6 +51,16 @@ text-align: center !important;
   position: relative;
 }
 
+.loggedin{
+   animation: fadeOut 5s;
+   animation-direction: alternate;
+  -webkit-animation: fadeOut 4s;
+  -moz-animation: fadeOut 4s;
+  -o-animation: fadeOut 4s;
+  -ms-animation: fadeOut 4s;
+  position: relative;
+}
+
 .form{
   animation: fadeInForm 5s;
    animation-direction: alternate;
@@ -83,6 +93,11 @@ text-align: center !important;
   position: relative;
 }
 
+@keyframes fadeOut {
+  0% {opacity:100%}
+ 
+  100% {opacity:0%}
+}
 
 @keyframes fadeIn {
   0% {opacity:0; left:200px;}

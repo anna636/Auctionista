@@ -44,7 +44,6 @@ const UserContextProvider = (props) => {
     if (res.status !==403) {
       setCurrentUser(res);
     }
-    console.log(res.status)
     console.log(res, " This is login ")
     return res;
   };

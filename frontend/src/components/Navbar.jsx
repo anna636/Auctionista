@@ -15,9 +15,19 @@ function Navbar() {
   const {getCurrentUser, logout} = useContext(UserContext)
   const [login, setLogin] = useState(false);
   const [register, setRegister] = useState(false);
+  const [showPopup, setShowPopup]= useState(false)
   const toggleLogin = () => setLogin(!login);
   const toggleRegister = () => setRegister(!register);
   
+
+   const pull_data = (data) => {
+     console.log(data);
+     setShowPopup(data)
+     setTimeout(function () {
+       setShowPopup(false)
+     }, 4000);
+    
+   };
 
 
   useEffect(() => {
@@ -52,7 +62,7 @@ function Navbar() {
             <button class="btn btn-outline-light btn-lg" onClick={toggleLogin}>
               Login
             </button>
-            <Login toggle={toggleLogin} modal={login}></Login>
+            <Login toggle={toggleLogin} modal={login} func={pull_data}></Login>
           </div>
           <div style={styles.registerButton}>
             <button
@@ -110,6 +120,9 @@ function Navbar() {
         id="navbarNavDropdown"
         style={styles.ul}
       ></div>
+      <div className="loggedin" style={showPopup ? styles.loggedIn : styles.hide}>
+        <p>Logged in</p>
+      </div>
     </nav>
   );
 }
@@ -134,6 +147,18 @@ const styles = {
     marginLeft: "10px",
   },
 
+  loggedIn: {
+    position: "absolute",
+    width: "13vw",
+    height: "5vh",
+    backgroundColor: "green",
+    top: "11.2vh",
+    right: "10vw",
+    opacity: "0.8",
+    borderRadius: "5px",
+    textAlign:"center"
+  },
+
   ul: {
     fontSize: "1.2em",
     paddingLeft: "8vw",
@@ -141,5 +166,9 @@ const styles = {
   mainName: {
     fontSize: "1.7em",
   },
+
+  hide: {
+    display:"none"
+  }
   
 };

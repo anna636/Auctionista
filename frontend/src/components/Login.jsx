@@ -30,6 +30,11 @@ export function Login(props) {
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState(false)
   const [successMsg, setSuccessMsg] = useState(false)
+
+   function openPopup() {
+     props.func(true);
+   }
+ 
   
   async function logIn(e) {
     e.preventDefault()
@@ -39,9 +44,13 @@ export function Login(props) {
       password: password
     }
     const response = await login(user)
+    
       if (response) {
       setErrorMessage(true)
       whoAmI()
+    }
+    if (!response.error) {
+      openPopup()
     }
   
   }
