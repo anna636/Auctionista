@@ -46,17 +46,24 @@ function Navbar() {
       <div>
         <Search />
       </div>
-      { !getCurrentUser() ? (
-      <div style={styles.loginButtons}>
-        <div>
-            <button  class="btn btn-outline-light btn-lg" onClick={toggleLogin}>Login</button>
-      <Login toggle={toggleLogin} modal={login}></Login>
-      </div>
-      <div style={styles.registerButton}>
-            <button class="btn btn-outline-light btn-lg" onClick={toggleRegister}>Register</button>
-      <Register toggle={toggleRegister} modal={register}></Register>
-      </div>
-      </div>
+      {!getCurrentUser() ? (
+        <div style={styles.loginButtons}>
+          <div>
+            <button class="btn btn-outline-light btn-lg" onClick={toggleLogin}>
+              Login
+            </button>
+            <Login toggle={toggleLogin} modal={login}></Login>
+          </div>
+          <div style={styles.registerButton}>
+            <button
+              class="btn btn-outline-light btn-lg"
+              onClick={toggleRegister}
+            >
+              Register
+            </button>
+            <Register toggle={toggleRegister} modal={register}></Register>
+          </div>
+        </div>
       ) : (
         <div
           class="collapse navbar-collapse"
@@ -80,8 +87,16 @@ function Navbar() {
                   Current listings
                 </Link>
               </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Chat</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">My profile</NavDropdown.Item>
+              <NavDropdown.Item>
+                <Link to="/my-messages" className="link">
+                  Chat
+                </Link>
+              </NavDropdown.Item>
+              <NavDropdown.Item>
+                <Link to="/my-profile" className="link">
+                  My profile
+                </Link>
+              </NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item href="#action/3.4" onClick={logout}>
                 Log out
@@ -90,15 +105,11 @@ function Navbar() {
           </ul>
         </div>
       )}
-        <div
-          class="collapse navbar-collapse"
-          id="navbarNavDropdown"
-          style={styles.ul}
-        >
-          
-        </div>
-  
-    
+      <div
+        class="collapse navbar-collapse"
+        id="navbarNavDropdown"
+        style={styles.ul}
+      ></div>
     </nav>
   );
 }
