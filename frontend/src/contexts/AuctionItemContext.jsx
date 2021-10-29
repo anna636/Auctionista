@@ -46,13 +46,19 @@ const AuctionItemProvider = (props) => {
    
   }
 
+  const deleteExpiredItems = async () => {
+    let res = await fetch("/rest/delete/auction-items")
+    console.log("deleted items", await res.json())
+  }
+
   const values = {
     postNewAuctionItem,
     auctionItems,
     setPrimaryImgPath,
     setImgPaths,
     fetchAllAuctionItems,
-    fetchAuctionItem
+    fetchAuctionItem,
+    deleteExpiredItems,
   };
 
   return (

@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
+import {useEffect} from "react"
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -8,6 +9,7 @@ import AuctionItemDetails from "./pages/AuctionItemDetails";
 import CreateNewListing from "./pages/CreateNewListing";
 import UserContextProvider from "./contexts/UserContext";
 import MyListings from "./pages/MyListings";
+
 
 function App() {
   return (
