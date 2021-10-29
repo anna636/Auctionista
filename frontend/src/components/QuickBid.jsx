@@ -11,6 +11,7 @@ function QuickBid(props) {
 
 
   const { getCurrentUser } = useContext(UserContext);
+  const {postNewBid}=useBidContext()
   const [show, setShow] = useState(false);
   const [modalText, setModalText]=useState("")
    const toggleModal = () => setShow(!show);
@@ -31,13 +32,13 @@ function QuickBid(props) {
         auctionItem: props.props
       };
 
-     /*  let res = await placeQuickBid(bidToPost);
+      let res = await postNewBid(bidToPost);
      
       if (res.status == 200) {
          
         setModalText("You placed bid worth of "+ bidToPost.currentBid + " euros")
         toggleModal()
-     } */
+     } 
     }
     
   }
