@@ -38,9 +38,7 @@ function Navbar() {
   return (
     <nav class="navbar navbar-expand-lg navbar-dark" style={styles.navbar}>
       <a class="navbar-brand" style={styles.mainName} href="/">
-        
-          Auctionista
-        
+        Auctionista
       </a>
       <button
         class="navbar-toggler"
@@ -71,7 +69,11 @@ function Navbar() {
             >
               Register
             </button>
-            <Register toggle={toggleRegister} modal={register}></Register>
+            <Register
+              toggle={toggleRegister}
+              modal={register}
+              func={pull_data}
+            ></Register>
           </div>
         </div>
       ) : (
@@ -120,7 +122,10 @@ function Navbar() {
         id="navbarNavDropdown"
         style={styles.ul}
       ></div>
-      <div className="loggedin" style={showPopup ? styles.loggedIn : styles.hide}>
+      <div
+        className="loggedin"
+        style={showPopup ? styles.loggedIn : styles.hide}
+      >
         <p>Logged in</p>
       </div>
     </nav>

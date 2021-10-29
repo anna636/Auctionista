@@ -20,6 +20,12 @@ const SuccessMessage = styled.span`
 `
 
 export function Register(props) {
+
+    function openPopup() {
+      props.func(true);
+    }
+ 
+  
   const {
     modal, toggle
   } = props;
@@ -60,6 +66,9 @@ export function Register(props) {
     }
     const response = await register(user)
     const responseUser = await login(userLogin)
+    if (!responseUser.error) {
+      openPopup()
+    }
   }
   return(
     <div>
