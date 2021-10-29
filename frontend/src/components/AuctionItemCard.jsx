@@ -28,7 +28,7 @@ const AuctionItemCard = (props) => {
   }
 
   return (
-    <div className="itemWrapper" style={styles.itemWrapper} onClick={redirect}>
+    <div className="itemWrapper" style={styles.itemWrapper}>
       <div className="mainInfo" style={styles.mainInfo}>
         <div>
           {props.props.bids.length > 0 ? (

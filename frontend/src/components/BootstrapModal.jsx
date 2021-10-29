@@ -3,7 +3,8 @@ import { Modal, Button, InputGroup, FormControl } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 
 function BootstrapModal(props) {
-  const { modal, toggle, text} = props;
+  const { modal, toggle, text } = props;
+  
   
 
   return (
