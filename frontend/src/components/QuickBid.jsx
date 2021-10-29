@@ -50,12 +50,16 @@ function QuickBid(props) {
   }
 
   return (
-    <div>
-      <button className="quickBid" style={styles.btn} onClick={quickBid}>
-        Place quick bid
-      </button>
-      <BootstrapModal toggle={toggleModal} modal={show} text={modalText} />
-    </div>
+    <>
+      {!props.props.owner.id === getCurrentUser().id ? (
+        <div>
+          <button className="quickBid" style={styles.btn} onClick={quickBid}>
+            Place quick bid
+          </button>
+          <BootstrapModal toggle={toggleModal} modal={show} text={modalText} />
+        </div>
+      ) : null}
+    </>
   );
 }
 
