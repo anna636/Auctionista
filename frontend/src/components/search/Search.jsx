@@ -1,14 +1,19 @@
 import React, { useState } from "react";
 import { useAuctionItem } from "../../contexts/AuctionItemContext";
 import { Popover, OverlayTrigger } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
+
 
 const Search = () => {
   const [userInput, setUserInput] = useState();
   const { fetchAuctionItemByTitle } = useAuctionItem();
   const [popoverMessage, setPopoverMessage] = useState(false);
+    let history = useHistory();
+
 
   function handleSearch(event) {
     event.preventDefault();
+    history.push("/");
     getAuctionItemByTitle();
     setUserInput("");
   }
@@ -17,6 +22,8 @@ const Search = () => {
     let fetchedItem = await fetchAuctionItemByTitle(userInput);
     if (fetchedItem) {
       console.log("fetched item: ", fetchedItem);
+          
+
       setPopoverMessage(false);
     } else {
       console.log("No items found");
