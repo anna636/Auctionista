@@ -14,7 +14,7 @@ function Home() {
   
 const { auctionItems, fetchAllAuctionItems, fetchItemsInBatch } =useAuctionItem();
   const handleScroll = () => setOffsetY(window.pageYOffset);
-  const { auctionItems, fetchAllAuctionItems } = useAuctionItem();
+
 
 
   
