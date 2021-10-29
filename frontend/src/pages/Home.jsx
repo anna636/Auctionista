@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { useAuctionItem } from "../contexts/AuctionItemContext"
-import AuctionItemCard from '../components/AuctionItemCard';
+import React, { useEffect, useState } from "react";
+import { useAuctionItem } from "../contexts/AuctionItemContext";
+import AuctionItemCard from "../components/AuctionItemCard";
 import { useHistory } from "react-router-dom";
 
 
@@ -14,6 +14,7 @@ function Home() {
   
 const { auctionItems, fetchAllAuctionItems, fetchItemsInBatch } =useAuctionItem();
   const handleScroll = () => setOffsetY(window.pageYOffset);
+  const { auctionItems, fetchAllAuctionItems } = useAuctionItem();
 
 
   
@@ -64,7 +65,7 @@ const { auctionItems, fetchAllAuctionItems, fetchItemsInBatch } =useAuctionItem(
   );
 }
 
-export default Home
+export default Home;
 
 const styles = {
   stockImg: {

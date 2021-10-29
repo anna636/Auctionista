@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import styled from "styled-components";
 import { UserContext } from "../contexts/UserContext"
@@ -7,6 +7,8 @@ import { NavDropdown, Modal, Button } from "react-bootstrap";
 import { Login } from "../components/Login"
 import { Register } from "../components/Register"
 import { Link } from 'react-router-dom';
+import Search from "./search/Search";
+
 
 
 function Navbar() {
@@ -43,21 +45,7 @@ function Navbar() {
         <span class="navbar-toggler-icon"></span>
       </button>
       <div>
-        <form class="form-inline" style={styles.form}>
-          <input
-            class="form-control mr-sm-2"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-          />
-          <button
-            class="btn btn-outline-secondary my-2 my-sm-0"
-            type="submit"
-            style={styles.formButton}
-          >
-            Search
-          </button>
-        </form>
+        <Search />
       </div>
       { !getCurrentUser() ? (
       <div style={styles.loginButtons}>
@@ -116,8 +104,7 @@ function Navbar() {
   );
 }
 
-export default Navbar
-
+export default Navbar;
 
 
 const styles = {
@@ -143,20 +130,6 @@ const styles = {
   },
   mainName: {
     fontSize: "1.7em",
-
-  },
-  form: {
-    display: "flex",
-    flexDirection: "row",
-    width: "50vw",
-    marginLeft: "8vw",
-  },
-
-  formButton: {
-    marginLeft: "1vw",
-    color: "rgb(226, 89, 55)",
-    borderColor: "rgb(226, 89, 55)",
-    backgroundColor: "black",
   },
   
 };
