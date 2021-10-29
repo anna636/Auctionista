@@ -20,6 +20,9 @@ public class BidService {
     @Autowired
     private AuctionItemRepository auctionItemRepository;
 
+    @Autowired
+    private UserService userService;
+
     public List<Bid> getAll(){
         return bidRepository.findAll();
     }
@@ -35,7 +38,12 @@ public class BidService {
             Long auctionItemId = bid.getAuctionItem().getId();
             AuctionItem auctionItem = auctionItemRepository.getById(auctionItemId);
 
-            if(Long.parseLong(bid.getUser_id()) == auctionItem.getOwner().getId()) {
+            if (userService.findCurrentUser().getId() != Long.parseLong(bid.getUser_id())) {
+                System.out.println("Logged in user must match bids user");
+                return null;
+            }
+
+            if( Long.parseLong(bid.getUser_id()) == auctionItem.getOwner().getId()) {
                 System.out.println("User can't place bid on their own items");
                 return null;
             }
