@@ -10,7 +10,7 @@ function AuctionItemDetails() {
   const { id } = useParams();
   const { fetchAuctionItem } = useAuctionItem();
   const [auctionItem, setAuctionItem] = useState();
-
+  
   useEffect(() => {
     getAuctionItem(id);
   }, [id]);
