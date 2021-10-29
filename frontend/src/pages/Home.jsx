@@ -44,6 +44,7 @@ const {auctionItems, fetchAllAuctionItems} = useAuctionItem()
         {auctionItems && auctionItems.length > 0 ? (
           auctionItems.map((item) => (
             <AuctionItemCard props={item} style={styles.item} />
+            
           ))
         ) : (
           <p>There are no auctions at this moment :,(</p>

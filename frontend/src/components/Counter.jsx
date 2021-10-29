@@ -15,8 +15,9 @@ function calcDiffInMinutes(dateA, dateB) {
     const total = Date.parse(dateA) - dateB;
     const seconds = Math.floor((total / 1000) % 60);
     const minutes = Math.floor(4 + (total / 1000 / 60) % 60);
-    const hours = Math.floor(3 + (total / (1000 * 60 * 60)) % 24);
+    const hours = Math.floor( 1+ (total / (1000 * 60 * 60)) % 24);
     const days = Math.floor(2 + total / (1000 * 60 * 60 * 24));
+    console.log(minutes)
     if (days < 0) {
       fullCounter = ' ' + Math.abs(days) + ' days remaining'
       return fullCounter;

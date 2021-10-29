@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import { useHistory } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import DateComponent from "./DateComponent";
+import Counter from "../components/Counter"
 
 
 const AuctionItemCard = (props) => {
@@ -39,13 +40,14 @@ const AuctionItemCard = (props) => {
             Place quick bid
           </button>) : (
               <>
-              <p>Expiration date: </p>
               <div>
                 <DateComponent props={new Date(props.props.deadline)}/>
                 </div>
                 </>
           ) }
-         
+          <div style={styles.counter}>
+            <Counter dateFrom={props.props.deadline}></Counter> 
+          </div>
         </div>
         <img
           style={styles.img}
@@ -101,7 +103,9 @@ const styles = {
 
   hover: {
     color:"white"
+  },
+  counter:{
+    marginTop:"15px"
   }
-
 
 };

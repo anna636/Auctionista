@@ -49,7 +49,7 @@ function AuctionItemDetails() {
                     </Button>
                   </Form>
                 </Card.Body>
-                <Card.Footer>Time left: <Counter dateFrom={auctionItem.deadline}></Counter> </Card.Footer>
+                <Card.Footer><Counter dateFrom={auctionItem.deadline}></Counter> </Card.Footer>
               </Card>
             </Col>
             <Col>
