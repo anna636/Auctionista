@@ -1,34 +1,28 @@
 import React, { useState, useEffect } from "react";
 
+
 function formatTime(time){
   return new Date(time);
 }
 
 function calcDiffInMinutes(dateA, dateB) {
-  //dateA = deadline
-  //dateB = currentTime
-  if (dateA >= dateB) {
-    return;
+  //dateA = currentTime
+  //dateB = deadline
+  
+  var timeleft = dateB - dateA;
+    var days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
+  if (days > 1) {
+    let fulltime = days + ' days remaining'
+    return fulltime
   } else {
-    let fullCounter = null;
-    dateB.setSeconds(dateB.getSeconds() + 40);
-    const total = Date.parse(dateA) - dateB;
-    const seconds = Math.floor((total / 1000) % 60);
-    const minutes = Math.floor(4 + (total / 1000 / 60) % 60);
-    const hours = Math.floor( 1+ (total / (1000 * 60 * 60)) % 24);
-    const days = Math.floor(2 + total / (1000 * 60 * 60 * 24));
-    console.log(minutes)
-    if (days < 0) {
-      fullCounter = ' ' + Math.abs(days) + ' days remaining'
-      return fullCounter;
-    }
-    else {
-      
-      fullCounter = ' ' + Math.abs(hours) + ' : ' + Math.abs(minutes) + ' : ' + Math.abs(seconds);
-      return fullCounter;
-    }
-    console.log(days)
+    
+    let fulltime = ' ' + hours + ' : ' + minutes + ' : ' + seconds;
+    return fulltime
   }
+   
 }
 
 
@@ -54,8 +48,7 @@ export default ({ dateFrom }) => {
 
   return (
     <div>
-      <div>Date From: {formattedTime.toISOString()}</div>
-      <div>CountDown value: {minutesDiff}</div>
+      <div>Time left: {minutesDiff}</div>
     </div>
   );
 
