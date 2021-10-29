@@ -27,11 +27,10 @@ function Navbar() {
 
   return (
     <nav class="navbar navbar-expand-lg navbar-dark" style={styles.navbar}>
-      <a class="navbar-brand" style={styles.mainName}>
-        <Link to="/" className="link">
-          {" "}
+      <a class="navbar-brand" style={styles.mainName} href="/">
+        
           Auctionista
-        </Link>
+        
       </a>
       <button
         class="navbar-toggler"

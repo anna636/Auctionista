@@ -4,6 +4,7 @@ import { Login } from "../components/Login";
 import { UserContext, } from "../contexts/UserContext";
 import CustomModal from "./CustomModal";
 import BootstrapModal from "./BootstrapModal";
+import { useAuctionItem } from "../contexts/AuctionItemContext";
 
 
 
@@ -13,7 +14,8 @@ function QuickBid(props) {
   const { getCurrentUser } = useContext(UserContext);
   const {postNewBid}=useBidContext()
   const [show, setShow] = useState(false);
-  const [modalText, setModalText]=useState("")
+  const [modalText, setModalText] = useState("")
+
    const toggleModal = () => setShow(!show);
 
   async function quickBid(e) {
