@@ -165,7 +165,7 @@ function AuctionItemDetails() {
                     )}
                   </Card.Body>
                 )}
-                <Card.Footer>Time left: (#timeLeft) </Card.Footer>
+                <Card.Footer><Counter dateFrom={auctionItem.deadline}></Counter></Card.Footer>
               </Card>
             </Col>
             <Col>
