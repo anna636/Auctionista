@@ -18,6 +18,8 @@ public class AuctionItemService {
     private AuctionItemRepository auctionItemRepository;
 
 
+    public List<AuctionItem> getItemsInBatch(String offset) {return auctionItemRepository.getItemsInBatch(offset);}
+
     public List<AuctionItem> getAllAuctionItems(){
         return auctionItemRepository.findAll();
     }

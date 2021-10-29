@@ -9,6 +9,8 @@ import CreateNewListing from "./pages/CreateNewListing";
 import UserContextProvider from "./contexts/UserContext";
 import BidProvider from "./contexts/BidContext";
 import MyListings from "./pages/MyListings";
+import MyMessages from "./pages/MyMessages";
+import MyProfile from "./pages/MyProfile";
 
 function App() {
   return (
@@ -32,6 +34,8 @@ function App() {
                     component={AuctionItemDetails}
                   />
                   <Route exact path="/my-listings" component={MyListings} />
+                  <Route exact path="/my-messages" component={MyMessages} />
+                  <Route exact path="/my-profile" component={MyProfile} />
                 </Switch>
               </main>
               <footer>

@@ -21,6 +21,11 @@ main{
   background-color: rgb(226, 89, 55);
 }
 
+.loadMoreBtn:hover{
+  background-color: transparent !important;
+  color:black !important;
+}
+
 .coolImg{
  
   animation: fadeIn 5s;
@@ -41,6 +46,18 @@ main{
   -ms-animation: fadeInForm 5s;
   position: relative;
 }
+
+.itemWrapper{
+   animation: fadeInForm 5s;
+   animation-direction: alternate;
+  -webkit-animation: fadeInForm 2s;
+  -moz-animation: fadeInForm 5s;
+  -o-animation: fadeInForm 5s;
+  -ms-animation: fadeInForm 5s;
+  position: relative;
+}
+
+
 
 .customModal{
   animation: fadeInModal 2s;
@@ -69,6 +86,7 @@ main{
  
   100% { top:40vh}
 }
+
 
 .link{
  text-decoration: none;

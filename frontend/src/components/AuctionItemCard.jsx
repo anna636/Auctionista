@@ -9,22 +9,17 @@ const AuctionItemCard = (props) => {
 
    const location = useLocation(); 
   const history = useHistory();
-  const [primaryImgPath, setPrimaryImgPath]=useState("")
 
-   useEffect(() => {
-    let imagePathArr = props.props.images.split(",");
-     let primaryImgPath = imagePathArr[props.props.primaryImgIndex];
-     setPrimaryImgPath(primaryImgPath)
-     console.log(new Date(props.props.deadline))
-   }, []);
+  
 
+   
   function redirect() {
     history.push("/details/" + props.props.id)
     window.scrollTo(0, 0);
   }
 
   return (
-    <div className="itemWrapper" style={styles.itemWrapper} onClick={redirect} >
+    <div className="itemWrapper" style={styles.itemWrapper} onClick={redirect}>
       <div className="mainInfo" style={styles.mainInfo}>
         <div>
           {props.props.bids.length > 0 ? (
@@ -32,33 +27,30 @@ const AuctionItemCard = (props) => {
           ) : (
             <p>There are no bids on this item yet</p>
           )}
-          <p>
-            Minimum bid possible: {props.props.minimumBid} euro{" "}
-          </p>
-          
-        {location.pathname ==="/" ? ( <button className="quickBid" style={styles.btn}>
-            Place quick bid
-          </button>) : (
-              <>
+          <p>Minimum bid possible: {props.props.minimumBid} euro </p>
+
+          {location.pathname === "/" ? (
+            <button className="quickBid" style={styles.btn}>
+              Place quick bid
+            </button>
+          ) : (
+            <>
               <p>Expiration date: </p>
               <div>
-                <DateComponent props={new Date(props.props.deadline)}/>
-                </div>
-                </>
-          ) }
-         
+                <DateComponent props={new Date(props.props.deadline)} />
+              </div>
+            </>
+          )}
         </div>
         <img
           style={styles.img}
-          src={primaryImgPath}
+          src={props.props.images.split(",")[props.props.primaryImgIndex]}
           alt=""
-          
         />
       </div>
       <div className="title" style={styles.title}>
         <h5>{props.props.title}</h5>
       </div>
-       
     </div>
   );
 
