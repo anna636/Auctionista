@@ -3,32 +3,23 @@ import { useAuctionItem } from "../contexts/AuctionItemContext";
 import AuctionItemCard from "../components/AuctionItemCard";
 import { useHistory } from "react-router-dom";
 
-
 function Home() {
-
   const history = useHistory();
- 
-
-  const [offsetY, setOffsetY] = useState(0)
-  const [currentItemsLength, setCurrentItemsLength] = useState(6)
-  
-const { auctionItems, fetchAllAuctionItems, fetchItemsInBatch } =useAuctionItem();
+  const [offsetY, setOffsetY] = useState(0);
+  const [currentItemsLength, setCurrentItemsLength] = useState(6);
+  const { auctionItems, fetchAllAuctionItems, fetchItemsInBatch } =
+    useAuctionItem();
   const handleScroll = () => setOffsetY(window.pageYOffset);
-  const { auctionItems, fetchAllAuctionItems } = useAuctionItem();
 
-
-  
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
-  
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   function loadMore() {
-    fetchItemsInBatch(auctionItems.length)
-    setCurrentItemsLength(auctionItems.length)
+    fetchItemsInBatch(auctionItems.length);
+    setCurrentItemsLength(auctionItems.length);
   }
- 
 
   return (
     <div className="homeWrapper" style={styles.homeWrapper}>
@@ -46,7 +37,6 @@ const { auctionItems, fetchAllAuctionItems, fetchItemsInBatch } =useAuctionItem(
             className="livestockAuction"
           />
         </div>
-        
       </div>
 
       <div className="listWrapper" style={styles.listWrapper}>
@@ -58,8 +48,12 @@ const { auctionItems, fetchAllAuctionItems, fetchItemsInBatch } =useAuctionItem(
           <p>There are no auctions at this moment :,(</p>
         )}
       </div>
-      <button onClick={loadMore} className="loadMoreBtn" style={styles.loadMoreBtn}>
-       Load more
+      <button
+        onClick={loadMore}
+        className="loadMoreBtn"
+        style={styles.loadMoreBtn}
+      >
+        Load more
       </button>
     </div>
   );
@@ -87,17 +81,15 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     gap: "10vh",
-    paddingBottom:"10vh"
-
+    paddingBottom: "10vh",
   },
   loadMoreBtn: {
     width: "10vw",
     fontSize: "1.3em",
     backgroundColor: "black",
-    color:"white",
+    color: "white",
     border: "2px solid black",
     borderRadius: "5px",
-    marginLeft:"44vw"
-    
-  }
+    marginLeft: "44vw",
+  },
 };
