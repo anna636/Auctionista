@@ -34,6 +34,9 @@ main{
 .modal-header{
 border:none !important;
 text-align: center !important;
+.loadMoreBtn:hover{
+  background-color: transparent !important;
+  color:black !important;
 }
 
 .coolImg{
@@ -56,6 +59,18 @@ text-align: center !important;
   -ms-animation: fadeInForm 5s;
   position: relative;
 }
+
+.itemWrapper{
+   animation: fadeInForm 5s;
+   animation-direction: alternate;
+  -webkit-animation: fadeInForm 2s;
+  -moz-animation: fadeInForm 5s;
+  -o-animation: fadeInForm 5s;
+  -ms-animation: fadeInForm 5s;
+  position: relative;
+}
+
+
 
 .customModal{
   animation: fadeInModal 2s;
@@ -84,6 +99,7 @@ text-align: center !important;
  
   100% { top:40vh}
 }
+
 
 .link{
  text-decoration: none;

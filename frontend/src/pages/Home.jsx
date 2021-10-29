@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { useAuctionItem } from "../contexts/AuctionItemContext"
-import AuctionItemCard from '../components/AuctionItemCard';
+import React, { useEffect, useState } from "react";
+import { useAuctionItem } from "../contexts/AuctionItemContext";
+import AuctionItemCard from "../components/AuctionItemCard";
 import { useHistory } from "react-router-dom";
 
 
@@ -10,17 +10,26 @@ function Home() {
  
 
   const [offsetY, setOffsetY] = useState(0)
+  const [currentItemsLength, setCurrentItemsLength] = useState(6)
+  
+const { auctionItems, fetchAllAuctionItems, fetchItemsInBatch } =useAuctionItem();
   const handleScroll = () => setOffsetY(window.pageYOffset);
+  const { auctionItems, fetchAllAuctionItems } = useAuctionItem();
 
+
+  
   useEffect(() => {
     window.addEventListener("scroll", handleScroll)
-    fetchAllAuctionItems()
-    
-    
     return () => window.removeEventListener("scroll", handleScroll)
-  },[])
+  }, [])
+  
 
-const {auctionItems, fetchAllAuctionItems} = useAuctionItem()
+  function loadMore() {
+    fetchItemsInBatch(auctionItems.length)
+    setCurrentItemsLength(auctionItems.length)
+  }
+ 
+
   return (
     <div className="homeWrapper" style={styles.homeWrapper}>
       <div className="homeImg">
@@ -37,8 +46,8 @@ const {auctionItems, fetchAllAuctionItems} = useAuctionItem()
             className="livestockAuction"
           />
         </div>
+        
       </div>
-      
 
       <div className="listWrapper" style={styles.listWrapper}>
         {auctionItems && auctionItems.length > 0 ? (
@@ -49,11 +58,14 @@ const {auctionItems, fetchAllAuctionItems} = useAuctionItem()
           <p>There are no auctions at this moment :,(</p>
         )}
       </div>
+      <button onClick={loadMore} className="loadMoreBtn" style={styles.loadMoreBtn}>
+       Load more
+      </button>
     </div>
   );
 }
 
-export default Home
+export default Home;
 
 const styles = {
   stockImg: {
@@ -69,14 +81,23 @@ const styles = {
     display: "grid",
     gridTemplateColumns: "repeat(2, 1fr)",
     gap: "5vw",
-    padding:"0 5vw"
+    padding: "0 5vw",
   },
   homeWrapper: {
     display: "flex",
     flexDirection: "column",
     gap: "10vh",
+    paddingBottom:"10vh"
+
   },
-  item: {
+  loadMoreBtn: {
+    width: "10vw",
+    fontSize: "1.3em",
+    backgroundColor: "black",
+    color:"white",
+    border: "2px solid black",
+    borderRadius: "5px",
+    marginLeft:"44vw"
     
-  },
+  }
 };

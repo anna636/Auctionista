@@ -1,0 +1,47 @@
+
+GET http://localhost:4000/rest/auctionItems
+
+###
+
+GET http://localhost:4000/rest/auctionItems/1
+
+
+
+###
+
+POST http://localhost:4000/rest/auctionItems
+Content-Type: application/json
+
+{
+    "id": 5,
+    "title": "Aberdeen Angus Cow",
+    "description": "cow moooo",
+    "reservationPrice": 5,
+    "deadline": null,
+    "images": "cow",
+    "sold": false,
+    "startPrice": 2,
+    "minimumBid": 5.0,
+    "bids": [],
+    "owner": null
+  }
+  }
+
+
+
+POST http://localhost:4000/rest/auction-item
+Content-Type: application/json
+
+{
+"title": "Aberdeen Angus Cow",
+"description": "The Aberdeen Angus, sometimes simply Angus, is a Scottish breed of small beef cattle. It derives from cattle native to the counties of Aberdeen, Banff, Kincardine and Forfar in north-eastern Scotland. The Angus is naturally polled and solid black or red, although the udder may be white.",
+"reservationPrice": 5000,
+"deadline": null,
+"images": null,
+"sold": false,
+"startPrice": 2000,
+"minimumBid": null,
+"primaryImgIndex": null,
+"bids": [],
+"owner": null
+}

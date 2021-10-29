@@ -10,21 +10,17 @@ const AuctionItemCard = (props) => {
 
    const location = useLocation(); 
   const history = useHistory();
-  const [primaryImgPath, setPrimaryImgPath] = useState("")
-  const bids=props.props.bids
 
-   useEffect(() => {
-    let imagePathArr = props.props.images.split(",");
-     let primaryImgPath = imagePathArr[props.props.primaryImgIndex];
-     setPrimaryImgPath(primaryImgPath)
-   }, []);
+  
 
+   
   function redirect() {
-    history.push("/details/"+ props.props.id)
+    history.push("/details/" + props.props.id)
+    window.scrollTo(0, 0);
   }
 
   return (
-    <div className="itemWrapper" style={styles.itemWrapper}>
+    <div className="itemWrapper" style={styles.itemWrapper} onClick={redirect}>
       <div className="mainInfo" style={styles.mainInfo}>
         <div>
           {props.props.bids.length > 0 ? (
@@ -47,7 +43,7 @@ const AuctionItemCard = (props) => {
         </div>
         <img
           style={styles.img}
-          src={primaryImgPath}
+          src={props.props.images.split(",")[props.props.primaryImgIndex]}
           alt=""
           onClick={redirect}
         />

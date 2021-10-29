@@ -27,13 +27,21 @@ public class BidService {  //omvandla unix timestamp här
     }
 
 
+
     public Bid saveBid(Bid bid){
 
-        AuctionItem itemToChange=auctionItemRepository.findById(bid.getAuctionItem().getId()).get();
-        itemToChange.setMinimumBid(Math.round((itemToChange.getMinimumBid() * 110)/100));
+        try{
+            Long auctionItemId = bid.getAuctionItem().getId();
+            AuctionItem auctionItem = auctionItemRepository.getById(auctionItemId);
 
-        auctionItemRepository.save(itemToChange);
+            auctionItem.updateValues(bid);
 
-        return bidRepository.save(bid);
+            return bidRepository.save(bid);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
     }
 }

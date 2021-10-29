@@ -5,6 +5,7 @@ import com.example.demo.repositories.BidRepository;
 import com.example.demo.services.AuctionItemService;
 import com.example.demo.services.BidService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,7 +33,15 @@ public class BidController {
     }
 
     @PostMapping("/bids")
-    public Bid createBid(@RequestBody Bid bid) {
-        return bidService.saveBid(bid);
+    public ResponseEntity<Bid> createBid(@RequestBody Bid bid) {
+        Bid savedBid = bidService.saveBid(bid);
+        if(savedBid != null) {
+            return ResponseEntity.ok(savedBid);
+        } else {
+            return  ResponseEntity.badRequest().build();
+        }
     }
+
+
+
 }
