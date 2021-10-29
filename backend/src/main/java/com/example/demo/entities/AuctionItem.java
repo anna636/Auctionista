@@ -38,6 +38,7 @@ public class AuctionItem {
     private String images;
     private Boolean sold;
     private Integer startPrice;
+    private Integer currentPrice;
     private Integer minimumBid;
     private Integer primaryImgIndex;
 
@@ -50,10 +51,10 @@ public class AuctionItem {
     private User owner;
 
    public void updateValues(Bid bid) {
-       // Updates the startprice to the latest bid
-       this.startPrice = bid.getAmount();
+       // Updates the currentPrice to the latest bid
+       this.currentPrice = bid.getAmount();
        // Updates next minimum bid
-       this.minimumBid = (int) Math.round(this.startPrice * 1.1);
+       this.minimumBid = (int) Math.round(this.currentPrice * 1.1);
    }
 
 }

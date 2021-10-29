@@ -30,7 +30,7 @@ function CreateNewListing() {
 
   const pull_data = (data) => {
     console.log(data);
-    if (data == false) {
+    if (data === false) {
       setMyProp({
         show: false,
       });
@@ -87,6 +87,7 @@ function CreateNewListing() {
 
         setMyProp({
           show: true,
+          colour: "green",
           text: "Your item has been published",
           footerText:
             "Our little team of developer chickens is grateful for using our website 🎉",

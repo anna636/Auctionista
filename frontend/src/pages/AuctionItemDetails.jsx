@@ -17,7 +17,6 @@ import {
 import { useBidContext } from "../contexts/BidContext";
 import { UserContext } from "../contexts/UserContext";
 import CustomModal from "../components/CustomModal";
-import { render } from "react-dom";
 
 function AuctionItemDetails() {
   const { id } = useParams();
@@ -39,6 +38,12 @@ function AuctionItemDetails() {
     setAuctionItem(fetchedItem);
   };
 
+  const checkUser = () => {
+    if (currentUser) {
+      return currentUser.id === auctionItem.owner.id ? false : true
+    } else { return true }
+  }
+
   async function placeBid(e) {
     e.preventDefault();
 
@@ -59,15 +64,20 @@ function AuctionItemDetails() {
       };
 
       let res = await postNewBid(newBid);
-      console.log(res);
-      if (res.status === 200) {
+      if (res) {
         setHighestBid(bid);
         setMyProp({
           show: true,
+          colour: "green",
           text: "Bid placed!"
         });
         setBid("");
-        
+      } else {
+        setMyProp({
+          show: true,
+          colour: "red",
+          text: "Something went wrong, bid not placed"
+        })
       }
     } else {
       console.log("Bid too low");
@@ -83,6 +93,7 @@ function AuctionItemDetails() {
     if (data === false) {
       setMyProp({
         show: false,
+        colour: "",
         text: "",
       });
     }
@@ -103,54 +114,68 @@ function AuctionItemDetails() {
               <p>{auctionItem.description}</p>
               <Card>
                 <Card.Title className="mt-3">
-                  Highest bid: {auctionItem.startPrice}{" "}
+                  Highest bid: {auctionItem.currentPrice}{" "}
                   <span>
                     <i class="bi bi-currency-bitcoin"></i>{" "}
                   </span>
                 </Card.Title>
-                <Card.Body>
-                  <Form className="mx-5" onSubmit={placeBid}>
-                    <OverlayTrigger
-                      placement="top"
-                      overlay={
-                        <Tooltip id="tooltip-top">
-                          The minimum bid that can be placed is:{" "}
-                          <strong>{auctionItem.minimumBid}</strong>{" "}
-                          <span>
-                            <i class="bi bi-currency-bitcoin"></i>{" "}
-                          </span>
-                        </Tooltip>
-                      }
-                    >
-                      <Form.Control
-                        size="sm"
-                        type="number"
-                        max="1000000"
-                        min={auctionItem.minimumBid}
-                        value={bid}
-                        onChange={(e) => setBid(e.target.value)}
-                      ></Form.Control>
-                    </OverlayTrigger>
-                    <Button type="submit" variant="success" className="mt-2">
-                      Place bid
-                    </Button>
-                  </Form>
-                  {myProp.show === true && (
-                    <div style={{ color: "green" }} className="mt-2">
-                      <strong> Your bid: {highestBid} </strong>
-                      <span>
-                        <i class="bi bi-currency-bitcoin"></i>{" "}
-                      </span>
-                    </div>
-                  )}
-                </Card.Body>
-                <Card.Footer><div>
-                  <Counter dateFrom={auctionItem.deadline}></Counter>
-                </div> </Card.Footer>
+                {!checkUser() && (
+                  <Card.Body>
+                    <p className="text-success">
+                      This is your auction item{" "}
+                      <i class="bi bi-emoji-smile"></i>
+                    </p>
+                  </Card.Body>
+                )}
+                {checkUser() && (
+                  <Card.Body>
+                    <Form className="mx-5" onSubmit={placeBid}>
+                      <OverlayTrigger
+                        placement="top"
+                        overlay={
+                          <Tooltip id="tooltip-top">
+                            The minimum bid that can be placed is:{" "}
+                            <strong>{auctionItem.minimumBid}</strong>{" "}
+                            <span>
+                              <i class="bi bi-currency-bitcoin"></i>{" "}
+                            </span>
+                          </Tooltip>
+                        }
+                      >
+                        <Form.Control
+                          size="sm"
+                          type="number"
+                          max="1000000"
+                          min={auctionItem.minimumBid}
+                          value={bid}
+                          onChange={(e) => setBid(e.target.value)}
+                        ></Form.Control>
+                      </OverlayTrigger>
+                      <Button type="submit" variant="success" className="mt-2">
+                        Place bid
+                      </Button>
+                    </Form>
+                    {myProp.show === true && (
+                      <div style={{ color: "green" }} className="mt-2">
+                        <strong> Your bid: {highestBid} </strong>
+                        <span>
+                          <i class="bi bi-currency-bitcoin"></i>{" "}
+                        </span>
+                      </div>
+                    )}
+                  </Card.Body>
+                )}
+                <Card.Footer>Time left: (#timeLeft) </Card.Footer>
               </Card>
             </Col>
             <Col>
-              <img src={auctionItem.images} alt="" />
+              <div style={styles.imageContainer}>
+                <img
+                  src={auctionItem.images}
+                  alt=""
+                  style={{ height: "100%" }}
+                />
+              </div>
             </Col>
           </Row>
           <CustomModal prop={myProp} func={pull_data} />
@@ -161,3 +186,12 @@ function AuctionItemDetails() {
 }
 
 export default AuctionItemDetails;
+
+const styles = {
+  imageContainer: {
+    height: "25rem",
+    width: "35rem",
+    marginRight: "0",
+    overflow: "hidden"
+  },
+};
