@@ -30,7 +30,7 @@ public class AuctionItemService {
 
     public AuctionItem createAuctionItem(AuctionItem auctionItem){
         try{
-            auctionItem.setMinimumBid((double) Math.round(auctionItem.getStartPrice() * 1.1));
+            auctionItem.setMinimumBid((int) Math.round(auctionItem.getStartPrice() * 1.1));
             return auctionItemRepository.save(auctionItem);
         }
 

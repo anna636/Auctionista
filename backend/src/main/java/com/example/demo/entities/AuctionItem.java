@@ -38,7 +38,7 @@ public class AuctionItem {
     private String images;
     private Boolean sold;
     private Integer startPrice;
-    private Double minimumBid;
+    private Integer minimumBid;
     private Integer primaryImgIndex;
 
     @OneToMany(mappedBy = "auctionItem")
@@ -53,7 +53,7 @@ public class AuctionItem {
        // Updates the startprice to the latest bid
        this.startPrice = bid.getAmount();
        // Updates next minimum bid
-       this.minimumBid = (double) Math.round(this.startPrice * 1.1);
+       this.minimumBid = (int) Math.round(this.startPrice * 1.1);
    }
 
 }
