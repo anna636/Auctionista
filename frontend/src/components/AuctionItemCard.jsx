@@ -4,13 +4,21 @@ import { useHistory } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import DateComponent from "./DateComponent";
 import QuickBid from "./QuickBid";
+import { useAuctionItem } from "../contexts/AuctionItemContext";
 
 
 const AuctionItemCard = (props) => {
 
    const location = useLocation(); 
   const history = useHistory();
-
+  const { fetchAuctionItem } = useAuctionItem()
+  const [item, setItem]=useState({})
+  
+  useEffect( async () => {
+    let auctionItem = await fetchAuctionItem(props.props.id)
+    setItem(auctionItem);
+  }, []);
+  
   
 
    
@@ -31,7 +39,7 @@ const AuctionItemCard = (props) => {
           ) : (
             <p>There are no bids on this item yet</p>
           )}
-          <p>Minimum bid possible: {props.props.minimumBid} euro </p>
+          <p>Minimum bid possible: {item.minimumBid} euro </p>
 
           {location.pathname === "/" ? (
             <QuickBid props={props.props} />

@@ -26,13 +26,15 @@ const AuctionItemProvider = (props) => {
     let response = await fetch("/rest/auction-items/batch/" + offsetValue)
    
     let items = await response.json()
+    console.log("general", items)
 
     if (auctionItems.length === 0) {
       setAuctionItems(items)
-      console.log("setting items when 0")
+      console.log("when 0", items)
     }
     else {
-       setAuctionItems([...auctionItems, ...items]);
+      setAuctionItems([...auctionItems, ...items]);
+      console.log("when more than 0", [...auctionItems, ...items]);
     }
 
    
