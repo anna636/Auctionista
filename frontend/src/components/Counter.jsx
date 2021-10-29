@@ -14,8 +14,9 @@ function calcDiffInMinutes(dateA, dateB) {
   var hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
   var minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
   var seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
-  if (days > 1) {
-    let fulltime = days + ' days remaining'
+  if (days > 1) { 
+    let fulltime = days + ' days and ' + hours +" hours ramaining" 
+    
     return fulltime
   } else {
 
@@ -44,12 +45,23 @@ export default ({ dateFrom }) => {
 
   useEffect(() => {
     setMinutesDiff(calcDiffInMinutes(currentDate, formattedTime));
+    
   }, [currentDate, formattedTime]);
 
   return (
-    <div>
-      <div>Time left: {minutesDiff}</div>
+    <div className="timeWrapper" style={styles.timeWrapper}>
+      <div>Time left: </div>
+      <div>{minutesDiff}</div>
     </div>
   );
 
 };
+
+const styles = {
+  timeWrapper: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "1vh",
+    textAlign:"left"
+  }
+}

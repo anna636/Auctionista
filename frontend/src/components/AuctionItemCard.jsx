@@ -13,7 +13,8 @@ const AuctionItemCard = (props) => {
    const location = useLocation(); 
   const history = useHistory();
   const { fetchAuctionItem } = useAuctionItem()
-  const [item, setItem]=useState({})
+  const [item, setItem] = useState({})
+ 
   
   useEffect( async () => {
     let auctionItem = await fetchAuctionItem(props.props.id)
@@ -34,8 +35,8 @@ const AuctionItemCard = (props) => {
         <div>
           {props.props.bids.length > 0 ? (
             <p>
-              Latest bid:{" "}
-              {props.props.bids[props.props.bids.length - 1].amount} euro
+              Latest bid: {props.props.bids[props.props.bids.length - 1].amount}{" "}
+              euro
             </p>
           ) : (
             <p>There are no bids on this item yet</p>
@@ -44,16 +45,10 @@ const AuctionItemCard = (props) => {
           {location.pathname === "/" ? (
             <QuickBid props={props.props} />
           ) : (
-            <>
-              <p>Expiration date: </p>
-                <div>
-                
-                <DateComponent props={new Date(props.props.deadline)} />
-                </div>
-            </>
+           null
           )}
           <div style={styles.counter}>
-              <Counter dateFrom={props.props.deadline}></Counter>
+            <Counter dateFrom={props.props.deadline}></Counter>
           </div>
         </div>
         <img
@@ -84,15 +79,18 @@ const styles = {
     boxShadow: "0px 0px 8px 2px rgba(0,0,0,0.54)",
     borderRadius: "20px",
     color: "black",
+   
   },
   mainInfo: {
     display: "flex",
     flexDirection: "row",
     gap: "2vw",
+    textAlign:"left"
   },
   img: {
     width: "50%",
     cursor: "pointer",
+    maxHeight:"152px"
   },
   title: {
     textAlign: "center",
