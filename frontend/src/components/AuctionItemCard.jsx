@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import { useHistory } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import DateComponent from "./DateComponent";
+import Counter from "./Counter";
 import QuickBid from "./QuickBid";
 import { useAuctionItem } from "../contexts/AuctionItemContext";
 
@@ -40,15 +41,19 @@ const AuctionItemCard = (props) => {
             <p>There are no bids on this item yet</p>
           )}
           <p>Minimum bid possible: {item.minimumBid} euro </p>
+          <div >
+              <Counter dateFrom={props.props.deadline}></Counter>
+          </div>
 
           {location.pathname === "/" ? (
             <QuickBid props={props.props} />
           ) : (
             <>
               <p>Expiration date: </p>
-              <div>
+                <div>
+                
                 <DateComponent props={new Date(props.props.deadline)} />
-              </div>
+                </div>
             </>
           )}
         </div>

@@ -1,4 +1,5 @@
 import React from "react";
+import Counter from "../components/Counter"
 import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { useAuctionItem } from "../contexts/AuctionItemContext";
@@ -143,7 +144,9 @@ function AuctionItemDetails() {
                     </div>
                   )}
                 </Card.Body>
-                <Card.Footer>Time left: (#timeLeft) </Card.Footer>
+                <Card.Footer><div>
+                  <Counter dateFrom={auctionItem.deadline}></Counter>
+                </div> </Card.Footer>
               </Card>
             </Col>
             <Col>
