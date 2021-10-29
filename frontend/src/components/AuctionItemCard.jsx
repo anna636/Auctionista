@@ -24,7 +24,10 @@ const AuctionItemCard = (props) => {
       <div className="mainInfo" style={styles.mainInfo}>
         <div>
           {props.props.bids.length > 0 ? (
-            <p>Latest bid: {props.props.bids[bids.length-1].currentBid} euro</p>
+            <p>
+              Latest bid:{" "}
+              {props.props.bids[props.props.bids.length - 1].currentBid} euro
+            </p>
           ) : (
             <p>There are no bids on this item yet</p>
           )}

@@ -38,7 +38,7 @@ public class AuctionItem {
     private String images;
     private Boolean sold;
     private Integer startPrice;
-    private Integer minimumBid;
+    private Double minimumBid;
     private Integer primaryImgIndex;
 
     @OneToMany(mappedBy = "auctionItem")
