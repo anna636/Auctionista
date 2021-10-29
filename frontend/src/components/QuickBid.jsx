@@ -13,6 +13,7 @@ function QuickBid(props) {
   const [modalText, setModalText] = useState("");
   const [reload, setReload] = useState(false);
   let pageReload = false;
+ 
 
   const toggleModal = () => {
     if (show) {
@@ -51,14 +52,14 @@ function QuickBid(props) {
 
   return (
     <>
-      {!props.props.owner.id === getCurrentUser().id ? (
-        <div>
+     {  getCurrentUser() && props.props.owner.id === getCurrentUser().id ? (
+        null
+      ) : (<div>
           <button className="quickBid" style={styles.btn} onClick={quickBid}>
             Place quick bid
           </button>
           <BootstrapModal toggle={toggleModal} modal={show} text={modalText} />
-        </div>
-      ) : null}
+        </div>)}
     </>
   );
 }
