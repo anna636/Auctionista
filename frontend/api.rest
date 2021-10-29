@@ -1,3 +1,34 @@
+
+GET http://localhost:4000/rest/auctionItems
+
+###
+
+GET http://localhost:4000/rest/auctionItems/1
+
+
+
+###
+
+POST http://localhost:4000/rest/auctionItems
+Content-Type: application/json
+
+{
+    "id": 5,
+    "title": "Aberdeen Angus Cow",
+    "description": "cow moooo",
+    "reservationPrice": 5,
+    "deadline": null,
+    "images": "cow",
+    "sold": false,
+    "startPrice": 2,
+    "minimumBid": 5.0,
+    "bids": [],
+    "owner": null
+  }
+  }
+
+
+
 POST http://localhost:4000/rest/auction-item
 Content-Type: application/json
 

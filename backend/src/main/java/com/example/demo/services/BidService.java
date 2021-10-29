@@ -56,5 +56,6 @@ public class BidService {
             e.printStackTrace();
             return null;
         }
+
     }
 }

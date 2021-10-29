@@ -19,7 +19,8 @@ import CustomModal from "../components/CustomModal";
 
 function AuctionItemDetails() {
   const { id } = useParams();
-  const { fetchAuctionItem } = useAuctionItem();
+  const { fetchAuctionItem, auctionItems, fetchItemsInBatch } =
+    useAuctionItem();
   const [auctionItem, setAuctionItem] = useState();
   const { postNewBid } = useBidContext();
   const [bid, setBid] = useState("");
