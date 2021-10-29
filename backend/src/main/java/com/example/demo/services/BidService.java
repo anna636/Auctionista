@@ -31,6 +31,8 @@ public class BidService {  //omvandla unix timestamp här
     public Bid saveBid(Bid bid){
 
         try{
+            // add user check
+
             Long auctionItemId = bid.getAuctionItem().getId();
             AuctionItem auctionItem = auctionItemRepository.getById(auctionItemId);
 

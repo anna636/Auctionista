@@ -44,6 +44,7 @@ const BidProvider = (props) => {
       return response
     } catch {
       console.log("Posting bid failed")
+      return null;
     }
    
   }

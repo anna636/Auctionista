@@ -8,6 +8,9 @@ const CustomModal = (prop) => {
       if (prop.prop.colour === "green") {
          return styles.showGreen;
       }
+      if (prop.prop.colour === "red") {
+         return styles.showRed;
+      }
         return styles.show;
     }
     else if (!prop.prop.show) { return styles.hide }
@@ -67,6 +70,21 @@ const styles = {
     width: "30vw",
     height: "30vh",
     backgroundColor: "green",
+    right: "35vw",
+    top: "40vh",
+    borderRadius: "20px",
+    opacity: "0.8",
+    display: "grid",
+    gridTemplateRows: "20% 50% 30%",
+    padding: "1vw",
+    color: "white",
+  },
+  showRed: {
+    display: "block",
+    position: "fixed",
+    width: "30vw",
+    height: "30vh",
+    backgroundColor: "red",
     right: "35vw",
     top: "40vh",
     borderRadius: "20px",

@@ -57,8 +57,7 @@ function AuctionItemDetails() {
       };
 
       let res = await postNewBid(newBid);
-      console.log(res);
-      if (res.status === 200) {
+      if (res) {
         setHighestBid(bid);
         setMyProp({
           show: true,
@@ -66,6 +65,12 @@ function AuctionItemDetails() {
           text: "Bid placed!"
         });
         setBid("");
+      } else {
+        setMyProp({
+          show: true,
+          colour: "red",
+          text: "Something went wrong, please try again"
+        })
       }
     } else {
       console.log("Bid too low");
@@ -81,6 +86,7 @@ function AuctionItemDetails() {
     if (data === false) {
       setMyProp({
         show: false,
+        colour: "",
         text: "",
       });
     }
@@ -101,7 +107,7 @@ function AuctionItemDetails() {
               <p>{auctionItem.description}</p>
               <Card>
                 <Card.Title className="mt-3">
-                  Highest bid: {auctionItem.startPrice}{" "}
+                  Highest bid: {auctionItem.currentPrice}{" "}
                   <span>
                     <i class="bi bi-currency-bitcoin"></i>{" "}
                   </span>
@@ -146,7 +152,13 @@ function AuctionItemDetails() {
               </Card>
             </Col>
             <Col>
-              <img src={auctionItem.images} alt="" />
+              <div style={styles.imageContainer}>
+                <img
+                  src={auctionItem.images}
+                  alt=""
+                  style={{ height: "100%" }}
+                />
+              </div>
             </Col>
           </Row>
           <CustomModal prop={myProp} func={pull_data} />
@@ -157,3 +169,12 @@ function AuctionItemDetails() {
 }
 
 export default AuctionItemDetails;
+
+const styles = {
+  imageContainer: {
+    height: "25rem",
+    width: "35rem",
+    marginRight: "0",
+    overflow: "hidden"
+  },
+};
