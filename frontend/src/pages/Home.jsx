@@ -10,7 +10,7 @@ function Home() {
  
 
   const [offsetY, setOffsetY] = useState(0)
-  const [currentItemsLength, setCurrentItemsLength] = useState(2)
+  const [currentItemsLength, setCurrentItemsLength] = useState(6)
   
 const { auctionItems, fetchAllAuctionItems, fetchItemsInBatch } =useAuctionItem();
   const handleScroll = () => setOffsetY(window.pageYOffset);
