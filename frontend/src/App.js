@@ -12,10 +12,12 @@ import MyListings from "./pages/MyListings";
 import MyMessages from "./pages/MyMessages";
 import MyProfile from "./pages/MyProfile";
 import Socket from "./components/chat/Socket"
+import MessageContextProvider from "./contexts/MessageContext";
 
 function App() {
   return (
     <div className="App">
+       <MessageContextProvider>
       <UserContextProvider>
         <AuctionItemProvider>
           <BidProvider>
@@ -48,6 +50,7 @@ function App() {
           </BidProvider>
         </AuctionItemProvider>
       </UserContextProvider>
+       </MessageContextProvider>
     </div>
   );
 }
