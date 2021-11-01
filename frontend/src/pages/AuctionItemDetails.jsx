@@ -191,19 +191,22 @@ function AuctionItemDetails() {
               </Card>
             </Col>
             <Col>
-              <Carousel>
-                {itemImages.map((image) => (
-                  <Carousel.Item>
-                    <div style={styles.imageContainer}>
-                      <img
-                        src={image}
-                        alt=""
-                        style={{ height: "100%" }}
-                      />
-                    </div>
-                  </Carousel.Item>
-                ))}
-              </Carousel>
+              {itemImages.length > 1 && (
+                <Carousel>
+                  {itemImages.map((image) => (
+                    <Carousel.Item>
+                      <div style={styles.imageContainer}>
+                        <img src={image} alt="" style={{ height: "100%" }} />
+                      </div>
+                    </Carousel.Item>
+                  ))}
+                </Carousel>
+              )}
+              {itemImages.length <= 1 && (
+                <div style={styles.imageContainer}>
+                  <img src={itemImages[0]} alt="" style={{ height: "100%" }} />
+                </div>
+              )}
             </Col>
           </Row>
           <CustomModal prop={myProp} func={pull_data} />
@@ -219,7 +222,8 @@ const styles = {
   imageContainer: {
     height: "25rem",
     width: "35rem",
+    backgroundColor: "rgb(240,240,240)",
     marginRight: "0",
-    overflow: "hidden"
+    overflow: "hidden",
   },
 };
