@@ -32,6 +32,7 @@ public class UploadService {
             }
             catch(Exception e){
                 e.printStackTrace();
+                return null;
             }
 
         }
