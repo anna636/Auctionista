@@ -24,7 +24,9 @@ function MyMessages() {
       message: msgToSend, //text of msg
     };
     sendMessage(sendTo, msg); //First - who will recieve the msg, second - message itself
+    setMessages([...messages, msg])
     setMsgToSend("")
+
   }
   
   return (
@@ -34,13 +36,21 @@ function MyMessages() {
         <MainContainer>
           <ChatContainer>
             <MessageList>
-              <Message
-                model={{
-                  message: "Hello my friend",
-                  sentTime: "just now",
-                  sender: "Joe",
-                }}
-              />
+              {messages && messages.length > 0 ? (
+                messages.map((msg, i) => (
+                  <>
+                    <Message
+                      model={{
+                        message: msg.message,
+                        sentTime: "just now",
+                        sender: msg.fromLogin,
+                      }}
+                    />
+                  </>
+                ))
+              ) : (
+                <p>There are no auctions at this moment :,(</p>
+              )}
             </MessageList>
           </ChatContainer>
         </MainContainer>
