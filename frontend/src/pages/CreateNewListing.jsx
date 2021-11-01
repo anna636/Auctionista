@@ -54,11 +54,16 @@ function CreateNewListing() {
       !isNumber(startPrice) ||
       title === "" ||
       description === "" ||
-      !reservationPrice > 0
-    ) {
+      !reservationPrice > 0 || imgString.split(",")[0]===""
+    )
+    {
       setMyProp({ show: true, text: "Invalid data, please try again" });
-      console.log(getCurrentUser().id);
-    } else {
+  
+      
+   
+    }
+    
+    else {
       const itemToPost = {
         title: title,
         description: description,
