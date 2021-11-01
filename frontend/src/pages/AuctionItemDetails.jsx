@@ -194,7 +194,7 @@ function AuctionItemDetails() {
               {itemImages.length > 1 && (
                 <Carousel variant="dark">
                   {itemImages.map((image) => (
-                    <Carousel.Item>
+                    <Carousel.Item style={{ width: "50rem" }}>
                       <div style={styles.imageContainer}>
                         <img src={image} alt="" style={{ height: "100%" }} />
                       </div>
