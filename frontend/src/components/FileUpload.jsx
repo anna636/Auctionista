@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useAuctionItem } from "../contexts/AuctionItemContext";
+import BootstrapModal from "./BootstrapModal";
 
 function FileUpload(props) {
   
@@ -7,13 +8,24 @@ function FileUpload(props) {
   const [imgPaths, setImgPaths] = useState([]);
   const [primaryImgIndex, setPrimaryImgIndex]=useState(0)
   const { setPrimaryImgPath } = useAuctionItem()
+   const [show, setShow] = useState(false);
+   const [modalText, setModalText] = useState("");
   props.func(imgPaths, primaryImgIndex);
+
+
+  const toggleModal = () => {
+   
+
+    setShow(!show);
+  };
 
   async function onFileLoad(e) {
     setPrimaryImgIndex(0)
     let files = e.target.files;
     if (files.length > 3) {
       console.log("too mcuh!")
+      setModalText("Upload no more than 3 images");
+      toggleModal()
        e.target.value = "";
     }
 
@@ -53,9 +65,20 @@ function FileUpload(props) {
     <div>
       <input type="file" accept="image/*" multiple onChange={onFileLoad} />
       <div className="renderedImgs" style={styles.renderedImgs}>
-        {imgPaths.length > 0 ? imgPaths.map((img) => <img src={img} onClick={setPrimaryImg}
-        style={primaryImgIndex == imgPaths.indexOf(img) ? styles.primaryImg : styles.img}
-        />) : null}
+        {imgPaths.length > 0
+          ? imgPaths.map((img) => (
+              <img
+                src={img}
+                onClick={setPrimaryImg}
+                style={
+                  primaryImgIndex == imgPaths.indexOf(img)
+                    ? styles.primaryImg
+                    : styles.img
+                }
+              />
+            ))
+          : null}
+        <BootstrapModal toggle={toggleModal} modal={show} text={modalText} />
       </div>
     </div>
   );
