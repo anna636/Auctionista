@@ -192,7 +192,7 @@ function AuctionItemDetails() {
             </Col>
             <Col>
               {itemImages.length > 1 && (
-                <Carousel>
+                <Carousel variant="dark">
                   {itemImages.map((image) => (
                     <Carousel.Item>
                       <div style={styles.imageContainer}>
@@ -221,9 +221,9 @@ export default AuctionItemDetails;
 const styles = {
   imageContainer: {
     height: "25rem",
-    width: "35rem",
-    backgroundColor: "rgb(240,240,240)",
     marginRight: "0",
     overflow: "hidden",
+    display: "flex",
+    justifyContent: "center"
   },
 };
