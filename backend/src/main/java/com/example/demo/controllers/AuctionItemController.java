@@ -67,7 +67,7 @@ public class AuctionItemController {
     public ResponseEntity<AuctionItem> createAuctionItem(@RequestBody AuctionItem auctionItem){
 
         AuctionItem auctionItemToSave=auctionItemService.createAuctionItem(auctionItem);
-        if(auctionItemToSave!=null){
+        if(auctionItemToSave!=null && auctionItem.getImages().split(",").length>0){
             return ResponseEntity.ok(auctionItemToSave);
         }
         else{
