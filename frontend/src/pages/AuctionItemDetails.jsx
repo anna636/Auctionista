@@ -13,6 +13,7 @@ import {
   OverlayTrigger,
   Tooltip,
   Spinner,
+  Carousel
 } from "react-bootstrap";
 import { useBidContext } from "../contexts/BidContext";
 import { UserContext } from "../contexts/UserContext";
@@ -20,7 +21,7 @@ import CustomModal from "../components/CustomModal";
 
 function AuctionItemDetails() {
   const { id } = useParams();
-  const { fetchAuctionItem, auctionItems, fetchItemsInBatch } =
+  const { fetchAuctionItem } =
     useAuctionItem();
   const [auctionItem, setAuctionItem] = useState();
   const { postNewBid } = useBidContext();
@@ -28,6 +29,7 @@ function AuctionItemDetails() {
   const { currentUser } = useContext(UserContext);
   const [myProp, setMyProp] = useState({});
   const [highestBid, setHighestBid] = useState();
+  const [itemImages, setItemImages] = useState([]);
 
   useEffect(() => {
     getAuctionItem(id);
@@ -36,7 +38,25 @@ function AuctionItemDetails() {
   const getAuctionItem = async (auctionItemId) => {
     let fetchedItem = await fetchAuctionItem(auctionItemId);
     setAuctionItem(fetchedItem);
+    orderImages(fetchedItem);
   };
+
+  function orderImages(auctionItem) {
+    const origImageArray = auctionItem.images.split(",");
+    const imageArrayInOrder = [];
+
+    imageArrayInOrder.push(origImageArray[auctionItem.primaryImgIndex])
+    origImageArray.splice(auctionItem.primaryImgIndex, 1);
+
+    if (origImageArray.length) {
+      for (let image of origImageArray) {
+        imageArrayInOrder.push(image)
+      }
+    }
+
+    setItemImages(imageArrayInOrder);
+
+  }
 
   const checkUser = () => {
     if (currentUser) {
@@ -165,17 +185,28 @@ function AuctionItemDetails() {
                     )}
                   </Card.Body>
                 )}
-                <Card.Footer><Counter dateFrom={auctionItem.deadline}></Counter></Card.Footer>
+                <Card.Footer>
+                  <Counter dateFrom={auctionItem.deadline}></Counter>
+                </Card.Footer>
               </Card>
             </Col>
             <Col>
-              <div style={styles.imageContainer}>
-                <img
-                  src={auctionItem.images}
-                  alt=""
-                  style={{ height: "100%" }}
-                />
-              </div>
+              {itemImages.length > 1 && (
+                <Carousel variant="dark">
+                  {itemImages.map((image) => (
+                    <Carousel.Item>
+                      <div style={styles.imageContainer}>
+                        <img src={image} alt="" style={{ height: "100%" }} />
+                      </div>
+                    </Carousel.Item>
+                  ))}
+                </Carousel>
+              )}
+              {itemImages.length <= 1 && (
+                <div style={styles.imageContainer}>
+                  <img src={itemImages[0]} alt="" style={{ height: "100%" }} />
+                </div>
+              )}
             </Col>
           </Row>
           <CustomModal prop={myProp} func={pull_data} />
@@ -190,8 +221,9 @@ export default AuctionItemDetails;
 const styles = {
   imageContainer: {
     height: "25rem",
-    width: "35rem",
     marginRight: "0",
-    overflow: "hidden"
+    overflow: "hidden",
+    display: "flex",
+    justifyContent: "center"
   },
 };
