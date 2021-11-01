@@ -3,13 +3,11 @@ import { useAuctionItem } from "../../contexts/AuctionItemContext";
 import { Popover, OverlayTrigger } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 
-
 const Search = () => {
   const [userInput, setUserInput] = useState();
   const { fetchAuctionItemByTitle } = useAuctionItem();
   const [popoverMessage, setPopoverMessage] = useState(false);
-    let history = useHistory();
-
+  let history = useHistory();
 
   function handleSearch(event) {
     event.preventDefault();
@@ -22,18 +20,19 @@ const Search = () => {
     let fetchedItem = await fetchAuctionItemByTitle(userInput);
     if (fetchedItem) {
       console.log("fetched item: ", fetchedItem);
-          
 
       setPopoverMessage(false);
     } else {
-      console.log("No items found");
       setPopoverMessage(true);
+
+      setTimeout(() => {
+        setPopoverMessage(false);
+      }, 3000);
     }
   };
 
-
   const popover = (
-    <Popover id="popover-basic" style={styles.popover} >
+    <Popover id="popover-basic" style={styles.popover}>
       <Popover.Body style={styles.popover}>
         No items found. Try searching for something else...
       </Popover.Body>
@@ -90,6 +89,5 @@ const styles = {
   popover: {
     color: "rgb(226, 89, 55)",
     backgroundColor: "black",
-   
   },
 };
