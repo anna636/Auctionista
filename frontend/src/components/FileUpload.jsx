@@ -26,7 +26,7 @@ function FileUpload(props) {
       console.log("too mcuh!")
       setModalText("Upload no more than 3 images");
       toggleModal()
-       e.target.value = "";
+       e.target.value = null;
     }
 
     else {
@@ -46,7 +46,7 @@ function FileUpload(props) {
       setImgPaths(filePaths);
       
 
-      e.target.value = "";
+      e.target.value = null;
       
      }
     
