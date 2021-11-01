@@ -17,6 +17,7 @@ function FileUpload(props) {
   async function onFileLoad(e) {
     setPrimaryImgIndex(0);
     let files = e.target.files;
+    let filesSize = 0;
     if (files.length > 3) {
       setModalText("Upload no more than 3 images");
       toggleModal();
@@ -24,18 +25,24 @@ function FileUpload(props) {
     } else {
       let formData = new FormData();
       for (let file of files) {
+        filesSize += file.size;
         formData.append("files", file, file.name);
       }
+      if (filesSize > 1040000) {
+        setModalText("Files too large");
+        toggleModal();
+      } else {
         let res = await fetch("/api/upload", {
           method: "POST",
           body: formData,
         });
-      if (res.status === 200) {
-        let filePaths = await res.json();
-        setImgPaths(filePaths);
-      } else {
-        setModalText("Files too large");
-        toggleModal();
+        if (res.status === 200) {
+          let filePaths = await res.json();
+          setImgPaths(filePaths);
+        } else {
+          setModalText("Something went wrong");
+          toggleModal();
+        }
       }
       e.target.value = null;
     }
@@ -56,7 +63,8 @@ function FileUpload(props) {
         {imgPaths.length > 0
           ? imgPaths.map((img) => (
               <img
-                src={img}
+              src={img}
+              key={img}
                 alt=""
                 onClick={setPrimaryImg}
                 style={
