@@ -39,6 +39,7 @@ function App() {
                   <Route exact path="/my-listings" component={MyListings} />
                   <Route exact path="/my-messages" component={MyMessages} />
                   <Route exact path="/my-profile" component={MyProfile} />
+                  
                 </Switch>
               </main>
               <footer>
