@@ -39,8 +39,8 @@ function Home() {
 
       <div className="listWrapper" style={styles.listWrapper}>
         {auctionItems && auctionItems.length > 0 ? (
-          auctionItems.map((item) => (
-            <AuctionItemCard props={item} style={styles.item} />
+          auctionItems.map((item, index) => (
+            <AuctionItemCard props={item} style={styles.item} key={ index } />
           ))
         ) : (
           <p>There are no auctions at this moment :,(</p>

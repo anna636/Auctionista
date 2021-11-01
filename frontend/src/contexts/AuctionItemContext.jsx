@@ -41,7 +41,6 @@ const AuctionItemProvider = (props) => {
     let res = await fetch("/rest/auction-items/" + id);
     try {
       let fetchedItem = await res.json();
-      console.log("From fetchAuctionItem: ", fetchedItem);
       return fetchedItem;
     } catch {
       console.log("No item found");
