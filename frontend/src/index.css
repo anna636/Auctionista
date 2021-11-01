@@ -24,6 +24,10 @@ main{
   
 }
 
+.cs-message--outgoing .cs-message__content{
+  background-color: rgb(119, 242, 129) !important;
+}
+
 .cs-main-container{
   height:90% !important;
   border-radius: 10px;
@@ -56,7 +60,7 @@ text-align: center !important;
   display:none;
 } */
 
-.coolImg, .textIngImg, .cs-main-container{
+.coolImg, .textIngImg, .cs-main-container, .chatWrapper{
  
   animation: fadeIn 5s;
    animation-direction: alternate;

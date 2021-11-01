@@ -6,6 +6,7 @@ import {
   MessageList,
   Message,
   MessageInput,
+  TypingIndicator,
 } from "@chatscope/chat-ui-kit-react";
 import { useMessage } from "../contexts/MessageContext";
 import { sendMessage } from "../components/chat/Socket";
@@ -17,6 +18,7 @@ function MyMessages() {
   const { sendTo, setSendTo, messages, setMessages } = useMessage();
   const [msgToSend, setMsgToSend] = useState("")
   const { getCurrentUser } = useContext(UserContext);
+  const [typing, setTyping]=useState(false)
   
   function sendNewMsg() {
     let msg = {
@@ -26,7 +28,13 @@ function MyMessages() {
     sendMessage(sendTo, msg); //First - who will recieve the msg, second - message itself
     setMessages([...messages, msg])
     setMsgToSend("")
+    setTyping(false)
 
+  }
+
+  function getInputValue(text) {
+    setMsgToSend(text);
+    setTyping(true)
   }
   
   return (
@@ -36,29 +44,34 @@ function MyMessages() {
         <MainContainer>
           <ChatContainer>
             <MessageList>
-              {messages && messages.length > 0 ? (
-                messages.map((msg, i) => (
-                  <>
-                    <Message
-                      model={{
-                        message: msg.message,
-                        sentTime: "just now",
-                        sender: msg.fromLogin,
-                      }}
-                    />
-                  </>
-                ))
-              ) : (
-                <p>There are no auctions at this moment :,(</p>
-              )}
+              {typing ? 
+                <TypingIndicator content={getCurrentUser().username + " is typing" } /> : null}
+              {messages && messages.length > 0
+                ? messages.map((msg, i) => (
+                    <>
+                      <Message
+                        model={{
+                          message: msg.message,
+                          direction:
+                            msg.fromLogin === getCurrentUser().username
+                              ? "outgoing"
+                              : "incoming",
+                          sender: msg.fromLogin,
+                          position: "single",
+                        }}
+                      />
+                      <Message.Header sender={msg.fromLogin} />
+                    </>
+                  ))
+                : null}
             </MessageList>
           </ChatContainer>
         </MainContainer>
-        <div style={cosStyles.inputWrapper}>
+        <div style={cosStyles.inputWrapper} className="chatWrapper">
           <input
             type="text"
             style={cosStyles.input}
-            onChange={(e) => setMsgToSend(e.target.value)}
+            onChange={(e) => getInputValue(e.target.value)}
             value={msgToSend}
           />
           <button style={styles.sendBtn} onClick={sendNewMsg}>
