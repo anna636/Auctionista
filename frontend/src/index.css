@@ -40,7 +40,7 @@ text-align: center !important;
   color:black !important;
 }
 
-.coolImg{
+.coolImg, .textIngImg{
  
   animation: fadeIn 5s;
    animation-direction: alternate;

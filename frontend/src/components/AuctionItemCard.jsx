@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import { useHistory } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import DateComponent from "./DateComponent";
 import Counter from "./Counter";
 import QuickBid from "./QuickBid";
 import { useAuctionItem } from "../contexts/AuctionItemContext";

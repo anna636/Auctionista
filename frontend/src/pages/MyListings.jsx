@@ -1,11 +1,8 @@
 import React from "react";
 import { UserContext } from "../contexts/UserContext";
-import { useState, useEffect, useContext } from "react";
+import { useEffect, useContext } from "react";
 import AuctionItemCard from "../components/AuctionItemCard";
-import {
-  AuctionItemContext,
-  useAuctionItem,
-} from "../contexts/AuctionItemContext";
+import { useAuctionItem } from "../contexts/AuctionItemContext";
 
 function MyListings() {
   const { getCurrentUser } = useContext(UserContext);

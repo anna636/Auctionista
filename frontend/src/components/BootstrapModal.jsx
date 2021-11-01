@@ -1,5 +1,5 @@
 import React from 'react'
-import { Modal, Button, InputGroup, FormControl } from "react-bootstrap";
+import { Modal} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 
 function BootstrapModal(props) {

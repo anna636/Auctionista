@@ -1,10 +1,6 @@
 import { useState, useRef } from "react";
-
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Overlay from "react-bootstrap/Overlay";
 
-import Button from "react-bootstrap/Button";
-import { Tooltip } from "bootstrap";
 
 function TooltipHelp() {
    const [show, setShow] = useState(false);
