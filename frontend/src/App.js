@@ -11,6 +11,7 @@ import BidProvider from "./contexts/BidContext";
 import MyListings from "./pages/MyListings";
 import MyMessages from "./pages/MyMessages";
 import MyProfile from "./pages/MyProfile";
+import Socket from "./components/chat/Socket"
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
                 <div style={styles.line}> </div>
                 <Footer />
               </footer>
+              <Socket/>
             </Router>
           </BidProvider>
         </AuctionItemProvider>

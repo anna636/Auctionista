@@ -13,6 +13,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/rest")
+@CrossOrigin
 public class BidController {
 
     @Autowired
