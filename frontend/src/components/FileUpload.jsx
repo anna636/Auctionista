@@ -85,7 +85,7 @@ export default FileUpload;
 
 const styles = {
   img: {
-    width: "10vw",
+    maxWidth: "240px",
     height: "20vh",
     borderRadius: "10px",
   },
@@ -99,7 +99,7 @@ const styles = {
 
   primaryImg: {
     boxShadow: "0px 0px 8px 2px RGB(104,0,255)",
-    width: "10vw",
+    maxWidth: "250px",
     height: "20vh",
     transform: "scale(1.1)",
     transition: "all .2s ease-in-out",

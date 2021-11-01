@@ -177,10 +177,16 @@ function CreateNewListing() {
       </div>
       <div className="coolImg">
         <img
-          src="https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1887&q=80"
+          src="https://images.pexels.com/photos/10105932/pexels-photo-10105932.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
           alt=""
           style={styles.coolImg}
         />
+        <div className="textIngImg" style={styles.textInImg}>
+          <p> Moo may represent an idea, but only the cow knows</p>
+          <p>
+            <span>- Mason Cooley </span>
+          </p>
+        </div>
       </div>
       <CustomModal prop={myProp} func={pull_data} />
     </div>
@@ -193,11 +199,20 @@ const styles = {
   wrapper: {
     width: "100%",
     display: "grid",
-    gridTemplateColumns: "repeat(2, 1fr)",
+    gridTemplateColumns: "80% 20%",
   },
   coolImg: {
-    width: "100%",
-    height: "970px",
+    width:"100%",
+    height: "980px",
+  },
+
+  textInImg: {
+    textAlign: "left",
+    position: "absolute",
+    top: "1vh",
+    padding: "5vh 5vh 0 1vh",
+    color: "white",
+   fontFamily: "Georgia, serif"
   },
   form: {
     width: "100%",
