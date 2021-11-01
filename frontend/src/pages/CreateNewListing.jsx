@@ -1,4 +1,4 @@
-import { useState, useRef, useContext } from "react";
+import { useState, useContext } from "react";
 import FileUpload from "../components/FileUpload";
 import { useAuctionItem } from "../contexts/AuctionItemContext";
 import TooltipHelp from "../components/TooltipHelp";
@@ -86,7 +86,7 @@ function CreateNewListing() {
 
       let res = await postNewAuctionItem(itemToPost);
 
-      if (res.status == 200) {
+      if (res.status === 200) {
         setTitle("");
         setDescription("");
         setReservationPrice(0);

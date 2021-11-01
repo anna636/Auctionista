@@ -2,8 +2,8 @@ import React from 'react'
 import "bootstrap/dist/css/bootstrap.css";
 import styled from "styled-components";
 import { UserContext } from "../contexts/UserContext"
-import { useState, useEffect, useContext } from "react";
-import { Modal, Button, InputGroup, FormControl } from "react-bootstrap";
+import { useState, useContext } from "react";
+import { Modal, InputGroup, FormControl } from "react-bootstrap";
 
 const ErrorMessage = styled.span`
   display: flex;
