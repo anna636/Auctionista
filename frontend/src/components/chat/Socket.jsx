@@ -8,11 +8,15 @@ import {useMessage} from"../../contexts/MessageContext"
 let clientRef;
 
 export const sendMessage = async (sendToUsername, msg) => {
-  await clientRef.sendMessage(
+
+      await clientRef.sendMessage(
     "/app/chat/"+sendToUsername,  //Who recievs msg
     JSON.stringify(msg)
     
   );
+  
+
+
 };
 
 function Socket() {

@@ -20,15 +20,22 @@ function MyMessages() {
   const { getCurrentUser } = useContext(UserContext);
   const [typing, setTyping]=useState(false)
   
-  function sendNewMsg() {
+  function sendNewMsg(e) {
+    e.preventDefault()
     let msg = {
       fromLogin: getCurrentUser().username, //Who sends msg
       message: msgToSend, //text of msg
     };
-    sendMessage(sendTo, msg); //First - who will recieve the msg, second - message itself
-    setMessages([...messages, msg])
-    setMsgToSend("")
-    setTyping(false)
+    if (sendTo !== "") {
+      sendMessage(sendTo, msg); //First - who will recieve the msg, second - message itself
+      setMessages([...messages, msg]);
+      setMsgToSend("");
+      setTyping(false);
+    }
+    else {
+      console.log("sending to null user")
+    }
+    
 
   }
 
@@ -44,8 +51,11 @@ function MyMessages() {
         <MainContainer>
           <ChatContainer>
             <MessageList>
-              {typing ? 
-                <TypingIndicator content={getCurrentUser().username + " is typing" } /> : null}
+              {typing ? (
+                <TypingIndicator
+                  content={getCurrentUser().username + " is typing"}
+                />
+              ) : null}
               {messages && messages.length > 0
                 ? messages.map((msg, i) => (
                     <>
@@ -60,7 +70,7 @@ function MyMessages() {
                           position: "single",
                         }}
                       />
-                      <Message.Header sender={msg.fromLogin} />
+                     
                     </>
                   ))
                 : null}
@@ -68,15 +78,20 @@ function MyMessages() {
           </ChatContainer>
         </MainContainer>
         <div style={cosStyles.inputWrapper} className="chatWrapper">
-          <input
-            type="text"
-            style={cosStyles.input}
-            onChange={(e) => getInputValue(e.target.value)}
-            value={msgToSend}
-          />
-          <button style={styles.sendBtn} onClick={sendNewMsg}>
-            Send
-          </button>
+          <form action="" onSubmit={sendNewMsg} style={cosStyles.form}>
+            
+              <input
+                type="text"
+                style={cosStyles.input}
+                onChange={(e) => getInputValue(e.target.value)}
+                value={msgToSend}
+                onSubmit={sendNewMsg}
+              />
+            
+              <button style={cosStyles.sendBtn}>Send</button>
+         
+            
+          </form>
         </div>
       </div>
     </div>
@@ -109,18 +124,31 @@ const cosStyles = {
     display: "grid",
     gridTemplateColumns: "90% 10%",
     alignItems: "center",
-    justifyContent:"center"
+    justifyContent: "center",
   },
 
   input: {
     backgroundColor: "#c6e3fa",
     border: "none",
-    borderRadius: "10px",
-    height: "70%",
-    width:"60%"
+    borderRadius: "5px",
+    height: "100%",
+    width: "100%",
+    marginLeft: "5vw",
   },
 
   sendBtn: {
-    width:"50%"
-  }
+    width: "50%",
+    marginLeft: "13vh",
+    border: "none",
+    color: "black",
+    backgroundColor: "#c6e3fa",
+    borderRadius: "10px",
+    fontFamily: `"Trebuchet MS", Helvetica, sans-serif`,
+  },
+  form: {
+    display: "grid",
+    gridTemplateColumns: "70% 30%",
+
+    flexDirection: "row",
+  },
 };
