@@ -18,6 +18,8 @@ import {
 import { useBidContext } from "../contexts/BidContext";
 import { UserContext } from "../contexts/UserContext";
 import CustomModal from "../components/CustomModal";
+import { Link } from "react-router-dom";
+import { useMessage } from "../contexts/MessageContext";
 
 function AuctionItemDetails() {
   const { id } = useParams();
@@ -30,6 +32,8 @@ function AuctionItemDetails() {
   const [myProp, setMyProp] = useState({});
   const [highestBid, setHighestBid] = useState();
   const [itemImages, setItemImages] = useState([]);
+  const { sendTo, setSendTo } = useMessage();
+
 
   useEffect(() => {
     getAuctionItem(id);
@@ -207,6 +211,20 @@ function AuctionItemDetails() {
                   <img src={itemImages[0]} alt="" style={{ height: "100%" }} />
                 </div>
               )}
+              {checkUser() ? (
+                <div className="owner" style={styles.owner}>
+                  <p>
+                    {" "}
+                    Auction owner:{" "}
+                    <Link
+                      to="/my-messages"
+                      onClick={() => setSendTo(auctionItem.owner.username)}
+                    >
+                      {auctionItem.owner.username}
+                    </Link>{" "}
+                  </p>
+                </div>
+              ) : null}
             </Col>
           </Row>
           <CustomModal prop={myProp} func={pull_data} />
@@ -226,4 +244,8 @@ const styles = {
     display: "flex",
     justifyContent: "center"
   },
+  owner: {
+    textAlign: "right",
+    paddingRight:"2vw"
+  }
 };

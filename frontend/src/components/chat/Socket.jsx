@@ -7,13 +7,11 @@ import {useMessage} from"../../contexts/MessageContext"
 
 let clientRef;
 
-export const sendMessage = async (text, usernameToSend, fromUsername) => {
+export const sendMessage = async (sendToUsername, msg) => {
   await clientRef.sendMessage(
-    "/app/chat/"+usernameToSend,  //Who recievs msg
-    JSON.stringify({
-      fromLogin: fromUsername, //Who sends msg
-      message: text,  //text of msg
-    })
+    "/app/chat/"+sendToUsername,  //Who recievs msg
+    JSON.stringify(msg)
+    
   );
 };
 
