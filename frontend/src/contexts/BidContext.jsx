@@ -1,5 +1,6 @@
 import React from "react";
 import { createContext, useContext, useState, useEffect } from "react";
+import { useAuctionItem } from "../contexts/AuctionItemContext";
 
 const BidContext = createContext();
 
@@ -11,6 +12,7 @@ export const useBidContext = () => {
 const BidProvider = (props) => {
 
   const [bids, setBids] = useState([])
+  const { fetchItemsInBatch, auctionItems } = useAuctionItem();
 
   useEffect(() => {
       fetchAllBids()
@@ -41,9 +43,11 @@ const BidProvider = (props) => {
         body: JSON.stringify(itemToPost),
       });
       console.log(await response.json())
+      fetchItemsInBatch(auctionItems.length)
       return response
     } catch {
       console.log("Posting bid failed")
+      return null;
     }
    
   }

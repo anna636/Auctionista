@@ -1,5 +1,5 @@
 import React from "react";
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 
 export const UserContext = createContext();
 
@@ -44,7 +44,6 @@ const UserContextProvider = (props) => {
     if (res.status !==403) {
       setCurrentUser(res);
     }
-    console.log(res.status)
     console.log(res, " This is login ")
     return res;
   };

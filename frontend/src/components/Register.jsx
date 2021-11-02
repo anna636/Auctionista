@@ -2,8 +2,8 @@ import React from 'react'
 import "bootstrap/dist/css/bootstrap.css";
 import styled from "styled-components";
 import { UserContext } from "../contexts/UserContext"
-import { useState, useEffect, useContext } from "react";
-import { Modal, Button, InputGroup, FormControl } from "react-bootstrap";
+import { useState, useContext } from "react";
+import { Modal, InputGroup, FormControl } from "react-bootstrap";
 
 const ErrorMessage = styled.span`
   display: flex;
@@ -20,6 +20,12 @@ const SuccessMessage = styled.span`
 `
 
 export function Register(props) {
+
+    function openPopup() {
+      props.func(true);
+    }
+ 
+  
   const {
     modal, toggle
   } = props;
@@ -60,6 +66,9 @@ export function Register(props) {
     }
     const response = await register(user)
     const responseUser = await login(userLogin)
+    if (!responseUser.error) {
+      openPopup()
+    }
   }
   return(
     <div>

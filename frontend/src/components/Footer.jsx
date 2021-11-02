@@ -21,6 +21,7 @@ function Footer() {
             <img
               style={styles.img}
               src="https://cdn-icons-png.flaticon.com/512/174/174883.png"
+              alt=""
             />
           </a>
 
@@ -90,13 +91,9 @@ const styles = {
     display: "grid",
     gridTemplateColumns: "repeat(3, 1fr)",
     gridGap: "5vw",
-    padding: "1vw 4vw",
+    padding: "1rem",
     color: "rgba(255, 255, 255, 0.55)",
-    
-  },
-
-  text: {
-    paddingBottom: "2vh",
+    marginBottom: "0",
   },
   img: {
     width: "25%",
@@ -115,6 +112,6 @@ const styles = {
   },
   text: {
     textAlign: "center",
-    margin: "0",
+    marginBottom: "0",
   },
 };

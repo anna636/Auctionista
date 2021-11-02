@@ -9,13 +9,16 @@ import org.springframework.data.repository.query.Param;
 
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
 public interface AuctionItemRepository extends JpaRepository<AuctionItem, Long> {
 
 
-    @Query(value="SELECT * FROM auction_items LIMIT 6 OFFSET :offset", nativeQuery = true)
+
+
+    @Query(value="SELECT * FROM auction_items WHERE sold = false LIMIT 6 OFFSET :offset", nativeQuery = true)
     List<AuctionItem> getItemsInBatch(String offset);
 
 

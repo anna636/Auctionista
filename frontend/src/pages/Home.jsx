@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useAuctionItem } from "../contexts/AuctionItemContext";
 import AuctionItemCard from "../components/AuctionItemCard";
-import { useHistory } from "react-router-dom";
 
 function Home() {
-  const history = useHistory();
   const [offsetY, setOffsetY] = useState(0);
   const [currentItemsLength, setCurrentItemsLength] = useState(6);
-  const { auctionItems, fetchAllAuctionItems, fetchItemsInBatch } =
+  const { auctionItems, fetchItemsInBatch } =
     useAuctionItem();
   const handleScroll = () => setOffsetY(window.pageYOffset);
 
@@ -41,8 +39,8 @@ function Home() {
 
       <div className="listWrapper" style={styles.listWrapper}>
         {auctionItems && auctionItems.length > 0 ? (
-          auctionItems.map((item) => (
-            <AuctionItemCard props={item} style={styles.item} />
+          auctionItems.map((item, index) => (
+            <AuctionItemCard props={item} style={styles.item} key={ index } />
           ))
         ) : (
           <p>There are no auctions at this moment :,(</p>

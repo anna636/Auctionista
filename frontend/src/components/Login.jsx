@@ -2,8 +2,8 @@ import React from 'react'
 import "bootstrap/dist/css/bootstrap.css";
 import styled from "styled-components";
 import { UserContext } from "../contexts/UserContext"
-import { useState, useEffect, useContext } from "react";
-import { Modal, Button, InputGroup, FormControl } from "react-bootstrap";
+import { useState, useContext } from "react";
+import { Modal, InputGroup, FormControl } from "react-bootstrap";
 
 const ErrorMessage = styled.span`
   display: flex;
@@ -30,6 +30,11 @@ export function Login(props) {
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState(false)
   const [successMsg, setSuccessMsg] = useState(false)
+
+   function openPopup() {
+     props.func(true);
+   }
+ 
   
   async function logIn(e) {
     e.preventDefault()
@@ -39,9 +44,13 @@ export function Login(props) {
       password: password
     }
     const response = await login(user)
+    
       if (response) {
       setErrorMessage(true)
       whoAmI()
+    }
+    if (!response.error) {
+      openPopup()
     }
   
   }

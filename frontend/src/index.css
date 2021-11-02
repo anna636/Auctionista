@@ -21,12 +21,26 @@ main{
   background-color: rgb(226, 89, 55);
 }
 
+.modal-content{
+  border-radius: 10px !important;
+ 
+ 
+}
+
+.btn-group-lg>.btn, .btn-lg{
+  font-size: 1rem !important;
+}
+
+.modal-header{
+border:none !important;
+text-align: center !important;
+}
 .loadMoreBtn:hover{
   background-color: transparent !important;
   color:black !important;
 }
 
-.coolImg{
+.coolImg, .textIngImg{
  
   animation: fadeIn 5s;
    animation-direction: alternate;
@@ -34,6 +48,16 @@ main{
   -moz-animation: fadeIn 5s;
   -o-animation: fadeIn 5s;
   -ms-animation: fadeIn 5s;
+  position: relative;
+}
+
+.loggedin{
+   animation: fadeOut 5s;
+   animation-direction: alternate;
+  -webkit-animation: fadeOut 4s;
+  -moz-animation: fadeOut 4s;
+  -o-animation: fadeOut 4s;
+  -ms-animation: fadeOut 4s;
   position: relative;
 }
 
@@ -69,6 +93,11 @@ main{
   position: relative;
 }
 
+@keyframes fadeOut {
+  0% {opacity:100%}
+ 
+  100% {opacity:0%}
+}
 
 @keyframes fadeIn {
   0% {opacity:0; left:200px;}

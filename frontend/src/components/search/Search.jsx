@@ -41,9 +41,9 @@ const Search = () => {
 
   return (
     <div>
-      <form class="form-inline" style={styles.form} onSubmit={handleSearch}>
+      <form className="form-inline" style={styles.form} onSubmit={handleSearch}>
         <input
-          class="form-control mr-sm-2"
+          className="form-control mr-sm-2"
           type="search"
           placeholder="Search"
           aria-label="Search"
@@ -59,7 +59,7 @@ const Search = () => {
           autohide
         >
           <button
-            class="btn btn-outline-secondary my-2 my-sm-0"
+            className="btn btn-outline-secondary my-2 my-sm-0"
             type="submit"
             style={styles.formButton}
           >

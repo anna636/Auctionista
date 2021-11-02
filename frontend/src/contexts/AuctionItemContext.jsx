@@ -29,10 +29,9 @@ const AuctionItemProvider = (props) => {
 
     if (auctionItems.length === 0) {
       setAuctionItems(items)
-      console.log("setting items when 0")
     }
     else {
-       setAuctionItems([...auctionItems, ...items]);
+      setAuctionItems([...auctionItems, ...items]);
     }
 
    
@@ -42,7 +41,6 @@ const AuctionItemProvider = (props) => {
     let res = await fetch("/rest/auction-items/" + id);
     try {
       let fetchedItem = await res.json();
-      console.log("From fetchAuctionItem: ", fetchedItem);
       return fetchedItem;
     } catch {
       console.log("No item found");
@@ -53,7 +51,6 @@ const AuctionItemProvider = (props) => {
     let res = await fetch("/api/auction-items/search?title=" + userInput);
     try {
       let fetchedItems = await res.json();
-      console.log("From fetchAuctionItemByTitle: ", fetchedItems);
       setAuctionItems(fetchedItems)
       return fetchedItems;
     } catch {

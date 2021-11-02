@@ -1,9 +1,18 @@
-import {useState} from 'react'
-
 
 const CustomModal = (prop) => {
 
- 
+  let styleType = () => {
+    if (prop.prop.show) {
+      if (prop.prop.colour === "green") {
+         return styles.showGreen;
+      }
+      if (prop.prop.colour === "red") {
+         return styles.showRed;
+      }
+        return styles.show;
+    }
+    else if (!prop.prop.show) { return styles.hide }
+  }
   
   function close() {
      prop.func(false);
@@ -11,7 +20,7 @@ const CustomModal = (prop) => {
  
   return (
     <div
-      style={prop.prop.show ? styles.show : styles.hide}
+      style={styleType()}
       className="customModal"
       
     >
@@ -35,10 +44,24 @@ export default CustomModal
 
 const styles = {
   hide: {
-    display:"none",
+    display: "none",
   },
 
   show: {
+    display: "block",
+    position: "fixed",
+    width: "30vw",
+    height: "30vh",
+    backgroundColor: "black",
+    right: "35vw",
+    top: "40vh",
+    borderRadius: "20px",
+    opacity: "0.8",
+    gridTemplateRows: "20% 50% 30%",
+    padding: "1vw",
+    color: "white",
+  },
+  showGreen: {
     display: "block",
     position: "fixed",
     width: "30vw",
@@ -48,21 +71,33 @@ const styles = {
     top: "40vh",
     borderRadius: "20px",
     opacity: "0.8",
-    display: "grid",
-    gridTemplateRows:"20% 50% 30%",
+    gridTemplateRows: "20% 50% 30%",
     padding: "1vw",
-    color:"white"
-    
+    color: "white",
+  },
+  showRed: {
+    display: "block",
+    position: "fixed",
+    width: "30vw",
+    height: "30vh",
+    backgroundColor: "red",
+    right: "35vw",
+    top: "40vh",
+    borderRadius: "20px",
+    opacity: "0.8",
+    gridTemplateRows: "20% 50% 30%",
+    padding: "1vw",
+    color: "white",
   },
   closeModal: {
     textAlign: "right",
-    cursor:"pointer"
+    cursor: "pointer",
   },
   modalFooter: {
-    borderTop:"1px solid white"
+    borderTop: "1px solid white",
   },
   mainInfo: {
     fontSize: "1.3em",
-    fontWeight:"bold"
-  }
-}
+    fontWeight: "bold",
+  },
+};

@@ -1,9 +1,8 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.css";
-import styled from "styled-components";
 import { UserContext } from "../contexts/UserContext"
 import { useState, useEffect, useContext } from "react";
-import { NavDropdown, Modal, Button } from "react-bootstrap";
+import { NavDropdown } from "react-bootstrap";
 import { Login } from "../components/Login"
 import { Register } from "../components/Register"
 import { Link } from 'react-router-dom';
@@ -15,9 +14,19 @@ function Navbar() {
   const {getCurrentUser, logout} = useContext(UserContext)
   const [login, setLogin] = useState(false);
   const [register, setRegister] = useState(false);
+  const [showPopup, setShowPopup]= useState(false)
   const toggleLogin = () => setLogin(!login);
   const toggleRegister = () => setRegister(!register);
   
+
+   const pull_data = (data) => {
+     console.log(data);
+     setShowPopup(data)
+     setTimeout(function () {
+       setShowPopup(false)
+     }, 4000);
+    
+   };
 
 
   useEffect(() => {
@@ -26,15 +35,12 @@ function Navbar() {
   }, []);
 
   return (
-    <nav class="navbar navbar-expand-lg navbar-dark" style={styles.navbar}>
-      <a class="navbar-brand" style={styles.mainName}>
-        <Link to="/" className="link">
-          {" "}
-          Auctionista
-        </Link>
+    <nav className="navbar navbar-expand-lg navbar-dark" style={styles.navbar}>
+      <a className="navbar-brand" style={styles.mainName} href="/">
+        Auctionista
       </a>
       <button
-        class="navbar-toggler"
+        className="navbar-toggler"
         type="button"
         data-toggle="collapse"
         data-target="#navbarNavDropdown"
@@ -42,7 +48,7 @@ function Navbar() {
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
-        <span class="navbar-toggler-icon"></span>
+        <span className="navbar-toggler-icon"></span>
       </button>
       <div>
         <Search />
@@ -50,28 +56,32 @@ function Navbar() {
       {!getCurrentUser() ? (
         <div style={styles.loginButtons}>
           <div>
-            <button class="btn btn-outline-light btn-lg" onClick={toggleLogin}>
+            <button className="btn btn-outline-light btn-lg" onClick={toggleLogin}>
               Login
             </button>
-            <Login toggle={toggleLogin} modal={login}></Login>
+            <Login toggle={toggleLogin} modal={login} func={pull_data}></Login>
           </div>
           <div style={styles.registerButton}>
             <button
-              class="btn btn-outline-light btn-lg"
+              className="btn btn-outline-light btn-lg"
               onClick={toggleRegister}
             >
               Register
             </button>
-            <Register toggle={toggleRegister} modal={register}></Register>
+            <Register
+              toggle={toggleRegister}
+              modal={register}
+              func={pull_data}
+            ></Register>
           </div>
         </div>
       ) : (
         <div
-          class="collapse navbar-collapse"
+          className="collapse navbar-collapse"
           id="navbarNavDropdown"
           style={styles.ul}
         >
-          <ul class="navbar-nav">
+          <ul className="navbar-nav">
             <NavDropdown
               id="nav-dropdown-dark-example"
               title={"Hello " + getCurrentUser().username}
@@ -107,10 +117,16 @@ function Navbar() {
         </div>
       )}
       <div
-        class="collapse navbar-collapse"
+        className="collapse navbar-collapse"
         id="navbarNavDropdown"
         style={styles.ul}
       ></div>
+      <div
+        className="loggedin"
+        style={showPopup ? styles.loggedIn : styles.hide}
+      >
+        <p>Logged in</p>
+      </div>
     </nav>
   );
 }
@@ -129,10 +145,22 @@ const styles = {
     flexDirection: "row",
     position: "absolute",
     right: "0",
-    marginRight: "10px",
+    marginRight: "60px",
   },
   registerButton: {
     marginLeft: "10px",
+  },
+
+  loggedIn: {
+    position: "absolute",
+    width: "13vw",
+    height: "5vh",
+    backgroundColor: "green",
+    top: "11.2vh",
+    right: "10vw",
+    opacity: "0.8",
+    borderRadius: "5px",
+    textAlign:"center"
   },
 
   ul: {
@@ -142,5 +170,9 @@ const styles = {
   mainName: {
     fontSize: "1.7em",
   },
+
+  hide: {
+    display:"none"
+  }
   
 };
