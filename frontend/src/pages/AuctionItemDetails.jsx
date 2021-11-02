@@ -1,7 +1,7 @@
 import React from "react";
 import Counter from "../components/Counter"
 import { useEffect, useState, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useAuctionItem } from "../contexts/AuctionItemContext";
 import {
   Button,
@@ -207,6 +207,8 @@ function AuctionItemDetails() {
                   <img src={itemImages[0]} alt="" style={{ height: "100%" }} />
                 </div>
               )}
+              <br />
+              <Link to="/chat" >To Chat Page</Link>
             </Col>
           </Row>
           <CustomModal prop={myProp} func={pull_data} />

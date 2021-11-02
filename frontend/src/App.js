@@ -11,11 +11,14 @@ import BidProvider from "./contexts/BidContext";
 import MyListings from "./pages/MyListings";
 import MyMessages from "./pages/MyMessages";
 import MyProfile from "./pages/MyProfile";
+import MessageProvider from "./contexts/MessageContext";
+import Chat from "./pages/Chat";
 
 function App() {
   return (
     <div className="App">
       <UserContextProvider>
+        <MessageProvider>
         <AuctionItemProvider>
           <BidProvider>
             <Router>
@@ -36,6 +39,7 @@ function App() {
                   <Route exact path="/my-listings" component={MyListings} />
                   <Route exact path="/my-messages" component={MyMessages} />
                   <Route exact path="/my-profile" component={MyProfile} />
+                  <Route exact path="/chat" component={Chat} />
                 </Switch>
               </main>
               <footer>
@@ -45,6 +49,7 @@ function App() {
             </Router>
           </BidProvider>
         </AuctionItemProvider>
+        </MessageProvider>
       </UserContextProvider>
     </div>
   );
