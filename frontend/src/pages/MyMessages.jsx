@@ -119,7 +119,8 @@ const cosStyles = {
     backgroundColor: "#c6e3fa",
     borderRadius: "10px",
     height: "87%",
-    padding:"2vw 2vw 2vw 2vw"
+    padding: "2vw 2vw 2vw 2vw",
+     overflowY: "scroll"
   },
   inputWrapper: {
     width: "100%",
