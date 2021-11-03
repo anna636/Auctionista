@@ -63,7 +63,7 @@ const UserContextProvider = (props) => {
 
   
   const logout = async () => {
-    let res = await fetch("/api/logout", {
+    let res = await fetch("/logout", {
       method: "DELETE",
     });
     res = await res.json();

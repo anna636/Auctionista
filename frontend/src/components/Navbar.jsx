@@ -7,6 +7,7 @@ import { Login } from "../components/Login"
 import { Register } from "../components/Register"
 import { Link } from 'react-router-dom';
 import Search from "./search/Search";
+import { useHistory } from "react-router-dom";
 
 
 
@@ -17,7 +18,7 @@ function Navbar() {
   const [showPopup, setShowPopup]= useState(false)
   const toggleLogin = () => setLogin(!login);
   const toggleRegister = () => setRegister(!register);
-  
+  const history = useHistory();
 
    const pull_data = (data) => {
      console.log(data);
@@ -34,6 +35,10 @@ function Navbar() {
 
   }, []);
 
+  function Logout(){
+    logout()
+    history.push("/")
+  }
   return (
     <nav className="navbar navbar-expand-lg navbar-dark" style={styles.navbar}>
       <a className="navbar-brand" style={styles.mainName} href="/">
@@ -109,7 +114,7 @@ function Navbar() {
                 </Link>
               </NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4" onClick={logout}>
+              <NavDropdown.Item href="#action/3.4" onClick={Logout}>
                 Log out
               </NavDropdown.Item>
             </NavDropdown>

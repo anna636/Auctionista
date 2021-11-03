@@ -1,5 +1,6 @@
 package com.example.demo.configs;
 
+import org.hibernate.sql.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +10,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+
+
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -30,6 +33,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/**").permitAll()     // doesn't require login
                 .antMatchers("/rest/**").authenticated() // user is logged in
                 .antMatchers("/greet").authenticated() // user is logged in
+                .and()
+                .logout(logout -> logout
+
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/")
+
+                )
         ;
     }
 
