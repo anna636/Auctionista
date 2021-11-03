@@ -17,6 +17,15 @@ RESPONSE:
 ### METHOD: POST
 
 REQUEST:
+```json
+{
+    "id": 4,
+    "fullName": "anna tch",
+    "username": "anna2",
+    "email": "anna@gmail.com",
+    "password": "123"
+}
+```
 
 RESPONSE: 
 ```json
@@ -35,9 +44,7 @@ REQUEST:
 
 ```json
 {
-    "fullName": "test",
     "username": "test",
-    "email": "test@gmail.com",
     "password":"123"
 }
 ```
@@ -298,7 +305,7 @@ RESPONSE:
     }
 ```
 
-## /rest/auctionItems
+## /rest/auction-items
 ### METHOD: POST
 REQUEST:
 
@@ -348,7 +355,7 @@ RESPONSE:
 ```
 
 
-## /rest/auctionItem/{id}
+## /rest/auction-items/{id}
 ### METHOD: GET
 RESPONSE:
 ```json
