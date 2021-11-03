@@ -55,15 +55,17 @@ const AuctionItemCard = (props) => {
             <Counter dateFrom={props.props.deadline}></Counter>
           </div>
         </div>
-        <img
-          style={styles.img}
-          src={props.props.images.split(",")[props.props.primaryImgIndex]}
-          alt=""
-          onClick={redirect}
-        />
+        <div style={styles.imageContainer}>
+          <img
+            style={styles.img}
+            src={props.props.images.split(",")[props.props.primaryImgIndex]}
+            alt=""
+            onClick={redirect}
+          />
+        </div>
       </div>
       <div className="title" style={styles.title}>
-        <h5 style={{ marginBottom: "0"}}>{props.props.title}</h5>
+        <h5 style={{ marginBottom: "0" }}>{props.props.title}</h5>
       </div>
     </div>
   );
@@ -91,13 +93,20 @@ const styles = {
     justifyContent: "space-between",
     textAlign: "left",
   },
-  img: {
-    width: "50%",
-    cursor: "pointer",
-    maxHeight: "152px",
-    borderRadius: "5px",
-    marginRight: "1rem",
+  imageContainer: {
+    height: "12rem",
+    width: "60%",
+    overflow: "hidden",
+    display: "flex",
+    justifyContent: "center",
   },
+  // img: {
+  //   width: "50%",
+  //   cursor: "pointer",
+  //   maxHeight: "152px",
+  //   borderRadius: "5px",
+  //   marginRight: "1rem",
+  // },
   title: {
     textAlign: "center",
     paddingTop: "3vh",
@@ -117,7 +126,7 @@ const styles = {
     marginTop: "15px",
   },
   textContainer: {
-    width: "50%",
+    width: "40%",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
