@@ -9,7 +9,8 @@ export const useMessage = () => {
 
 const MessageProvider = (props) => {
   const [messages, setMessages] = useState([]);
-  const [sendTo, setSendTo]=useState("")
+  const [sendTo, setSendTo] = useState("")
+  const [chatsWith, setChatsWith]=useState([])
 
   function updateMessages(newList) {
     setMessages(newList);
@@ -20,6 +21,8 @@ const MessageProvider = (props) => {
     updateMessages,
     sendTo,
     setSendTo,
+    chatsWith,
+    setChatsWith
   };
 
   return (

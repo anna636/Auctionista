@@ -32,7 +32,7 @@ function AuctionItemDetails() {
   const [myProp, setMyProp] = useState({});
   const [highestBid, setHighestBid] = useState();
   const [itemImages, setItemImages] = useState([]);
-  const { sendTo, setSendTo } = useMessage();
+  const { sendTo, setSendTo, chatsWith, setChatsWith } = useMessage();
 
 
   useEffect(() => {
@@ -122,6 +122,11 @@ function AuctionItemDetails() {
       });
     }
   };
+
+  function setMsgReciever(username) {
+    setSendTo(username)
+    setChatsWith([...chatsWith, username])
+  }
 
   return (
     <div>
@@ -218,7 +223,7 @@ function AuctionItemDetails() {
                     Auction owner:{" "}
                     <Link
                       to="/my-messages"
-                      onClick={() => setSendTo(auctionItem.owner.username)}
+                      onClick={() => setMsgReciever(auctionItem.owner.username)}
                     >
                       {auctionItem.owner.username}
                     </Link>{" "}

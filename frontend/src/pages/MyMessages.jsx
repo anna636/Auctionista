@@ -11,6 +11,7 @@ import {
 import { useMessage } from "../contexts/MessageContext";
 import { sendMessage } from "../components/chat/Socket";
 import { UserContext } from "../contexts/UserContext";
+import ChatBox from "../components/chat/ChatBox";
 
 
 function MyMessages() {
@@ -18,7 +19,8 @@ function MyMessages() {
   const { sendTo, setSendTo, messages, setMessages } = useMessage();
   const [msgToSend, setMsgToSend] = useState("")
   const { getCurrentUser } = useContext(UserContext);
-  const [typing, setTyping]=useState(false)
+  const [typing, setTyping] = useState(false)
+ 
   
   function sendNewMsg(e) {
     e.preventDefault()
@@ -39,6 +41,11 @@ function MyMessages() {
 
   }
 
+   const pullChildData = (data) => {
+     console.log("msg reciever set to ",data);
+     
+   };
+
   function getInputValue(text) {
     setMsgToSend(text);
     setTyping(true)
@@ -46,7 +53,9 @@ function MyMessages() {
   
   return (
     <div className="chatWrapper" style={cosStyles.chatWrapper}>
-      <div className="people" style={cosStyles.people}></div>
+      <div className="people" style={cosStyles.people}>
+        <ChatBox func={pullChildData} />
+      </div>
       <div style={{ position: "relative", height: "500px" }}>
         <MainContainer>
           <ChatContainer>
@@ -70,7 +79,6 @@ function MyMessages() {
                           position: "single",
                         }}
                       />
-                     
                     </>
                   ))
                 : null}
@@ -79,18 +87,15 @@ function MyMessages() {
         </MainContainer>
         <div style={cosStyles.inputWrapper} className="chatWrapper">
           <form action="" onSubmit={sendNewMsg} style={cosStyles.form}>
-            
-              <input
-                type="text"
-                style={cosStyles.input}
-                onChange={(e) => getInputValue(e.target.value)}
-                value={msgToSend}
-                onSubmit={sendNewMsg}
-              />
-            
-              <button style={cosStyles.sendBtn}>Send</button>
-         
-            
+            <input
+              type="text"
+              style={cosStyles.input}
+              onChange={(e) => getInputValue(e.target.value)}
+              value={msgToSend}
+              onSubmit={sendNewMsg}
+            />
+
+            <button style={cosStyles.sendBtn}>Send</button>
           </form>
         </div>
       </div>
@@ -114,6 +119,7 @@ const cosStyles = {
     backgroundColor: "#c6e3fa",
     borderRadius: "10px",
     height: "87%",
+    padding:"2vw 2vw 2vw 2vw"
   },
   inputWrapper: {
     width: "100%",
