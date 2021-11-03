@@ -17,7 +17,7 @@ function ChatMessage(props) {
   
   return (
     <>
-   
+      {props.sendTo === props.message.fromLogin || props.message.fromLogin === getCurrentUser().username? 
       <Message
       model={{
         message: props.message.message,
@@ -27,7 +27,8 @@ function ChatMessage(props) {
         position: "single",
         }}
         
-      />
+      /> :null}
+   
     
       </>
   );
