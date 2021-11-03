@@ -4,23 +4,21 @@
 METHOD: GET
 RESPONSE: 
 {
-    "id": 31,
-    "fullName": "anna",
-    "username": "boi",
-    "email": "a@haha.se",
-    "password": "$2a$10$9RhIyFjEG/1sOfVZaZ8ufu9/AzL1u1A9jtbW.4SYWp/Apgncq6oyC",
-    "myAuctionItems": []
+    "id": 4,
+    "fullName": "anna tch",
+    "username": "anna2",
+    "email": "anna@gmail.com",
+    "myAuctionItems": null
 }
 
 /api/register
 METHOD: POST
 RESPONSE: 
 {
-    "id": 36,
-    "fullName": "test",
-    "username": "test",
-    "email": "test@gmail.com",
-    "password": "$2a$10$aRAsD5XqRM7uluNSErqh7uN6Ls3Ar/nialWcpjbvcEgR90hZc2eO6",
+    "id": 4,
+    "fullName": "anna tch",
+    "username": "anna2",
+    "email": "anna@gmail.com",
     "myAuctionItems": null
 }
 
@@ -32,7 +30,6 @@ RESPONSE:
     "fullName": "test",
     "username": "test",
     "email": "test@gmail.com",
-    "password": "$2a$10$aRAsD5XqRM7uluNSErqh7uN6Ls3Ar/nialWcpjbvcEgR90hZc2eO6",
     "myAuctionItems": []
 }
 
@@ -44,7 +41,6 @@ RESPONSE:
     "fullName": "test",
     "username": "test",
     "email": "test@gmail.com",
-    "password": "$2a$10$aRAsD5XqRM7uluNSErqh7uN6Ls3Ar/nialWcpjbvcEgR90hZc2eO6",
     "myAuctionItems": []
 }
 

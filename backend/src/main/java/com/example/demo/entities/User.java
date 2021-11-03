@@ -1,5 +1,7 @@
 package com.example.demo.entities;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,6 +26,13 @@ public class User {
     private String fullName;
     private String username;
     private String email;
+
+    @JsonIgnore
+    @JsonProperty(value = "password")
+    public String getPassword() {
+        return password;
+    }
+
     private String password;
 
    @OneToMany(mappedBy="owner")
