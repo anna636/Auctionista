@@ -29,12 +29,6 @@ function Home() {
         />
         <div style={{ transform: `translateY(${offsetY * -0.8}px)` }}>
           <h1 style={styles.text}>Livestock Auction</h1>
-          {/* <img
-            style={styles.text}
-            src="https://www.coolgenerator.com/Data/Textdesign/202110/f2bbfa196417e52664c56938ca47c4e7.png"
-            alt=""
-            className="livestockAuction"
-          /> */}
         </div>
       </div>
 

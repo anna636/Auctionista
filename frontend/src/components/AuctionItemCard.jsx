@@ -31,21 +31,26 @@ const AuctionItemCard = (props) => {
   return (
     <div className="itemWrapper" style={styles.itemWrapper}>
       <div className="mainInfo" style={styles.mainInfo}>
-        <div>
+        <div style={styles.textContainer}>
           {props.props.bids.length > 0 ? (
             <p>
-              Latest bid: {props.props.bids[props.props.bids.length - 1].amount}{" "}
-              euro
+              Latest bid:{" "}
+              <strong>
+                {props.props.bids[props.props.bids.length - 1].amount}
+              </strong>
+              <i class="bi bi-currency-bitcoin"></i>
             </p>
           ) : (
-            <p>There are no bids on this item yet</p>
+            <p>
+              Current price: <strong>{item.startPrice}</strong>
+              <i class="bi bi-currency-bitcoin"></i>
+            </p>
           )}
-          <p>Minimum bid possible: {item.minimumBid} euro </p>
-          {location.pathname === "/" ? (
-            <QuickBid props={props.props} />
-          ) : (
-           null
-          )}
+          <p>
+            Minimum bid: <strong>{item.minimumBid}</strong>
+            <i class="bi bi-currency-bitcoin"></i>{" "}
+          </p>
+          {location.pathname === "/" ? <QuickBid props={props.props} /> : null}
           <div style={styles.counter}>
             <Counter dateFrom={props.props.deadline}></Counter>
           </div>
@@ -58,7 +63,7 @@ const AuctionItemCard = (props) => {
         />
       </div>
       <div className="title" style={styles.title}>
-        <h5>{props.props.title}</h5>
+        <h5 style={{ marginBottom: "0"}}>{props.props.title}</h5>
       </div>
     </div>
   );
@@ -73,17 +78,17 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     marginBottom: "10vh",
-    padding: "5vh",
-    paddingBottom: "2vh",
+    padding: "2rem",
     boxShadow: "0px 0px 8px 2px rgba(0,0,0,0.54)",
     borderRadius: "20px",
+    border: "solid 1px black",
     color: "black",
-    backgroundColor: "white",
+    backgroundColor: "#dad4be",
   },
   mainInfo: {
     display: "flex",
     flexDirection: "row",
-    gap: "2vw",
+    justifyContent: "space-between",
     textAlign: "left",
   },
   img: {
@@ -91,10 +96,12 @@ const styles = {
     cursor: "pointer",
     maxHeight: "152px",
     borderRadius: "5px",
+    marginRight: "1rem",
   },
   title: {
     textAlign: "center",
     paddingTop: "3vh",
+    fontFamily: "Montserrat, sans-serif",
   },
 
   btn: {
@@ -108,5 +115,13 @@ const styles = {
   },
   counter: {
     marginTop: "15px",
+  },
+  textContainer: {
+    width: "50%",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    fontFamily: "Montserrat, sans-serif",
+    fontSize: "14px",
   },
 };

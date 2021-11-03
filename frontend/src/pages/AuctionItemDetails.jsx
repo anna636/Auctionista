@@ -120,7 +120,7 @@ function AuctionItemDetails() {
   };
 
   return (
-    <div>
+    <div style={styles.mainPage}>
       {!auctionItem && (
         <Spinner animation="border" role="status" className="mt-5">
           <span className="visually-hidden">Loading...</span>
@@ -208,7 +208,8 @@ function AuctionItemDetails() {
                 </div>
               )}
               <br />
-              <Link to={"/chat/" + currentUser.id}>Chat with seller</Link>
+              { currentUser &&
+                <Link to={"/chat/" + currentUser.id}>Chat with seller</Link>}
             </Col>
           </Row>
           <CustomModal prop={myProp} func={pull_data} />
@@ -226,6 +227,6 @@ const styles = {
     marginRight: "0",
     overflow: "hidden",
     display: "flex",
-    justifyContent: "center"
+    justifyContent: "center",
   },
 };
