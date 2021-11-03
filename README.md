@@ -1,8 +1,9 @@
-# Auctionista
+# Auctionista API
 
-/rest/users/id
-METHOD: GET
+## /rest/users/id
+### METHOD: GET
 RESPONSE: 
+```json
 {
     "id": 4,
     "fullName": "anna tch",
@@ -10,10 +11,15 @@ RESPONSE:
     "email": "anna@gmail.com",
     "myAuctionItems": null
 }
+```
 
-/api/register
-METHOD: POST
+## /api/register
+### METHOD: POST
+
+REQUEST:
+
 RESPONSE: 
+```json
 {
     "id": 4,
     "fullName": "anna tch",
@@ -21,10 +27,23 @@ RESPONSE:
     "email": "anna@gmail.com",
     "myAuctionItems": null
 }
+```
 
-/api/login
-METHOD: POST
+## /api/login
+### METHOD: POST
+REQUEST:
+
+```json
+{
+    "fullName": "test",
+    "username": "test",
+    "email": "test@gmail.com",
+    "password":"123"
+}
+```
+
 RESPONSE: 
+```json
 {
     "id": 36,
     "fullName": "test",
@@ -32,10 +51,12 @@ RESPONSE:
     "email": "test@gmail.com",
     "myAuctionItems": []
 }
+```
 
-/api/whoami
-METHOD: GET
+## /api/whoami
+### METHOD: GET
 RESPONSE: 
+```json
 {
     "id": 36,
     "fullName": "test",
@@ -43,12 +64,38 @@ RESPONSE:
     "email": "test@gmail.com",
     "myAuctionItems": []
 }
+```
 
 
 
-/rest/bids
-METHOD: POST
+## /rest/bids
+### METHOD: POST
+
+REQUEST:
+```json
+{
+   
+    "amount": 22,
+    "time": "2021-10-29T11:07:25.472",
+    "user_id": "36",
+    "auctionItem": {
+        "id": 3,
+        "title": "test2",
+        "description": "sdcsc",
+        "reservationPrice": 100,
+        "deadline": "2021-11-01T13:59:59.298",
+        "images": "/uploads/Food-Tank-28-Livestock-Farmers.jpeg",
+        "sold": false,
+        "startPrice": 121,
+        "currentPrice": null,
+        "minimumBid": 133,
+        "primaryImgIndex": 0
+    }
+}
+```
+
 RESPONSE: 
+```json
 {
     "id": 37,
     "amount": 22,
@@ -68,12 +115,40 @@ RESPONSE:
         "primaryImgIndex": 0
     }
 }
+```
 
 
-
-/rest/bids
-METHOD: GET
+## /rest/bids
+### METHOD: GET
 RESPONSE:
+```json
+{
+    "id": 4,
+    "amount": 22,
+    "time": "2021-10-29T11:07:25.472",
+    "user_id": "1",
+    "auctionItem": {
+        "id": 3,
+        "title": "test2",
+        "description": "sdcsc",
+        "reservationPrice": 100,
+        "deadline": "2021-11-01T13:59:59.298",
+        "images": "/uploads/Food-Tank-28-Livestock-Farmers.jpeg",
+        "sold": false,
+        "startPrice": 121,
+        "currentPrice": null,
+        "minimumBid": 133,
+        "primaryImgIndex": 0
+    }
+}
+```
+
+
+
+## /rest/bids/id
+### METHOD: GET
+RESPONSE: 
+```json
 {
     "id": 4,
     "amount": 22,
@@ -94,36 +169,13 @@ RESPONSE:
     }
 }
 
+```
 
 
-
-/rest/bids/id
-METHOD: GET
+## /api/auction-items/search?title={title}
+### METHOD: GET
 RESPONSE: 
-{
-    "id": 4,
-    "amount": 22,
-    "time": "2021-10-29T11:07:25.472",
-    "user_id": "1",
-    "auctionItem": {
-        "id": 3,
-        "title": "test2",
-        "description": "sdcsc",
-        "reservationPrice": 100,
-        "deadline": "2021-11-01T13:59:59.298",
-        "images": "/uploads/Food-Tank-28-Livestock-Farmers.jpeg",
-        "sold": false,
-        "startPrice": 121,
-        "currentPrice": null,
-        "minimumBid": 133,
-        "primaryImgIndex": 0
-    }
-}
-
-
-/api/auction-items/search?title={title}
-METHOD: GET
-RESPONSE: 
+```json
  {
         "id": 3,
         "title": "test2",
@@ -180,10 +232,14 @@ RESPONSE:
             "username": "anna"
         }
     }
+```
 
-/rest/auction-items
-METHOD: GET
+
+
+## /rest/auction-items
+### METHOD: GET
 RESPONSE:
+```json
  {
         "id": 3,
         "title": "test2",
@@ -240,10 +296,35 @@ RESPONSE:
             "username": "anna"
         }
     }
+```
 
-/rest/auctionItems
-METHOD: POST
+## /rest/auctionItems
+### METHOD: POST
+REQUEST:
+
+```json
+{
+    
+    "title": "test22",
+    "description": "sdcsc",
+    "reservationPrice": 100,
+    "deadline": "2021-11-01T13:59:59.298",
+    "images": "/uploads/Food-Tank-28-Livestock-Farmers.jpeg",
+    "sold": false,
+    "startPrice": 121,
+    "currentPrice": 121,
+    "minimumBid": 133,
+    "primaryImgIndex": 0,
+    "bids": [],
+    "owner": {
+        "id": 1,
+        "fullName": "anna",
+        "username": "anna"
+    }
+}
+```
 RESPONSE:
+```json
 {
     "id": 38,
     "title": "test22",
@@ -264,10 +345,13 @@ RESPONSE:
     }
 }
 
+```
 
-/rest/auctionItem/{id}
-METHOD: GET
+
+## /rest/auctionItem/{id}
+### METHOD: GET
 RESPONSE:
+```json
 
 {
     "id": 38,
@@ -288,11 +372,12 @@ RESPONSE:
         "username": "anna"
     }
 }
+```
 
-
-/rest/auction-items/batch/{offset}
-METHOD: GET
+## /rest/auction-items/batch/{offset}
+### METHOD: GET
 RESPONSE:
+```json
 
 {
     "id": 38,
@@ -313,11 +398,14 @@ RESPONSE:
         "username": "anna"
     }
 }
+```
 
 
 
-/api/upload
-METHOD: GET
+## /api/upload
+### METHOD: GET
 RESPONSE:
+```json
 [/uploads/Food-Tank-28-Livestock-Farmers.jpeg]
+```
 
