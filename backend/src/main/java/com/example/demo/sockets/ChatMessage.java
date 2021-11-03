@@ -1,5 +1,7 @@
 package com.example.demo.sockets;
 
+import com.example.demo.entities.User;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +12,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChatMessage {
-    private String user;
+
+    @JsonIgnoreProperties({"myAuctionItems", "email"})
+    private User user;
+
     private String message;
 }
 

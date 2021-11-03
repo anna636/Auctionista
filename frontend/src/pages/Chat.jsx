@@ -1,16 +1,17 @@
 import { emit } from "../Socket"
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Button } from "react-bootstrap";
 import MessageList from "../components/MessageList.jsx";
+import { UserContext } from "../contexts/UserContext";
 
 function Chat() {
   const [inputMessage, setInputMessage] = useState("");
+  const { currentUser } = useContext(UserContext);
 
   function handleSubmit() {
 
     let data = {
-      // change user to current user
-      user: "Ziggy",
+      user: currentUser,
       message: inputMessage,
     };
     postMessage(data);

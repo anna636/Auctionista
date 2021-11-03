@@ -40,6 +40,7 @@ function Socket() {
     socket.on("chat", function (data) {
       console.log("Received message", data);
       updateContext({
+        user: data.user,
         messages: [...context.messages, data.message],
       })
     });
