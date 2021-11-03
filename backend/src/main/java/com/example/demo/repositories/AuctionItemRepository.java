@@ -18,8 +18,8 @@ public interface AuctionItemRepository extends JpaRepository<AuctionItem, Long> 
 
 
 
-     @Query (value="SELECT rowid, * FROM auction_items WHERE id = :id", nativeQuery = true)
-     ArrayList<String> getRowId (String id);
+     @Query (value="SELECT rowid FROM auction_items WHERE id = :id", nativeQuery = true)
+     String getRowId (String id);
 
 
     @Query(value="SELECT * FROM auction_items WHERE sold = false LIMIT 6 OFFSET :offset", nativeQuery = true)

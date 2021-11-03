@@ -13,7 +13,7 @@ const AuctionItemProvider = (props) => {
   const [imgPaths, setImgPaths] = useState([]);
 
   useEffect(() => {
-       fetchItemsInBatch(0);
+       fetchItemsInBatch(0, 1);
     
       }, []);
    
@@ -22,8 +22,8 @@ const AuctionItemProvider = (props) => {
     setAuctionItems(await response.json())
   };
 
-  const fetchItemsInBatch = async (offsetValue) => {
-    let response = await fetch("/rest/auction-items/batch/" + offsetValue)
+  const fetchItemsInBatch = async (offsetValue, itemId) => {
+    let response = await fetch("/rest/auction-items/batch/" + offsetValue+"/"+itemId)
    
     let items = await response.json()
 
@@ -31,13 +31,7 @@ const AuctionItemProvider = (props) => {
       setAuctionItems(items)
     }
     else {
-      let arrayOfNewItems = [];
-      for (let item in items) {
-        if (!auctionItems.includes(item)) {
-          arrayOfNewItems.push(item)
-        }
-      }
-      
+      console.log(items)
       setAuctionItems([...auctionItems, ...items]);
     }
 

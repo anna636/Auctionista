@@ -15,7 +15,7 @@ function Home() {
   }, []);
 
   function loadMore() {
-    fetchItemsInBatch(auctionItems.length);
+    fetchItemsInBatch(1, auctionItems[auctionItems.length-1].id);
     setCurrentItemsLength(auctionItems.length);
   }
 
