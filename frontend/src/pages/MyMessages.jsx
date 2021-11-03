@@ -34,6 +34,7 @@ function MyMessages() {
       setMessages([...messages, msg]);
       setMsgToSend("");
       setTyping(false);
+      console.log(messages)
     }
     else {
       console.log("sending to null user")

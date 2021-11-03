@@ -43,6 +43,7 @@ function Socket() {
             setChatsWith([msg.fromLogin, ...chatsWith])
           }
           console.log(msg);
+         
         }}
         ref={(client) => {
           clientRef = client;
