@@ -1,10 +1,12 @@
 import { emit } from "../Socket"
 import { useState, useContext } from "react";
+import { useParams } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import MessageList from "../components/MessageList.jsx";
 import { UserContext } from "../contexts/UserContext";
 
 function Chat() {
+  const { userid } = useParams();
   const [inputMessage, setInputMessage] = useState("");
   const { currentUser } = useContext(UserContext);
 
@@ -28,17 +30,17 @@ function Chat() {
     });
   }
 
-  function join() {
-    console.log("Join");
-    emit("join", inputMessage);
-    setInputMessage("");
-  }
+  // function join() {
+  //   console.log("Join");
+  //   emit("join", inputMessage);
+  //   setInputMessage("");
+  // }
 
-  function leave() {
-    console.log("Leave");
-    emit("leave", inputMessage);
-    setInputMessage("");
-  }
+  // function leave() {
+  //   console.log("Leave");
+  //   emit("leave", inputMessage);
+  //   setInputMessage("");
+  // }
 
   return (
     <div>
@@ -50,10 +52,10 @@ function Chat() {
         onChange={(e) => setInputMessage(e.target.value)}
       />
       <button onClick={handleSubmit}>Submit</button>
-      <br />
+      {/* <br />
       <Button onClick={join}>Join</Button>
       <br />
-      <Button onClick={leave}>Leave</Button>
+      <Button onClick={leave}>Leave</Button> */}
       <br />
       <MessageList />
     </div>

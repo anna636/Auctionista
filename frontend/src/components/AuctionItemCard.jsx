@@ -78,18 +78,19 @@ const styles = {
     boxShadow: "0px 0px 8px 2px rgba(0,0,0,0.54)",
     borderRadius: "20px",
     color: "black",
-   
+    backgroundColor: "white",
   },
   mainInfo: {
     display: "flex",
     flexDirection: "row",
     gap: "2vw",
-    textAlign:"left"
+    textAlign: "left",
   },
   img: {
     width: "50%",
     cursor: "pointer",
-    maxHeight:"152px"
+    maxHeight: "152px",
+    borderRadius: "5px",
   },
   title: {
     textAlign: "center",
@@ -106,6 +107,6 @@ const styles = {
     color: "white",
   },
   counter: {
-    marginTop: "15px"
-  }
+    marginTop: "15px",
+  },
 };

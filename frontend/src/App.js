@@ -37,7 +37,7 @@ function App() {
                   <Route exact path="/my-listings" component={MyListings} />
                   <Route exact path="/my-messages" component={MyMessages} />
                   <Route exact path="/my-profile" component={MyProfile} />
-                  <Route exact path="/chat" component={Chat} />
+                  <Route exact path="/chat/:userid" component={Chat} />
                 </Switch>
               </main>
               <footer>

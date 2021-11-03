@@ -208,7 +208,7 @@ function AuctionItemDetails() {
                 </div>
               )}
               <br />
-              <Link to="/chat" >To Chat Page</Link>
+              <Link to={"/chat/" + currentUser.id}>Chat with seller</Link>
             </Col>
           </Row>
           <CustomModal prop={myProp} func={pull_data} />
