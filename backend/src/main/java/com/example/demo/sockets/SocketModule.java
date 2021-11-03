@@ -38,6 +38,7 @@ public class SocketModule {
 
     // method to emit message to all connected clients
     public void emit(String event, Object data) {
+
         server.getBroadcastOperations().sendEvent(event, data);
     }
 
