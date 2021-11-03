@@ -56,8 +56,8 @@ export default App;
 
 const styles = {
   line: {
-    widht: "100%",
-    height: "1vh",
-    backgroundColor: "rgb(226, 89, 55)",
+    width: "100%",
+    height: "0.3rem",
+    backgroundColor: "#949c54",
   },
 };

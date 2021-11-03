@@ -82,9 +82,10 @@ const styles = {
   },
   formButton: {
     marginLeft: "1vw",
-    color: "rgb(226, 89, 55)",
-    borderColor: "rgb(226, 89, 55)",
+    color: "#949c54",
+    borderColor: "#949c54",
     backgroundColor: "black",
+    fontFamily: "Montserrat, sans-serif",
   },
   popover: {
     color: "rgb(226, 89, 55)",
