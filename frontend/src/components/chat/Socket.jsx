@@ -23,7 +23,7 @@ function Socket() {
 
   const { getCurrentUser, logout } = useContext(UserContext);
   
- const { messages, setMessages, updateMessages } = useMessage();
+ const { messages, setMessages, updateMessages, chatsWith, setChatsWith } = useMessage();
 
   return (
     <>
@@ -38,9 +38,10 @@ function Socket() {
           console.log("Disconnected");
         }}
         onMessage={(msg) => {
-        var jobs = messages;
-          jobs.push(msg);
-          setMessages([...jobs]);
+          setMessages([...messages, msg]);
+          if (!chatsWith.includes(msg.fromLogin)) {
+            setChatsWith([msg.fromLogin, ...chatsWith])
+          }
           console.log(msg);
         }}
         ref={(client) => {

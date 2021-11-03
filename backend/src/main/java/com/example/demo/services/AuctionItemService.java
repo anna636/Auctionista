@@ -31,6 +31,9 @@ public class AuctionItemService {
 
         List <AuctionItem> items=new ArrayList<>();
 
+        ArrayList<String> rowId=auctionItemRepository.getRowId("52");
+        System.out.println(rowId.get(0));
+
 
 
 

@@ -125,7 +125,10 @@ function AuctionItemDetails() {
 
   function setMsgReciever(username) {
     setSendTo(username)
-    setChatsWith([...chatsWith, username])
+    if (!chatsWith.includes(username)) {
+      setChatsWith([username, ...chatsWith])
+    }
+    
   }
 
   return (

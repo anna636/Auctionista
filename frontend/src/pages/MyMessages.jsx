@@ -12,6 +12,7 @@ import { useMessage } from "../contexts/MessageContext";
 import { sendMessage } from "../components/chat/Socket";
 import { UserContext } from "../contexts/UserContext";
 import ChatBox from "../components/chat/ChatBox";
+import ChatMessage from "../components/chat/ChatMessage";
 
 
 function MyMessages() {
@@ -43,7 +44,7 @@ function MyMessages() {
 
    const pullChildData = (data) => {
      console.log("msg reciever set to ",data);
-     
+     setSendTo(data)
    };
 
   function getInputValue(text) {
@@ -54,7 +55,7 @@ function MyMessages() {
   return (
     <div className="chatWrapper" style={cosStyles.chatWrapper}>
       <div className="people" style={cosStyles.people}>
-        <ChatBox func={pullChildData} />
+        <ChatBox func={pullChildData} sendTo={sendTo }/>
       </div>
       <div style={{ position: "relative", height: "500px" }}>
         <MainContainer>
@@ -68,17 +69,7 @@ function MyMessages() {
               {messages && messages.length > 0
                 ? messages.map((msg, i) => (
                     <>
-                      <Message
-                        model={{
-                          message: msg.message,
-                          direction:
-                            msg.fromLogin === getCurrentUser().username
-                              ? "outgoing"
-                              : "incoming",
-                          sender: msg.fromLogin,
-                          position: "single",
-                        }}
-                      />
+                    <ChatMessage message={msg} sendTo={sendTo }/>
                     </>
                   ))
                 : null}
@@ -120,7 +111,8 @@ const cosStyles = {
     borderRadius: "10px",
     height: "87%",
     padding: "2vw 2vw 2vw 2vw",
-     overflowY: "scroll"
+    overflowY: "scroll",
+    
   },
   inputWrapper: {
     width: "100%",

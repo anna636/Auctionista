@@ -31,6 +31,13 @@ const AuctionItemProvider = (props) => {
       setAuctionItems(items)
     }
     else {
+      let arrayOfNewItems = [];
+      for (let item in items) {
+        if (!auctionItems.includes(item)) {
+          arrayOfNewItems.push(item)
+        }
+      }
+      
       setAuctionItems([...auctionItems, ...items]);
     }
 
