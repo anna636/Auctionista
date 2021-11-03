@@ -13,7 +13,7 @@ const AuctionItemProvider = (props) => {
   const [imgPaths, setImgPaths] = useState([]);
 
   useEffect(() => {
-       fetchItemsInBatch(0, 1);
+      // fetchItemsInBatch(0, 1);
     
       }, []);
    
@@ -27,7 +27,7 @@ const AuctionItemProvider = (props) => {
    
     let items = await response.json()
 
-    if (auctionItems.length === 0) {
+    if (offsetValue===0) {
       setAuctionItems(items)
     }
     else {
@@ -78,6 +78,7 @@ const AuctionItemProvider = (props) => {
     fetchAuctionItem,
     fetchItemsInBatch,
     fetchAuctionItemByTitle,
+    setAuctionItems
   };
 
   return (

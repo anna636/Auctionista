@@ -4,19 +4,21 @@ import AuctionItemCard from "../components/AuctionItemCard";
 
 function Home() {
   const [offsetY, setOffsetY] = useState(0);
-  const [currentItemsLength, setCurrentItemsLength] = useState(6);
-  const { auctionItems, fetchItemsInBatch } =
+
+  const { auctionItems, fetchItemsInBatch, setAuctionItems } =
     useAuctionItem();
   const handleScroll = () => setOffsetY(window.pageYOffset);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
+      fetchItemsInBatch(0, 1);
     return () => window.removeEventListener("scroll", handleScroll);
+  
   }, []);
 
   function loadMore() {
     fetchItemsInBatch(1, auctionItems[auctionItems.length-1].id);
-    setCurrentItemsLength(auctionItems.length);
+    
   }
 
   return (

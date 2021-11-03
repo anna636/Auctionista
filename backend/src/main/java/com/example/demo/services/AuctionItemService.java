@@ -39,6 +39,7 @@ public class AuctionItemService {
         if (offset.equals("0")) {
             fetchedItems =auctionItemRepository.getItemsInBatch(offset);
         }
+
        else{
             String rowId=auctionItemRepository.getRowId(id);
             fetchedItems =auctionItemRepository.getItemsInBatch(rowId); //fetching items that are not sold
@@ -54,6 +55,8 @@ public class AuctionItemService {
             }
         }
         return items;
+
+
     }
 
     public List<AuctionItem> getAllAuctionItems(){
