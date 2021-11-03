@@ -1,22 +1,18 @@
-import { emit } from "../websockets/socket.jsx";
+import { emit } from "../Socket"
 import { useState } from "react";
 import { Button } from "react-bootstrap";
 import MessageList from "../components/MessageList.jsx";
 
 function Chat() {
   const [inputMessage, setInputMessage] = useState("");
-  const [messages, setMessages] = useState([]);
 
   function handleSubmit() {
-    let newArray = messages
-    newArray.push(inputMessage)
 
     let data = {
       // change user to current user
       user: "Ziggy",
       message: inputMessage,
     };
-    setMessages(newArray);
     postMessage(data);
 
     setInputMessage("");
@@ -58,7 +54,7 @@ function Chat() {
       <br />
       <Button onClick={leave}>Leave</Button>
       <br />
-      {messages.length && <MessageList messageList={messages} />}
+      <MessageList />
     </div>
   );
 }

@@ -1,12 +1,14 @@
 import React from "react";
+import { useGlobalContext } from "../contexts/GlobalContext";
 
-function MessageList(props) {
+function MessageList() {
+  const { context } = useGlobalContext();
 
   return (
     <div>
-      {props.messageList.length && (
+      {context.messages.length && (
         <div>
-          {props.messageList.map((msg, i) => (
+          {context.messages.map((msg, i) => (
             <div key={msg + i}>{msg}</div>
           ))}
         </div>
