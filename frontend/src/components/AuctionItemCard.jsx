@@ -77,9 +77,10 @@ export default AuctionItemCard;
 
 const styles = {
   itemWrapper: {
+    width: "45%",
     display: "flex",
     flexDirection: "column",
-    marginBottom: "10vh",
+    marginBottom: "3vh",
     padding: "2rem",
     boxShadow: "0px 0px 8px 2px rgba(0,0,0,0.54)",
     borderRadius: "20px",

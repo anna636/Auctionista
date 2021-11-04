@@ -68,8 +68,10 @@ const styles = {
     left: "10vh",
   },
   listWrapper: {
-    display: "grid",
-    gridTemplateColumns: "repeat(2, 1fr)",
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-evenly",
     gap: "5vw",
     padding: "0 5vw",
   },
