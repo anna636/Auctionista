@@ -31,4 +31,12 @@ public class User {
     @JsonIgnoreProperties({"owner"})
     private List<AuctionItem> myAuctionItems;
 
+   @ManyToMany(fetch = FetchType.LAZY)
+   @JoinTable(
+           name = "user_chatrooms",
+           joinColumns = @JoinColumn(name = "user_id"),
+           inverseJoinColumns = @JoinColumn(name = "chatroom_id")
+   )
+    private List<ChatRoom> chatrooms;
+
 }
