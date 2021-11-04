@@ -85,7 +85,7 @@ const styles = {
     borderRadius: "20px",
     border: "solid 1px black",
     color: "black",
-    backgroundColor: "#ced2b3",
+    backgroundColor: "white",
   },
   mainInfo: {
     display: "flex",
