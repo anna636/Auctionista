@@ -7,7 +7,7 @@ import { useGlobalContext } from "../contexts/GlobalContext";
 
 function Chat() {
   const { socket } = useSocketContext();
-  const { sellerid } = useParams();
+  const { roomid } = useParams();
   const [inputMessage, setInputMessage] = useState("");
   const { currentUser } = useContext(UserContext);
   const { context, updateContext } = useGlobalContext();
@@ -55,7 +55,7 @@ function Chat() {
   useEffect(() => {
     const join = () => {
       console.log("Join");
-      socket.emit("join", "chat-room-" + sellerid);
+      socket.emit("join", "chat-room-" + roomid);
     };
     join();
   }, [connected]);
