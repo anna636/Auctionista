@@ -1,7 +1,7 @@
 import React from "react";
 import Counter from "../components/Counter"
 import { useEffect, useState, useContext } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { useAuctionItem } from "../contexts/AuctionItemContext";
 import {
   Button,
@@ -18,9 +18,11 @@ import {
 import { useBidContext } from "../contexts/BidContext";
 import { UserContext } from "../contexts/UserContext";
 import CustomModal from "../components/CustomModal";
+import { useGlobalContext } from "../contexts/GlobalContext";
 
 function AuctionItemDetails() {
   const { id } = useParams();
+  const history = useHistory();
   const { fetchAuctionItem } =
     useAuctionItem();
   const [auctionItem, setAuctionItem] = useState();
@@ -30,6 +32,7 @@ function AuctionItemDetails() {
   const [myProp, setMyProp] = useState({});
   const [highestBid, setHighestBid] = useState();
   const [itemImages, setItemImages] = useState([]);
+  const { createNewRoom } = useGlobalContext();
 
   useEffect(() => {
     getAuctionItem(id);
@@ -118,6 +121,21 @@ function AuctionItemDetails() {
       });
     }
   };
+
+  function onClickChat() {
+    let chatRoomItem = {
+      users: [currentUser, auctionItem.owner]
+    }
+    const newRoom = new Promise(() => {
+      createNewRoom(chatRoomItem);
+    }) 
+
+    // await newRoom then push..
+    
+    //push "/chat/" + roomId returned from createNewRoom
+    // history.push("/chat/" + newRoom.id)
+  }
+
 
   return (
     <div style={styles.mainPage}>
@@ -208,9 +226,9 @@ function AuctionItemDetails() {
                 </div>
               )}
               <br />
-                <Link to={"/chat/" + auctionItem.owner.id}>
+              <Button onClick={ onClickChat }>
                   Chat with seller
-                </Link>
+              </Button>
             </Col>
           </Row>
           <CustomModal prop={myProp} func={pull_data} />

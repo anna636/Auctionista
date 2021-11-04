@@ -2,6 +2,7 @@ package com.example.demo.entities;
 
 import com.example.demo.sockets.ChatMessage;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,7 +27,7 @@ public class ChatRoom {
     private List<ChatMessage> messages;
 
     @ManyToMany
-   @JsonIgnoreProperties({"chatrooms"})
+   @JsonIncludeProperties({"id", "username"})
     private List<User> users;
 
 

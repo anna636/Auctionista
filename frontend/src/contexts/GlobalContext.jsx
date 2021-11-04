@@ -13,6 +13,22 @@ const GlobalProvider = (props) => {
     messages: [],
   });
 
+
+    const createNewRoom = async (roomInfo) => {
+      try {
+        let response = await fetch("/rest/chatroom", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(roomInfo),
+        });
+        console.log(await response.json());
+        return response;
+      } catch {
+        console.log("Creating new room failed");
+        return null;
+      }
+    };
+
   // helper function to only update
   // specific values in the context
   function updateContext(values) {
@@ -24,7 +40,8 @@ const GlobalProvider = (props) => {
 
   const values = {
     context,
-    updateContext
+    updateContext,
+    createNewRoom
   };
 
   return (
