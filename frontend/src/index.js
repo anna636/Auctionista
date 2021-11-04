@@ -5,16 +5,11 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import GlobalContext from './contexts/GlobalContext';
-import Socket from "./Socket"
 
 
 ReactDOM.render(
   <React.StrictMode>
-    <GlobalContext>
     <App />
-    <Socket />
-    </GlobalContext>
   </React.StrictMode>,
   document.getElementById('root')
 );

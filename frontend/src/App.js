@@ -3,6 +3,8 @@ import "./App.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
+import SocketProvider from "./contexts/SocketContext";
+import GlobalProvider from "./contexts/GlobalContext";
 import AuctionItemProvider from "./contexts/AuctionItemContext";
 import AuctionItemDetails from "./pages/AuctionItemDetails";
 import CreateNewListing from "./pages/CreateNewListing";
@@ -16,6 +18,8 @@ import Chat from "./pages/Chat";
 function App() {
   return (
     <div className="App">
+      <SocketProvider>
+        <GlobalProvider>
       <UserContextProvider>
         <AuctionItemProvider>
           <BidProvider>
@@ -48,6 +52,8 @@ function App() {
           </BidProvider>
         </AuctionItemProvider>
       </UserContextProvider>
+      </GlobalProvider>
+      </SocketProvider>
     </div>
   );
 }

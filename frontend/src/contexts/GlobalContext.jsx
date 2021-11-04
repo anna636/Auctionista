@@ -8,7 +8,6 @@ export const useGlobalContext = () => {
 };
 
 const GlobalProvider = (props) => {
-  const[connectedToRoom, setConnectedToRoom] = useState(false)
   const [context, setContext] = useState({
     user: null,
     messages: [],
@@ -25,9 +24,7 @@ const GlobalProvider = (props) => {
 
   const values = {
     context,
-    updateContext,
-    connectedToRoom,
-    setConnectedToRoom,
+    updateContext
   };
 
   return (

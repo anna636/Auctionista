@@ -9,8 +9,12 @@ function MessageList() {
     <div>
       {context.messages.length && (
         <div>
+          <div>{context.user.username}</div>
           {context.messages.map((msg, i) => (
-            <div key={msg + i}>{ }{msg}</div>
+            <div key={msg + i}>
+              {}
+              {msg}
+            </div>
           ))}
         </div>
       )}
