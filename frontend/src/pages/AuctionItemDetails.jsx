@@ -208,8 +208,9 @@ function AuctionItemDetails() {
                 </div>
               )}
               <br />
-              { currentUser &&
-                <Link to={"/chat/" + currentUser.id}>Chat with seller</Link>}
+                <Link to={"/chat/" + auctionItem.owner.id}>
+                  Chat with seller
+                </Link>
             </Col>
           </Row>
           <CustomModal prop={myProp} func={pull_data} />

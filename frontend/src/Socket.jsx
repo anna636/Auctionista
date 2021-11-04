@@ -13,7 +13,8 @@ export function emit(event, data) {
 // WebSocket connection is a component
 // to enable using the Context
 function Socket() {
-  const { context, updateContext } = useGlobalContext();
+  const { context, updateContext, connectedToRoom, setConnectedToRoom } =
+    useGlobalContext();
 
   useEffect(() => {
     connect();
@@ -46,10 +47,12 @@ function Socket() {
     });
 
     socket.on("join", function (message) {
+      setConnectedToRoom(true)
       console.log(message);
     });
 
     socket.on("leave", function (message) {
+      setConnectedToRoom(false);
       console.log(message);
     });
 

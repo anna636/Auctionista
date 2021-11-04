@@ -1,17 +1,28 @@
 import { emit } from "../Socket"
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import MessageList from "../components/MessageList.jsx";
 import { UserContext } from "../contexts/UserContext";
+import { useGlobalContext } from "../contexts/GlobalContext";
 
 function Chat() {
-  const { userid } = useParams();
+  const { sellerid } = useParams();
   const [inputMessage, setInputMessage] = useState("");
   const { currentUser } = useContext(UserContext);
+  const { connectedToRoom} =
+    useGlobalContext();
+
+  useEffect(() => {
+    const join = () => {
+      console.log("Join");
+      emit("join", "chat-room-" + sellerid);
+    }
+    
+    join()
+  },[connectedToRoom])
 
   function handleSubmit() {
-
     let data = {
       user: currentUser,
       message: inputMessage,
@@ -30,12 +41,6 @@ function Chat() {
     });
   }
 
-  // function join() {
-  //   console.log("Join");
-  //   emit("join", inputMessage);
-  //   setInputMessage("");
-  // }
-
   // function leave() {
   //   console.log("Leave");
   //   emit("leave", inputMessage);
@@ -52,10 +57,6 @@ function Chat() {
         onChange={(e) => setInputMessage(e.target.value)}
       />
       <button onClick={handleSubmit}>Submit</button>
-      {/* <br />
-      <Button onClick={join}>Join</Button>
-      <br />
-      <Button onClick={leave}>Leave</Button> */}
       <br />
       <MessageList />
     </div>
