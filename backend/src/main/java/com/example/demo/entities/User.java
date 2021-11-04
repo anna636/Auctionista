@@ -39,4 +39,9 @@ public class User {
    )
     private List<ChatRoom> chatrooms;
 
+   public void updateChatrooms(ChatRoom chatRoom) {
+       this.chatrooms.add(chatRoom);
+   }
+
+
 }

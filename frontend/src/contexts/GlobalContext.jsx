@@ -21,8 +21,7 @@ const GlobalProvider = (props) => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(roomInfo),
         });
-        console.log(await response.json());
-        return response;
+        return response.json();
       } catch {
         console.log("Creating new room failed");
         return null;

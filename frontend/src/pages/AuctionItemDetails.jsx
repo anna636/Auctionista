@@ -1,5 +1,5 @@
 import React from "react";
-import Counter from "../components/Counter"
+import Counter from "../components/Counter";
 import { useEffect, useState, useContext } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { useAuctionItem } from "../contexts/AuctionItemContext";
@@ -13,7 +13,7 @@ import {
   OverlayTrigger,
   Tooltip,
   Spinner,
-  Carousel
+  Carousel,
 } from "react-bootstrap";
 import { useBidContext } from "../contexts/BidContext";
 import { UserContext } from "../contexts/UserContext";
@@ -23,8 +23,7 @@ import { useGlobalContext } from "../contexts/GlobalContext";
 function AuctionItemDetails() {
   const { id } = useParams();
   const history = useHistory();
-  const { fetchAuctionItem } =
-    useAuctionItem();
+  const { fetchAuctionItem } = useAuctionItem();
   const [auctionItem, setAuctionItem] = useState();
   const { postNewBid } = useBidContext();
   const [bid, setBid] = useState("");
@@ -33,6 +32,7 @@ function AuctionItemDetails() {
   const [highestBid, setHighestBid] = useState();
   const [itemImages, setItemImages] = useState([]);
   const { createNewRoom } = useGlobalContext();
+  const [newRoom, setNewRoom] = useState();
 
   useEffect(() => {
     getAuctionItem(id);
@@ -48,34 +48,35 @@ function AuctionItemDetails() {
     const origImageArray = auctionItem.images.split(",");
     const imageArrayInOrder = [];
 
-    imageArrayInOrder.push(origImageArray[auctionItem.primaryImgIndex])
+    imageArrayInOrder.push(origImageArray[auctionItem.primaryImgIndex]);
     origImageArray.splice(auctionItem.primaryImgIndex, 1);
 
     if (origImageArray.length) {
       for (let image of origImageArray) {
-        imageArrayInOrder.push(image)
+        imageArrayInOrder.push(image);
       }
     }
 
     setItemImages(imageArrayInOrder);
-
   }
 
   const checkUser = () => {
     if (currentUser) {
-      return currentUser.id === auctionItem.owner.id ? false : true
-    } else { return true }
-  }
+      return currentUser.id === auctionItem.owner.id ? false : true;
+    } else {
+      return true;
+    }
+  };
 
   async function placeBid(e) {
     e.preventDefault();
 
     if (currentUser === null || currentUser === undefined) {
-              setMyProp({
-                show: true,
-                text: "You must log in to place a bid",
-              });
-      return
+      setMyProp({
+        show: true,
+        text: "You must log in to place a bid",
+      });
+      return;
     }
 
     if (checkBid) {
@@ -92,15 +93,15 @@ function AuctionItemDetails() {
         setMyProp({
           show: true,
           colour: "green",
-          text: "Bid placed!"
+          text: "Bid placed!",
         });
         setBid("");
       } else {
         setMyProp({
           show: true,
           colour: "red",
-          text: "Something went wrong, bid not placed"
-        })
+          text: "Something went wrong, bid not placed",
+        });
       }
     } else {
       console.log("Bid too low");
@@ -122,20 +123,17 @@ function AuctionItemDetails() {
     }
   };
 
-  function onClickChat() {
+  async function onClickChat() {
     let chatRoomItem = {
-      users: [currentUser, auctionItem.owner]
-    }
-    const newRoom = new Promise(() => {
-      createNewRoom(chatRoomItem);
-    }) 
+      users: [currentUser, auctionItem.owner],
+    };
 
-    // await newRoom then push..
-    
-    //push "/chat/" + roomId returned from createNewRoom
-    // history.push("/chat/" + newRoom.id)
+    let newRoom = await createNewRoom(chatRoomItem);
+
+    if (newRoom) {
+      history.push("/chat/" + newRoom.id);
+    } 
   }
-
 
   return (
     <div style={styles.mainPage}>
@@ -226,9 +224,7 @@ function AuctionItemDetails() {
                 </div>
               )}
               <br />
-              <Button onClick={ onClickChat }>
-                  Chat with seller
-              </Button>
+              <Button onClick={onClickChat}>Chat with seller</Button>
             </Col>
           </Row>
           <CustomModal prop={myProp} func={pull_data} />
