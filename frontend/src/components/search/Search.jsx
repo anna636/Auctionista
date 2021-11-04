@@ -82,8 +82,8 @@ const styles = {
   },
   formButton: {
     marginLeft: "1vw",
-    color: "#949c54",
-    borderColor: "#949c54",
+    color: "white",
+    borderColor: "white",
     backgroundColor: "black",
     fontFamily: "Montserrat, sans-serif",
   },

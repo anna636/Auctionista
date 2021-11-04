@@ -175,7 +175,7 @@ const styles = {
   mainName: {
     fontFamily: "Montserrat, sans-serif",
     fontSize: "1.7em",
-    color: "#949c54",
+    color: "white",
   },
 
   hide: {
