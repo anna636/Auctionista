@@ -26,10 +26,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST,"/rest/auctionItems").permitAll()  //User should be logged in to post new auction item
                 //Chat with others?
                 .antMatchers(HttpMethod.GET, "/", "/rest/**").permitAll()
+                .antMatchers("/hello").authenticated()
                 .antMatchers(HttpMethod.GET, "/login").permitAll()     // doesn't require login
                 .antMatchers("/auth/**").permitAll()     // doesn't require login
                 .antMatchers("/rest/**").authenticated() // user is logged in
                 .antMatchers("/greet").authenticated() // user is logged in
+        .and()
+        .oauth2Login()
         ;
     }
 
