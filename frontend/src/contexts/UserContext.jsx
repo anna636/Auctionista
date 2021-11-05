@@ -8,6 +8,7 @@ export const UserContext = createContext();
 const UserContextProvider = (props) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [users, setUsers] = useState([]);
+  
 
 
   const fetchUsers = async () => {
@@ -28,10 +29,16 @@ const UserContextProvider = (props) => {
       headers: { "content-type": "application/json" },
       body: JSON.stringify(user),
     });
-    res = await res.json();
+    if (res.status == 400) {
+      return "false"
+    }
+    else {
+      res = await res.json();
     setCurrentUser(res);
     console.log(res, " This is register ")
     return res;
+    }
+    
   };
 
   const login = async (user) => {
