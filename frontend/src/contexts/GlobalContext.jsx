@@ -9,7 +9,8 @@ export const useGlobalContext = () => {
 
 const GlobalProvider = (props) => {
   const [context, setContext] = useState({
-    user: null,
+    chatroom: {},
+    userId: "",
     messages: [],
   });
 

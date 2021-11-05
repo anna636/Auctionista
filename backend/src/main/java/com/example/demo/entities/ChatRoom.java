@@ -24,8 +24,7 @@ public class ChatRoom {
     @GeneratedValue
     private long id;
 
-    @ElementCollection
-    @CollectionTable
+    @OneToMany(mappedBy = "chatroom")
     private List<ChatMessage> messages = new ArrayList<>();
 
     @ManyToMany
@@ -33,16 +32,16 @@ public class ChatRoom {
     private List<User> users;
 
 
-    public void addToMessages(Object data) {
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        System.out.println("In addToMessages ***********");
-        System.out.println("Data: " + data);
-
-
-        ChatMessage chatMessage = objectMapper.convertValue(data, ChatMessage.class);
-        System.out.println(chatMessage.toString());
-
-        this.messages.add(chatMessage);
-    }
+//    public void addToMessages(Object data) {
+//        ObjectMapper objectMapper = new ObjectMapper();
+//
+//        System.out.println("In addToMessages ***********");
+//        System.out.println("Data: " + data);
+//
+//
+//        ChatMessage chatMessage = objectMapper.convertValue(data, ChatMessage.class);
+//        System.out.println(chatMessage.toString());
+//
+//        this.messages.add(chatMessage);
+//    }
 }

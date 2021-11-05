@@ -44,7 +44,8 @@ function Chat() {
     socket.on("chat", function (data) {
       console.log("Received message", data);
       updateContext({
-        user: data.user,
+        chatroom: room,
+        userId: data.userId,
         messages: [...context.messages, data.message],
       });
     });
@@ -73,6 +74,7 @@ function Chat() {
 
   function handleSubmit() {
     let data = {
+      chatroom: room,
       userId: currentUser.id + "",
       message: inputMessage,
     };
