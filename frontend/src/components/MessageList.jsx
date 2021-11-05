@@ -7,9 +7,8 @@ function MessageList() {
 
   return (
     <div>
-      {context.messages.length && (
+      {(context.messages.length > 0) && 
         <div>
-          <div>{context.userId}</div>
           {context.messages.map((msg, i) => (
             <div key={msg + i}>
               {}
@@ -17,7 +16,7 @@ function MessageList() {
             </div>
           ))}
         </div>
-      )}
+      }
     </div>
   );
 }

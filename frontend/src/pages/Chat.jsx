@@ -30,7 +30,6 @@ function Chat() {
     getRoom();
   }, [roomid]);
 
-  
   function connect() {
     setEventListeners();
   }
@@ -44,8 +43,6 @@ function Chat() {
     socket.on("chat", function (data) {
       console.log("Received message", data);
       updateContext({
-        chatroom: room,
-        userId: data.userId,
         messages: [...context.messages, data.message],
       });
     });
@@ -91,6 +88,10 @@ function Chat() {
       headers: { "content-type": "application/json" },
       body: JSON.stringify(data),
     });
+
+    updateContext({
+      messages: [...context.messages, data.message],
+    });
   }
 
   // function leave() {
@@ -110,6 +111,19 @@ function Chat() {
       )}
       {connected && room && (
         <>
+          <div>
+            {room.messages.map((messageObject, i) => (
+              <div
+                key={i}
+                className="message-container"
+                style={styles.messageContainer}
+              >
+                <p>UserId: {messageObject.userId}: </p>
+                <p>{messageObject.message}</p>
+              </div>
+            ))}
+            <MessageList />
+          </div>
           <input
             type="text"
             value={inputMessage}
@@ -117,7 +131,6 @@ function Chat() {
           />
           <button onClick={handleSubmit}>Submit</button>
           <br />
-          <MessageList />
         </>
       )}
     </div>
@@ -125,3 +138,11 @@ function Chat() {
 }
 
 export default Chat;
+
+const styles = {
+  messageContainer: {
+    border: "solid 1px grey",
+    borderRadius: "5px",
+    width: "10rem",
+  },
+};
