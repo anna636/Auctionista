@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/rest/**").authenticated() // user is logged in
                 .antMatchers("/greet").authenticated() // user is logged in
         .and()
-        .oauth2Login()
+                .oauth2Login()
         ;
     }
 

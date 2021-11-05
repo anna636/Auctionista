@@ -53,10 +53,14 @@ function Navbar() {
       <div>
         <Search />
       </div>
+      <a href="http://localhost:4000/oauth2/authorization/google">Google</a>
       {!getCurrentUser() ? (
         <div style={styles.loginButtons}>
           <div>
-            <button className="btn btn-outline-light btn-lg" onClick={toggleLogin}>
+            <button
+              className="btn btn-outline-light btn-lg"
+              onClick={toggleLogin}
+            >
               Login
             </button>
             <Login toggle={toggleLogin} modal={login} func={pull_data}></Login>
