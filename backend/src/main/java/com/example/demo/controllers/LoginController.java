@@ -19,7 +19,7 @@ public class LoginController {
     private UserService userService;
 
 
-    @PostMapping("/login")
+  /*  @PostMapping("/login")
     public User login(@RequestBody User user, HttpServletRequest req){
         return userService.login(user, req);
     }
@@ -29,11 +29,11 @@ public class LoginController {
         return userService.findCurrentUser();
 
 
-    }
+    }*/
 
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody User user){
+    public User register(@RequestBody User user){
 
             return userService.createUser(user);
 

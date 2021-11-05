@@ -20,8 +20,8 @@ public class BidService {
     @Autowired
     private AuctionItemRepository auctionItemRepository;
 
-    @Autowired
-    private UserService userService;
+   /* @Autowired
+    private UserService userService;*/
 
     public List<Bid> getAll(){
         return bidRepository.findAll();
@@ -32,7 +32,7 @@ public class BidService {
 
 
 
-    public Bid saveBid(Bid bid){
+   /* public Bid saveBid(Bid bid){
 
         try{
             long auctionItemId = bid.getAuctionItem().getId();
@@ -57,5 +57,5 @@ public class BidService {
             return null;
         }
 
-    }
+    }*/
 }

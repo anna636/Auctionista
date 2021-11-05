@@ -11,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -50,31 +51,12 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    public ResponseEntity<User> createUser(User user) {
-        // user userDetailsService to save new user
-        // because we encrypt the password here
-        List<User> users=getAllUsers();
-        boolean usernameIsUsed=false;
+    public User createUser(User user) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
 
-
-        for(User myUser : users){
-
-
-            String username= myUser.getUsername();
-
-            if(username.equals(user.getUsername())){
-                usernameIsUsed=true;
-                return ResponseEntity.badRequest().build();
-            }
-
-
-        }
-        if(!usernameIsUsed){
-            myUserDetailsService.addUser(user);
-            return ResponseEntity.ok(user);
-        }
-
-        return null;
+        return userRepository.save(user);
     }
 
     public User login(User user, HttpServletRequest req) {

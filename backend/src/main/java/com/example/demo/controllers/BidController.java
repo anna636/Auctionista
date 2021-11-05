@@ -32,7 +32,7 @@ public class BidController {
         return bid;
     }
 
-    @PostMapping("/bids")
+    /*@PostMapping("/bids")
     public ResponseEntity<Bid> createBid(@RequestBody Bid bid) {
         Bid savedBid = bidService.saveBid(bid);
         if(savedBid != null) {
@@ -41,7 +41,7 @@ public class BidController {
             return  ResponseEntity.badRequest().build();
         }
     }
-
+*/
 
 
 }
