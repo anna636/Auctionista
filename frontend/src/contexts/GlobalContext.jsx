@@ -28,6 +28,18 @@ const GlobalProvider = (props) => {
       }
     };
 
+  
+  const getRoomById = async (id) => {
+    let res = await fetch("/rest/chatroom/" + id);
+    try {
+      let fetchedItem = await res.json();
+      console.log("From getRoomById: ", fetchedItem);
+      return fetchedItem;
+    } catch {
+      console.log("No item found");
+    }
+  };
+
   // helper function to only update
   // specific values in the context
   function updateContext(values) {
@@ -40,7 +52,8 @@ const GlobalProvider = (props) => {
   const values = {
     context,
     updateContext,
-    createNewRoom
+    createNewRoom,
+    getRoomById
   };
 
   return (

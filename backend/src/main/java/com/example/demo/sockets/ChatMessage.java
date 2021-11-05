@@ -17,8 +17,7 @@ import javax.persistence.Embeddable;
 @AllArgsConstructor
 public class ChatMessage {
 
-    @JsonIncludeProperties({"id", "username"})
-    private User user;
+    private String userId;
 
     private String message;
 }

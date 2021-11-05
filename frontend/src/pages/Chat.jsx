@@ -10,13 +10,27 @@ function Chat() {
   const { roomid } = useParams();
   const [inputMessage, setInputMessage] = useState("");
   const { currentUser } = useContext(UserContext);
-  const { context, updateContext } = useGlobalContext();
+  const { context, updateContext, getRoomById } = useGlobalContext();
   const [connected, setConnected] = useState(false);
+  const [room, setRoom] = useState();
 
   useEffect(() => {
     connect();
   }, []);
 
+  useEffect(() => {
+    const join = () => {
+      console.log("Join");
+      socket.emit("join", "" + roomid);
+    };
+    join();
+  }, [connected]);
+
+  useEffect(() => {
+    getRoom();
+  }, [roomid]);
+
+  
   function connect() {
     setEventListeners();
   }
@@ -52,18 +66,14 @@ function Chat() {
     });
   }
 
-  useEffect(() => {
-    const join = () => {
-      console.log("Join");
-      socket.emit("join", "chat-room-" + roomid);
-    };
-    join();
-  }, [connected]);
-
+  const getRoom = async () => {
+    let fetchedRoom = await getRoomById(roomid);
+    setRoom(fetchedRoom);
+  };
 
   function handleSubmit() {
     let data = {
-      user: currentUser,
+      userId: currentUser.id + "",
       message: inputMessage,
     };
     postMessage(data);
@@ -73,7 +83,7 @@ function Chat() {
 
   async function postMessage(data) {
     console.log("Postmessage");
-    await fetch("/api/message", {
+    await fetch("/api/message/" + roomid, {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(data),
@@ -95,7 +105,7 @@ function Chat() {
           <p>Connecting...</p>
         </div>
       )}
-      {connected && (
+      {connected && room && (
         <>
           <input
             type="text"

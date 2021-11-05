@@ -9,7 +9,7 @@ function MessageList() {
     <div>
       {context.messages.length && (
         <div>
-          <div>{context.user.username}</div>
+          <div>{context.userId}</div>
           {context.messages.map((msg, i) => (
             <div key={msg + i}>
               {}

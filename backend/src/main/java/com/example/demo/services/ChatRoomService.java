@@ -7,6 +7,8 @@ import com.example.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ChatRoomService {
 
@@ -15,6 +17,10 @@ public class ChatRoomService {
 
     @Autowired
     private UserRepository userRepository;
+
+    public Optional<ChatRoom> getById(long id) {
+        return chatRoomRepository.findById(id);
+    }
 
     public ChatRoom createChatRoom(ChatRoom chatRoom) {
 

@@ -5,11 +5,19 @@ import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.ConnectListener;
 import com.corundumstudio.socketio.listener.DataListener;
 import com.corundumstudio.socketio.listener.DisconnectListener;
+import com.example.demo.entities.ChatRoom;
+import com.example.demo.services.ChatRoomService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 @Component
 public class SocketModule {
     private SocketIOServer server;
+
+    @Autowired
+    private ChatRoomService chatRoomService;
 
     public SocketModule() {
         // prevent accidental starting multiple servers
@@ -43,8 +51,8 @@ public class SocketModule {
     }
 
     // method to emit message to all connected clients in a room
-    public void emitToRoom(String room, String event, Object data) {
-        server.getRoomOperations(room).sendEvent(event, data);
+    public void emitToRoom(String roomId, String event, Object data) {
+        server.getRoomOperations(roomId).sendEvent(event, data);
     }
 
     private DataListener<ChatMessage> onChatReceived() {
@@ -88,6 +96,12 @@ public class SocketModule {
         return client -> {
             System.out.printf("Client[%s] - Disconnected from chat module.\n", client.getSessionId().toString());
         };
+    }
+
+    public void saveMessagesToRoom(String roomId, Object data) {
+        Optional<ChatRoom> chatRoom = chatRoomService.getById(Long.parseLong(roomId));
+        chatRoom.ifPresent(room -> room.addToMessages(data));
+
     }
 
 }
