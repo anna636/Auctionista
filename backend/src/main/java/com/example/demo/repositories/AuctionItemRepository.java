@@ -23,7 +23,7 @@ public interface AuctionItemRepository extends JpaRepository<AuctionItem, Long> 
 
 
 
-    @Query(value = "SELECT * FROM auction_items WHERE title COLLATE UTF8_GENERAL_CI LIKE %:title% COLLATE UTF8_GENERAL_CI", nativeQuery = true)
+    @Query(value = "SELECT * FROM auction_items WHERE  sold = false AND title COLLATE UTF8_GENERAL_CI LIKE %:title% COLLATE UTF8_GENERAL_CI", nativeQuery = true)
     List<AuctionItem> customFindAllByTitleIgnoreCase(@Param("title") String title);
 
 }
