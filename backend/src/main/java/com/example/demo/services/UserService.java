@@ -31,6 +31,12 @@ public class UserService {
     @Autowired
     private MyUserDetailsService myUserDetailsService;
 
+
+    public void updateAuthenticationType(String username, String oauth2ClientName) {
+        Resource.AuthenticationType authType = Resource.AuthenticationType.valueOf(oauth2ClientName.toUpperCase());
+        //userRepository.updateAuthenticationType(username, authType);
+    }
+
     // bean from your SecurityConfig
     @Resource(name="authenticationManager")
     private AuthenticationManager authManager;
