@@ -98,11 +98,5 @@ public class SocketModule {
         };
     }
 
-//    public void saveMessagesToRoom(String roomId, Object data) {
-//        Optional<ChatRoom> chatRoom = chatRoomService.getById(Long.parseLong(roomId));
-//        chatRoom.ifPresent(room -> room.addToMessages(data));
-//
-//    }
-
 }
 

@@ -32,7 +32,6 @@ function AuctionItemDetails() {
   const [highestBid, setHighestBid] = useState();
   const [itemImages, setItemImages] = useState([]);
   const { createNewRoom } = useGlobalContext();
-  const [newRoom, setNewRoom] = useState();
 
   useEffect(() => {
     getAuctionItem(id);
