@@ -34,7 +34,6 @@ const GlobalProvider = (props) => {
     let res = await fetch("/rest/chatroom/" + id);
     try {
       let fetchedItem = await res.json();
-      console.log("From getRoomById: ", fetchedItem);
       return fetchedItem;
     } catch {
       console.log("No item found");

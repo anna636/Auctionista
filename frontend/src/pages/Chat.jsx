@@ -24,7 +24,7 @@ function Chat() {
       socket.emit("join", "" + roomid);
     };
     join();
-  }, [connected]);
+  }, []);
 
   useEffect(() => {
     getRoom();
@@ -69,6 +69,7 @@ function Chat() {
 
   const getRoom = async () => {
     let fetchedRoom = await getRoomById(roomid);
+    console.log("From Chat: ", fetchedRoom);
     setRoom(fetchedRoom);
   };
 
