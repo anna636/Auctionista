@@ -2,11 +2,13 @@ import React, { useContext, useState } from "react";
 import { useBidContext } from "../contexts/BidContext";
 import { UserContext } from "../contexts/UserContext";
 import BootstrapModal from "./BootstrapModal";
+import PaymentModal from "./PaymentModal";
 
 function QuickBid(props) {
   const { getCurrentUser } = useContext(UserContext);
   const { postNewBid } = useBidContext();
   const [show, setShow] = useState(false);
+  const [showPayment, setShowPayemtn]=useState(false)
   const [modalText, setModalText] = useState("");
   let pageReload = false;
  
@@ -19,10 +21,14 @@ function QuickBid(props) {
     setShow(!show);
   };
 
-  async function quickBid(e) {
-    e.preventDefault();
+  const toggleShowPayment = () => {
+    setShowPayemtn(!showPayment)
+  }
 
-    if (!getCurrentUser()) {
+  async function quickBid(bool) {
+    toggleShowPayment()
+    if (bool) {
+     if (!getCurrentUser()) {
       setModalText("Please log in");
       toggleModal();
     } else {
@@ -35,7 +41,7 @@ function QuickBid(props) {
 
       let res = await postNewBid(bidToPost);
 
-      if (res.status === 200) {
+      if (!res.error) {
         setModalText("You placed bid worth of " + bidToPost.amount + " euros");
         toggleModal();
         if (pageReload) {
@@ -45,17 +51,22 @@ function QuickBid(props) {
       }
     }
   }
+   }
+
+    
 
   return (
     <>
      {  getCurrentUser() && props.props.owner.id === getCurrentUser().id ? (
         null
       ) : (<div>
-          <button className="quickBid" style={styles.btn} onClick={quickBid}>
+          <button className="quickBid" style={styles.btn} onClick={toggleShowPayment}>
             Place quick bid
           </button>
           <BootstrapModal toggle={toggleModal} modal={show} text={modalText} />
-        </div>)}
+          <PaymentModal toggle={toggleShowPayment} modal={showPayment} payment={props.props.minimumBid} func={quickBid}/>
+      </div>)}
+      
     </>
   );
 }
