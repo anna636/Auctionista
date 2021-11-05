@@ -46,7 +46,7 @@ public class AuctionItemController {
 
     //Get auction item by id
     @GetMapping("/rest/auction-items/{id}")
-    public ResponseEntity<Optional<AuctionItem>>getById(@PathVariable Long id){
+    public ResponseEntity<Optional<AuctionItem>>getById(@PathVariable long id){
 
         Optional<AuctionItem> auctionItem=auctionItemService.getAuctionItemById(id);
 

@@ -29,6 +29,7 @@ public class LoginController {
 
     }
 
+
     @PostMapping("/register")
     public User register(@RequestBody User user){
         return userService.createUser(user);

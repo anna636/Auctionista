@@ -33,14 +33,14 @@ public class AuctionItem {
 
     private String title;
     private String description;
-    private Integer reservationPrice;
+    private int reservationPrice;
     private LocalDateTime deadline;
     private String images;
-    private Boolean sold;
-    private Integer startPrice;
-    private Integer currentPrice;
-    private Integer minimumBid;
-    private Integer primaryImgIndex;
+    private boolean sold;
+    private int startPrice;
+    private int currentPrice;
+    private int minimumBid;
+    private int primaryImgIndex;
 
     @OneToMany(mappedBy = "auctionItem")
     @JsonIgnoreProperties({"auctionItem"})

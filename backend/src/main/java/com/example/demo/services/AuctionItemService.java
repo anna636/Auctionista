@@ -51,7 +51,7 @@ public class AuctionItemService {
         return auctionItemRepository.findAll();
     }
 
-    public Optional<AuctionItem> getAuctionItemById(Long id){
+    public Optional<AuctionItem> getAuctionItemById(long id){
         return auctionItemRepository.findById(id);
     }
 
