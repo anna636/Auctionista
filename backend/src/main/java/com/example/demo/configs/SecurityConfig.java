@@ -33,6 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/greet").authenticated() // user is logged in
         .and()
                 .oauth2Login()
+        .defaultSuccessUrl("http://localhost:3000")
         ;
     }
 
