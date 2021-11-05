@@ -43,6 +43,7 @@ function Chat() {
     socket.on("chat", function (data) {
       console.log("Received message", data);
       setContext([...context, data.message]);
+
     });
 
     socket.on("join", function (message) {
@@ -82,16 +83,15 @@ function Chat() {
   }
 
   async function postMessage(data) {
-    console.log("Postmessage");
     await fetch("/api/message/" + roomid, {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(data),
     });
 
-    // updateContext({
-    //   messages: [...context.messages, data.message],
-    // });
+
+    // works here...
+      // setContext([...context, data.message]);
   }
 
   // function leave() {
