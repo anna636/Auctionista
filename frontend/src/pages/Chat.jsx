@@ -10,7 +10,7 @@ function Chat() {
   const { roomid } = useParams();
   const [inputMessage, setInputMessage] = useState("");
   const { currentUser } = useContext(UserContext);
-  const { context, updateContext, getRoomById } = useGlobalContext();
+  const { context, setContext, getRoomById } = useGlobalContext();
   const [connected, setConnected] = useState(false);
   const [room, setRoom] = useState();
 
@@ -42,9 +42,7 @@ function Chat() {
 
     socket.on("chat", function (data) {
       console.log("Received message", data);
-      updateContext({
-        messages: [...context.messages, data.message],
-      });
+      setContext([...context, data.message]);
     });
 
     socket.on("join", function (message) {
@@ -78,6 +76,8 @@ function Chat() {
     };
     postMessage(data);
 
+    console.log("Context: ", context)
+
     setInputMessage("");
   }
 
@@ -89,9 +89,9 @@ function Chat() {
       body: JSON.stringify(data),
     });
 
-    updateContext({
-      messages: [...context.messages, data.message],
-    });
+    // updateContext({
+    //   messages: [...context.messages, data.message],
+    // });
   }
 
   // function leave() {

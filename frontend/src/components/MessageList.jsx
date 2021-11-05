@@ -7,9 +7,9 @@ function MessageList() {
 
   return (
     <div>
-      {(context.messages.length > 0) && 
+      {context && 
         <div>
-          {context.messages.map((msg, i) => (
+          {context.map((msg, i) => (
             <div key={msg + i}>
               {}
               {msg}

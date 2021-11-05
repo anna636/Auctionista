@@ -8,11 +8,7 @@ export const useGlobalContext = () => {
 };
 
 const GlobalProvider = (props) => {
-  const [context, setContext] = useState({
-    chatroom: {},
-    userId: "",
-    messages: [],
-  });
+  const [context, setContext] = useState([]);
 
 
     const createNewRoom = async (roomInfo) => {
@@ -40,18 +36,9 @@ const GlobalProvider = (props) => {
     }
   };
 
-  // helper function to only update
-  // specific values in the context
-  function updateContext(values) {
-    setContext({
-      ...context,
-      ...values,
-    });
-  }
-
   const values = {
     context,
-    updateContext,
+    setContext,
     createNewRoom,
     getRoomById
   };
