@@ -4,6 +4,7 @@ package com.example.demo.configs;
 
 import com.example.demo.entities.User;
 import com.example.demo.repositories.UserRepository;
+import com.example.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,6 +24,11 @@ public class MyUserDetailsService implements UserDetailsService {
     @Autowired
     private UserRepository userRepo;
 
+
+    @Autowired
+    private UserService userService;
+
+
     /*@PostConstruct
     private void createDefaultUsers(){
         if (userRepo.findByUsername("user") == null) {
@@ -31,12 +37,19 @@ public class MyUserDetailsService implements UserDetailsService {
         }
     }*/
 
+    public User loginUser(User user){
+        User myUser=userRepo.findByUsername(user.getUsername());
+
+
+    }
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepo.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("User not found by name: " + username);
+
         }
         return toUserDetails(user);
     }
