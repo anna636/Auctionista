@@ -15,7 +15,7 @@ function calcDiffInMinutes(dateA, dateB) {
   var minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
   var seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
   if (days > 1) { 
-    let fulltime = days + ' days and ' + (hours+1)+" hours ramaining" 
+    let fulltime = days + ' days and ' + (hours+1)+" hours remaining" 
     
     return fulltime
   } else {
