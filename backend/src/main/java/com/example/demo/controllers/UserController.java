@@ -15,6 +15,17 @@ import java.util.Optional;
 @RequestMapping("/rest/users") // prefix all mappings with this value
 public class UserController {
 
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String username="hi";
+
     @Autowired
     private UserService userService;
 
@@ -32,6 +43,13 @@ public class UserController {
     public ResponseEntity<User> createUser(@RequestBody User user) {
         return userService.createUser(user);
     }
+
+    @GetMapping("/googleuser")
+    public User getGoogleUser() {
+        return userService.getByUsername(this.getUsername());
+    }
+
+
 
    
 }

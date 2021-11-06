@@ -56,6 +56,8 @@ public class UserService {
         return userRepository.findById(id);
     }
 
+    public User getByUsername(String username) {return userRepository.findByUsername(username);}
+
     public ResponseEntity<User> createUser(User user) {
         // user userDetailsService to save new user
         // because we encrypt the password here

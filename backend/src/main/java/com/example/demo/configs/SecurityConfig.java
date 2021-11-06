@@ -1,5 +1,6 @@
 package com.example.demo.configs;
 
+import com.example.demo.controllers.UserController;
 import com.example.demo.entities.User;
 import com.example.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public MyUserDetailsService myUserDetailsService;
+
+    @Autowired
+    public UserController userController;
 
 
 
@@ -95,6 +99,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
             try{
                 myUserDetailsService.loadUserByUsername(parts[0]);
+                userController.setUsername(parts[0]);
+                System.out.println(userController.getUsername());
 
 
 
