@@ -10,13 +10,11 @@ function QuickBid(props) {
   const [show, setShow] = useState(false);
   const [showPayment, setShowPayemtn]=useState(false)
   const [modalText, setModalText] = useState("");
-  let pageReload = false;
+
  
 
   const toggleModal = () => {
-    if (show) {
-      window.location.reload();
-    }
+  
 
     setShow(!show);
   };
@@ -25,6 +23,10 @@ function QuickBid(props) {
     setShowPayemtn(!showPayment)
   }
 
+
+  function sendId() {
+    props.func(props.props.id)
+  }
   async function quickBid(bool) {
     toggleShowPayment()
     if (bool) {
@@ -44,10 +46,7 @@ function QuickBid(props) {
       if (!res.error) {
         setModalText("You placed bid worth of " + bidToPost.amount + " euros");
         toggleModal();
-        if (pageReload) {
-          console.log(pageReload);
-          window.location.reload(false);
-        }
+        sendId()
       }
     }
   }

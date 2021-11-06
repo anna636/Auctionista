@@ -19,6 +19,14 @@ const AuctionItemCard = (props) => {
     let auctionItem = await fetchAuctionItem(props.props.id)
     setItem(auctionItem);
   }, []);
+
+
+  async function updateItem(itemId) {
+    let auctionItem = await fetchAuctionItem(itemId)
+    setItem(auctionItem);
+    console.log("updating item")
+  }
+
   
   
 
@@ -42,7 +50,7 @@ const AuctionItemCard = (props) => {
           )}
           <p>Minimum bid possible: {item.minimumBid} euro </p>
           {location.pathname === "/" ? (
-            <QuickBid props={props.props} />
+            <QuickBid props={props.props} func={updateItem}/>
           ) : (
            null
           )}
