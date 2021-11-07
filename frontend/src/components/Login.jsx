@@ -40,18 +40,32 @@ export function Login(props) {
     e.preventDefault()
     setErrorMessage(false)
     let user = {
-      username: username,
+      email: username,
       password: password
     }
     const response = await login(user)
+      .then((response) => {
+        localStorage.setItem("accessToken", response.accessToken);
+       // alert.success("You're successfully logged in!");
+       // this.props.history.push("/");
+        console.log("login successfull with token!")
+      })
+      .catch((error) => {
+      /*   alert.error(
+          (error && error.message) ||
+            "Oops! Something went wrong. Please try again!"
+        ); */
+      });
     
-      if (response) {
+     /*  if (response) {
       setErrorMessage(true)
       whoAmI()
     }
     if (!response.error) {
       openPopup()
-    }
+    } */
+
+    return response;
   
   }
   return(

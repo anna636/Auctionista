@@ -11,6 +11,7 @@ import Search from "./search/Search";
 
 
 function Navbar() {
+ const token= "accessToken";
   const {getCurrentUser, logout} = useContext(UserContext)
   const [login, setLogin] = useState(false);
   const [register, setRegister] = useState(false);
@@ -18,6 +19,14 @@ function Navbar() {
   const toggleLogin = () => setLogin(!login);
   const toggleRegister = () => setRegister(!register);
   
+
+  async function getCurrentUser1() {
+      if (!localStorage.getItem("accessToken")) {
+        return Promise.reject("No access token set.");
+      }
+    let response = await fetch("/api/user/me");
+    console.log(response)
+  }
 
    const pull_data = (data) => {
      console.log(data);
@@ -39,6 +48,7 @@ function Navbar() {
       <a className="navbar-brand" style={styles.mainName} href="/">
         Auctionista
       </a>
+      <button onClick={getCurrentUser1}>Get</button>
       <button
         className="navbar-toggler"
         type="button"

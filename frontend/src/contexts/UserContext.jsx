@@ -42,7 +42,7 @@ const UserContextProvider = (props) => {
   };
 
   const login = async (user) => {
-    let res = await fetch("/api/login", {
+    let res = await fetch("/api/newlogin", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(user),
