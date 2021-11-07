@@ -9,7 +9,11 @@ import javax.validation.constraints.NotBlank;
 
 public class SignUpRequest {
     @NotBlank
-    private String name;
+    private String fullName;
+
+
+
+    private String username;
 
     @NotBlank
     @Email
@@ -18,12 +22,12 @@ public class SignUpRequest {
     @NotBlank
     private String password;
 
-    public String getName() {
-        return name;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFullName(String name) {
+        this.fullName= name;
     }
 
     public String getEmail() {
@@ -40,5 +44,13 @@ public class SignUpRequest {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
