@@ -1,5 +1,6 @@
 package com.example.demo.configs;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +20,10 @@ class MyWebMvcConfigurer implements WebMvcConfigurer {
     private final String database = "auctionista.db";
 
     private final long MAX_AGE_SECS = 3600;
+
+
+    @Value("${app.cors.allowedOrigins}")
+    private String[] allowedOrigins;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -42,6 +47,7 @@ class MyWebMvcConfigurer implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
+                .allowedOrigins(allowedOrigins)
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true)
