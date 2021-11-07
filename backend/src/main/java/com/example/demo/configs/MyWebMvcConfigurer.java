@@ -18,6 +18,8 @@ import java.io.IOException;
 class MyWebMvcConfigurer implements WebMvcConfigurer {
     private final String database = "auctionista.db";
 
+    private final long MAX_AGE_SECS = 3600;
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**")
@@ -40,7 +42,10 @@ class MyWebMvcConfigurer implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedMethods("GET", "POST", "PUT", "DELETE");
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedHeaders("*")
+                .allowCredentials(true)
+                .maxAge(MAX_AGE_SECS);
     }
 
     @Bean
