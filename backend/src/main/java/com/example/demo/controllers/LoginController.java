@@ -4,15 +4,19 @@ package com.example.demo.controllers;
 import com.example.demo.entities.AuthProvider;
 import com.example.demo.entities.User;
 import com.example.demo.exception.BadRequestException;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.payload.ApiResponse;
 import com.example.demo.payload.AuthResponse;
 import com.example.demo.payload.LoginRequest;
 import com.example.demo.payload.SignUpRequest;
 import com.example.demo.repositories.UserRepository;
 import com.example.demo.security.TokenProvider;
+import com.example.demo.security.oauth2.CurrentUser;
+import com.example.demo.security.oauth2.UserPrincipal;
 import com.example.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -95,6 +99,13 @@ public class LoginController {
 
         return ResponseEntity.created(location)
                 .body(new ApiResponse(true, "User registered successfully@"));
+    }
+
+    @GetMapping("/user/me")
+    @PreAuthorize("hasRole('USER')")
+    public User getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {
+        return userRepository.findById(userPrincipal.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
     }
 
 

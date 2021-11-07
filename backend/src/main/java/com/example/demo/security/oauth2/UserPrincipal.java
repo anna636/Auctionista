@@ -1,6 +1,7 @@
 package com.example.demo.security.oauth2;
 
-
+//The UserPrincipal class represents an authenticated Spring Security principal.
+// It contains the details of the authenticated user -
 import com.example.demo.entities.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
