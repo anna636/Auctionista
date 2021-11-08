@@ -94,12 +94,13 @@ const AuctionItemCard = (props) => {
             <p>There are no bids on this item yet</p>
           )}
           <p>Minimum bid possible: {item.bids && item.bids.length > 0 ? item.minimumBid : item.startPrice} euro </p>
-          {location.pathname === "/" && getCurrentUser() ? (
+          {location.pathname === "/" &&  getCurrentUser() && item.owner? (
             <div>
               <button
                 className="quickBid"
                 style={styles.btn}
                 onClick={toggleShowPayment}
+                disabled={getCurrentUser().id === item.owner.id ? "disabled":""}
               >
                 Place quick bid
               </button>
