@@ -108,7 +108,7 @@ export function Login(props) {
             Login
           </button>{" "}
           <span>OR</span>
-          <a href="http://localhost:4000/login/oauth2/code/google">
+          <a href="http://localhost:8080/oauth2/authorize/google?redirect_uri=http://localhost:3000/oauth2/redirect">
             <img
               className="socialImg google"
               style={styles.socialImg}
