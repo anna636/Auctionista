@@ -51,7 +51,7 @@ export function Login(props) {
     if (response !== null) {
         
       console.log("login successfull with token!");
-      //whoAmI()
+     
     }
     else {
       openPopup()

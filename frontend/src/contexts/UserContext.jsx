@@ -63,10 +63,16 @@ const UserContextProvider = (props) => {
     });
     res = await res.json();
     
-    if (!res.error) {
-      setCurrentUser({ ...res });
-    } else { setCurrentUser(null); }
-    console.log(res, " This is whoami ")
+    if (res.status==500) {
+      //setCurrentUser({ ...res });
+      console.log("Current user not found", res)
+      setCurrentUser(null)
+    }
+    else {
+      console.log("found current user", res)
+      setCurrentUser({...res})
+    }
+   
   };
 
   const getCurrentUser = () => {

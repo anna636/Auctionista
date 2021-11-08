@@ -71,7 +71,7 @@ export function Register(props) {
 
       let loginRes = await login(userLogin)
       if (loginRes !== null) {
-        
+
         console.log("and logged in successfully!")
       }
       else {
@@ -79,7 +79,7 @@ export function Register(props) {
       }
     }
     else {
-      console.log("Smth went wrong")
+      console.log("Smth went wrong when registering new user")
       setUsernameIsTaken(true)
     }
    /* */
