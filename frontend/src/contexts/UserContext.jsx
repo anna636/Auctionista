@@ -1,5 +1,5 @@
 import React from "react";
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect} from "react";
 
 export const UserContext = createContext();
 
@@ -8,6 +8,7 @@ export const UserContext = createContext();
 const UserContextProvider = (props) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [users, setUsers] = useState([]);
+
   
 
 
@@ -81,8 +82,11 @@ const UserContextProvider = (props) => {
 
   
   const logout = async () => {
+     
     localStorage.removeItem("accessToken");
     setCurrentUser(null)
+   
+
     console.log("You have been logged out")
   };
 
