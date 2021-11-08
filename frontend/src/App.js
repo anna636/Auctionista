@@ -11,7 +11,7 @@ import BidProvider from "./contexts/BidContext";
 import MyListings from "./pages/MyListings";
 import MyMessages from "./pages/MyMessages";
 import MyProfile from "./pages/MyProfile";
-import OAuth2RedirectHandler from "./components/OAuth2RedirectHandler";
+import OAuth2RedirectHandler from "./components/OAuth2RedirectHandler.js";
 
 function App() {
   return (
