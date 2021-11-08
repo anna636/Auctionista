@@ -30,6 +30,8 @@ export function Login(props) {
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState(false)
   const [successMsg, setSuccessMsg] = useState(false)
+   const targetUri = "http://localhost:3000/oauth2/redirect";
+   const baseUri = "http://localhost:4000";
 
    function openPopup() {
      props.func(true);
@@ -54,7 +56,7 @@ export function Login(props) {
 
   
   }
-  return(
+  return (
     <div>
       <Modal show={modal} onHide={toggle}>
         <Modal.Header closeButton>
@@ -62,35 +64,46 @@ export function Login(props) {
         </Modal.Header>
         <div className="input-login-div-wrap">
           <div className="input-login-div line">
-          <InputGroup className="mb-3">
-          <FormControl
-            aria-describedby="inputGroup-sizing-default"
-            required
-            type="text"
-            placeholder="Username"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          </InputGroup>
+            <InputGroup className="mb-3">
+              <FormControl
+                aria-describedby="inputGroup-sizing-default"
+                required
+                type="text"
+                placeholder="Username"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </InputGroup>
           </div>
           <div className="input-login-div">
-          <InputGroup className="mb-3">
-          <FormControl
-            aria-describedby="inputGroup-sizing-default"
-            required
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          </InputGroup>
+            <InputGroup className="mb-3">
+              <FormControl
+                aria-describedby="inputGroup-sizing-default"
+                required
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </InputGroup>
           </div>
           {errorMessage && <ErrorMessage>Bad credentials</ErrorMessage>}
           {successMsg && <SuccessMessage>Login successfull</SuccessMessage>}
         </div>
 
         <Modal.Footer>
-          <button class="btn btn-dark btn-lg" onClick={(e) => logIn(e)}>Login</button>{' '}
+          <button class="btn btn-dark btn-lg" onClick={(e) => logIn(e)}>
+            Login
+          </button>{" "}
+          <span>OR</span>
+          <a
+            href={
+              baseUri + "/oauth2/authorize/google?redirect_uri=" + targetUri
+            }
+          >
+            Google
+          </a>
+          <a href="">Facebook</a>
         </Modal.Footer>
       </Modal>
     </div>
