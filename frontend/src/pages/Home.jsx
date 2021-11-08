@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useAuctionItem } from "../contexts/AuctionItemContext";
 import AuctionItemCard from "../components/AuctionItemCard";
+import { UserContext } from "../contexts/UserContext";
 
 function Home() {
   const [offsetY, setOffsetY] = useState(0);
   const [currentItemsLength, setCurrentItemsLength] = useState(6);
+    const { login, whoAmI } = useContext(UserContext);
   const { auctionItems, fetchItemsInBatch } =
     useAuctionItem();
   const handleScroll = () => setOffsetY(window.pageYOffset);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
+    whoAmI()
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 

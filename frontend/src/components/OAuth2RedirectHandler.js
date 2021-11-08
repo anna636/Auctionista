@@ -1,8 +1,10 @@
-import React, { Component } from "react";
+import React, { Component, useContext } from "react";
 
 import { Redirect } from "react-router-dom";
+import { UserContext } from "../contexts/UserContext";
 
 class OAuth2RedirectHandler extends Component {
+  
   getUrlParameter(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
@@ -22,7 +24,7 @@ class OAuth2RedirectHandler extends Component {
       return (
         <Redirect
           to={{
-            pathname: "/profile",
+            pathname: "/",
             state: { from: this.props.location },
           }}
         />
