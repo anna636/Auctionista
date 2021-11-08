@@ -19,15 +19,14 @@ const CustomModal = (prop) => {
   }
  
   return (
-    <div
-      style={styleType()}
-      className="customModal"
-      
-    >
+    <div style={styleType()} className="customModal">
       <div className="closeModal" style={styles.closeModal}>
         <p>
-        <i class="bi bi-x-square" color="white" onClick={close}></i>
+          <i class="bi bi-x-square" color="white" onClick={close}></i>
         </p>
+      </div>
+      <div className="header" style={styles.header}>
+        <p>{prop.prop.header}</p>
       </div>
       <div className="mainInfo" style={styles.mainInfo}>
         <p>{prop.prop.text}</p>
@@ -98,6 +97,10 @@ const styles = {
   },
   mainInfo: {
     fontSize: "1.3em",
+    fontWeight: "bold",
+  },
+  header: {
+    fontSize: "2em",
     fontWeight: "bold",
   },
 };

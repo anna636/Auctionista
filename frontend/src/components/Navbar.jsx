@@ -1,37 +1,54 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.css";
-import { UserContext } from "../contexts/UserContext"
+import { UserContext } from "../contexts/UserContext";
 import { useState, useEffect, useContext } from "react";
 import { NavDropdown } from "react-bootstrap";
-import { Login } from "../components/Login"
-import { Register } from "../components/Register"
-import { Link } from 'react-router-dom';
+import { Login } from "../components/Login";
+import { Register } from "../components/Register";
+import { Link } from "react-router-dom";
 import Search from "./search/Search";
-
-
+import CustomModal from "./CustomModal";
 
 function Navbar() {
-  const {getCurrentUser, logout} = useContext(UserContext)
+  const { getCurrentUser, logout } = useContext(UserContext);
   const [login, setLogin] = useState(false);
   const [register, setRegister] = useState(false);
-  const [showPopup, setShowPopup]= useState(false)
+  const [showPopup, setShowPopup] = useState(false);
   const toggleLogin = () => setLogin(!login);
   const toggleRegister = () => setRegister(!register);
-  
+  const [myProp, setMyProp] = useState({});
 
-   const pull_data = (data) => {
-     console.log(data);
-     setShowPopup(data)
-     setTimeout(function () {
-       setShowPopup(false)
-     }, 4000);
-    
-   };
+  const pull_data = (data) => {
+    console.log(data);
+    setShowPopup(data);
+    setMyProp({
+      show: false,
+    });
+    setTimeout(function () {
+      setShowPopup(false);
+    }, 4000);
+  };
 
+  function openModal() {
+    return setMyProp({
+      show: true,
+      colour: "green",
+      header:"Congratulations!!",
+      text: "You have won the following auction: ",
+    });
+  }
+
+  //  const pull_data = (data) => {
+  //    console.log(data);
+  //    if (data === false) {
+  //      setMyProp({
+  //        show: false,
+  //      });
+  //    }
+  //  };
 
   useEffect(() => {
-    getCurrentUser()
-
+    getCurrentUser();
   }, []);
 
   return (
@@ -56,7 +73,10 @@ function Navbar() {
       {!getCurrentUser() ? (
         <div style={styles.loginButtons}>
           <div>
-            <button className="btn btn-outline-light btn-lg" onClick={toggleLogin}>
+            <button
+              className="btn btn-outline-light btn-lg"
+              onClick={toggleLogin}
+            >
               Login
             </button>
             <Login toggle={toggleLogin} modal={login} func={pull_data}></Login>
@@ -127,12 +147,13 @@ function Navbar() {
       >
         <p>Logged in</p>
       </div>
+      <button onClick={openModal}>won</button>
+      <CustomModal prop={myProp} func={pull_data} />
     </nav>
   );
 }
 
 export default Navbar;
-
 
 const styles = {
   navbar: {
@@ -160,7 +181,7 @@ const styles = {
     right: "10vw",
     opacity: "0.8",
     borderRadius: "5px",
-    textAlign:"center"
+    textAlign: "center",
   },
 
   ul: {
@@ -172,7 +193,6 @@ const styles = {
   },
 
   hide: {
-    display:"none"
-  }
-  
+    display: "none",
+  },
 };

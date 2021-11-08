@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAuctionItem } from "../contexts/AuctionItemContext";
 import AuctionItemCard from "../components/AuctionItemCard";
 
+
 function Home() {
   const [offsetY, setOffsetY] = useState(0);
   const [currentItemsLength, setCurrentItemsLength] = useState(6);
