@@ -29,7 +29,7 @@ function MyMessages() {
 
   useEffect(() => {
     connect();
-  }, [messages]);
+  }, [connected]);
 
   function connect() {
     setEventListeners();
@@ -47,15 +47,17 @@ function MyMessages() {
       setMessages([...messages, tempObject]);
     });
 
-    socket.on("join", function (message) {
-      console.log(message);
-    });
+    // socket.on("join", function (message) {
+    //   setConnected(true);
+    //   console.log(message);
+    // });
 
     socket.on("leave", function (message) {
       console.log(message);
     });
 
     socket.on("disconnect", function () {
+      setConnected(false);
       console.log("socket disconnected");
     });
 
@@ -89,14 +91,20 @@ function MyMessages() {
   }
 
   const pullChildData = (room) => {
-    console.log("Room recver set to ", room);
-
-    socket.emit("join", "" + room.id);
-    setChatRoom(room);
+    joinRoom(room);
     history.push("/chat/" + room.id);
-
     setOtherUserName(getOtherUserName(room));
   };
+
+  async function joinRoom(room) {
+    socket.emit("join", "" + room.id);
+    await socket
+      .on("join", function (message) {
+        setConnected(true);
+        setChatRoom(room);
+        console.log(message);
+      })
+  }
 
   function getOtherUserName(room) {
     let tempArray = [];
@@ -125,57 +133,70 @@ function MyMessages() {
           </div>
 
           <div style={{ position: "relative", height: "500px" }}>
-            <MainContainer>
-              <ChatContainer>
-                <MessageList>
-                  <>
-                    {typing && (
-                      <TypingIndicator
-                        content={currentUser.username + " is typing"}
+            {connected && (
+              <>
+                <MainContainer>
+                  <ChatContainer>
+                    <MessageList>
+                      <>
+                        {chatRoom.messages && chatRoom.messages.length > 0
+                          ? chatRoom.messages.map((msg, i) => (
+                              <>
+                                <ChatMessage
+                                  key={i}
+                                  message={msg}
+                                  sendTo={chatRoom}
+                                  otherUser={otherUserName}
+                                />
+                              </>
+                            ))
+                          : " "}
+                        {messages &&
+                          messages.length > 0 &&
+                          messages.map((msg, i) => (
+                            <>
+                              <ChatMessage
+                                key={i}
+                                message={msg}
+                                sendTo={chatRoom}
+                                otherUser={otherUserName}
+                              />
+                            </>
+                          ))}
+                        {/* {typing && (
+                        <TypingIndicator
+                          content={currentUser.username + " is typing"}
+                        />
+                      )} */}
+                      </>
+                    </MessageList>
+                  </ChatContainer>
+                </MainContainer>
+
+                {chatRoom && (
+                  <div style={cosStyles.inputWrapper} className="chatWrapper">
+                    <form
+                      action=""
+                      onSubmit={handleSubmit}
+                      style={cosStyles.form}
+                    >
+                      <input
+                        type="text"
+                        style={cosStyles.input}
+                        onChange={(e) => getInputValue(e.target.value)}
+                        value={msgToSend}
+                        onSubmit={handleSubmit}
                       />
-                    )}
-                    {chatRoom.messages && chatRoom.messages.length > 0
-                      ? chatRoom.messages.map((msg, i) => (
-                          <>
-                            <ChatMessage
-                              key={i}
-                              message={msg}
-                              sendTo={chatRoom}
-                              otherUser={otherUserName}
-                            />
-                          </>
-                        ))
-                      : " "}
-                    {messages &&
-                      messages.length > 0 &&
-                      messages.map((msg, i) => (
-                        <>
-                          <ChatMessage
-                            key={i}
-                            message={msg}
-                            sendTo={chatRoom}
-                            otherUser={otherUserName}
-                          />
-                        </>
-                      ))}
-                  </>
-                </MessageList>
-              </ChatContainer>
-            </MainContainer>
 
-            {chatRoom && (
-              <div style={cosStyles.inputWrapper} className="chatWrapper">
-                <form action="" onSubmit={handleSubmit} style={cosStyles.form}>
-                  <input
-                    type="text"
-                    style={cosStyles.input}
-                    onChange={(e) => getInputValue(e.target.value)}
-                    value={msgToSend}
-                    onSubmit={handleSubmit}
-                  />
-
-                  <button style={cosStyles.sendBtn}>Send</button>
-                </form>
+                      <button style={cosStyles.sendBtn}>Send</button>
+                    </form>
+                  </div>
+                )}
+              </>
+            )}
+            {!connected && (
+              <div>
+                <h3>Connecting...</h3>
               </div>
             )}
           </div>
