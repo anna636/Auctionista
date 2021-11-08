@@ -1,4 +1,8 @@
 package com.example.demo.entities;
 
-public class AuthProvider {
+public enum AuthProvider {
+    local,
+    facebook,
+    google,
+    github
 }
