@@ -1,25 +1,41 @@
-import React, {useState, useEffect, useContext} from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useMessage } from "../../contexts/MessageContext";
+import { UserContext } from "../../contexts/UserContext";
 
 function ChatBox(props) {
-  const { chatsWith } = useMessage();
+  const { chatsWith, setChatsWith } = useMessage();
+  const { currentUser } = useContext(UserContext);
+
+  useEffect(() => {
+    getUserChats()
+  }, [currentUser])
   
-   function sendUseraneme(username) {
-     props.func(username);
+
+  function getUserChats() {
+    let userChatRooms = []
+    for (let room of currentUser.chatrooms) {
+      userChatRooms.push(room)
+    }
+    setChatsWith(userChatRooms)
+  }
+
+  
+   function emitChatRoom(room) {
+     props.emitFromChatBox(room);
   }
   
  
   return (
     <div className="chatsWrapper" style={styles.chatsWrapper}>
       {chatsWith && chatsWith.length > 0
-        ? chatsWith.map((user, index) => (
-            <div className="userWrapper" style={props.sendTo === user ? styles.chosen : styles.userWrapper} onClick={() => sendUseraneme(user)}>
+        ? chatsWith.map((room, index) => (
+            <div className="userWrapper" style={props.sendTo === room ? styles.chosen : styles.userWrapper} onClick={() => emitChatRoom(room)}>
               <img
                 src="https://www.pngkit.com/png/full/128-1280585_user-icon-fa-fa-user-circle.png"
               alt=""
               style={styles.img}
               />
-            <p>{user}</p>
+            <p>Room ID: {room.id}</p>
             
             </div>
           ))

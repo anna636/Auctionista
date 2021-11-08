@@ -1,4 +1,5 @@
-import React, {useState, useEffect, useContext} from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import {
   MainContainer,
@@ -17,10 +18,14 @@ import ChatMessage from "../components/chat/ChatMessage";
 
 function MyMessages() {
 
+  const history = useHistory();
   const { sendTo, setSendTo, messages, setMessages } = useMessage();
   const [msgToSend, setMsgToSend] = useState("")
-  const { getCurrentUser } = useContext(UserContext);
+  const { getCurrentUser, currentUser } = useContext(UserContext);
   const [typing, setTyping] = useState(false)
+  const { roomid } = useParams();
+
+  
  
   
   function sendNewMsg(e) {
@@ -43,9 +48,10 @@ function MyMessages() {
 
   }
 
-   const pullChildData = (data) => {
-     console.log("msg reciever set to ",data);
-     setSendTo(data)
+   const pullChildData = (room) => {
+     console.log("Room receiver set to ",room);
+     setSendTo(room)
+     history.push("/chat/" + room.id);
    };
 
   function getInputValue(text) {
@@ -56,7 +62,7 @@ function MyMessages() {
   return (
     <div className="chatWrapper" style={cosStyles.chatWrapper}>
       <div className="people" style={cosStyles.people}>
-        <ChatBox func={pullChildData} sendTo={sendTo }/>
+        <ChatBox emitFromChatBox={pullChildData} sendTo={sendTo }/>
       </div>
       <div style={{ position: "relative", height: "500px" }}>
         <MainContainer>
