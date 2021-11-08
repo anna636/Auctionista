@@ -2,28 +2,28 @@ import React, { useState, useEffect } from "react";
 import { Button, Toast, Row, Col} from "react-bootstrap";
 
 function NotificationBubble(){
-  const [showA, setShowA] = useState(true);
-  const [showB, setShowB] = useState(true);
-
+  const [showA, setShowA] = useState(false);
   const toggleShowA = () => setShowA(!showA);
-  const toggleShowB = () => setShowB(!showB);
+
 
   return (
     <Row>
     <Col md={6} className="mb-2">
-      <img src="https://i.imgur.com/gBi4P58.png" onClick={toggleShowA} className="mb-2" style={styles.bell}>
+      <img src="https://i.imgur.com/x3cOhhz.png" onClick={toggleShowA} className="mb-2" style={styles.bell}>
       </img>
-      <Toast show={showA} onClose={toggleShowA}>
-        <Toast.Header>
+      <Toast bg='dark' show={showA} onClose={toggleShowA} style={styles.toastBody} >
+        <Toast.Header bg='dark'>
           <img
             src="holder.js/20x20?text=%20"
             className="rounded me-2"
             alt=""
           />
-          <strong className="me-auto">Bootstrap</strong>
+          <strong className="me-auto">Notification</strong>
           <small>11 mins ago</small>
         </Toast.Header>
-        <Toast.Body>Woohoo, you're reading this text in a Toast!</Toast.Body>
+        <Toast.Body>You have been outbid on: #auctionItem.title new bid is: #CurrentBid
+          <button>Place new bid: #auctionItem.title</button>
+        </Toast.Body>
       </Toast>
     </Col>
   </Row>
@@ -37,8 +37,11 @@ export default NotificationBubble;
 
 const styles = {
   bell: {
-    backgroundColor: "white",
-    width: "50px",
-    height: "50px"
+    width: "20px",
+    height: "20px",
+    marginLeft: "20px"
+  },
+  toastBody: {
+    position: "fixed",
   }
 };
