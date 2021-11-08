@@ -14,45 +14,56 @@ import MyListings from "./pages/MyListings";
 import MyMessages from "./pages/MyMessages";
 import MyProfile from "./pages/MyProfile";
 import Chat from "./pages/Chat";
+import MessageContextProvider from "./contexts/MessageContext";
 
 function App() {
   return (
     <div className="App">
       <SocketProvider>
         <GlobalProvider>
-      <UserContextProvider>
-        <AuctionItemProvider>
-          <BidProvider>
-            <Router>
-              <Navbar />
-              <main>
-                <Switch>
-                  <Route path="/" exact component={Home} />
-                  <Route
-                    path="/create-new-listing"
-                    exact
-                    component={CreateNewListing}
-                  />
-                  <Route
-                    exact
-                    path="/details/:id"
-                    component={AuctionItemDetails}
-                  />
-                  <Route exact path="/my-listings" component={MyListings} />
-                  <Route exact path="/my-messages" component={MyMessages} />
-                  <Route exact path="/my-profile" component={MyProfile} />
-                  <Route exact path="/chat/:roomid" component={Chat} />
-                </Switch>
-              </main>
-              <footer>
-                <div style={styles.line}> </div>
-                <Footer />
-              </footer>
-            </Router>
-          </BidProvider>
-        </AuctionItemProvider>
-      </UserContextProvider>
-      </GlobalProvider>
+          <MessageContextProvider>
+            <UserContextProvider>
+              <AuctionItemProvider>
+                <BidProvider>
+                  <Router>
+                    <Navbar />
+                    <main>
+                      <Switch>
+                        <Route path="/" exact component={Home} />
+                        <Route
+                          path="/create-new-listing"
+                          exact
+                          component={CreateNewListing}
+                        />
+                        <Route
+                          exact
+                          path="/details/:id"
+                          component={AuctionItemDetails}
+                        />
+                        <Route
+                          exact
+                          path="/my-listings"
+                          component={MyListings}
+                        />
+                        <Route
+                          exact
+                          path="/my-messages"
+                          component={MyMessages}
+                        />
+                        <Route exact path="/my-profile" component={MyProfile} />
+                        <Route exact path="/chat/:roomid" component={Chat} />
+                      </Switch>
+                    </main>
+                    <footer>
+                      <div style={styles.line}> </div>
+                      <Footer />
+                    </footer>
+                  </Router>
+                </BidProvider>
+              </AuctionItemProvider>
+            </UserContextProvider>
+          </MessageContextProvider>
+        </GlobalProvider>
       </SocketProvider>
     </div>
   );

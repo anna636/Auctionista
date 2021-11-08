@@ -10,12 +10,16 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public interface AuctionItemRepository extends JpaRepository<AuctionItem, Long> {
 
 
+
+     @Query (value="SELECT rowid FROM auction_items WHERE id = :id", nativeQuery = true)
+     String getRowId (String id);
 
 
     @Query(value="SELECT * FROM auction_items WHERE sold = false LIMIT 6 OFFSET :offset", nativeQuery = true)

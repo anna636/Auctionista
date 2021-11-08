@@ -19,6 +19,8 @@ import { useBidContext } from "../contexts/BidContext";
 import { UserContext } from "../contexts/UserContext";
 import CustomModal from "../components/CustomModal";
 import { useGlobalContext } from "../contexts/GlobalContext";
+import { Link } from "react-router-dom";  // ********
+import { useMessage } from "../contexts/MessageContext";  // ************
 
 function AuctionItemDetails() {
   const { id } = useParams();
@@ -32,6 +34,8 @@ function AuctionItemDetails() {
   const [highestBid, setHighestBid] = useState();
   const [itemImages, setItemImages] = useState([]);
   const { createNewRoom } = useGlobalContext();
+  const { sendTo, setSendTo, chatsWith, setChatsWith } = useMessage();  // **********
+
 
   useEffect(() => {
     getAuctionItem(id);
@@ -131,7 +135,16 @@ function AuctionItemDetails() {
 
     if (newRoom) {
       history.push("/chat/" + newRoom.id);
-    } 
+    }
+  }
+
+  // ****************
+  function setMsgReciever(username) {
+    setSendTo(username)
+    if (!chatsWith.includes(username)) {
+      setChatsWith([username, ...chatsWith])
+    }
+    
   }
 
   return (
@@ -224,6 +237,22 @@ function AuctionItemDetails() {
               )}
               <br />
               <Button onClick={onClickChat}>Chat with seller</Button>
+              {/* =======
+              {checkUser() ? (
+                <div className="owner" style={styles.owner}>
+                  <p>
+                    {" "}
+                    Auction owner:{" "}
+                    <Link
+                      to="/my-messages"
+                      onClick={() => setMsgReciever(auctionItem.owner.username)}
+                    >
+                      {auctionItem.owner.username}
+                    </Link>{" "}
+                  </p>
+                </div>
+              ) : null} */}
+
             </Col>
           </Row>
           <CustomModal prop={myProp} func={pull_data} />
@@ -243,4 +272,8 @@ const styles = {
     display: "flex",
     justifyContent: "center",
   },
+  owner: {
+    textAlign: "right",
+    paddingRight:"2vw"
+  }
 };

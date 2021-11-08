@@ -36,9 +36,13 @@ function Navbar() {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark" style={styles.navbar}>
-      <a className="navbar-brand" style={styles.mainName} href="/">
+       <Link to="/">
+      <a className="navbar-brand" style={styles.mainName}>
+       
         Auctionista
+        
       </a>
+      </Link>
       <button
         className="navbar-toggler"
         type="button"

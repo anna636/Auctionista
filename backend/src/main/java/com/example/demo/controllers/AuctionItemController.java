@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin
 
 public class AuctionItemController {
 
@@ -23,10 +24,10 @@ public class AuctionItemController {
 
 
 
-    @GetMapping("/rest/auction-items/batch/{offset}")
-    public List<AuctionItem> getItemsInBatch(@PathVariable String offset)
+    @GetMapping("/rest/auction-items/batch/{offset}/{id}")
+    public List<AuctionItem> getItemsInBatch(@PathVariable String offset, @PathVariable String id)
     {
-        return auctionItemService.getItemsInBatch(offset);
+        return auctionItemService.getItemsInBatch(offset, id);
     }
 
     //Get all auction items in db
