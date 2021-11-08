@@ -22,6 +22,16 @@ function ChatBox(props) {
     props.emitFromChatBox(room);
   }
 
+  function getOtherUserName(room) {
+    let tempArray = []
+    for (let user of room.users) {
+      if (user.id !== currentUser.id) {
+        tempArray.push(user)
+      }
+    }
+    return tempArray[0].username
+  }
+
   return (
     <div className="chatsWrapper" style={styles.chatsWrapper}>
       {userChatRooms && userChatRooms.length > 0
@@ -38,14 +48,11 @@ function ChatBox(props) {
                 style={styles.img}
               />
               <p>
-                Chat with:{" "}
-                {room.users[0].id === currentUser.id
-                  ? room.users[1].usename
-                  : room.users[0].username}{" "}
+              Chat with: {getOtherUserName(room)}
               </p>
             </div>
           ))
-        : null}
+        : " "}
     </div>
   );
 }

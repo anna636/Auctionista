@@ -94,13 +94,18 @@ function MyMessages() {
     setChatRoom(room);
     history.push("/chat/" + room.id);
 
-    // setOtherUser
-    setOtherUserName(
-      room.users[0].id === currentUser.id
-        ? room.users[1].usename
-        : room.users[0].username
-    );
+    setOtherUserName(getOtherUserName(room));
   };
+
+  function getOtherUserName(room) {
+    let tempArray = [];
+    for (let user of room.users) {
+      if (user.id !== currentUser.id) {
+        tempArray.push(user);
+      }
+    }
+    return tempArray[0].username;
+  }
 
   function getInputValue(text) {
     setMsgToSend(text);
@@ -160,10 +165,11 @@ function MyMessages() {
           </div>
         </>
       )}
-      {currentUser && !currentUser.chatrooms &&
+      {currentUser && !currentUser.chatrooms && (
         <div>
-      <h3>You have no chat messages</h3>
-      </div>}
+          <h3>You have no chat messages</h3>
+        </div>
+      )}
     </div>
   );
 }
