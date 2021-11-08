@@ -48,7 +48,7 @@ function Navbar() {
       <a className="navbar-brand" style={styles.mainName} href="/">
         Auctionista
       </a>
-      <button onClick={getCurrentUser1}>Get</button>
+    
       <button
         className="navbar-toggler"
         type="button"

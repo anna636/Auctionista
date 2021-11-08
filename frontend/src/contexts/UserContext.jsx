@@ -24,20 +24,12 @@ const UserContextProvider = (props) => {
 
 
   const register = async (user) => {
-    let res = await fetch("/api/register", {
+    let res = await fetch("/api/signup", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(user),
     });
-    if (res.status == 400) {
-      return "false"
-    }
-    else {
-      res = await res.json();
-    setCurrentUser(res);
-    console.log(res, " This is register ")
-    return res;
-    }
+    return res
     
   };
 
@@ -48,16 +40,29 @@ const UserContextProvider = (props) => {
       body: JSON.stringify(user),
     });
     res = await res.json();
-    if (res.status !==403) {
-      setCurrentUser(res);
+    console.log("this is login", res)
+   if (res.accessToken) {
+     localStorage.setItem("accessToken", res.accessToken);
+     await whoAmI()
+      return res;
     }
-    console.log(res, " This is login ")
-    return res;
+   else {
+     return null
+    }
+    
   };
 
   const whoAmI = async () => {
-    let res = await fetch("/api/whoami");
+    console.log("local storage is", localStorage.getItem("accessToken"));
+    let res = await fetch("/api/user/me", {
+      method: "GET",
+      headers: new Headers({
+        Authorization: "Bearer " + localStorage.getItem("accessToken"),
+        "Content-Type": "application/json",
+      }),
+    });
     res = await res.json();
+    
     if (!res.error) {
       setCurrentUser({ ...res });
     } else { setCurrentUser(null); }

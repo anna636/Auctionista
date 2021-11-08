@@ -34,30 +34,31 @@ export function Login(props) {
    function openPopup() {
      props.func(true);
    }
+
+
  
   
   async function logIn(e) {
-    e.preventDefault()
-    setErrorMessage(false)
+    e.preventDefault();
+    setErrorMessage(false);
     let user = {
       email: username,
-      password: password
-    }
+      password: password,
+    };
     const response = await login(user)
-      .then((response) => {
-        localStorage.setItem("accessToken", response.accessToken);
-       // alert.success("You're successfully logged in!");
-       // this.props.history.push("/");
-        console.log("login successfull with token!")
-      })
-      .catch((error) => {
-      /*   alert.error(
-          (error && error.message) ||
-            "Oops! Something went wrong. Please try again!"
-        ); */
-      });
     
-     /*  if (response) {
+
+    if (response !== null) {
+        
+      console.log("login successfull with token!");
+      //whoAmI()
+    }
+    else {
+      openPopup()
+      console.log("smth went wrong when trying to login")
+    }
+
+    /*  if (response.accessToken) {
       setErrorMessage(true)
       whoAmI()
     }
@@ -66,7 +67,6 @@ export function Login(props) {
     } */
 
     return response;
-  
   }
   return(
     <div>

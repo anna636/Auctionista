@@ -62,18 +62,25 @@ export function Register(props) {
       email: email
     }
     let userLogin = {
-      username: username,
+      email: email,
       password: password,
     }
     const response = await register(user)
-    if (response === "false") {
-       setUsernameIsTaken(true)
+    if (response.status === 201) {
+      console.log("new user has been registered")
+
+      let loginRes = await login(userLogin)
+      if (loginRes !== null) {
+        
+        console.log("and logged in successfully!")
+      }
+      else {
+        console.log("smth went wrong when logging in")
+      }
     }
     else {
-       const responseUser = await login(userLogin)
-    if (!responseUser.error) {
-      openPopup()
-    } 
+      console.log("Smth went wrong")
+      setUsernameIsTaken(true)
     }
    /* */
   
