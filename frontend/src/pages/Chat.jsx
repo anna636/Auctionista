@@ -88,10 +88,6 @@ function Chat() {
       headers: { "content-type": "application/json" },
       body: JSON.stringify(data),
     });
-
-
-    // works here...
-      // setContext([...context, data.message]);
   }
 
   // function leave() {

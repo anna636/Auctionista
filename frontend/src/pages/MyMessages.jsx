@@ -14,111 +14,161 @@ import { sendMessage } from "../components/chat/Socket";
 import { UserContext } from "../contexts/UserContext";
 import ChatBox from "../components/chat/ChatBox";
 import ChatMessage from "../components/chat/ChatMessage";
-
+import { useSocketContext } from "../contexts/SocketContext";
+import { useGlobalContext } from "../contexts/GlobalContext";
 
 function MyMessages() {
-
   const history = useHistory();
-  const { sendTo, setSendTo, messages, setMessages } = useMessage();
-  const [msgToSend, setMsgToSend] = useState("")
+  const { chatRoom, setChatRoom, messages, setMessages } = useMessage();
+  const [msgToSend, setMsgToSend] = useState("");
   const { getCurrentUser, currentUser } = useContext(UserContext);
-  const [typing, setTyping] = useState(false)
-  const { roomid } = useParams();
+  const [typing, setTyping] = useState(false);
+  const [otherUserName, setOtherUserName] = useState("");
+  const { socket } = useSocketContext();
+  const [connected, setConnected] = useState(false);
+  const { context, setContext, getRoomById } = useGlobalContext();
 
-  
- 
-  
+  useEffect(() => {
+    getCurrentUser();
+  }, [chatRoom]);
+
+  useEffect(() => {
+    connect();
+  }, [context]);
+
+  function connect() {
+    setEventListeners();
+  }
+
+  function setEventListeners() {
+    socket.on("connect", () => {
+      setConnected(true);
+      console.log("socket connected");
+    });
+
+    socket.on("chat", function (data) {
+      console.log("Received message", data);
+      setContext([...context, data.message]);
+    });
+
+    socket.on("join", function (message) {
+      console.log(message);
+    });
+
+    socket.on("leave", function (message) {
+      console.log(message);
+    });
+
+    socket.on("disconnect", function () {
+      console.log("socket disconnected");
+    });
+
+    socket.on("reconnect_attempt", (attempts) => {
+      console.log("Try to reconnect at " + attempts + " attempt(s).");
+    });
+  }
+
+  // ******** Change getCurrentUser to currentUser
+
   function sendNewMsg(e) {
-    e.preventDefault()
+    e.preventDefault();
     let msg = {
       fromLogin: getCurrentUser().username, //Who sends msg
       message: msgToSend, //text of msg
     };
-    if (sendTo !== "") {
-      sendMessage(sendTo, msg); //First - who will recieve the msg, second - message itself
+    if (chatRoom !== "") {
+      sendMessage(chatRoom, msg); //First - who will recieve the msg, second - message itself
       setMessages([...messages, msg]);
       setMsgToSend("");
       setTyping(false);
-      console.log(messages)
+      console.log(messages);
+    } else {
+      console.log("sending to null user");
     }
-    else {
-      console.log("sending to null user")
-    }
-    
-
   }
 
-   const pullChildData = (room) => {
-     console.log("Room receiver set to ",room);
-     setSendTo(room)
-     history.push("/chat/" + room.id);
-   };
+  const pullChildData = (room) => {
+    console.log("Room recver set to ", room);
+
+    socket.emit("join", "" + room.id);
+    setChatRoom(room);
+    history.push("/chat/" + room.id);
+
+    // setOtherUser
+    setOtherUserName(
+      room.users[0].id === currentUser.id
+        ? room.users[1].usename
+        : room.users[0].username
+    );
+  };
 
   function getInputValue(text) {
     setMsgToSend(text);
-    setTyping(true)
+    setTyping(true);
   }
-  
+
   return (
     <div className="chatWrapper" style={cosStyles.chatWrapper}>
-      <div className="people" style={cosStyles.people}>
-        <ChatBox emitFromChatBox={pullChildData} sendTo={sendTo }/>
-      </div>
-      <div style={{ position: "relative", height: "500px" }}>
-        <MainContainer>
-          <ChatContainer>
-            <MessageList>
-              {typing ? (
-                <TypingIndicator
-                  content={getCurrentUser().username + " is typing"}
-                />
-              ) : null}
-              {messages && messages.length > 0
-                ? messages.map((msg, i) => (
-                    <>
-                    <ChatMessage message={msg} sendTo={sendTo }/>
-                    </>
-                  ))
-                : null}
-            </MessageList>
-          </ChatContainer>
-        </MainContainer>
-        <div style={cosStyles.inputWrapper} className="chatWrapper">
-          <form action="" onSubmit={sendNewMsg} style={cosStyles.form}>
-            <input
-              type="text"
-              style={cosStyles.input}
-              onChange={(e) => getInputValue(e.target.value)}
-              value={msgToSend}
-              onSubmit={sendNewMsg}
+      {currentUser && currentUser.chatrooms.length && (
+        <>
+          <div className="people" style={cosStyles.people}>
+            <ChatBox
+              emitFromChatBox={pullChildData}
+              sendTo={chatRoom !== undefined ? chatRoom : null}
             />
+          </div>
 
-            <button style={cosStyles.sendBtn}>Send</button>
-          </form>
-        </div>
-      </div>
+          <div style={{ position: "relative", height: "500px" }}>
+            <MainContainer>
+              <ChatContainer>
+                <MessageList>
+                  {typing ? (
+                    <TypingIndicator
+                      content={getCurrentUser().username + " is typing"}
+                    />
+                  ) : (
+                    " "
+                  )}
+                  {chatRoom.messages && chatRoom.messages.length > 0
+                    ? chatRoom.messages.map((msg, i) => (
+                        <>
+                          <ChatMessage
+                            key={i}
+                            message={msg}
+                            sendTo={chatRoom}
+                            otherUser={otherUserName}
+                          />
+                        </>
+                      ))
+                    : " "}
+                </MessageList>
+              </ChatContainer>
+            </MainContainer>
+            <div style={cosStyles.inputWrapper} className="chatWrapper">
+              <form action="" onSubmit={sendNewMsg} style={cosStyles.form}>
+                <input
+                  type="text"
+                  style={cosStyles.input}
+                  onChange={(e) => getInputValue(e.target.value)}
+                  value={msgToSend}
+                  onSubmit={sendNewMsg}
+                />
+
+                <button style={cosStyles.sendBtn}>Send</button>
+              </form>
+            </div>
+          </div>
+        </>
+      )}
+      {currentUser && !currentUser.chatrooms &&
+        <div>
+      <h3>You have no chat messages</h3>
+      </div>}
     </div>
   );
 }
-    
-
-          {/* {currentUser && (
-        <div>
-          {currentUser.chatrooms.length && (
-            <div>
-              {currentUser.chatrooms.map((room) => (
-                <div key={room.id}>
-                  <Link to={"/chat/" + room.id }>Room ID: </Link>
-                  {room.id}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      )} */}
 
 export default MyMessages;
-
 
 const cosStyles = {
   chatWrapper: {
@@ -135,7 +185,6 @@ const cosStyles = {
     height: "87%",
     padding: "2vw 2vw 2vw 2vw",
     overflowY: "scroll",
-    
   },
   inputWrapper: {
     width: "100%",
