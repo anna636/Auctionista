@@ -1,6 +1,7 @@
 package com.example.demo.configs;
 
 import com.example.demo.security.oauth2.*;
+import com.nimbusds.oauth2.sdk.http.HTTPRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -103,8 +104,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.html",
                         "/**/*.css",
                         "/**/*.js",
-                        "/api/**")
+                        "/api/**",
+                        "/rest/auction-items/**",
+                        )
+
                 .permitAll()
+                .antMatchers( "/rest/bids/**").permitAll()
+
                 .antMatchers("/auth/**", "/oauth2/**", "/login/**")
                 .permitAll()
                 .anyRequest()
