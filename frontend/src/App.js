@@ -11,6 +11,7 @@ import BidProvider from "./contexts/BidContext";
 import MyListings from "./pages/MyListings";
 import MyMessages from "./pages/MyMessages";
 import MyProfile from "./pages/MyProfile";
+import OAuth2RedirectHandler from "./components/OAuth2RedirectHandler";
 
 function App() {
   return (
@@ -36,6 +37,10 @@ function App() {
                   <Route exact path="/my-listings" component={MyListings} />
                   <Route exact path="/my-messages" component={MyMessages} />
                   <Route exact path="/my-profile" component={MyProfile} />
+                  <Route
+                    path="/oauth2/redirect"
+                    component={OAuth2RedirectHandler}
+                  ></Route>
                 </Switch>
               </main>
               <footer>

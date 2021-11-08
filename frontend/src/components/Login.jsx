@@ -30,6 +30,8 @@ export function Login(props) {
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState(false)
   const [successMsg, setSuccessMsg] = useState(false)
+  const targetUri = "http://localhost:3000/oauth2/redirect";
+  const baseUri = "http://localhost:8080";
 
    function openPopup() {
      props.func(true);
@@ -108,7 +110,11 @@ export function Login(props) {
             Login
           </button>{" "}
           <span>OR</span>
-          <a href="http://localhost:8080/oauth2/authorize/google?redirect_uri=http://localhost:3000/oauth2/redirect">
+          <a
+            href={
+              baseUri + "/oauth2/authorize/google?redirect_uri=" + targetUri
+            }
+          >
             <img
               className="socialImg google"
               style={styles.socialImg}
