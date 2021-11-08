@@ -16,7 +16,7 @@ function Chat() {
 
   useEffect(() => {
     connect();
-  }, []);
+  }, [context]);
 
   useEffect(() => {
     const join = () => {
