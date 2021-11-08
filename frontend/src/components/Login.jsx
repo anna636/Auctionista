@@ -122,12 +122,18 @@ export function Login(props) {
               alt=""
             />
           </a>
-          <img
-            className="socialImg facebook"
-            style={styles.socialImg}
-            src="https://www.freepnglogos.com/uploads/facebook-logo-png-6.png"
-            alt=""
-          />
+          <a
+            href={
+              baseUri + "/oauth2/authorize/facebook?redirect_uri=" + targetUri
+            }
+          >
+            <img
+              className="socialImg facebook"
+              style={styles.socialImg}
+              src="https://www.freepnglogos.com/uploads/facebook-logo-png-6.png"
+              alt=""
+            />
+          </a>
         </Modal.Footer>
       </Modal>
     </div>
