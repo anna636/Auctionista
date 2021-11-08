@@ -103,7 +103,9 @@ export function Login(props) {
           >
             Google
           </a>
-          <a href="">Facebook</a>
+          <a href={baseUri + "/oauth2/authorize/facebook?redirect_uri="+targetUri}>
+            Facebook
+          </a>
         </Modal.Footer>
       </Modal>
     </div>
