@@ -68,7 +68,7 @@ export function Login(props) {
 
     return response;
   }
-  return(
+  return (
     <div>
       <Modal show={modal} onHide={toggle}>
         <Modal.Header closeButton>
@@ -76,37 +76,61 @@ export function Login(props) {
         </Modal.Header>
         <div className="input-login-div-wrap">
           <div className="input-login-div line">
-          <InputGroup className="mb-3">
-          <FormControl
-            aria-describedby="inputGroup-sizing-default"
-            required
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          </InputGroup>
+            <InputGroup className="mb-3">
+              <FormControl
+                aria-describedby="inputGroup-sizing-default"
+                required
+                type="text"
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </InputGroup>
           </div>
           <div className="input-login-div">
-          <InputGroup className="mb-3">
-          <FormControl
-            aria-describedby="inputGroup-sizing-default"
-            required
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          </InputGroup>
+            <InputGroup className="mb-3">
+              <FormControl
+                aria-describedby="inputGroup-sizing-default"
+                required
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </InputGroup>
           </div>
           {errorMessage && <ErrorMessage>Bad credentials</ErrorMessage>}
           {successMsg && <SuccessMessage>Login successfull</SuccessMessage>}
         </div>
 
         <Modal.Footer>
-          <button class="btn btn-dark btn-lg" onClick={(e) => logIn(e)}>Login</button>{' '}
+          <button class="btn btn-dark btn-lg" onClick={(e) => logIn(e)}>
+            Login
+          </button>{" "}
+          <span>OR</span>
+          <a href="http://localhost:4000/login/oauth2/code/google">
+            <img
+              className="socialImg google"
+              style={styles.socialImg}
+              src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-suite-everything-you-need-know-about-google-newest-0.png"
+              alt=""
+            />
+          </a>
+          <img
+            className="socialImg facebook"
+            style={styles.socialImg}
+            src="https://www.freepnglogos.com/uploads/facebook-logo-png-6.png"
+            alt=""
+          />
         </Modal.Footer>
       </Modal>
     </div>
   );
 };
+
+const styles = {
+  socialImg: {
+    width: "5%",
+    
+  }
+}
