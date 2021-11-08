@@ -16,8 +16,7 @@ function ChatMessage(props) {
             position: "single",
           }}
         >
-          <Message.Header
-            sender={ props.otherUser } />
+          <Message.Header sender={props.otherUser} />
         </Message>
       )}
     </>

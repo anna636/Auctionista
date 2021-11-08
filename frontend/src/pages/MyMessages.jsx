@@ -1,21 +1,17 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import {
   MainContainer,
   ChatContainer,
   MessageList,
-  Message,
-  MessageInput,
   TypingIndicator,
 } from "@chatscope/chat-ui-kit-react";
 import { useMessage } from "../contexts/MessageContext";
-import { sendMessage } from "../components/chat/Socket";
 import { UserContext } from "../contexts/UserContext";
 import ChatBox from "../components/chat/ChatBox";
 import ChatMessage from "../components/chat/ChatMessage";
 import { useSocketContext } from "../contexts/SocketContext";
-import { useGlobalContext } from "../contexts/GlobalContext";
 
 function MyMessages() {
   const history = useHistory();
@@ -26,7 +22,6 @@ function MyMessages() {
   const [otherUserName, setOtherUserName] = useState("");
   const { socket } = useSocketContext();
   const [connected, setConnected] = useState(false);
-  const { context, setContext, getRoomById } = useGlobalContext();
 
   useEffect(() => {
     getCurrentUser();
@@ -34,7 +29,7 @@ function MyMessages() {
 
   useEffect(() => {
     connect();
-  }, [context]);
+  }, [messages]);
 
   function connect() {
     setEventListeners();
@@ -48,7 +43,8 @@ function MyMessages() {
 
     socket.on("chat", function (data) {
       console.log("Received message", data);
-      setContext([...context, data.message]);
+      let tempObject = { userId: data.userId, message: data.message };
+      setMessages([...messages, tempObject]);
     });
 
     socket.on("join", function (message) {
@@ -68,23 +64,28 @@ function MyMessages() {
     });
   }
 
-  // ******** Change getCurrentUser to currentUser
-
-  function sendNewMsg(e) {
+  function handleSubmit(e) {
     e.preventDefault();
-    let msg = {
-      fromLogin: getCurrentUser().username, //Who sends msg
-      message: msgToSend, //text of msg
+
+    let data = {
+      chatroom: chatRoom,
+      userId: currentUser.id + "",
+      message: msgToSend,
     };
-    if (chatRoom !== "") {
-      sendMessage(chatRoom, msg); //First - who will recieve the msg, second - message itself
-      setMessages([...messages, msg]);
-      setMsgToSend("");
-      setTyping(false);
-      console.log(messages);
-    } else {
-      console.log("sending to null user");
-    }
+    postMessage(data);
+
+    console.log("Messages: ", messages);
+
+    setMsgToSend("");
+    setTyping(false);
+  }
+
+  async function postMessage(data) {
+    await fetch("/api/message/" + chatRoom.id, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(data),
+    });
   }
 
   const pullChildData = (room) => {
@@ -127,15 +128,27 @@ function MyMessages() {
             <MainContainer>
               <ChatContainer>
                 <MessageList>
-                  {typing ? (
-                    <TypingIndicator
-                      content={getCurrentUser().username + " is typing"}
-                    />
-                  ) : (
-                    " "
-                  )}
-                  {chatRoom.messages && chatRoom.messages.length > 0
-                    ? chatRoom.messages.map((msg, i) => (
+                  <>
+                    {typing && (
+                      <TypingIndicator
+                        content={currentUser.username + " is typing"}
+                      />
+                    )}
+                    {chatRoom.messages && chatRoom.messages.length > 0
+                      ? chatRoom.messages.map((msg, i) => (
+                          <>
+                            <ChatMessage
+                              key={i}
+                              message={msg}
+                              sendTo={chatRoom}
+                              otherUser={otherUserName}
+                            />
+                          </>
+                        ))
+                      : " "}
+                    {messages &&
+                      messages.length > 0 &&
+                      messages.map((msg, i) => (
                         <>
                           <ChatMessage
                             key={i}
@@ -144,24 +157,27 @@ function MyMessages() {
                             otherUser={otherUserName}
                           />
                         </>
-                      ))
-                    : " "}
+                      ))}
+                  </>
                 </MessageList>
               </ChatContainer>
             </MainContainer>
-            <div style={cosStyles.inputWrapper} className="chatWrapper">
-              <form action="" onSubmit={sendNewMsg} style={cosStyles.form}>
-                <input
-                  type="text"
-                  style={cosStyles.input}
-                  onChange={(e) => getInputValue(e.target.value)}
-                  value={msgToSend}
-                  onSubmit={sendNewMsg}
-                />
 
-                <button style={cosStyles.sendBtn}>Send</button>
-              </form>
-            </div>
+            {chatRoom && (
+              <div style={cosStyles.inputWrapper} className="chatWrapper">
+                <form action="" onSubmit={handleSubmit} style={cosStyles.form}>
+                  <input
+                    type="text"
+                    style={cosStyles.input}
+                    onChange={(e) => getInputValue(e.target.value)}
+                    value={msgToSend}
+                    onSubmit={handleSubmit}
+                  />
+
+                  <button style={cosStyles.sendBtn}>Send</button>
+                </form>
+              </div>
+            )}
           </div>
         </>
       )}
