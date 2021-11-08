@@ -81,11 +81,9 @@ const UserContextProvider = (props) => {
 
   
   const logout = async () => {
-    let res = await fetch("/api/logout", {
-      method: "DELETE",
-    });
-    res = await res.json();
+    localStorage.removeItem("accessToken");
     setCurrentUser(null)
+    console.log("You have been logged out")
   };
 
   useEffect(() => {

@@ -51,10 +51,10 @@ export function Login(props) {
     if (response !== null) {
         
       console.log("login successfull with token!");
-     
+     openPopup()
     }
     else {
-      openPopup()
+      
       console.log("smth went wrong when trying to login")
     }
 
