@@ -113,8 +113,10 @@ function Navbar() {
                 </Link>
               </NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4" onClick={logout}>
-                Log out
+              <NavDropdown.Item onClick={logout}>
+                <Link to="/" className="link">
+                  Log out
+                </Link>
               </NavDropdown.Item>
             </NavDropdown>
           </ul>
