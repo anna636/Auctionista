@@ -22,7 +22,7 @@ public class AuctionItemService {
     private AuctionItemRepository auctionItemRepository;
 
 
-    public List<AuctionItem> getItemsInBatch(String offset)
+    public List<AuctionItem> getItemsInBatch(String offset, String id)
 
     {
         DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
@@ -30,11 +30,15 @@ public class AuctionItemService {
         String formattedDateTime = currentTime.format(formatter); //Creating current time
 
         List <AuctionItem> items=new ArrayList<>();
+        List <AuctionItem> fetchedItems =new ArrayList<>();
 
-
-
-
-        List <AuctionItem> fetchedItems =auctionItemRepository.getItemsInBatch(offset); //fetching items that are not sold
+         if(offset.equals("0")){
+             fetchedItems =auctionItemRepository.getItemsInBatch(offset);
+         }
+           else{
+               String rowId=auctionItemRepository.getRowId(id);
+               fetchedItems=auctionItemRepository.getItemsInBatch(rowId);
+         }
 
         for(AuctionItem item : fetchedItems){
 
