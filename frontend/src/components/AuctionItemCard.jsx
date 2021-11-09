@@ -1,10 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import { useHistory } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import Counter from "./Counter";
-import QuickBid from "./QuickBid";
+
 import { useAuctionItem } from "../contexts/AuctionItemContext";
+import { UserContext } from "../contexts/UserContext";
+import { useBidContext } from "../contexts/BidContext";
+
+import BootstrapModal from "./BootstrapModal";
+import PaymentModal from "./PaymentModal";
 
 
 const AuctionItemCard = (props) => {
@@ -13,7 +18,11 @@ const AuctionItemCard = (props) => {
   const history = useHistory();
   const { fetchAuctionItem } = useAuctionItem()
   const [item, setItem] = useState({})
- 
+    const { getCurrentUser } = useContext(UserContext);
+   const { postNewBid } = useBidContext();
+   const [show, setShow] = useState(false);
+   const [showPayment, setShowPayemtn] = useState(false);
+   const [modalText, setModalText] = useState("");
   
   useEffect( async () => {
     let auctionItem = await fetchAuctionItem(props.props.id)
@@ -24,15 +33,51 @@ const AuctionItemCard = (props) => {
   async function updateItem(itemId) {
     let auctionItem = await fetchAuctionItem(itemId)
     setItem(auctionItem);
-    console.log("updating item")
+ 
   }
 
+
+   const toggleModal = () => {
+     setShow(!show);
+   };
+
+   const toggleShowPayment = () => {
+     setShowPayemtn(!showPayment);
+  };
+  
+  async function quickBid(bool) {
+    toggleShowPayment()
+    if (bool) {
+      if (!getCurrentUser()) {
+        setModalText("Please log in");
+        toggleModal();
+      } else {
+       
+        const bidToPost = {
+          amount: item.minimumBid,
+          time: new Date(),
+          user_id: getCurrentUser().id,
+          auctionItem: item,
+        };
+
+        let res = await postNewBid(bidToPost);
+
+        if (!res.error) {
+          setModalText("You placed bid worth of " + bidToPost.amount + " euros");
+        updateItem(item.id)
+          toggleModal();
+         
+        }
+      
+      }
+    }
+  }
   
   
 
    
   function redirect() {
-    history.push("/details/" + props.props.id)
+    history.push("/details/" + item.id)
     window.scrollTo(0, 0);
   }
 
@@ -40,20 +85,37 @@ const AuctionItemCard = (props) => {
     <div className="itemWrapper" style={styles.itemWrapper}>
       <div className="mainInfo" style={styles.mainInfo}>
         <div>
-          {props.props.bids.length > 0 ? (
+          {item.bids && item.bids.length > 0 ? (
             <p>
-              Latest bid: {props.props.bids[props.props.bids.length - 1].amount}{" "}
+              Latest bid: {item.bids[item.bids.length - 1].amount}{" "}
               euro
             </p>
           ) : (
             <p>There are no bids on this item yet</p>
           )}
-          <p>Minimum bid possible: {item.minimumBid} euro </p>
-          {location.pathname === "/" ? (
-            <QuickBid props={props.props} func={updateItem}/>
-          ) : (
-           null
-          )}
+          <p>Minimum bid possible: {item.bids && item.bids.length > 0 ? item.minimumBid : item.startPrice} euro </p>
+          {location.pathname === "/" && getCurrentUser() ? (
+            <div>
+              <button
+                className="quickBid"
+                style={styles.btn}
+                onClick={toggleShowPayment}
+              >
+                Place quick bid
+              </button>
+              <BootstrapModal
+                toggle={toggleModal}
+                modal={show}
+                text={modalText}
+              />
+              <PaymentModal
+                toggle={toggleShowPayment}
+                modal={showPayment}
+                payment={props.props.minimumBid}
+                func={quickBid}
+              />
+            </div>
+          ) : null}
           <div style={styles.counter}>
             <Counter dateFrom={props.props.deadline}></Counter>
           </div>
