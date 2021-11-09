@@ -82,25 +82,46 @@ const AuctionItemCard = (props) => {
   }
 
   return (
-    <div className="itemWrapper" style={window.location.pathname==="/my-listings" ? styles.myListings: styles.itemWrapper}>
+    <div
+      className="itemWrapper"
+      style={
+        window.location.pathname === "/my-listings"
+          ? styles.myListings
+          : styles.itemWrapper
+      }
+    >
       <div className="mainInfo" style={styles.mainInfo}>
         <div>
           {item.bids && item.bids.length > 0 ? (
             <p>
-              Latest bid: {item.bids[item.bids.length - 1].amount}{" "}
-              euro
+              Current price:
+              <strong>{item.bids[item.bids.length - 1].amount}</strong>{" "}
+              <i class="bi bi-currency-bitcoin"></i>
             </p>
           ) : (
-            <p>There are no bids on this item yet</p>
+            <p>
+              Current price: <strong>{item.startPrice}</strong>{" "}
+              <i class="bi bi-currency-bitcoin"></i>
+            </p>
           )}
-          <p>Minimum bid possible: {item.bids && item.bids.length > 0 ? item.minimumBid : item.startPrice} euro </p>
-          {location.pathname === "/" &&  getCurrentUser() && item.owner? (
+          <p>
+            Minimum bid:{" "}
+            <strong>
+              {item.bids && item.bids.length > 0
+                ? item.minimumBid
+                : item.startPrice}
+              <i class="bi bi-currency-bitcoin"></i>{" "}
+            </strong>
+          </p>
+          {location.pathname === "/" && getCurrentUser() && item.owner ? (
             <div>
               <button
                 className="quickBid"
                 style={styles.btn}
                 onClick={toggleShowPayment}
-                disabled={getCurrentUser().id === item.owner.id ? "disabled":""}
+                disabled={
+                  getCurrentUser().id === item.owner.id ? "disabled" : ""
+                }
               >
                 Place quick bid
               </button>
