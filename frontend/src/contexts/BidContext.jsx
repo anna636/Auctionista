@@ -21,6 +21,7 @@ const BidProvider = (props) => {
   const fetchAllBids = async () => { 
     let response = await fetch("/rest/bids")
     setBids(await response.json())
+    
   };
 
   const fetchBid = async (id) => {
@@ -45,7 +46,7 @@ const BidProvider = (props) => {
         }),
         body: JSON.stringify(itemToPost),
       });
-      console.log(await response.json())
+      console.log(await response.json(), "this is the bid")
       fetchItemsInBatch(auctionItems.length)
       return response
     } catch {

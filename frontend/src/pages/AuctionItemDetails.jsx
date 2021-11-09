@@ -27,24 +27,23 @@ function AuctionItemDetails() {
   const history = useHistory();
   const { fetchAuctionItem } = useAuctionItem();
   const [auctionItem, setAuctionItem] = useState();
-  const { postNewBid } = useBidContext();
+  const { postNewBid, bids } = useBidContext();
   const [bid, setBid] = useState("");
   const { currentUser } = useContext(UserContext);
   const [myProp, setMyProp] = useState({});
   const [highestBid, setHighestBid] = useState();
   const [itemImages, setItemImages] = useState([]);
   const { createNewRoom } = useGlobalContext();
-
-    const [showPayment, setShowPayemtn] = useState(false);
+  const [showPayment, setShowPayemtn] = useState(false);
 
   useEffect(() => {
     getAuctionItem(id);
   }, [id, highestBid]);
 
-   const toggleShowPayment = () => {
-     setShowPayemtn(!showPayment);
+  const toggleShowPayment = () => {
+    setShowPayemtn(!showPayment);
   };
-  
+
   const getAuctionItem = async (auctionItemId) => {
     let fetchedItem = await fetchAuctionItem(auctionItemId);
     setAuctionItem(fetchedItem);
@@ -76,50 +75,70 @@ function AuctionItemDetails() {
   };
 
   async function placeBid(bool) {
-   toggleShowPayment()
-    
-   if (bool) {
-      
+    toggleShowPayment()
+
+    if (bool) {
+
       if (currentUser === null || currentUser === undefined) {
-              setMyProp({
-                show: true,
-                text: "You must log in to place a bid",
-              });
-      return
-    }
-
-    if (checkBid) {
-      let newBid = {
-        amount: parseInt(bid),
-        time: new Date(),
-        user_id: currentUser.id.toString(),
-        auctionItem: auctionItem,
-      };
-
-      let res = await postNewBid(newBid);
-      if (res) {
-        setHighestBid(bid);
         setMyProp({
           show: true,
-          colour: "green",
-          text: "Bid placed!",
+          text: "You must log in to place a bid",
         });
-        setBid("");
+        return
       }
-      else
-      {
-        setMyProp({
-          show: true,
-          colour: "red",
-          text: "Something went wrong, bid not placed",
-        });
+
+      if (checkBid) {
+        let newBid = {
+          amount: parseInt(bid),
+          time: new Date(),
+          user_id: currentUser.id.toString(),
+          auctionItem: auctionItem,
+        };
+
+        let res = await postNewBid(newBid);
+        if (res) {
+          setHighestBid(bid);
+          setMyProp({
+            show: true,
+            colour: "green",
+            text: "Bid placed!",
+          });
+          setBid("");
+        }
+        else {
+          setMyProp({
+            show: true,
+            colour: "red",
+            text: "Something went wrong, bid not placed",
+          });
+        }
+      } else {
+        console.log("Bid too low");
       }
-    } else {
-      console.log("Bid too low");
     }
+    sendNotification()
   }
+  // useEffect(() => {
+  //   fetchAllBids().then((response) => {
+  //     setAllBids(response.json());
+  //     console.log(response)
+  //   })
+  // }, []);
+  
 
-   
+  async function sendNotification() {
+    console.log("sendnotification")
+
+    let allBids = bids
+    let filteredBids = [];
+
+    allBids.forEach((element) => {
+      if (auctionItem.id == element.auctionItem.id) {
+        filteredBids.push(element);
+       }
+    });   
+     
+    console.log("filtered bids", filteredBids)
   }
 
   function checkBid() {
@@ -203,7 +222,7 @@ function AuctionItemDetails() {
                         ></Form.Control>
                       </OverlayTrigger>
                       <Button
-                        
+
                         variant="success"
                         className="mt-2"
                         onClick={toggleShowPayment}
@@ -272,6 +291,6 @@ const styles = {
   },
   owner: {
     textAlign: "right",
-    paddingRight:"2vw"
+    paddingRight: "2vw"
   }
 };

@@ -1,9 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { Button, Toast, Row, Col} from "react-bootstrap";
+import { useSocketContext } from "../contexts/SocketContext";
 
-function NotificationBubble(){
+function NotificationBubble() {
   const [showA, setShowA] = useState(false);
   const toggleShowA = () => setShowA(!showA);
+  const [connected, setConnected] = useState(false);
+  const { socket } = useSocketContext();
+
+  function connect() {
+    setEventListeners();
+  }
+
+  function setEventListeners() {
+    socket.on("connect", () => {
+      setConnected(true);
+      console.log("socket connected");
+    });
+  }
+
+    useEffect(() => {
+      connect();
+    }, []);
+  
 
 
   return (
