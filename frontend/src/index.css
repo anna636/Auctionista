@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400&display=swap');
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -16,6 +18,22 @@ main{
  min-height: 100vh;
 }
 
+.cs-message-input__tools:first-child .cs-button:last-child{
+  display:none;
+}
+.cs-message-input__content-editor-wrapper{
+  margin-left:30px !important;
+  
+}
+
+.cs-message--outgoing .cs-message__content{
+  background-color: rgb(119, 242, 129) !important;
+}
+
+.cs-main-container{
+  height:90% !important;
+  border-radius: 10px;
+}
 .quickBid:hover{
   color:white;
   background-color: rgb(226, 89, 55);
@@ -40,7 +58,11 @@ text-align: center !important;
   color:black !important;
 }
 
-.coolImg, .textIngImg{
+/* .cs-message-input__tools:last-child .cs-button:last-child {
+  display:none;
+} */
+
+.coolImg, .textIngImg, .cs-main-container, .chatWrapper{
  
   animation: fadeIn 5s;
    animation-direction: alternate;
@@ -61,7 +83,7 @@ text-align: center !important;
   position: relative;
 }
 
-.form{
+.form, .people{
   animation: fadeInForm 5s;
    animation-direction: alternate;
   -webkit-animation: fadeInForm 2s;

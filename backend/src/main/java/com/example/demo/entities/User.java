@@ -36,6 +36,7 @@ public class User {
     }
 
     private String password;
+    
 
     @OneToMany(mappedBy="owner")
     @JsonIgnoreProperties({"owner"})
@@ -62,5 +63,17 @@ public class User {
     private AuthProvider provider;
 
     private String providerId;
+   @ManyToMany(fetch = FetchType.LAZY)
+   @JoinTable(
+           name = "user_chatrooms",
+           joinColumns = @JoinColumn(name = "user_id"),
+           inverseJoinColumns = @JoinColumn(name = "chatroom_id")
+   )
+    private List<ChatRoom> chatrooms;
+
+   public void updateChatrooms(ChatRoom chatRoom) {
+       this.chatrooms.add(chatRoom);
+   }
+
 
 }
