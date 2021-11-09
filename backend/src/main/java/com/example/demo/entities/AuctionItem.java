@@ -41,6 +41,17 @@ public class AuctionItem {
     private int minimumBid;
     private int primaryImgIndex;
 
+
+    public boolean isExpired() {
+        return expired;
+    }
+
+    public void setExpired(boolean expired) {
+        this.expired = expired;
+    }
+
+    private boolean expired=false;
+
     @OneToMany(mappedBy = "auctionItem")
     @JsonIgnoreProperties({"auctionItem"})
     private List<Bid> bids = new ArrayList<>();

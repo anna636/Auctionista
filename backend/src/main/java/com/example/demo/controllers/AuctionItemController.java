@@ -30,19 +30,7 @@ public class AuctionItemController {
         return auctionItemService.getItemsInBatch(offset, id);
     }
 
-    //Get all auction items in db
-    @GetMapping("/rest/auction-items")
-    public ResponseEntity<List<AuctionItem>> getAll(){
-        List<AuctionItem> auctionItems=auctionItemService.getAllAuctionItems();
 
-        if(auctionItems.size()>0){
-            return ResponseEntity.ok(auctionItems);
-        }
-        else{
-            return ResponseEntity.noContent().build();
-        }
-
-    }
 
 
     //Get auction item by id
