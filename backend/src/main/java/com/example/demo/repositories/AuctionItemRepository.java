@@ -22,6 +22,7 @@ public interface AuctionItemRepository extends JpaRepository<AuctionItem, Long> 
      String getRowId (String id);
 
 
+
     @Query(value="SELECT * FROM auction_items WHERE sold = false LIMIT 6 OFFSET :offset", nativeQuery = true)
     List<AuctionItem> getItemsInBatch(String offset);
 
