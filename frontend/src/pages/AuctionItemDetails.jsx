@@ -165,7 +165,7 @@ function AuctionItemDetails() {
               <p>{auctionItem.description}</p>
               <Card>
                 <Card.Title className="mt-3">
-                  Highest bid: {auctionItem.currentPrice}{" "}
+                  Current price: {auctionItem.bids.length ? auctionItem.bids[auctionItem.bids.length - 1].amount : auctionItem.startPrice }{" "}
                   <span>
                     <i class="bi bi-currency-bitcoin"></i>{" "}
                   </span>

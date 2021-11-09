@@ -107,9 +107,7 @@ const AuctionItemCard = (props) => {
           <p>
             Minimum bid:{" "}
             <strong>
-              {item.bids && item.bids.length > 0
-                ? item.minimumBid
-                : item.startPrice}
+              {item.minimumBid}
               <i class="bi bi-currency-bitcoin"></i>{" "}
             </strong>
           </p>

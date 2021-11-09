@@ -61,10 +61,8 @@ public class AuctionItemService {
 
     public AuctionItem createAuctionItem(AuctionItem auctionItem){
         try{
-            // When new auction item is created, sets the currentPrice to be the same as startPrice
-            auctionItem.setCurrentPrice(auctionItem.getStartPrice());
-            // ...then sets the minimumBid depending on the currentPrice
-            auctionItem.setMinimumBid((int) Math.round(auctionItem.getCurrentPrice() * 1.1));
+            // Sets the minimumBid depending on the startPrice
+            auctionItem.setMinimumBid((int) Math.round(auctionItem.getStartPrice() * 1.1));
             return auctionItemRepository.save(auctionItem);
         }
 
