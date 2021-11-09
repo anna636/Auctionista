@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import {
   MainContainer,
@@ -15,7 +15,8 @@ import { useSocketContext } from "../contexts/SocketContext";
 
 function MyMessages() {
   const history = useHistory();
-  const { chatRoom, setChatRoom, messages, setMessages } = useMessage();
+  const { roomid } = useParams();
+  const { chatRoom, setChatRoom, messages, setMessages, getRoomById } = useMessage();
   const [msgToSend, setMsgToSend] = useState("");
   const { getCurrentUser, currentUser } = useContext(UserContext);
   const [typing, setTyping] = useState(false);
@@ -25,7 +26,15 @@ function MyMessages() {
 
   useEffect(() => {
     getCurrentUser();
-  }, [chatRoom]);
+    if (roomid) {
+      getRoomFromParams(roomid)
+    }
+  }, [roomid]);
+
+  const getRoomFromParams = async (id) => {
+    let room = await getRoomById(id)
+    setChatRoom(room)
+  };
 
   useEffect(() => {
     connect();
@@ -92,18 +101,17 @@ function MyMessages() {
 
   const pullChildData = (room) => {
     joinRoom(room);
-    history.push("/chat/" + room.id);
+    history.push("/my-messages/" + room.id);
     setOtherUserName(getOtherUserName(room));
   };
 
   async function joinRoom(room) {
     socket.emit("join", "" + room.id);
-    await socket
-      .on("join", function (message) {
-        setConnected(true);
-        setChatRoom(room);
-        console.log(message);
-      })
+    await socket.on("join", function (message) {
+      setConnected(true);
+      setChatRoom(room);
+      console.log(message);
+    });
   }
 
   function getOtherUserName(room) {
@@ -123,7 +131,7 @@ function MyMessages() {
 
   return (
     <div className="chatWrapper" style={cosStyles.chatWrapper}>
-      {currentUser && currentUser.chatrooms.length && (
+      {currentUser && currentUser.chatrooms.length > 0 && (
         <>
           <div className="people" style={cosStyles.people}>
             <ChatBox

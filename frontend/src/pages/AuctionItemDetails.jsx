@@ -18,7 +18,7 @@ import {
 import { useBidContext } from "../contexts/BidContext";
 import { UserContext } from "../contexts/UserContext";
 import CustomModal from "../components/CustomModal";
-import { useGlobalContext } from "../contexts/GlobalContext";
+import { useMessage } from "../contexts/MessageContext";
 
 import PaymentModal from "../components/PaymentModal";
 
@@ -29,22 +29,22 @@ function AuctionItemDetails() {
   const [auctionItem, setAuctionItem] = useState();
   const { postNewBid } = useBidContext();
   const [bid, setBid] = useState("");
-  const { currentUser } = useContext(UserContext);
+  const { currentUser, whoAmI } = useContext(UserContext);
   const [myProp, setMyProp] = useState({});
   const [highestBid, setHighestBid] = useState();
   const [itemImages, setItemImages] = useState([]);
-  const { createNewRoom } = useGlobalContext();
+  const { createNewRoom } = useMessage();
 
-    const [showPayment, setShowPayemtn] = useState(false);
+  const [showPayment, setShowPayemtn] = useState(false);
 
   useEffect(() => {
     getAuctionItem(id);
   }, [id, highestBid]);
 
-   const toggleShowPayment = () => {
-     setShowPayemtn(!showPayment);
+  const toggleShowPayment = () => {
+    setShowPayemtn(!showPayment);
   };
-  
+
   const getAuctionItem = async (auctionItemId) => {
     let fetchedItem = await fetchAuctionItem(auctionItemId);
     setAuctionItem(fetchedItem);
@@ -76,50 +76,45 @@ function AuctionItemDetails() {
   };
 
   async function placeBid(bool) {
-   toggleShowPayment()
-    
-   if (bool) {
-      
+    toggleShowPayment();
+
+    if (bool) {
       if (currentUser === null || currentUser === undefined) {
-              setMyProp({
-                show: true,
-                text: "You must log in to place a bid",
-              });
-      return
-    }
-
-    if (checkBid) {
-      let newBid = {
-        amount: parseInt(bid),
-        time: new Date(),
-        user_id: currentUser.id.toString(),
-        auctionItem: auctionItem,
-      };
-
-      let res = await postNewBid(newBid);
-      if (res) {
-        setHighestBid(bid);
         setMyProp({
           show: true,
-          colour: "green",
-          text: "Bid placed!",
+          text: "You must log in to place a bid",
         });
-        setBid("");
+        return;
       }
-      else
-      {
-        setMyProp({
-          show: true,
-          colour: "red",
-          text: "Something went wrong, bid not placed",
-        });
-      }
-    } else {
-      console.log("Bid too low");
-    }
-  }
 
-   
+      if (checkBid) {
+        let newBid = {
+          amount: parseInt(bid),
+          time: new Date(),
+          user_id: currentUser.id.toString(),
+          auctionItem: auctionItem,
+        };
+
+        let res = await postNewBid(newBid);
+        if (res) {
+          setHighestBid(bid);
+          setMyProp({
+            show: true,
+            colour: "green",
+            text: "Bid placed!",
+          });
+          setBid("");
+        } else {
+          setMyProp({
+            show: true,
+            colour: "red",
+            text: "Something went wrong, bid not placed",
+          });
+        }
+      } else {
+        console.log("Bid too low");
+      }
+    }
   }
 
   function checkBid() {
@@ -145,10 +140,10 @@ function AuctionItemDetails() {
     let newRoom = await createNewRoom(chatRoomItem);
 
     if (newRoom) {
-      history.push("/chat/" + newRoom.id);
+      whoAmI();
+      history.push("/my-messages/" + newRoom.id);
     }
   }
-
 
   return (
     <div style={styles.mainPage}>
@@ -165,7 +160,10 @@ function AuctionItemDetails() {
               <p>{auctionItem.description}</p>
               <Card>
                 <Card.Title className="mt-3">
-                  Current price: {auctionItem.bids.length ? auctionItem.bids[auctionItem.bids.length - 1].amount : auctionItem.startPrice }{" "}
+                  Current price:{" "}
+                  {auctionItem.bids.length
+                    ? auctionItem.bids[auctionItem.bids.length - 1].amount
+                    : auctionItem.startPrice}{" "}
                   <span>
                     <i class="bi bi-currency-bitcoin"></i>{" "}
                   </span>
@@ -203,7 +201,6 @@ function AuctionItemDetails() {
                         ></Form.Control>
                       </OverlayTrigger>
                       <Button
-                        
                         variant="success"
                         className="mt-2"
                         onClick={toggleShowPayment}
@@ -272,6 +269,6 @@ const styles = {
   },
   owner: {
     textAlign: "right",
-    paddingRight:"2vw"
-  }
+    paddingRight: "2vw",
+  },
 };

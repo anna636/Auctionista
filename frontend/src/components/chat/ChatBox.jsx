@@ -1,22 +1,12 @@
 import React, { useContext, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { useMessage } from "../../contexts/MessageContext";
 import { UserContext } from "../../contexts/UserContext";
 
 function ChatBox(props) {
-  const { userChatRooms, setUserChatRooms } = useMessage();
+  const { roomid } = useParams();
   const { currentUser } = useContext(UserContext);
 
-  useEffect(() => {
-    getUserChatRooms();
-  }, [currentUser]);
-
-  function getUserChatRooms() {
-    let tempRoomsArray = [];
-    for (let room of currentUser.chatrooms) {
-      tempRoomsArray.push(room);
-    }
-    setUserChatRooms(tempRoomsArray);
-  }
 
   function emitChatRoom(room) {
     props.emitFromChatBox(room);
@@ -34,8 +24,11 @@ function ChatBox(props) {
 
   return (
     <div className="chatsWrapper" style={styles.chatsWrapper}>
-      {userChatRooms && userChatRooms.length > 0
-        ? userChatRooms.map((room, index) => (
+      <div>
+        <h2>Room ID: {props.sendTo && props.sendTo.id}</h2>
+      </div>
+      {currentUser.chatrooms && currentUser.chatrooms.length > 0
+        ? currentUser.chatrooms.map((room, index) => (
             <div
               key={index}
               className="userWrapper"
@@ -46,10 +39,9 @@ function ChatBox(props) {
                 src="https://www.pngkit.com/png/full/128-1280585_user-icon-fa-fa-user-circle.png"
                 alt=""
                 style={styles.img}
-              />
-              <p>
-              Chat with: {getOtherUserName(room)}
-              </p>
+            />
+            <p>{props.sendTo.id} === { room.id}</p>
+              <p>Chat with: {getOtherUserName(room)}</p>
             </div>
           ))
         : " "}
