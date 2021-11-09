@@ -82,7 +82,7 @@ const AuctionItemCard = (props) => {
   }
 
   return (
-    <div className="itemWrapper" style={styles.itemWrapper}>
+    <div className="itemWrapper" style={window.location.pathname==="/my-listings" ? styles.myListings: styles.itemWrapper}>
       <div className="mainInfo" style={styles.mainInfo}>
         <div>
           {item.bids && item.bids.length > 0 ? (
@@ -144,6 +144,18 @@ export default AuctionItemCard;
 const styles = {
   itemWrapper: {
     width: "45%",
+    display: "flex",
+    flexDirection: "column",
+    marginBottom: "3vh",
+    padding: "2rem",
+    boxShadow: "0px 0px 8px 2px rgba(0,0,0,0.54)",
+    borderRadius: "20px",
+    border: "solid 1px black",
+    color: "black",
+    backgroundColor: "white",
+  },
+  myListings: {
+    width: "100%",
     display: "flex",
     flexDirection: "column",
     marginBottom: "3vh",
