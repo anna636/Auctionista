@@ -210,7 +210,7 @@ function MyMessages() {
           </div>
         </>
       )}
-      {currentUser && !currentUser.chatrooms && (
+      {currentUser && (currentUser.chatrooms.length < 0) && (
         <div>
           <h3>You have no chat messages</h3>
         </div>

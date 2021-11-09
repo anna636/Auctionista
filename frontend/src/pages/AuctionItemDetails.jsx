@@ -133,16 +133,33 @@ function AuctionItemDetails() {
   };
 
   async function onClickChat() {
-    let chatRoomItem = {
-      users: [currentUser, auctionItem.owner],
-    };
-
-    let newRoom = await createNewRoom(chatRoomItem);
-
-    if (newRoom) {
-      whoAmI();
-      history.push("/my-messages/" + newRoom.id);
+    let existingRoom = checkForExistingChatRooms()
+    if (!existingRoom) {
+      let chatRoomItem = {
+        users: [currentUser, auctionItem.owner],
+      };
+      let newRoom = await createNewRoom(chatRoomItem);
+      if (newRoom) {
+        whoAmI();
+        history.push("/my-messages/" + newRoom.id);
+      }
+    } else {
+      history.push("/my-messages/" + existingRoom.id);
     }
+  }
+
+  function checkForExistingChatRooms() {
+    let existingRoom = null
+    if (currentUser.chatrooms.length > 0) {
+      for (let room of currentUser.chatrooms) {
+        for (let user of room.users) {
+          if (user.id === auctionItem.owner.id) {
+            existingRoom = room
+          }
+        }
+      }
+    }
+    return existingRoom
   }
 
   return (
@@ -241,7 +258,11 @@ function AuctionItemDetails() {
                 </div>
               )}
               <br />
-              <Button onClick={onClickChat}>Chat with seller</Button>
+              {checkUser() && (
+                <>
+                  <Button onClick={onClickChat}>Chat with seller</Button>
+                </>
+              )}
             </Col>
           </Row>
           <CustomModal prop={myProp} func={pull_data} />
