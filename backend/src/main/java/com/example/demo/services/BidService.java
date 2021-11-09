@@ -35,7 +35,7 @@ public class BidService {
     public Bid saveBid(Bid bid){
 
         try{
-            Long auctionItemId = bid.getAuctionItem().getId();
+            long auctionItemId = bid.getAuctionItem().getId();
             AuctionItem auctionItem = auctionItemRepository.getById(auctionItemId);
 
             if (userService.findCurrentUser().getId() != Long.parseLong(bid.getUser_id())) {

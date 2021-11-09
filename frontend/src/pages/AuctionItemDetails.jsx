@@ -20,6 +20,7 @@ import { UserContext } from "../contexts/UserContext";
 import CustomModal from "../components/CustomModal";
 import { useGlobalContext } from "../contexts/GlobalContext";
 
+import PaymentModal from "../components/PaymentModal";
 
 function AuctionItemDetails() {
   const { id } = useParams();
@@ -34,11 +35,16 @@ function AuctionItemDetails() {
   const [itemImages, setItemImages] = useState([]);
   const { createNewRoom } = useGlobalContext();
 
+    const [showPayment, setShowPayemtn] = useState(false);
 
   useEffect(() => {
     getAuctionItem(id);
   }, [id, highestBid]);
 
+   const toggleShowPayment = () => {
+     setShowPayemtn(!showPayment);
+  };
+  
   const getAuctionItem = async (auctionItemId) => {
     let fetchedItem = await fetchAuctionItem(auctionItemId);
     setAuctionItem(fetchedItem);
@@ -69,15 +75,17 @@ function AuctionItemDetails() {
     }
   };
 
-  async function placeBid(e) {
-    e.preventDefault();
-
-    if (currentUser === null || currentUser === undefined) {
-      setMyProp({
-        show: true,
-        text: "You must log in to place a bid",
-      });
-      return;
+  async function placeBid(bool) {
+   toggleShowPayment()
+    
+   if (bool) {
+      
+      if (currentUser === null || currentUser === undefined) {
+              setMyProp({
+                show: true,
+                text: "You must log in to place a bid",
+              });
+      return
     }
 
     if (checkBid) {
@@ -97,7 +105,9 @@ function AuctionItemDetails() {
           text: "Bid placed!",
         });
         setBid("");
-      } else {
+      }
+      else
+      {
         setMyProp({
           show: true,
           colour: "red",
@@ -107,6 +117,9 @@ function AuctionItemDetails() {
     } else {
       console.log("Bid too low");
     }
+  }
+
+   
   }
 
   function checkBid() {
@@ -167,7 +180,7 @@ function AuctionItemDetails() {
                 )}
                 {checkUser() && (
                   <Card.Body>
-                    <Form className="mx-5" onSubmit={placeBid}>
+                    <Form className="mx-5">
                       <OverlayTrigger
                         placement="top"
                         overlay={
@@ -189,7 +202,12 @@ function AuctionItemDetails() {
                           onChange={(e) => setBid(e.target.value)}
                         ></Form.Control>
                       </OverlayTrigger>
-                      <Button type="submit" variant="success" className="mt-2">
+                      <Button
+                        
+                        variant="success"
+                        className="mt-2"
+                        onClick={toggleShowPayment}
+                      >
                         Place bid
                       </Button>
                     </Form>
@@ -230,6 +248,12 @@ function AuctionItemDetails() {
             </Col>
           </Row>
           <CustomModal prop={myProp} func={pull_data} />
+          <PaymentModal
+            toggle={toggleShowPayment}
+            modal={showPayment}
+            payment={bid}
+            func={placeBid}
+          />
         </Container>
       )}
     </div>

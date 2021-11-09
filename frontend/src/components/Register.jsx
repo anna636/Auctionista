@@ -40,6 +40,7 @@ export function Register(props) {
   const [errorMessage, setErrorMessage] = useState(false)
   const [successMsg, setSuccessMsg] = useState(false)
   const [passwordError, setpasswordError] = useState(false)
+  const [usernameIsTaken, setUsernameIsTaken]=useState(false)
   async function registerUser(e) {
     e.preventDefault()
     if (password === '' || confirmPassword !== password) {
@@ -65,12 +66,20 @@ export function Register(props) {
       password: password,
     }
     const response = await register(user)
-    const responseUser = await login(userLogin)
+    if (response === "false") {
+       setUsernameIsTaken(true)
+    }
+    else {
+       const responseUser = await login(userLogin)
     if (!responseUser.error) {
       openPopup()
+    } 
     }
+   /* */
+  
+   
   }
-  return(
+  return (
     <div>
       <Modal show={modal} onHide={toggle}>
         <Modal.Header closeButton>
@@ -78,72 +87,81 @@ export function Register(props) {
         </Modal.Header>
         <div className="input-login-div-wrap">
           <div className="input-login-div line">
-          <InputGroup className="mb-3">
-          <FormControl
-            aria-describedby="inputGroup-sizing-default"
-            required
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          </InputGroup>
+            <InputGroup className="mb-3">
+              <FormControl
+                aria-describedby="inputGroup-sizing-default"
+                required
+                type="text"
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </InputGroup>
           </div>
           <div className="input-login-div line">
-          <InputGroup className="mb-3">
-          <FormControl
-            aria-describedby="inputGroup-sizing-default"
-            required
-            type="text"
-            placeholder="Fullname"
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
-          />
-          </InputGroup>
+            <InputGroup className="mb-3">
+              <FormControl
+                aria-describedby="inputGroup-sizing-default"
+                required
+                type="text"
+                placeholder="Fullname"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+              />
+            </InputGroup>
           </div>
           <div className="input-login-div line">
-          <InputGroup className="mb-3">
-          <FormControl
-            aria-describedby="inputGroup-sizing-default"
-            required
-            type="text"
-            placeholder="email@example.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          </InputGroup>
+            <InputGroup className="mb-3">
+              <FormControl
+                aria-describedby="inputGroup-sizing-default"
+                required
+                type="text"
+                placeholder="email@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </InputGroup>
           </div>
           <div className="input-login-div">
-          <InputGroup className="mb-3">
-          <FormControl
-            aria-describedby="inputGroup-sizing-default"
-            required
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          </InputGroup>
+            <InputGroup className="mb-3">
+              <FormControl
+                aria-describedby="inputGroup-sizing-default"
+                required
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </InputGroup>
           </div>
           <div className="input-login-div">
-          <InputGroup className="mb-3">
-          <FormControl
-            aria-describedby="inputGroup-sizing-default"
-            required
-            type="password"
-            placeholder="Confirm Password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmedPassword(e.target.value)}
-          /> 
-          </InputGroup>
+            <InputGroup className="mb-3">
+              <FormControl
+                aria-describedby="inputGroup-sizing-default"
+                required
+                type="password"
+                placeholder="Confirm Password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmedPassword(e.target.value)}
+              />
+            </InputGroup>
           </div>
-        {passwordError && <ErrorMessage>Password did not match</ErrorMessage>}
-        {emailError && <ErrorMessage>Choose another email.</ErrorMessage>}
-        {errorMessage && <ErrorMessage>You must fill all input fields!</ErrorMessage>}
-        {successMsg && <SuccessMessage>Successfully registered a new user!</SuccessMessage>}
+          {passwordError && <ErrorMessage>Password did not match</ErrorMessage>}
+          {emailError && <ErrorMessage>Choose another email.</ErrorMessage>}
+          {errorMessage && (
+            <ErrorMessage>You must fill all input fields!</ErrorMessage>
+          )}
+          {successMsg && (
+            <SuccessMessage>Successfully registered a new user!</SuccessMessage>
+          )}
+          {usernameIsTaken && (
+            <ErrorMessage>Username is already taken</ErrorMessage>
+          )}
         </div>
         <Modal.Footer>
-          <button class="btn btn-dark btn-lg" onClick={(e) => registerUser(e)}>Register</button>{' '}
+          <button class="btn btn-dark btn-lg" onClick={(e) => registerUser(e)}>
+            Register
+          </button>{" "}
         </Modal.Footer>
       </Modal>
     </div>

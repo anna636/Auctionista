@@ -63,7 +63,7 @@ public class AuctionItemService {
         return auctionItemRepository.findAll();
     }
 
-    public Optional<AuctionItem> getAuctionItemById(Long id){
+    public Optional<AuctionItem> getAuctionItemById(long id){
         return auctionItemRepository.findById(id);
     }
 
@@ -84,7 +84,26 @@ public class AuctionItemService {
     }
 
     public List<AuctionItem> getByTitle(String title){
-        return auctionItemRepository.customFindAllByTitleIgnoreCase(title);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
+        LocalDateTime currentTime=LocalDateTime.now();
+        String formattedDateTime = currentTime.format(formatter); //Creating current time
+
+        List <AuctionItem> items=new ArrayList<>();
+
+        List <AuctionItem> fetchedItems=auctionItemRepository.customFindAllByTitleIgnoreCase(title);
+
+        for(AuctionItem item : fetchedItems){
+
+            LocalDateTime itemDeadlie = item.getDeadline().plusHours(1);  //Adding +1 hour to item deadline
+
+            if(itemDeadlie.isAfter(currentTime)){      //If deadline is after current date, then push it to list
+                items.add(item);
+            }
+        }
+
+
+        return items;
     }
 
 }

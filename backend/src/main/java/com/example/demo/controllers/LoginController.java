@@ -4,9 +4,11 @@ package com.example.demo.controllers;
 import com.example.demo.entities.User;
 import com.example.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -30,9 +32,13 @@ public class LoginController {
 
     }
 
+
     @PostMapping("/register")
-    public User register(@RequestBody User user){
-        return userService.createUser(user);
+    public ResponseEntity<User> register(@RequestBody User user){
+
+            return userService.createUser(user);
+
+
     }
 
 

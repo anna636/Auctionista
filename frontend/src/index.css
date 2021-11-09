@@ -166,3 +166,7 @@ textarea{
 .itemWrapper:hover{
 transform:scale(1.05) !important;
 }
+
+.payBtn:hover{
+  background-color: #3b863b !important;
+}
