@@ -37,9 +37,9 @@ function Navbar() {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark" style={styles.navbar}>
-      <a className="navbar-brand" style={styles.mainName} href="/">
+      <Link to="/" className="navbar-brand" style={styles.mainName}>
         Auctionista
-      </a>
+      </Link>
       <button
         className="navbar-toggler"
         type="button"
@@ -57,7 +57,10 @@ function Navbar() {
       {!getCurrentUser() ? (
         <div style={styles.loginButtons}>
           <div>
-            <button className="btn btn-outline-light btn-lg" onClick={toggleLogin}>
+            <button
+              className="btn btn-outline-light btn-lg"
+              onClick={toggleLogin}
+            >
               Login
             </button>
             <Login toggle={toggleLogin} modal={login} func={pull_data}></Login>
@@ -84,6 +87,7 @@ function Navbar() {
         >
           <ul className="navbar-nav">
             <NavDropdown
+              style={{ fontFamily: "Montserrat, sans-serif" }}
               id="nav-dropdown-dark-example"
               title={"Hello " + getCurrentUser().username}
               menuVariant="dark"
@@ -143,6 +147,7 @@ const styles = {
     color: "white",
   },
   loginButtons: {
+    fontFamily: "Montserrat, sans-serif",
     display: "flex",
     flexDirection: "row",
     position: "absolute",
@@ -162,7 +167,7 @@ const styles = {
     right: "10vw",
     opacity: "0.8",
     borderRadius: "5px",
-    textAlign:"center"
+    textAlign: "center",
   },
 
   ul: {
@@ -170,11 +175,12 @@ const styles = {
     paddingLeft: "8vw",
   },
   mainName: {
+    fontFamily: "Montserrat, sans-serif",
     fontSize: "1.7em",
+    color: "white",
   },
 
   hide: {
-    display:"none"
-  }
-  
+    display: "none",
+  },
 };

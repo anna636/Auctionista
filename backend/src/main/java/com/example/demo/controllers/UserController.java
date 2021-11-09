@@ -12,7 +12,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/rest/users") // prefix all mappings with this value
+@RequestMapping("/rest/users")
+@CrossOrigin// prefix all mappings with this value
 public class UserController {
 
     @Autowired

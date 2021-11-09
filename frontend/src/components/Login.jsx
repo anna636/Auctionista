@@ -26,10 +26,12 @@ export function Login(props) {
   const { login, whoAmI} = useContext(UserContext)
 
 
-  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState(false)
   const [successMsg, setSuccessMsg] = useState(false)
+   const targetUri = "http://localhost:3000/oauth2/redirect";
+   const baseUri = "http://localhost:4000";
 
    function openPopup() {
      props.func(true);
@@ -40,21 +42,21 @@ export function Login(props) {
     e.preventDefault()
     setErrorMessage(false)
     let user = {
-      username: username,
+      email: email,
       password: password
     }
     const response = await login(user)
     
-      if (response) {
-      setErrorMessage(true)
-      whoAmI()
+    if (response !== null) {
+      console.log("login successfull with token!");
+      openPopup();
+    } else {
+      console.log("smth went wrong when trying to login");
     }
-    if (!response.error) {
-      openPopup()
-    }
+
   
   }
-  return(
+  return (
     <div>
       <Modal show={modal} onHide={toggle}>
         <Modal.Header closeButton>
@@ -62,35 +64,48 @@ export function Login(props) {
         </Modal.Header>
         <div className="input-login-div-wrap">
           <div className="input-login-div line">
-          <InputGroup className="mb-3">
-          <FormControl
-            aria-describedby="inputGroup-sizing-default"
-            required
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          </InputGroup>
+            <InputGroup className="mb-3">
+              <FormControl
+                aria-describedby="inputGroup-sizing-default"
+                required
+                type="text"
+                placeholder="Username"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </InputGroup>
           </div>
           <div className="input-login-div">
-          <InputGroup className="mb-3">
-          <FormControl
-            aria-describedby="inputGroup-sizing-default"
-            required
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          </InputGroup>
+            <InputGroup className="mb-3">
+              <FormControl
+                aria-describedby="inputGroup-sizing-default"
+                required
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </InputGroup>
           </div>
           {errorMessage && <ErrorMessage>Bad credentials</ErrorMessage>}
           {successMsg && <SuccessMessage>Login successfull</SuccessMessage>}
         </div>
 
         <Modal.Footer>
-          <button class="btn btn-dark btn-lg" onClick={(e) => logIn(e)}>Login</button>{' '}
+          <button class="btn btn-dark btn-lg" onClick={(e) => logIn(e)}>
+            Login
+          </button>{" "}
+          <span>OR</span>
+          <a
+            href={
+              baseUri + "/oauth2/authorize/google?redirect_uri=" + targetUri
+            }
+          >
+            Google
+          </a>
+          <a href={baseUri + "/oauth2/authorize/facebook?redirect_uri="+targetUri}>
+            Facebook
+          </a>
         </Modal.Footer>
       </Modal>
     </div>

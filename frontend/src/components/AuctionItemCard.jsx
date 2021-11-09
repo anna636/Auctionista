@@ -94,12 +94,13 @@ const AuctionItemCard = (props) => {
             <p>There are no bids on this item yet</p>
           )}
           <p>Minimum bid possible: {item.bids && item.bids.length > 0 ? item.minimumBid : item.startPrice} euro </p>
-          {location.pathname === "/" && getCurrentUser() ? (
+          {location.pathname === "/" &&  getCurrentUser() && item.owner? (
             <div>
               <button
                 className="quickBid"
                 style={styles.btn}
                 onClick={toggleShowPayment}
+                disabled={getCurrentUser().id === item.owner.id ? "disabled":""}
               >
                 Place quick bid
               </button>
@@ -120,15 +121,17 @@ const AuctionItemCard = (props) => {
             <Counter dateFrom={props.props.deadline}></Counter>
           </div>
         </div>
-        <img
-          style={styles.img}
-          src={props.props.images.split(",")[props.props.primaryImgIndex]}
-          alt=""
-          onClick={redirect}
-        />
+        <div style={styles.imageContainer}>
+          <img
+            style={styles.img}
+            src={props.props.images.split(",")[props.props.primaryImgIndex]}
+            alt=""
+            onClick={redirect}
+          />
+        </div>
       </div>
       <div className="title" style={styles.title}>
-        <h5>{props.props.title}</h5>
+        <h5 style={{ marginBottom: "0" }}>{props.props.title}</h5>
       </div>
     </div>
   );
@@ -140,30 +143,41 @@ export default AuctionItemCard;
 
 const styles = {
   itemWrapper: {
+    width: "45%",
     display: "flex",
     flexDirection: "column",
-    marginBottom: "10vh",
-    padding: "5vh",
-    paddingBottom: "2vh",
+    marginBottom: "3vh",
+    padding: "2rem",
     boxShadow: "0px 0px 8px 2px rgba(0,0,0,0.54)",
     borderRadius: "20px",
+    border: "solid 1px black",
     color: "black",
-   
+    backgroundColor: "white",
   },
   mainInfo: {
     display: "flex",
     flexDirection: "row",
-    gap: "2vw",
-    textAlign:"left"
+    justifyContent: "space-between",
+    textAlign: "left",
   },
-  img: {
-    width: "50%",
-    cursor: "pointer",
-    maxHeight:"152px"
+  imageContainer: {
+    height: "12rem",
+    width: "60%",
+    overflow: "hidden",
+    display: "flex",
+    justifyContent: "center",
   },
+  // img: {
+  //   width: "50%",
+  //   cursor: "pointer",
+  //   maxHeight: "152px",
+  //   borderRadius: "5px",
+  //   marginRight: "1rem",
+  // },
   title: {
     textAlign: "center",
     paddingTop: "3vh",
+    fontFamily: "Montserrat, sans-serif",
   },
 
   btn: {
@@ -176,6 +190,14 @@ const styles = {
     color: "white",
   },
   counter: {
-    marginTop: "15px"
-  }
+    marginTop: "15px",
+  },
+  textContainer: {
+    width: "40%",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    fontFamily: "Montserrat, sans-serif",
+    fontSize: "14px",
+  },
 };
