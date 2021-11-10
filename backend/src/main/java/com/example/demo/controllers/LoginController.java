@@ -97,10 +97,16 @@ public class LoginController {
 
     @GetMapping("/user/me")
     @PreAuthorize("hasRole('USER')")
-    public User getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {
+    public ResponseEntity<?> getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {
 
-        return userRepository.findById(userPrincipal.getId())
-                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
+        User currentUser= userRepository.findById(userPrincipal.getId()).get();
+                if(currentUser !=null){
+                    return ResponseEntity.ok(currentUser);
+                }
+                else{
+                    return ResponseEntity.noContent().build();
+                }
+
     }
 
 
