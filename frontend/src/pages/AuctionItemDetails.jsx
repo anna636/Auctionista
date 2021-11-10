@@ -21,13 +21,14 @@ import CustomModal from "../components/CustomModal";
 import { useGlobalContext } from "../contexts/GlobalContext";
 
 import PaymentModal from "../components/PaymentModal";
+import  SendNotification  from "../components/SendNotification";
 
 function AuctionItemDetails() {
   const { id } = useParams();
   const history = useHistory();
   const { fetchAuctionItem } = useAuctionItem();
   const [auctionItem, setAuctionItem] = useState();
-  const { postNewBid } = useBidContext();
+  const { postNewBid , bids} = useBidContext();
   const [bid, setBid] = useState("");
   const { currentUser } = useContext(UserContext);
   const [myProp, setMyProp] = useState({});
@@ -119,8 +120,22 @@ function AuctionItemDetails() {
     }
   }
 
+  await sendNotification()
    
   }
+
+  async function sendNotification() {
+    console.log("sendnotification")
+    let allBids = bids
+    let filteredBids = [];
+    allBids.forEach((element) => {
+      if (auctionItem.id == element.auctionItem.id) {
+        filteredBids.push(element);
+       }
+    });
+    SendNotification(filteredBids);
+  }
+
 
   function checkBid() {
     return bid >= auctionItem.minimumBid ? true : false;

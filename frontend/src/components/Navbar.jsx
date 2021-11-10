@@ -7,7 +7,7 @@ import { Login } from "../components/Login"
 import { Register } from "../components/Register"
 import { Link } from 'react-router-dom';
 import Search from "./search/Search";
-
+import NotificationBubble from "./NotificationBubble"
 
 
 function Navbar() {
@@ -120,6 +120,7 @@ function Navbar() {
               </NavDropdown.Item>
             </NavDropdown>
           </ul>
+          <NotificationBubble></NotificationBubble>
         </div>
       )}
       <div
