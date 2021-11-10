@@ -69,7 +69,7 @@ export function Login(props) {
                 aria-describedby="inputGroup-sizing-default"
                 required
                 type="text"
-                placeholder="Username"
+                placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
