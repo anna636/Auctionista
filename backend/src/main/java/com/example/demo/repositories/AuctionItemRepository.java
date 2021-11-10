@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import org.springframework.data.repository.query.Param;
 
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -30,5 +31,9 @@ public interface AuctionItemRepository extends JpaRepository<AuctionItem, Long> 
 
     @Query(value = "SELECT * FROM auction_items WHERE  sold = false AND expired = false AND title COLLATE UTF8_GENERAL_CI LIKE %:title% COLLATE UTF8_GENERAL_CI", nativeQuery = true)
     List<AuctionItem> customFindAllByTitleIgnoreCase(@Param("title") String title);
+
+
+    @Query(value="SELECT * FROM auction_items WHERE owner_id = :userId", nativeQuery = true)
+    List<AuctionItem> findUsersItems( String userId, @Param("soldY") String soldY) ;
 
 }

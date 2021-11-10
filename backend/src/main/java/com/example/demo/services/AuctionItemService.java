@@ -105,6 +105,12 @@ public class AuctionItemService {
         return fetchedItems;
     }
 
+
+    public List<AuctionItem> getUsersItems (String id, String sold){
+        updateItems();
+
+        return auctionItemRepository.findUsersItems(id, sold);
+    }
 }
 
 

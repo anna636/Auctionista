@@ -87,6 +87,21 @@ public class AuctionItemController {
 
     }
 
+    @GetMapping("/api/my-auction-items")
+    public ResponseEntity<List<AuctionItem>> getUsersItems(@RequestParam (required = true) String userId,
+                                                           @RequestParam (required = true) String sold
+
+    )
+    {
+        List<AuctionItem> auctionItems = auctionItemService.getUsersItems(userId, sold);
+        if(auctionItems.size() >0){
+            return ResponseEntity.ok(auctionItems);
+        }
+        else{
+            return ResponseEntity.noContent().build();
+        }
+    }
+
 
 
 }
