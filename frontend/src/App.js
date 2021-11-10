@@ -19,8 +19,8 @@ function App() {
   return (
     <div className="App">
       <MessageContextProvider>
-        <SocketProvider>
-          <UserContextProvider>
+        <UserContextProvider>
+          <SocketProvider>
             <AuctionItemProvider>
               <BidProvider>
                 <Router>
@@ -59,8 +59,8 @@ function App() {
                 </Router>
               </BidProvider>
             </AuctionItemProvider>
-          </UserContextProvider>
-        </SocketProvider>
+          </SocketProvider>
+        </UserContextProvider>
       </MessageContextProvider>
     </div>
   );

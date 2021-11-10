@@ -6,6 +6,8 @@ import { UserContext } from "../../contexts/UserContext";
 function ChatBox(props) {
   const { roomid } = useParams();
   const { currentUser } = useContext(UserContext);
+  const { chatRooms } = useMessage();
+
 
   function emitChatRoom(room) {
     props.emitFromChatBox(room);
@@ -26,8 +28,8 @@ function ChatBox(props) {
       <div>
         <h2>Room ID: {props.sendTo && props.sendTo.id}</h2>
       </div>
-      {currentUser.chatrooms && currentUser.chatrooms.length > 0
-        ? currentUser.chatrooms.map((room, index) => (
+      {chatRooms && chatRooms.length > 0
+        ? chatRooms.map((room, index) => (
             <div
               key={index}
               className="userWrapper"

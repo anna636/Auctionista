@@ -16,25 +16,46 @@ import { useSocketContext } from "../contexts/SocketContext";
 function MyMessages() {
   const history = useHistory();
   const { roomid } = useParams();
-  const { chatRoom, messages, setMessages, getRoomById } = useMessage();
+  const {
+    chatRoom,
+    messages,
+    setMessages,
+    getRoomById,
+    chatRooms,
+    setChatRooms,
+  } = useMessage();
   const [msgToSend, setMsgToSend] = useState("");
-  const { currentUser } = useContext(UserContext);
+  const { currentUser, whoAmI } = useContext(UserContext);
   const [typing, setTyping] = useState(false);
   const [otherUserName, setOtherUserName] = useState("");
   const { socket, isConnected } = useSocketContext();
+
+  useEffect(() => {
+    getUserChatRooms();
+  }, []);
 
   useEffect(() => {
     if (roomid && currentUser) {
       console.log("Using roomid from params");
       joinRoomFromParams(roomid);
     }
-  }, [roomid, currentUser]);
+  }, [roomid]);
 
-  // useEffect(() => {
-  //   let tempArray = [];
-  //   chatRoom.messages.map((msg) => tempArray.push(msg));
-  //   setMessages(tempArray);
-  // });
+  useEffect(() => {
+    console.log("useEffect getMessages");
+    if (roomid) {
+      getMessages();
+    }
+  }, [chatRoom]);
+  // messages
+
+  const getUserChatRooms = async () => {
+    let user = await whoAmI();
+    console.log("User: ", user);
+    if (user && user.chatrooms.length) {
+      setChatRooms(user.chatrooms);
+    }
+  };
 
   const joinRoomFromParams = async (id) => {
     let room = await getRoomById(id);
@@ -44,23 +65,15 @@ function MyMessages() {
     setOtherUserName(getOtherUserName(room));
   };
 
-  useEffect(() => {
-    if (roomid) {
-      getMessages()
-    }
-  }, [messages]);
-
   const getMessages = async () => {
     let room = await getRoomById(roomid);
-    let tempArray = [];
-    room.messages.map((msg) => tempArray.push(msg));
-    setMessages(tempArray);
+    console.log("getMessages");
+    if (room.messages.length) {
+      let tempArray = [];
+      room.messages.map((msg) => tempArray.push(msg));
+      setMessages(tempArray);
+    }
   };
-
-  // useEffect(() => {
-  //   // fetch messages for this room,  maybe return leaving room
-
-  //  }, [])
 
   async function joinRoom(id) {
     if (id) {
@@ -127,18 +140,6 @@ function MyMessages() {
               <MainContainer>
                 <ChatContainer>
                   <MessageList>
-                    {/* {chatRoom.messages && chatRoom.messages.length > 0
-                          ? chatRoom.messages.map((msg, i) => (
-                              <>
-                                <ChatMessage
-                                  key={i}
-                                  message={msg}
-                                  sendTo={chatRoom}
-                                  otherUser={otherUserName}
-                                />
-                              </>
-                            ))
-                          : " "} */}
                     {messages &&
                       messages.length > 0 &&
                       messages.map((msg, i) => (
@@ -189,7 +190,7 @@ function MyMessages() {
           </div>
         </>
       )}
-      {currentUser && currentUser.chatrooms.length < 0 && (
+      {currentUser && !currentUser.chatrooms.length && (
         <div>
           <h3>You have no chat messages</h3>
         </div>
