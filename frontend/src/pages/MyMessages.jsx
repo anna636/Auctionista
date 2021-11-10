@@ -30,28 +30,28 @@ function MyMessages() {
   const [otherUserName, setOtherUserName] = useState("");
   const { socket, isConnected } = useSocketContext();
 
-  useEffect(() => {
-    getUserChatRooms();
-  }, []);
+  // useEffect(() => {
+  //   getUserChatRooms();
+  // }, []);
 
   useEffect(() => {
-    if (roomid && currentUser) {
+    if (roomid) {
       console.log("Using roomid from params");
       joinRoomFromParams(roomid);
     }
+    getUserChatRooms();
   }, [roomid]);
 
   useEffect(() => {
-    console.log("useEffect getMessages");
     if (roomid) {
+      console.log("useEffect getMessages");
       getMessages();
     }
-  }, [chatRoom]);
+  }, [chatRoom, roomid]);
   // messages
 
   const getUserChatRooms = async () => {
     let user = await whoAmI();
-    console.log("User: ", user);
     if (user && user.chatrooms.length) {
       setChatRooms(user.chatrooms);
     }
@@ -62,7 +62,7 @@ function MyMessages() {
     console.log("Room: ", room.id);
     joinRoom(id);
     // change so no fetch needed here?
-    setOtherUserName(getOtherUserName(room));
+    // setOtherUserName(getOtherUserName(room));
   };
 
   const getMessages = async () => {
@@ -108,16 +108,16 @@ function MyMessages() {
     history.push("/my-messages/" + room.id);
   };
 
-  function getOtherUserName(room) {
-    let tempArray = [];
-    for (let user of room.users) {
-      // currentUser undefined
-      if (user.id !== currentUser.id) {
-        tempArray.push(user);
-      }
-    }
-    return tempArray[0].username;
-  }
+  // function getOtherUserName(room) {
+  //   let tempArray = [];
+  //   for (let user of room.users) {
+  //     // currentUser undefined
+  //     if (user.id !== currentUser.id) {
+  //       tempArray.push(user);
+  //     }
+  //   }
+  //   return tempArray[0].username;
+  // }
 
   function getInputValue(text) {
     setMsgToSend(text);
