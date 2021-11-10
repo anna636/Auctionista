@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { useBidContext } from "../contexts/BidContext";
 import { UserContext } from "../contexts/UserContext";
 import BootstrapModal from "./BootstrapModal";
+import { updateItem } from "../components/chat/Socket";
 
 function QuickBid(props) {
   const { getCurrentUser } = useContext(UserContext);
@@ -33,17 +34,22 @@ function QuickBid(props) {
         auctionItem: props.props,
       };
 
-      let res = await postNewBid(bidToPost);
+      //let res = await postNewBid(bidToPost);
+       let msg = {
+         fromLogin: getCurrentUser().username, //Who sends msg
+         message: props.props.id, //text of msg
+       };
+      await updateItem(msg)
 
-      if (res.status === 200) {
+    /*   if (res.status === 200) {
         setModalText("You placed bid worth of " + bidToPost.amount + " euros");
         toggleModal();
         if (pageReload) {
           console.log(pageReload);
           window.location.reload(false);
         }
-      }
-    }
+      }*/
+    } 
   }
 
   return (

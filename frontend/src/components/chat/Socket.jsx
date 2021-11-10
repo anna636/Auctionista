@@ -19,6 +19,10 @@ export const sendMessage = async (sendToUsername, msg) => {
 
 };
 
+export const updateItem = async (msg) => {
+  await clientRef.sendMessage("/app/chat", JSON.stringify(msg))
+}
+
 function Socket() {
 
   const { getCurrentUser, logout } = useContext(UserContext);
@@ -30,7 +34,7 @@ function Socket() {
       {getCurrentUser() !== null ?
         <SockJsClient
         url="http://localhost:4000/chat"
-        topics={["/topic/messages/"+getCurrentUser().username]}
+        topics={["/topic/messages/"+getCurrentUser().username, "/topic/messages"]}
         onConnect={() => {
           console.log("connected");
         }}

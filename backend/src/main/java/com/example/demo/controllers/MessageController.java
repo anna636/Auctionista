@@ -8,6 +8,7 @@ import com.example.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,6 +29,20 @@ public class MessageController {
         if(userToFind!=null){
             simpMessagingTemplate.convertAndSend("/topic/messages/" + to, message);
         }
+        //Check if user reviecing message exists and send it then
+
+
+        return message;
+    }
+
+
+    @MessageMapping("/chat")
+    @SendTo("/topic/messages")
+    public MessageModel updateItems(MessageModel message) {
+
+        System.out.println("recieveing msg for all");
+           // simpMessagingTemplate.convertAndSend("/topic/messages", message);
+
         //Check if user reviecing message exists and send it then
 
 
