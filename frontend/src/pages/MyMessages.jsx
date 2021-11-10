@@ -30,24 +30,27 @@ function MyMessages() {
   const [otherUserName, setOtherUserName] = useState("");
   const { socket, isConnected } = useSocketContext();
 
-  // useEffect(() => {
-  //   getUserChatRooms();
-  // }, []);
+  // If chatRoom isnt defined after clicking box, it's because it's not joining in backend
+  // Try adding leave room
+
+  useEffect(() => {
+    getUserChatRooms();
+  }, []);
 
   useEffect(() => {
     if (roomid) {
       console.log("Using roomid from params");
       joinRoomFromParams(roomid);
-    }
-    getUserChatRooms();
-  }, [roomid]);
-
-  useEffect(() => {
-    if (roomid) {
-      console.log("useEffect getMessages");
       getMessages();
     }
-  }, [chatRoom, roomid]);
+  }, [roomid]);
+
+  // useEffect(() => {
+  //   if (roomid) {
+  //     console.log("useEffect getMessages");
+  //     getMessages();
+  //   }
+  // }, [chatRoom, roomid]);
   // messages
 
   const getUserChatRooms = async () => {
@@ -58,8 +61,8 @@ function MyMessages() {
   };
 
   const joinRoomFromParams = async (id) => {
-    let room = await getRoomById(id);
-    console.log("Room: ", room.id);
+    // let room = await getRoomById(id);
+    console.log("Room: ", id);
     joinRoom(id);
     // change so no fetch needed here?
     // setOtherUserName(getOtherUserName(room));
