@@ -36,10 +36,12 @@ const UserContextProvider = (props) => {
     res = await res.json();
     console.log("this is login", res);
     if (res.accessToken) {
+     
       localStorage.setItem("accessToken", res.accessToken);
       await whoAmI();
       return res;
     } else {
+    
       return null;
     }
   };

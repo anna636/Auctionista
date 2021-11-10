@@ -51,12 +51,7 @@ public class LoginController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-
-
-
-
-
-
+    
     @PostMapping("/newlogin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
