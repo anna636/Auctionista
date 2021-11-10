@@ -32,9 +32,9 @@ const SocketProvider = (props) => {
       console.log("Received message", data);
       let tempObject = {
         userId: data.userId,
-        message: data.message,
-        chatRoom: data.chatRoom,
+        message: data.message
       };
+      console.log("Messages: ", messages)
       setMessages([...messages, tempObject]);
     });
 

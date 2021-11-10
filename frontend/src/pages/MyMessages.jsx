@@ -16,8 +16,7 @@ import { useSocketContext } from "../contexts/SocketContext";
 function MyMessages() {
   const history = useHistory();
   const { roomid } = useParams();
-  const { chatRoom, messages, getRoomById } =
-    useMessage();
+  const { chatRoom, messages, setMessages, getRoomById } = useMessage();
   const [msgToSend, setMsgToSend] = useState("");
   const { currentUser } = useContext(UserContext);
   const [typing, setTyping] = useState(false);
@@ -31,41 +30,54 @@ function MyMessages() {
     }
   }, [roomid, currentUser]);
 
+  // useEffect(() => {
+  //   let tempArray = [];
+  //   chatRoom.messages.map((msg) => tempArray.push(msg));
+  //   setMessages(tempArray);
+  // });
+
   const joinRoomFromParams = async (id) => {
     let room = await getRoomById(id);
     console.log("Room: ", room.id);
     joinRoom(id);
+    // change so no fetch needed here?
     setOtherUserName(getOtherUserName(room));
   };
 
-  // useEffect(() => {
-  //   connect();
-  // }, [connected, messages]);
-  
+  useEffect(() => {
+    if (roomid) {
+      getMessages()
+    }
+  }, [messages]);
+
+  const getMessages = async () => {
+    let room = await getRoomById(roomid);
+    let tempArray = [];
+    room.messages.map((msg) => tempArray.push(msg));
+    setMessages(tempArray);
+  };
+
   // useEffect(() => {
   //   // fetch messages for this room,  maybe return leaving room
 
   //  }, [])
 
-    async function joinRoom(id) {
-      if (id) {
-        socket.emit("join", "" + id);
-      } else {
-        console.log("Room undefined");
-      }
+  async function joinRoom(id) {
+    if (id) {
+      socket.emit("join", "" + id);
+    } else {
+      console.log("Room undefined");
     }
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
-
     let data = {
       chatroom: chatRoom,
       userId: currentUser.id + "",
       message: msgToSend,
     };
     postMessage(data);
-
-    console.log("Messages: ", messages);
 
     setMsgToSend("");
     setTyping(false);
@@ -111,12 +123,11 @@ function MyMessages() {
           </div>
 
           <div style={{ position: "relative", height: "500px" }}>
-              <>
-                <MainContainer>
-                  <ChatContainer>
-                    <MessageList>
-
-                        {chatRoom.messages && chatRoom.messages.length > 0
+            <>
+              <MainContainer>
+                <ChatContainer>
+                  <MessageList>
+                    {/* {chatRoom.messages && chatRoom.messages.length > 0
                           ? chatRoom.messages.map((msg, i) => (
                               <>
                                 <ChatMessage
@@ -127,50 +138,49 @@ function MyMessages() {
                                 />
                               </>
                             ))
-                          : " "}
-                        {/* {messages &&
-                          messages.length > 0 &&
-                          messages.map((msg, i) => (
-                            <>
-                              <ChatMessage
-                                key={i}
-                                message={msg}
-                                sendTo={chatRoom}
-                                otherUser={otherUserName}
-                              />
-                            </>
-                          ))} */}
-                        {/* {typing && (
+                          : " "} */}
+                    {messages &&
+                      messages.length > 0 &&
+                      messages.map((msg, i) => (
+                        <>
+                          <ChatMessage
+                            key={i}
+                            message={msg}
+                            sendTo={chatRoom}
+                            otherUser={otherUserName}
+                          />
+                        </>
+                      ))}
+                    {/* {typing && (
                         <TypingIndicator
                           content={currentUser.username + " is typing"}
                         />
                       )} */}
+                  </MessageList>
+                </ChatContainer>
+              </MainContainer>
 
-                    </MessageList>
-                  </ChatContainer>
-                </MainContainer>
+              {chatRoom && (
+                <div style={cosStyles.inputWrapper} className="chatWrapper">
+                  <form
+                    action=""
+                    onSubmit={handleSubmit}
+                    style={cosStyles.form}
+                  >
+                    <input
+                      type="text"
+                      style={cosStyles.input}
+                      onChange={(e) => getInputValue(e.target.value)}
+                      value={msgToSend}
+                    />
 
-                {chatRoom && (
-                  <div style={cosStyles.inputWrapper} className="chatWrapper">
-                    <form
-                      action=""
-                      onSubmit={handleSubmit}
-                      style={cosStyles.form}
-                    >
-                      <input
-                        type="text"
-                        style={cosStyles.input}
-                        onChange={(e) => getInputValue(e.target.value)}
-                        value={msgToSend}
-                      />
-
-                      <button type="submit" style={cosStyles.sendBtn}>
-                        Send
-                      </button>
-                    </form>
-                  </div>
-                )}
-              </>
+                    <button type="submit" style={cosStyles.sendBtn}>
+                      Send
+                    </button>
+                  </form>
+                </div>
+              )}
+            </>
             {/* {!isConnected && (
               <div>
                 <h3>Connecting...</h3>
