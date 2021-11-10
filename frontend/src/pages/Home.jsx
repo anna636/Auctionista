@@ -9,9 +9,9 @@ function Home() {
     useAuctionItem();
   const handleScroll = () => setOffsetY(window.pageYOffset);
 
-  useEffect(() => {
+  useEffect(async () => {
     window.addEventListener("scroll", handleScroll);
-      fetchItemsInBatch(0, 1);
+   
     return () => window.removeEventListener("scroll", handleScroll);
   
   }, []);

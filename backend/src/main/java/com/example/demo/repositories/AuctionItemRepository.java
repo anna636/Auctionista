@@ -23,12 +23,12 @@ public interface AuctionItemRepository extends JpaRepository<AuctionItem, Long> 
 
 
 
-    @Query(value="SELECT * FROM auction_items WHERE sold = false LIMIT 6 OFFSET :offset", nativeQuery = true)
+    @Query(value="SELECT * FROM auction_items WHERE sold = false AND expired = false LIMIT 6 OFFSET :offset", nativeQuery = true)
     List<AuctionItem> getItemsInBatch(String offset);
 
 
 
-    @Query(value = "SELECT * FROM auction_items WHERE  sold = false AND title COLLATE UTF8_GENERAL_CI LIKE %:title% COLLATE UTF8_GENERAL_CI", nativeQuery = true)
+    @Query(value = "SELECT * FROM auction_items WHERE  sold = false AND expired = false AND title COLLATE UTF8_GENERAL_CI LIKE %:title% COLLATE UTF8_GENERAL_CI", nativeQuery = true)
     List<AuctionItem> customFindAllByTitleIgnoreCase(@Param("title") String title);
 
 }
