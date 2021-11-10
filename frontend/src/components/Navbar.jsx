@@ -18,30 +18,32 @@ function Navbar() {
   const toggleLogin = () => setLogin(!login);
   const toggleRegister = () => setRegister(!register);
   const [myProp, setMyProp] = useState({});
-  const [toggleConfetti, setToggleConfetti] = useState({});
+  const [wonItem, setWonItem] = useState(false);
 
   const pull_data = (data) => {
     console.log(data);
     setShowPopup(data);
     setMyProp({
       show: false,
-    });
+    })
+    setWonItem(false)
     setTimeout(function () {
       setShowPopup(false);
     }, 4000);
   };
 
-  function toggleModalConfetti() {
-  
-  }
+ 
 
   function openModal() {
-    return setMyProp({
-      show: true,
-      colour: "green",
-      header: "Congratulations!!",
-      text: "You have won the following auction: ",
-    })
+      setMyProp({
+        show: true,
+        colour: "green",
+        header: "Congratulations!!",
+        text: "You have won the following auction: ",
+      })
+        setWonItem(true)
+    
+
   }
 
 
@@ -145,13 +147,11 @@ function Navbar() {
       >
         <p>Logged in</p>
       </div>
-      <button onClick={openModal}>won</button>
-      <CustomModal prop={myProp} func={pull_data} />
-      <Confetti
-        opacity="0.7"
-        numberOfPieces="700"
-        recycle={false}
-      />
+        <button onClick={openModal}>won</button>
+      { wonItem && <div className="wonContainer">
+        <CustomModal prop={myProp} func={pull_data} />
+        <Confetti opacity="0.7" numberOfPieces="700" recycle={false} />
+      </div>}
     </nav>
   );
 }
