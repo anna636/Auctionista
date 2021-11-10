@@ -73,6 +73,7 @@ const UserContextProvider = (props) => {
 
   const logout = async () => {
     localStorage.removeItem("accessToken");
+    let res=await fetch("/logout")
     setCurrentUser(null);
 
     console.log("You have been logged out");
