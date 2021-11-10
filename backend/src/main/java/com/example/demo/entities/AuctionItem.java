@@ -62,7 +62,7 @@ public class AuctionItem {
 
    public void updateValues(Bid bid) {
        // Updates next minimum bid
-       this.minimumBid = (int) Math.round(this.bids.get(this.bids.size() - 1).getAmount() * 1.1);
+       this.minimumBid = (int) Math.round(bid.getAmount() * 1.1);
    }
 
 }

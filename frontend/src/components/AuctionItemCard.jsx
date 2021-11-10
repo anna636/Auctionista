@@ -63,7 +63,7 @@ const AuctionItemCard = (props) => {
         let res = await postNewBid(bidToPost);
 
         if (!res.error) {
-          setModalText("You placed bid worth of " + bidToPost.amount + " euros");
+          setModalText("You placed bid worth of " + bidToPost.amount + " ₿");
         updateItem(item.id)
           toggleModal();
          
