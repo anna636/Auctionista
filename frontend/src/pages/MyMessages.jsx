@@ -16,64 +16,44 @@ import { useSocketContext } from "../contexts/SocketContext";
 function MyMessages() {
   const history = useHistory();
   const { roomid } = useParams();
-  const { chatRoom, setChatRoom, messages, setMessages, getRoomById } = useMessage();
+  const { chatRoom, messages, getRoomById } =
+    useMessage();
   const [msgToSend, setMsgToSend] = useState("");
-  const { getCurrentUser, currentUser } = useContext(UserContext);
+  const { currentUser } = useContext(UserContext);
   const [typing, setTyping] = useState(false);
   const [otherUserName, setOtherUserName] = useState("");
-  const { socket } = useSocketContext();
-  const [connected, setConnected] = useState(false);
+  const { socket, isConnected } = useSocketContext();
 
   useEffect(() => {
-    getCurrentUser();
-    if (roomid) {
-      getRoomFromParams(roomid)
+    if (roomid && currentUser) {
+      console.log("Using roomid from params");
+      joinRoomFromParams(roomid);
     }
-  }, [roomid]);
+  }, [roomid, currentUser]);
 
-  const getRoomFromParams = async (id) => {
-    let room = await getRoomById(id)
-    setChatRoom(room)
+  const joinRoomFromParams = async (id) => {
+    let room = await getRoomById(id);
+    console.log("Room: ", room.id);
+    joinRoom(id);
+    setOtherUserName(getOtherUserName(room));
   };
 
-  useEffect(() => {
-    connect();
-  }, [connected]);
+  // useEffect(() => {
+  //   connect();
+  // }, [connected, messages]);
+  
+  // useEffect(() => {
+  //   // fetch messages for this room,  maybe return leaving room
 
-  function connect() {
-    setEventListeners();
-  }
+  //  }, [])
 
-  function setEventListeners() {
-    socket.on("connect", () => {
-      setConnected(true);
-      console.log("socket connected");
-    });
-
-    socket.on("chat", function (data) {
-      console.log("Received message", data);
-      let tempObject = { userId: data.userId, message: data.message };
-      setMessages([...messages, tempObject]);
-    });
-
-    // socket.on("join", function (message) {
-    //   setConnected(true);
-    //   console.log(message);
-    // });
-
-    socket.on("leave", function (message) {
-      console.log(message);
-    });
-
-    socket.on("disconnect", function () {
-      setConnected(false);
-      console.log("socket disconnected");
-    });
-
-    socket.on("reconnect_attempt", (attempts) => {
-      console.log("Try to reconnect at " + attempts + " attempt(s).");
-    });
-  }
+    async function joinRoom(id) {
+      if (id) {
+        socket.emit("join", "" + id);
+      } else {
+        console.log("Room undefined");
+      }
+    }
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -100,23 +80,13 @@ function MyMessages() {
   }
 
   const pullChildData = (room) => {
-    joinRoom(room);
     history.push("/my-messages/" + room.id);
-    setOtherUserName(getOtherUserName(room));
   };
-
-  async function joinRoom(room) {
-    socket.emit("join", "" + room.id);
-    await socket.on("join", function (message) {
-      setConnected(true);
-      setChatRoom(room);
-      console.log(message);
-    });
-  }
 
   function getOtherUserName(room) {
     let tempArray = [];
     for (let user of room.users) {
+      // currentUser undefined
       if (user.id !== currentUser.id) {
         tempArray.push(user);
       }
@@ -141,12 +111,11 @@ function MyMessages() {
           </div>
 
           <div style={{ position: "relative", height: "500px" }}>
-            {connected && (
               <>
                 <MainContainer>
                   <ChatContainer>
                     <MessageList>
-                      <>
+
                         {chatRoom.messages && chatRoom.messages.length > 0
                           ? chatRoom.messages.map((msg, i) => (
                               <>
@@ -159,7 +128,7 @@ function MyMessages() {
                               </>
                             ))
                           : " "}
-                        {messages &&
+                        {/* {messages &&
                           messages.length > 0 &&
                           messages.map((msg, i) => (
                             <>
@@ -170,13 +139,13 @@ function MyMessages() {
                                 otherUser={otherUserName}
                               />
                             </>
-                          ))}
+                          ))} */}
                         {/* {typing && (
                         <TypingIndicator
                           content={currentUser.username + " is typing"}
                         />
                       )} */}
-                      </>
+
                     </MessageList>
                   </ChatContainer>
                 </MainContainer>
@@ -193,24 +162,24 @@ function MyMessages() {
                         style={cosStyles.input}
                         onChange={(e) => getInputValue(e.target.value)}
                         value={msgToSend}
-                        onSubmit={handleSubmit}
                       />
 
-                      <button style={cosStyles.sendBtn}>Send</button>
+                      <button type="submit" style={cosStyles.sendBtn}>
+                        Send
+                      </button>
                     </form>
                   </div>
                 )}
               </>
-            )}
-            {!connected && (
+            {/* {!isConnected && (
               <div>
                 <h3>Connecting...</h3>
               </div>
-            )}
+            )} */}
           </div>
         </>
       )}
-      {currentUser && (currentUser.chatrooms.length < 0) && (
+      {currentUser && currentUser.chatrooms.length < 0 && (
         <div>
           <h3>You have no chat messages</h3>
         </div>

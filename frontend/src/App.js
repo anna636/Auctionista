@@ -18,9 +18,9 @@ import MessageContextProvider from "./contexts/MessageContext";
 function App() {
   return (
     <div className="App">
-      <SocketProvider>
-        <UserContextProvider>
-          <MessageContextProvider>
+      <MessageContextProvider>
+        <SocketProvider>
+          <UserContextProvider>
             <AuctionItemProvider>
               <BidProvider>
                 <Router>
@@ -59,9 +59,9 @@ function App() {
                 </Router>
               </BidProvider>
             </AuctionItemProvider>
-          </MessageContextProvider>
-        </UserContextProvider>
-      </SocketProvider>
+          </UserContextProvider>
+        </SocketProvider>
+      </MessageContextProvider>
     </div>
   );
 }

@@ -7,7 +7,6 @@ function ChatBox(props) {
   const { roomid } = useParams();
   const { currentUser } = useContext(UserContext);
 
-
   function emitChatRoom(room) {
     props.emitFromChatBox(room);
   }
@@ -32,7 +31,7 @@ function ChatBox(props) {
             <div
               key={index}
               className="userWrapper"
-              style={props.sendTo === room ? styles.chosen : styles.userWrapper}
+              style={props.sendTo === room || roomid === room.id ? styles.chosen : styles.userWrapper}
               onClick={() => emitChatRoom(room)}
             >
               <img

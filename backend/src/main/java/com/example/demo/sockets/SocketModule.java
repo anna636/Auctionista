@@ -71,7 +71,7 @@ public class SocketModule {
             client.joinRoom(roomName);
 
             // message room that client connected
-            emitToRoom(roomName, "join", "Client joined room: " + roomName);
+            emitToRoom(roomName, "join", roomName);
         };
     }
 
