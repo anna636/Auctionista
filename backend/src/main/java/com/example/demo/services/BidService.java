@@ -38,11 +38,6 @@ public class BidService {
             long auctionItemId = bid.getAuctionItem().getId();
             AuctionItem auctionItem = auctionItemRepository.getById(auctionItemId);
 
-            if (userService.findCurrentUser().getId() != Long.parseLong(bid.getUser_id())) {
-                System.out.println("Logged in user must match bids user");
-                return null;
-            }
-
             if( Long.parseLong(bid.getUser_id()) == auctionItem.getOwner().getId()) {
                 System.out.println("User can't place bid on their own items");
                 return null;

@@ -59,9 +59,9 @@ export default ({ dateFrom }) => {
 
 const styles = {
   timeWrapper: {
+    textAlign: "center",
     display: "flex",
     flexDirection: "column",
     gap: "1vh",
-    textAlign:"left"
   }
 }

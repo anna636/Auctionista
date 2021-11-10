@@ -39,11 +39,14 @@ const BidProvider = (props) => {
     try {
       let response = await fetch("/rest/bids", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: new Headers({
+          Authorization: "Bearer " + localStorage.getItem("accessToken"),
+          "Content-Type": "application/json",
+        }),
         body: JSON.stringify(itemToPost),
       });
       console.log(await response.json())
-      fetchItemsInBatch(auctionItems.length)
+     // fetchItemsInBatch(auctionItems.length)
       return response
     } catch {
       console.log("Posting bid failed")

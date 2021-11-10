@@ -40,7 +40,7 @@ export function Register(props) {
   const [errorMessage, setErrorMessage] = useState(false)
   const [successMsg, setSuccessMsg] = useState(false)
   const [passwordError, setpasswordError] = useState(false)
-  const [usernameIsTaken, setUsernameIsTaken]=useState(false)
+  const [emailIsTaken, setEmailIsTaken]=useState(false)
   async function registerUser(e) {
     e.preventDefault()
     if (password === '' || confirmPassword !== password) {
@@ -62,20 +62,27 @@ export function Register(props) {
       email: email
     }
     let userLogin = {
-      username: username,
+      email: email,
       password: password,
     }
     const response = await register(user)
-    if (response === "false") {
-       setUsernameIsTaken(true)
-    }
-    else {
-       const responseUser = await login(userLogin)
-    if (!responseUser.error) {
-      openPopup()
-    } 
-    }
-   /* */
+   if (response.status === 201) {
+     console.log("new user has been registered");
+
+     let loginRes = await login(userLogin);
+     if (loginRes !== null) {
+       console.log("and logged in successfully!");
+     } else {
+       console.log("smth went wrong when logging in");
+     }
+   }
+   else if (response.status === 400) {
+    console.log("this email is already taken")
+     setEmailIsTaken(true);
+   }
+   else {
+      console.log("Smth went wrong when registering new user");
+   }
   
    
   }
@@ -154,8 +161,8 @@ export function Register(props) {
           {successMsg && (
             <SuccessMessage>Successfully registered a new user!</SuccessMessage>
           )}
-          {usernameIsTaken && (
-            <ErrorMessage>Username is already taken</ErrorMessage>
+          {emailIsTaken && (
+            <ErrorMessage>Email is already taken</ErrorMessage>
           )}
         </div>
         <Modal.Footer>

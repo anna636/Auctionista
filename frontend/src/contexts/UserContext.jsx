@@ -1,80 +1,82 @@
 import React from "react";
 import { createContext, useState, useEffect } from "react";
+import { Redirect } from "react-router-dom";
 
 export const UserContext = createContext();
-
-
 
 const UserContextProvider = (props) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [users, setUsers] = useState([]);
-  
-
 
   const fetchUsers = async () => {
     let res = await fetch("/rest/users");
     res = await res.json();
     setUsers(res);
-
   };
 
   useEffect(() => {
     fetchUsers();
   }, []);
 
-
   const register = async (user) => {
-    let res = await fetch("/api/register", {
+    let res = await fetch("/api/signup", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(user),
     });
-    if (res.status == 400) {
-      return "false"
-    }
-    else {
-      res = await res.json();
-    setCurrentUser(res);
-    console.log(res, " This is register ")
     return res;
-    }
-    
   };
 
   const login = async (user) => {
-    let res = await fetch("/api/login", {
+    let res = await fetch("/api/newlogin", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(user),
     });
     res = await res.json();
-    if (res.status !==403) {
-      setCurrentUser(res);
+    console.log("this is login", res);
+    if (res.accessToken) {
+     
+      localStorage.setItem("accessToken", res.accessToken);
+      await whoAmI();
+      return res;
+    } else {
+    
+      return null;
     }
-    console.log(res, " This is login ")
-    return res;
   };
 
   const whoAmI = async () => {
-    let res = await fetch("/api/whoami");
+    console.log("local storage is", localStorage.getItem("accessToken"));
+    let res = await fetch("/api/user/me", {
+      method: "GET",
+      headers: new Headers({
+        Authorization: "Bearer " + localStorage.getItem("accessToken"),
+        "Content-Type": "application/json",
+      }),
+    });
     res = await res.json();
-    if (!res.error) {
+
+    if (res.status == 500) {
+      //setCurrentUser({ ...res });
+      console.log("Current user not found", res);
+      setCurrentUser(null);
+    } else {
+      console.log("found current user", res);
       setCurrentUser({ ...res });
-    } else { setCurrentUser(null); }
-    console.log(res, " This is whoami ")
+    }
   };
 
   const getCurrentUser = () => {
-    return currentUser
-  }
+    return currentUser;
+  };
 
-  
   const logout = async () => {
-    let res = await fetch("/api/logout", {
-      method: "DELETE",
-    });
-    res = await res.json();
-    setCurrentUser(null)
+    localStorage.removeItem("accessToken");
+    setCurrentUser(null);
+
+    console.log("You have been logged out");
+
   };
 
   useEffect(() => {
@@ -90,13 +92,9 @@ const UserContextProvider = (props) => {
     currentUser,
     users,
   };
-  
 
- 
   return (
-    <UserContext.Provider value={values}>
-      {props.children}
-    </UserContext.Provider>
+    <UserContext.Provider value={values}>{props.children}</UserContext.Provider>
   );
 };
 

@@ -12,26 +12,27 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/rest/users") // prefix all mappings with this value
+@RequestMapping("/rest/users")
+@CrossOrigin// prefix all mappings with this value
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @GetMapping
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
-    }
 
     @GetMapping("/{id}")
-    public Optional<User> getUserById(@PathVariable long id) {
-        return userService.getById(id);
+    public ResponseEntity<Optional<User>> getUserById(@PathVariable long id) {
+       Optional<User> user=userService.getById(id);
+        if(user !=null){
+            return ResponseEntity.ok(user);
+        }
+        else{
+            return ResponseEntity.noContent().build();
+        }
+
     }
 
-    @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        return userService.createUser(user);
-    }
+
 
    
 }

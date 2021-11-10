@@ -161,7 +161,7 @@ function CreateNewListing() {
               style={styles.textArea}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              maxlength="200"
+              maxlength="500"
             ></textarea>
           </div>
         </div>

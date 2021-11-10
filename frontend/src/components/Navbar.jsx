@@ -53,7 +53,7 @@ function Navbar() {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark" style={styles.navbar}>
-      <a className="navbar-brand" style={styles.mainName} href="/">
+      <a href="/" style={styles.mainName} className="link">
         Auctionista
       </a>
       <button
@@ -103,6 +103,7 @@ function Navbar() {
         >
           <ul className="navbar-nav">
             <NavDropdown
+              style={{ fontFamily: "Montserrat, sans-serif" }}
               id="nav-dropdown-dark-example"
               title={"Hello " + getCurrentUser().username}
               menuVariant="dark"
@@ -129,8 +130,10 @@ function Navbar() {
                 </Link>
               </NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4" onClick={logout}>
-                Log out
+              <NavDropdown.Item onClick={logout}>
+                <Link to="/" className="link">
+                  Log out
+                </Link>
               </NavDropdown.Item>
             </NavDropdown>
           </ul>
@@ -165,6 +168,7 @@ const styles = {
     color: "white",
   },
   loginButtons: {
+    fontFamily: "Montserrat, sans-serif",
     display: "flex",
     flexDirection: "row",
     position: "absolute",
@@ -192,7 +196,9 @@ const styles = {
     paddingLeft: "8vw",
   },
   mainName: {
+    fontFamily: "Montserrat, sans-serif",
     fontSize: "1.7em",
+    color: "white",
   },
 
   hide: {

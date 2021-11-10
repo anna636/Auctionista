@@ -26,10 +26,12 @@ export function Login(props) {
   const { login, whoAmI} = useContext(UserContext)
 
 
-  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState(false)
   const [successMsg, setSuccessMsg] = useState(false)
+   const targetUri = "http://localhost:3000/oauth2/redirect";
+   const baseUri = "http://localhost:4000";
 
    function openPopup() {
      props.func(true);
@@ -40,21 +42,21 @@ export function Login(props) {
     e.preventDefault()
     setErrorMessage(false)
     let user = {
-      username: username,
+      email: email,
       password: password
     }
     const response = await login(user)
     
-      if (response) {
-      setErrorMessage(true)
-      whoAmI()
+    if (response !== null) {
+      console.log("login successfull with token!");
+      openPopup();
+    } else {
+      console.log("smth went wrong when trying to login");
     }
-    if (!response.error) {
-      openPopup()
-    }
+
   
   }
-  return(
+  return (
     <div>
       <Modal show={modal} onHide={toggle}>
         <Modal.Header closeButton>
@@ -62,37 +64,99 @@ export function Login(props) {
         </Modal.Header>
         <div className="input-login-div-wrap">
           <div className="input-login-div line">
-          <InputGroup className="mb-3">
-          <FormControl
-            aria-describedby="inputGroup-sizing-default"
-            required
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          </InputGroup>
+            <InputGroup className="mb-3">
+              <FormControl
+                aria-describedby="inputGroup-sizing-default"
+                required
+                type="text"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </InputGroup>
           </div>
           <div className="input-login-div">
-          <InputGroup className="mb-3">
-          <FormControl
-            aria-describedby="inputGroup-sizing-default"
-            required
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          </InputGroup>
+            <InputGroup className="mb-3">
+              <FormControl
+                aria-describedby="inputGroup-sizing-default"
+                required
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </InputGroup>
           </div>
           {errorMessage && <ErrorMessage>Bad credentials</ErrorMessage>}
           {successMsg && <SuccessMessage>Login successfull</SuccessMessage>}
         </div>
 
         <Modal.Footer>
-          <button class="btn btn-dark btn-lg" onClick={(e) => logIn(e)}>Login</button>{' '}
+          <div className="loginFooter" style={styles.loginFooter}>
+            <button class="btn btn-dark btn-lg" onClick={(e) => logIn(e)}>
+              Login
+            </button>{" "}
+            <div className="social" style={styles.social}>
+              
+              <div className="socialLogos" style={styles.logos}>
+                <a
+                  href={
+                    baseUri +
+                    "/oauth2/authorize/google?redirect_uri=" +
+                    targetUri
+                  }
+                  style={styles.socialLogos}
+                >
+                  <img
+                    src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-suite-everything-you-need-know-about-google-newest-0.png"
+                    alt=""
+                    className="socialLogin google"
+                    style={styles.socialLogin}
+                  />
+                </a>
+                <a
+                  href={
+                    baseUri +
+                    "/oauth2/authorize/facebook?redirect_uri=" +
+                    targetUri
+                  }
+                  style={styles.socialLogos}
+                >
+                  <img
+                    src="https://www.freepnglogos.com/uploads/facebook-logo-png-6.png"
+                    alt=""
+                    className="socialLogin facebook"
+                    style={styles.socialLogin}
+                  />
+                </a>
+              </div>
+            </div>
+          </div>
         </Modal.Footer>
       </Modal>
     </div>
   );
+};
+
+const styles = {
+  socialLogin: {
+    width: "30%",
+  },
+  loginFooter: {
+    display: "flex",
+    gap: "10vw",
+    alignItems: "center",
+    justifyContent: "spaceBetween",
+    textAlign: "center",
+  },
+  social: {
+    display: "flex",
+    gap: "1vw",
+  },
+  socialLogos: {
+    marginRight:"1vw"
+  },
+  logos: {
+    marginLeft:"10vw"
+  }
 };
