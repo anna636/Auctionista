@@ -22,71 +22,45 @@ public class AuctionItemService {
     private AuctionItemRepository auctionItemRepository;
 
 
-    public List<AuctionItem> getItemsInBatch(String offset, String id)
+    public List<AuctionItem> getItemsInBatch(String offset)
 
     {
-          updateItems();
-        List <AuctionItem> fetchedItems =new ArrayList<>();
-
-         if(offset.equals("0")){
-             fetchedItems =auctionItemRepository.getItemsInBatch(offset);
-         }
-           else{
-               String rowId=auctionItemRepository.getRowId(id);
-               fetchedItems=auctionItemRepository.getItemsInBatch(rowId);
-         }
-
-
-        return fetchedItems;
-    }
-
-
-
-    public void updateItems(){
-
         DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
         LocalDateTime currentTime=LocalDateTime.now();
         String formattedDateTime = currentTime.format(formatter); //Creating current time
-        List<AuctionItem> fetchedItems=auctionItemRepository.findAll();
+
+        List <AuctionItem> items=new ArrayList<>();
+
+
+
+
+        List <AuctionItem> fetchedItems =auctionItemRepository.getItemsInBatch(offset); //fetching items that are not sold
 
         for(AuctionItem item : fetchedItems){
 
-            if(item.getDeadline().isBefore(currentTime)){
+            LocalDateTime itemDeadlie = item.getDeadline().plusHours(1);  //Adding +1 hour to item deadline
 
-                item.setExpired(true);
-
-
-                if(item.getBids().size()>0 && item.getBids().get(item.getBids().size()-1).getAmount() >= item.getReservationPrice()){
-                    item.setSold(true);
-                }
-
+            if(itemDeadlie.isAfter(currentTime)){      //If deadline is after current date, then push it to list
+                items.add(item);
             }
-
-            auctionItemRepository.save(item);
         }
-
+        return items;
     }
 
-
-
-
-
-
-
-
-
-
-
+    public List<AuctionItem> getAllAuctionItems(){
+        return auctionItemRepository.findAll();
+    }
 
     public Optional<AuctionItem> getAuctionItemById(long id){
-        updateItems();
         return auctionItemRepository.findById(id);
     }
 
     public AuctionItem createAuctionItem(AuctionItem auctionItem){
         try{
-            // Sets the minimumBid depending on the startPrice
-            auctionItem.setMinimumBid((int) Math.round(auctionItem.getStartPrice() * 1.1));
+            // When new auction item is created, sets the currentPrice to be the same as startPrice
+            auctionItem.setCurrentPrice(auctionItem.getStartPrice());
+            // ...then sets the minimumBid depending on the currentPrice
+            auctionItem.setMinimumBid((int) Math.round(auctionItem.getCurrentPrice() * 1.1));
             return auctionItemRepository.save(auctionItem);
         }
 
@@ -99,10 +73,25 @@ public class AuctionItemService {
 
     public List<AuctionItem> getByTitle(String title){
 
-        updateItems();
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
+        LocalDateTime currentTime=LocalDateTime.now();
+        String formattedDateTime = currentTime.format(formatter); //Creating current time
+
+        List <AuctionItem> items=new ArrayList<>();
+
         List <AuctionItem> fetchedItems=auctionItemRepository.customFindAllByTitleIgnoreCase(title);
 
-        return fetchedItems;
+        for(AuctionItem item : fetchedItems){
+
+            LocalDateTime itemDeadlie = item.getDeadline().plusHours(1);  //Adding +1 hour to item deadline
+
+            if(itemDeadlie.isAfter(currentTime)){      //If deadline is after current date, then push it to list
+                items.add(item);
+            }
+        }
+
+
+        return items;
     }
 
 }

@@ -19,20 +19,20 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Optional<User>> getUserById(@PathVariable long id) {
-       Optional<User> user=userService.getById(id);
-        if(user !=null){
-            return ResponseEntity.ok(user);
-        }
-        else{
-            return ResponseEntity.noContent().build();
-        }
-
+    @GetMapping
+    public List<User> getAllUsers() {
+        return userService.getAllUsers();
     }
 
+    @GetMapping("/{id}")
+    public Optional<User> getUserById(@PathVariable long id) {
+        return userService.getById(id);
+    }
 
+    @PostMapping
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        return userService.createUser(user);
+    }
 
    
 }

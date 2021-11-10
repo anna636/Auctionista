@@ -69,7 +69,7 @@ export function Login(props) {
                 aria-describedby="inputGroup-sizing-default"
                 required
                 type="text"
-                placeholder="Email"
+                placeholder="Username"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -92,71 +92,22 @@ export function Login(props) {
         </div>
 
         <Modal.Footer>
-          <div className="loginFooter" style={styles.loginFooter}>
-            <button class="btn btn-dark btn-lg" onClick={(e) => logIn(e)}>
-              Login
-            </button>{" "}
-            <div className="social" style={styles.social}>
-              
-              <div className="socialLogos" style={styles.logos}>
-                <a
-                  href={
-                    baseUri +
-                    "/oauth2/authorize/google?redirect_uri=" +
-                    targetUri
-                  }
-                  style={styles.socialLogos}
-                >
-                  <img
-                    src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-suite-everything-you-need-know-about-google-newest-0.png"
-                    alt=""
-                    className="socialLogin google"
-                    style={styles.socialLogin}
-                  />
-                </a>
-                <a
-                  href={
-                    baseUri +
-                    "/oauth2/authorize/facebook?redirect_uri=" +
-                    targetUri
-                  }
-                  style={styles.socialLogos}
-                >
-                  <img
-                    src="https://www.freepnglogos.com/uploads/facebook-logo-png-6.png"
-                    alt=""
-                    className="socialLogin facebook"
-                    style={styles.socialLogin}
-                  />
-                </a>
-              </div>
-            </div>
-          </div>
+          <button class="btn btn-dark btn-lg" onClick={(e) => logIn(e)}>
+            Login
+          </button>{" "}
+          <span>OR</span>
+          <a
+            href={
+              baseUri + "/oauth2/authorize/google?redirect_uri=" + targetUri
+            }
+          >
+            Google
+          </a>
+          <a href={baseUri + "/oauth2/authorize/facebook?redirect_uri="+targetUri}>
+            Facebook
+          </a>
         </Modal.Footer>
       </Modal>
     </div>
   );
-};
-
-const styles = {
-  socialLogin: {
-    width: "30%",
-  },
-  loginFooter: {
-    display: "flex",
-    gap: "10vw",
-    alignItems: "center",
-    justifyContent: "spaceBetween",
-    textAlign: "center",
-  },
-  social: {
-    display: "flex",
-    gap: "1vw",
-  },
-  socialLogos: {
-    marginRight:"1vw"
-  },
-  logos: {
-    marginLeft:"10vw"
-  }
 };

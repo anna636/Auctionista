@@ -37,9 +37,9 @@ function Navbar() {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark" style={styles.navbar}>
-      <a href="/" style={styles.mainName} className="link">
+      <Link to="/" className="navbar-brand" style={styles.mainName}>
         Auctionista
-      </a>
+      </Link>
       <button
         className="navbar-toggler"
         type="button"
@@ -114,10 +114,8 @@ function Navbar() {
                 </Link>
               </NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item onClick={logout}>
-                <Link to="/" className="link">
-                  Log out
-                </Link>
+              <NavDropdown.Item href="#action/3.4" onClick={logout}>
+                Log out
               </NavDropdown.Item>
             </NavDropdown>
           </ul>

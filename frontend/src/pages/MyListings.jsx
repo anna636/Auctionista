@@ -6,10 +6,10 @@ import { useAuctionItem } from "../contexts/AuctionItemContext";
 
 function MyListings() {
   const { getCurrentUser } = useContext(UserContext);
-
+  const { fetchAllAuctionItems } = useAuctionItem();
 
   useEffect(() => {
-  
+    fetchAllAuctionItems();
   }, []);
 
   return (

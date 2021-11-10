@@ -63,7 +63,7 @@ const AuctionItemCard = (props) => {
         let res = await postNewBid(bidToPost);
 
         if (!res.error) {
-          setModalText("You placed bid worth of " + bidToPost.amount + " ₿");
+          setModalText("You placed bid worth of " + bidToPost.amount + " euros");
         updateItem(item.id)
           toggleModal();
          
@@ -82,44 +82,25 @@ const AuctionItemCard = (props) => {
   }
 
   return (
-    <div
-      className="itemWrapper"
-      style={
-        window.location.pathname === "/my-listings"
-          ? styles.myListings
-          : styles.itemWrapper
-      }
-    >
+    <div className="itemWrapper" style={styles.itemWrapper}>
       <div className="mainInfo" style={styles.mainInfo}>
         <div>
           {item.bids && item.bids.length > 0 ? (
             <p>
-              Current price:
-              <strong>{item.bids[item.bids.length - 1].amount}</strong>{" "}
-              <i class="bi bi-currency-bitcoin"></i>
+              Latest bid: {item.bids[item.bids.length - 1].amount}{" "}
+              euro
             </p>
           ) : (
-            <p>
-              Current price: <strong>{item.startPrice}</strong>{" "}
-              <i class="bi bi-currency-bitcoin"></i>
-            </p>
+            <p>There are no bids on this item yet</p>
           )}
-          <p>
-            Minimum bid:{" "}
-            <strong>
-              {item.minimumBid}
-              <i class="bi bi-currency-bitcoin"></i>{" "}
-            </strong>
-          </p>
-          {location.pathname === "/" && getCurrentUser() && item.owner ? (
+          <p>Minimum bid possible: {item.bids && item.bids.length > 0 ? item.minimumBid : item.startPrice} euro </p>
+          {location.pathname === "/" &&  getCurrentUser() && item.owner? (
             <div>
               <button
                 className="quickBid"
                 style={styles.btn}
                 onClick={toggleShowPayment}
-                disabled={
-                  getCurrentUser().id === item.owner.id ? "disabled" : ""
-                }
+                disabled={getCurrentUser().id === item.owner.id ? "disabled":""}
               >
                 Place quick bid
               </button>
@@ -163,18 +144,6 @@ export default AuctionItemCard;
 const styles = {
   itemWrapper: {
     width: "45%",
-    display: "flex",
-    flexDirection: "column",
-    marginBottom: "3vh",
-    padding: "2rem",
-    boxShadow: "0px 0px 8px 2px rgba(0,0,0,0.54)",
-    borderRadius: "20px",
-    border: "solid 1px black",
-    color: "black",
-    backgroundColor: "white",
-  },
-  myListings: {
-    width: "100%",
     display: "flex",
     flexDirection: "column",
     marginBottom: "3vh",
