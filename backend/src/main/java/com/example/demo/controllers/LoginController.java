@@ -51,20 +51,7 @@ public class LoginController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-
-
-    @PostMapping("/login")
-    public User login(@RequestBody User user, HttpServletRequest req){
-        return userService.login(user, req);
-    }
-
-    @GetMapping("/whoami")
-    public User whoami(){
-        return userService.findCurrentUser();
-
-
-    }
-
+    
     @PostMapping("/newlogin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -88,7 +75,7 @@ public class LoginController {
             throw new BadRequestException("Email address already in use.");
         }
 
-        // Creating user's account
+
         User user = new User();
         user.setFullName(signUpRequest.getFullName());
         user.setEmail(signUpRequest.getEmail());
@@ -110,20 +97,19 @@ public class LoginController {
 
     @GetMapping("/user/me")
     @PreAuthorize("hasRole('USER')")
-    public User getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {
+    public ResponseEntity<?> getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {
 
-        return userRepository.findById(userPrincipal.getId())
-                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId()));
-    }
-
-
-    @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody User user){
-
-            return userService.createUser(user);
-
+        User currentUser= userRepository.findById(userPrincipal.getId()).get();
+                if(currentUser !=null){
+                    return ResponseEntity.ok(currentUser);
+                }
+                else{
+                    return ResponseEntity.noContent().build();
+                }
 
     }
+
+
 
 
 }

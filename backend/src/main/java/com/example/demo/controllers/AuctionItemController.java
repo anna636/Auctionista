@@ -24,25 +24,19 @@ public class AuctionItemController {
 
 
 
-    @GetMapping("/rest/auction-items/batch/{offset}")
-    public List<AuctionItem> getItemsInBatch(@PathVariable String offset)
+    @GetMapping("/rest/auction-items/batch/{offset}/{id}")
+    public ResponseEntity<List<AuctionItem>> getItemsInBatch(@PathVariable String offset, @PathVariable  String id)
     {
-        return auctionItemService.getItemsInBatch(offset);
-    }
-
-    //Get all auction items in db
-    @GetMapping("/rest/auction-items")
-    public ResponseEntity<List<AuctionItem>> getAll(){
-        List<AuctionItem> auctionItems=auctionItemService.getAllAuctionItems();
-
-        if(auctionItems.size()>0){
-            return ResponseEntity.ok(auctionItems);
-        }
-        else{
+        List<AuctionItem> itemList= auctionItemService.getItemsInBatch(offset, id);
+        if(itemList.size() ==0){
             return ResponseEntity.noContent().build();
         }
-
+        else{
+            return ResponseEntity.ok(itemList);
+        }
     }
+
+
 
 
     //Get auction item by id

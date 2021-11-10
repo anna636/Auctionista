@@ -22,15 +22,27 @@ public class BidController {
 
 
     @GetMapping("/bids")
-    public List<Bid> getAllBids() {
-        return bidService.getAll();
+    public ResponseEntity<List<Bid>> getAllBids() {
+
+        List<Bid> allBids= bidService.getAll();
+        if(allBids.size() > 0){
+            return ResponseEntity.ok(allBids);
+        }
+        else{
+            return ResponseEntity.noContent().build();
+        }
     }
 
     @GetMapping("/bids/{id}")
-    public Optional<Bid> getBidById(@PathVariable long id) {
+    public ResponseEntity<Optional<Bid>> getBidById(@PathVariable long id) {
         Optional<Bid> bid = bidService.getById(id);
+            if(bid.isPresent()){
+                return ResponseEntity.ok(bid);
+            }
+            else{
+                return ResponseEntity.noContent().build();
+            }
 
-        return bid;
     }
 
     @PostMapping("/bids")

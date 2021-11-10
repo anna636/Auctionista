@@ -1,5 +1,6 @@
 import React from "react";
 import { createContext, useState, useEffect } from "react";
+import { Redirect } from "react-router-dom";
 
 export const UserContext = createContext();
 
@@ -35,10 +36,12 @@ const UserContextProvider = (props) => {
     res = await res.json();
     console.log("this is login", res);
     if (res.accessToken) {
+     
       localStorage.setItem("accessToken", res.accessToken);
       await whoAmI();
       return res;
     } else {
+    
       return null;
     }
   };
@@ -70,9 +73,11 @@ const UserContextProvider = (props) => {
 
   const logout = async () => {
     localStorage.removeItem("accessToken");
+    let res=await fetch("/logout")
     setCurrentUser(null);
 
     console.log("You have been logged out");
+
   };
 
   useEffect(() => {
