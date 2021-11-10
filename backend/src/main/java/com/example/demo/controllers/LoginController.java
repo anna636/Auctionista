@@ -53,17 +53,9 @@ public class LoginController {
 
 
 
-    @PostMapping("/login")
-    public User login(@RequestBody User user, HttpServletRequest req){
-        return userService.login(user, req);
-    }
-
-    @GetMapping("/whoami")
-    public User whoami(){
-        return userService.findCurrentUser();
 
 
-    }
+
 
     @PostMapping("/newlogin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -88,7 +80,7 @@ public class LoginController {
             throw new BadRequestException("Email address already in use.");
         }
 
-        // Creating user's account
+
         User user = new User();
         user.setFullName(signUpRequest.getFullName());
         user.setEmail(signUpRequest.getEmail());
@@ -117,13 +109,6 @@ public class LoginController {
     }
 
 
-    @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody User user){
-
-            return userService.createUser(user);
-
-
-    }
 
 
 }

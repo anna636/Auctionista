@@ -25,9 +25,15 @@ public class AuctionItemController {
 
 
     @GetMapping("/rest/auction-items/batch/{offset}/{id}")
-    public List<AuctionItem> getItemsInBatch(@PathVariable String offset, @PathVariable  String id)
+    public ResponseEntity<List<AuctionItem>> getItemsInBatch(@PathVariable String offset, @PathVariable  String id)
     {
-        return auctionItemService.getItemsInBatch(offset, id);
+        List<AuctionItem> itemList= auctionItemService.getItemsInBatch(offset, id);
+        if(itemList.size() ==0){
+            return ResponseEntity.noContent().build();
+        }
+        else{
+            return ResponseEntity.ok(itemList);
+        }
     }
 
 
