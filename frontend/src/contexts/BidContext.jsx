@@ -46,7 +46,7 @@ const BidProvider = (props) => {
         body: JSON.stringify(itemToPost),
       });
       console.log(await response.json())
-      fetchItemsInBatch(auctionItems.length)
+     // fetchItemsInBatch(auctionItems.length)
       return response
     } catch {
       console.log("Posting bid failed")

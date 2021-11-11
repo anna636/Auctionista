@@ -16,11 +16,7 @@ const AuctionItemProvider = (props) => {
       fetchItemsInBatch(0, 1);
     
       }, []);
-   
-  const fetchAllAuctionItems = async () => { 
-    let response=await fetch("/rest/auction-items")
-    setAuctionItems(await response.json())
-  };
+ 
 
   const fetchItemsInBatch = async (offsetValue, id) => {
     let response = await fetch("/rest/auction-items/batch/" + offsetValue+"/"+id)
@@ -72,7 +68,6 @@ const AuctionItemProvider = (props) => {
     auctionItems,
     setPrimaryImgPath,
     setImgPaths,
-    fetchAllAuctionItems,
     fetchAuctionItem,
     fetchItemsInBatch,
     fetchAuctionItemByTitle,

@@ -41,6 +41,17 @@ public class AuctionItem {
     private int minimumBid;
     private int primaryImgIndex;
 
+
+    public boolean isExpired() {
+        return expired;
+    }
+
+    public void setExpired(boolean expired) {
+        this.expired = expired;
+    }
+
+    private boolean expired=false;
+
     @OneToMany(mappedBy = "auctionItem")
     @JsonIgnoreProperties({"auctionItem"})
     private List<Bid> bids = new ArrayList<>();
@@ -51,7 +62,7 @@ public class AuctionItem {
 
    public void updateValues(Bid bid) {
        // Updates next minimum bid
-       this.minimumBid = (int) Math.round(this.bids.get(this.bids.size() - 1).getAmount() * 1.1);
+       this.minimumBid = (int) Math.round(bid.getAmount() * 1.1);
    }
 
 }
