@@ -24,7 +24,6 @@ function ChatBox(props) {
   }
 
   const selectedChat = (room) => {
-    console.log("props.sendTo ", props.sendTo, " room ", room)
     return roomid == room.id
       ? styles.chosen
       : styles.userWrapper;
@@ -48,7 +47,6 @@ function ChatBox(props) {
                 alt=""
                 style={styles.img}
             />
-            <p>{props.sendTo.id} === { room.id}</p>
               <p>Chat with: {getOtherUserName(room)}</p>
             </div>
           ))

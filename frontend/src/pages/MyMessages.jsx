@@ -20,7 +20,6 @@ function MyMessages() {
     messages,
     setMessages,
     getRoomById,
-    chatRooms,
     setChatRooms,
   } = useMessage();
   const [msgToSend, setMsgToSend] = useState("");
@@ -66,7 +65,7 @@ function MyMessages() {
   const getUserChatRooms = async () => {
     let user = await whoAmI();
     if (user && user.chatrooms.length) {
-      setChatRooms(user.chatrooms);
+      setChatRooms(user.chatrooms)
     }
   };
 
@@ -162,6 +161,14 @@ function MyMessages() {
                           />
                         </>
                       ))}
+                    {!roomid && (
+                      <div
+                        className="selectRoomContainer"
+                        style={cosStyles.selectRoomContainer}
+                      >
+                        <h4><i class="bi bi-arrow-left-short"></i> Select chat room </h4>
+                      </div>
+                    )}
                   </MessageList>
                 </ChatContainer>
               </MainContainer>
@@ -187,11 +194,6 @@ function MyMessages() {
                 </div>
               )}
             </>
-            {/* {!isConnected && (
-              <div>
-                <h3>Connecting...</h3>
-              </div>
-            )} */}
           </div>
         </>
       )}
@@ -258,4 +260,10 @@ const cosStyles = {
 
     flexDirection: "row",
   },
+  selectRoomContainer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100%"
+  }
 };
