@@ -87,7 +87,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //User should be logged in to post new auction item
                 //Chat with others?
                 .antMatchers(HttpMethod.GET, "/", "/rest/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/login").permitAll()     // doesn't require login
+                .antMatchers(HttpMethod.GET, "/login").permitAll()
+                .antMatchers("/api/relist/**").permitAll()// doesn't require login
                 .antMatchers("/auth/**").permitAll()     // doesn't require login
                 .antMatchers("/rest/**").authenticated()
                 .and()

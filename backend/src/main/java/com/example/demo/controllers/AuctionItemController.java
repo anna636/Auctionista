@@ -55,6 +55,17 @@ public class AuctionItemController {
 
     }
 
+    @GetMapping("/api/relist/{id}")
+    public ResponseEntity<AuctionItem> relistAuctionItem(@PathVariable long id){
+        AuctionItem item=auctionItemService.relist(id);
+        if(item!=null){
+            return ResponseEntity.ok(item);
+        }
+        else{
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
 
     //Create new auction item
     @PostMapping("/rest/auction-items")
@@ -89,11 +100,14 @@ public class AuctionItemController {
 
     @GetMapping("/api/my-auction-items")
     public ResponseEntity<List<AuctionItem>> getUsersItems(@RequestParam (required = true) String userId,
-                                                           @RequestParam (required = true) String sold
+                                                           @RequestParam (required = true) String sold,
+                                                           @RequestParam(required = true) String expired,
+                                                           @RequestParam(required = true) String orderBy
+
 
     )
     {
-        List<AuctionItem> auctionItems = auctionItemService.getUsersItems(userId, sold);
+        List<AuctionItem> auctionItems = auctionItemService.getUsersItems(userId, sold, expired, orderBy);
         if(auctionItems.size() >0){
             return ResponseEntity.ok(auctionItems);
         }
@@ -101,6 +115,8 @@ public class AuctionItemController {
             return ResponseEntity.noContent().build();
         }
     }
+
+
 
 
 

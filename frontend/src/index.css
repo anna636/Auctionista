@@ -16,6 +16,7 @@ code {
 
 main{
  min-height: 100vh;
+  font-family: Montserrat, sans-serif !important;
 }
 
 .cs-message-input__tools:first-child .cs-button:last-child{
@@ -34,7 +35,7 @@ main{
   height:90% !important;
   border-radius: 10px;
 }
-.quickBid:hover{
+.quickBid:hover, .relistBtn:hover{
   color:white;
   background-color: rgb(226, 89, 55);
 }

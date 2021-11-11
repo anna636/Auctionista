@@ -63,6 +63,26 @@ const AuctionItemProvider = (props) => {
     return response;
   };
 
+  const fetchMyListings = async (userId, sold, expired) => {
+    let response = await fetch("/api/my-auction-items?userId=" + userId + "&sold=" + sold + "&expired=" + expired + "&orderBy=asc")
+    if (response.status == 200) {
+      return await(response.json())
+    }
+    else {
+      return null
+    }
+  }
+
+  const relistItem = async (itemId) => {
+    let response = await fetch("/api/relist/" + itemId);
+    if (response.status == 200) {
+      return await(response.json())
+    }
+    else {
+      return null
+    }
+  }
+
   const values = {
     postNewAuctionItem,
     auctionItems,
@@ -71,7 +91,9 @@ const AuctionItemProvider = (props) => {
     fetchAuctionItem,
     fetchItemsInBatch,
     fetchAuctionItemByTitle,
-    setAuctionItems
+    setAuctionItems,
+    fetchMyListings,
+    relistItem,
   };
 
   return (

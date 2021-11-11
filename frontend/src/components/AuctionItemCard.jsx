@@ -137,7 +137,9 @@ const AuctionItemCard = (props) => {
             </div>
           ) : null}
           <div style={styles.counter}>
-            <Counter dateFrom={props.props.deadline}></Counter>
+            {props.props.expired || props.props.sold ? null : (
+              <Counter dateFrom={props.props.deadline}></Counter>
+            )}
           </div>
         </div>
         <div style={styles.imageContainer}>

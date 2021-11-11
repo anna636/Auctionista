@@ -33,7 +33,17 @@ public interface AuctionItemRepository extends JpaRepository<AuctionItem, Long> 
     List<AuctionItem> customFindAllByTitleIgnoreCase(@Param("title") String title);
 
 
-    @Query(value="SELECT * FROM auction_items WHERE owner_id = :userId", nativeQuery = true)
-    List<AuctionItem> findUsersItems( String userId, @Param("soldY") String soldY) ;
+    @Query(value="SELECT * FROM auction_items WHERE owner_id = :userId AND CASE " +
+            "WHEN :sold=='2' THEN sold==0 OR sold==1 " +
+            "WHEN :sold='1' THEN sold==1 " +
+            "WHEN :sold=='0' THEN sold==0 " +
+            "END " +
+            "AND CASE WHEN :expired=='2' THEN expired==0 OR expired==1 " +
+            "WHEN :expired=='1' THEN expired==1 " +
+            "WHEN :expired=='0' THEN expired==0 " +
+            "END " +
+            "ORDER BY minimum_bid DESC", nativeQuery = true)
+    List<AuctionItem> findUsersItems( String userId, String sold, String expired) ;
 
+    //IIF(:sold=='1', sold==1, sold==0)
 }
