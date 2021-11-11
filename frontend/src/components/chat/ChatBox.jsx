@@ -23,6 +23,13 @@ function ChatBox(props) {
     return tempArray[0].username
   }
 
+  const selectedChat = (room) => {
+    console.log("props.sendTo ", props.sendTo, " room ", room)
+    return roomid == room.id
+      ? styles.chosen
+      : styles.userWrapper;
+  }
+
   return (
     <div className="chatsWrapper" style={styles.chatsWrapper}>
       <div>
@@ -33,7 +40,7 @@ function ChatBox(props) {
             <div
               key={index}
               className="userWrapper"
-              style={props.sendTo === room || roomid === room.id ? styles.chosen : styles.userWrapper}
+              style={selectedChat(room)}
               onClick={() => emitChatRoom(room)}
             >
               <img

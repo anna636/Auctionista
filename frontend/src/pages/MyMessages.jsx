@@ -5,7 +5,6 @@ import {
   MainContainer,
   ChatContainer,
   MessageList,
-  TypingIndicator,
 } from "@chatscope/chat-ui-kit-react";
 import { useMessage } from "../contexts/MessageContext";
 import { UserContext } from "../contexts/UserContext";
