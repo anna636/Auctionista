@@ -26,13 +26,9 @@ function MyMessages() {
   } = useMessage();
   const [msgToSend, setMsgToSend] = useState("");
   const { currentUser, whoAmI } = useContext(UserContext);
-  const [typing, setTyping] = useState(false);
   const [otherUserName, setOtherUserName] = useState("");
-  const { socket, isConnected } = useSocketContext();
+  const { socket } = useSocketContext();
   const [newMessage, setNewMessage] = useState({})
-
-  // If chatRoom isnt defined after clicking box, it's because it's not joining in backend
-  // Try adding leave room
 
   useEffect(() => {
     getUserChatRooms();
@@ -43,6 +39,7 @@ function MyMessages() {
       console.log("Using roomid from params");
       joinRoomFromParams(roomid);
       getMessages();
+      return () => { socket.emit("leave", "" + roomid); console.log('Left room: ', roomid)}
     }
   }, [roomid]);
 
@@ -53,13 +50,24 @@ function MyMessages() {
     }
   }, [newMessage])
 
-  // useEffect(() => {
-  //   if (roomid) {
-  //     console.log("useEffect getMessages");
-  //     getMessages();
-  //   }
-  // }, [chatRoom, roomid]);
-  // messages
+  useEffect(() => {
+    onChat()
+    return () => { socket.off("chat") }
+    }, [messages])
+
+  const onChat = () => {
+        socket.on("chat", function (data) {
+          console.log("Received message", data);
+          let tempObject = {
+            userId: data.userId,
+            message: data.message,
+          };
+          console.log("Messages: ", messages);
+          setMessages([...messages, tempObject]);
+        });
+  }
+
+
 
   const getUserChatRooms = async () => {
     let user = await whoAmI();
@@ -105,7 +113,6 @@ function MyMessages() {
     setNewMessage(data);
 
     setMsgToSend("");
-    setTyping(false);
   }
 
   async function postMessage(data) {
@@ -133,7 +140,6 @@ function MyMessages() {
 
   function getInputValue(text) {
     setMsgToSend(text);
-    setTyping(true);
   }
 
   return (
@@ -164,11 +170,6 @@ function MyMessages() {
                           />
                         </>
                       ))}
-                    {/* {typing && (
-                        <TypingIndicator
-                          content={currentUser.username + " is typing"}
-                        />
-                      )} */}
                   </MessageList>
                 </ChatContainer>
               </MainContainer>

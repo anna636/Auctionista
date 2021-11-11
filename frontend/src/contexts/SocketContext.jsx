@@ -28,15 +28,15 @@ const SocketProvider = (props) => {
       console.log("socket connected");
     });
 
-    socket.on("chat", function (data) {
-      console.log("Received message", data);
-      let tempObject = {
-        userId: data.userId,
-        message: data.message
-      };
-      console.log("Messages: ", messages)
-      setMessages([...messages, tempObject]);
-    });
+    // socket.on("chat", function (data) {
+    //   console.log("Received message", data);
+    //   let tempObject = {
+    //     userId: data.userId,
+    //     message: data.message
+    //   };
+    //   console.log("Messages: ", messages)
+    //   setMessages([...messages, tempObject]);
+    // });
 
     socket.on("join", async function (roomId) {
       setIsConnected(true)
