@@ -36,16 +36,14 @@ function MyMessages() {
 
   useEffect(() => {
     if (roomid) {
-      console.log("Using roomid from params");
       joinRoomFromParams(roomid);
       getMessages();
-      return () => { socket.emit("leave", "" + roomid); console.log('Left room: ', roomid)}
+      return () => { socket.emit("leave", "" + roomid)}
     }
   }, [roomid]);
 
   useEffect(() => {
     if (roomid) {
-      console.log("getting messages")
       getMessages();
     }
   }, [newMessage])
@@ -57,17 +55,14 @@ function MyMessages() {
 
   const onChat = () => {
         socket.on("chat", function (data) {
-          console.log("Received message", data);
+          console.log("Received message", data.message);
           let tempObject = {
             userId: data.userId,
             message: data.message,
           };
-          console.log("Messages: ", messages);
           setMessages([...messages, tempObject]);
         });
   }
-
-
 
   const getUserChatRooms = async () => {
     let user = await whoAmI();
@@ -77,8 +72,6 @@ function MyMessages() {
   };
 
   const joinRoomFromParams = async (id) => {
-    // let room = await getRoomById(id);
-    console.log("Room: ", id);
     joinRoom(id);
     // change so no fetch needed here?
     // setOtherUserName(getOtherUserName(room));
@@ -86,8 +79,8 @@ function MyMessages() {
 
   const getMessages = async () => {
     let room = await getRoomById(roomid);
-    console.log("getMessages");
-    if (room.messages.length) {
+
+    if (room && room.messages.length) {
       let tempArray = [];
       room.messages.map((msg) => tempArray.push(msg));
       setMessages(tempArray);

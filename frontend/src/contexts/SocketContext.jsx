@@ -11,8 +11,7 @@ export const useSocketContext = () => {
 
 const SocketProvider = (props) => {
   const [socket, setSocket] = useState(socket1);
-  const [isConnected, setIsConnected] = useState(false);
-  const { messages, setMessages, setChatRoom, getRoomById } = useMessage();
+  const { setChatRoom, getRoomById } = useMessage();
 
   useEffect(() => {
     connect();
@@ -24,34 +23,20 @@ const SocketProvider = (props) => {
 
   function setEventListeners() {
     socket.on("connect", () => {
-      // setConnected(true);
       console.log("socket connected");
     });
 
-    // socket.on("chat", function (data) {
-    //   console.log("Received message", data);
-    //   let tempObject = {
-    //     userId: data.userId,
-    //     message: data.message
-    //   };
-    //   console.log("Messages: ", messages)
-    //   setMessages([...messages, tempObject]);
-    // });
-
     socket.on("join", async function (roomId) {
-      setIsConnected(true)
       let room = await getRoomById(roomId)
       setChatRoom(room)
-      console.log("In SocketCntx, room set to: ", room);
+      console.log("Joined room: ", roomId);
     });
 
-    socket.on("leave", function (message) {
-      setIsConnected(false)
-      console.log(message);
+    socket.on("leave", function (roomId) {
+      console.log("Left room: ", roomId);
     });
 
     socket.on("disconnect", function () {
-      // setConnected(false);
       console.log("socket disconnected");
     });
 
@@ -62,8 +47,6 @@ const SocketProvider = (props) => {
 
   const values = {
     socket,
-    isConnected,
-    setIsConnected
   };
 
   return (

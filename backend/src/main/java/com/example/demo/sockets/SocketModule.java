@@ -82,7 +82,7 @@ public class SocketModule {
             client.leaveRoom(roomName);
 
             // message room that client disconnected
-            emitToRoom(roomName, "leave", "Client left room: " + roomName);
+            emitToRoom(roomName, "leave", roomName);
         };
     }
 
