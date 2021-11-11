@@ -29,6 +29,7 @@ function MyMessages() {
   const [typing, setTyping] = useState(false);
   const [otherUserName, setOtherUserName] = useState("");
   const { socket, isConnected } = useSocketContext();
+  const [newMessage, setNewMessage] = useState({})
 
   // If chatRoom isnt defined after clicking box, it's because it's not joining in backend
   // Try adding leave room
@@ -44,6 +45,13 @@ function MyMessages() {
       getMessages();
     }
   }, [roomid]);
+
+  useEffect(() => {
+    if (roomid) {
+      console.log("getting messages")
+      getMessages();
+    }
+  }, [newMessage])
 
   // useEffect(() => {
   //   if (roomid) {
@@ -94,6 +102,7 @@ function MyMessages() {
       message: msgToSend,
     };
     postMessage(data);
+    setNewMessage(data);
 
     setMsgToSend("");
     setTyping(false);
