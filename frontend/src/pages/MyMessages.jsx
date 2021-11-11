@@ -15,18 +15,13 @@ import { useSocketContext } from "../contexts/SocketContext";
 function MyMessages() {
   const history = useHistory();
   const { roomid } = useParams();
-  const {
-    chatRoom,
-    messages,
-    setMessages,
-    getRoomById,
-    setChatRooms,
-  } = useMessage();
+  const { chatRoom, messages, setMessages, getRoomById, setChatRooms } =
+    useMessage();
   const [msgToSend, setMsgToSend] = useState("");
   const { currentUser, whoAmI } = useContext(UserContext);
   const [otherUserName, setOtherUserName] = useState("");
   const { socket } = useSocketContext();
-  const [newMessage, setNewMessage] = useState({})
+  const [newMessage, setNewMessage] = useState({});
 
   useEffect(() => {
     getUserChatRooms();
@@ -36,66 +31,83 @@ function MyMessages() {
     if (roomid) {
       joinRoomFromParams(roomid);
       getMessages();
-      return () => { socket.emit("leave", "" + roomid)}
+      return () => {
+        socket.emit("leave", "" + roomid);
+      };
     }
-  }, [roomid]);
+  }, [roomid, newMessage]);
+
+  // useEffect(() => {
+  //   if (roomid) {
+  //     getMessages();
+  //   }
+  // }, [newMessage]);
 
   useEffect(() => {
-    if (roomid) {
-      getMessages();
-    }
-  }, [newMessage])
-
-  useEffect(() => {
-    onChat()
-    return () => { socket.off("chat") }
-    }, [messages])
+    onChat();
+    return () => {
+      socket.off("chat");
+    };
+  }, [messages]);
 
   const onChat = () => {
-        socket.on("chat", function (data) {
-          console.log("Received message", data.message);
-          let tempObject = {
-            userId: data.userId,
-            message: data.message,
-          };
-          setMessages([...messages, tempObject]);
-        });
-  }
+    socket.on("chat", function (data) {
+      console.log("Received message", data.message);
+      let tempObject = {
+        userId: data.userId,
+        message: data.message,
+      };
+      setMessages([...messages, tempObject]);
+    });
+  };
 
   const getUserChatRooms = async () => {
     let user = await whoAmI();
     if (user && user.chatrooms.length) {
-      setChatRooms(user.chatrooms)
+      setChatRooms(user.chatrooms);
     }
   };
 
   const joinRoomFromParams = async (id) => {
-    joinRoom(id);
-    // change so no fetch needed here?
-    // setOtherUserName(getOtherUserName(room));
+    if (id) {
+      await socket.emit("join", "" + id);
+    } else {
+      console.log("Room undefined");
+    }
+
+    // joinRoom(id);
   };
 
   const getMessages = async () => {
-    console.log("From getMessages")
+    console.log("From getMessages");
     let room = await getRoomById(roomid);
-
     if (room && room.messages.length) {
       let tempArray = [];
       room.messages.map((msg) => tempArray.push(msg));
       setMessages(tempArray);
-    }
-    else {
-      console.log("Something went wrong")
+      setOtherUserName(getOtherUserName(room));
+    } else {
+      console.log("Something went wrong");
     }
   };
 
-  async function joinRoom(id) {
-    if (id) {
-      socket.emit("join", "" + id);
-    } else {
-      console.log("Room undefined");
+  const getOtherUserName = (room) => {
+    if (currentUser && room && room.users) {
+      for (let user of room.users) {
+        if (user.id !== currentUser.id) {
+          return user.username;
+        }
+      }
     }
-  }
+  };
+
+  // async function joinRoom(id) {
+  //   if (id) {
+  //     socket.emit("join", "" + id);
+  //   } else {
+  //     console.log("Room undefined");
+  //   }
+  // }
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -122,17 +134,6 @@ function MyMessages() {
     history.push("/my-messages/" + room.id);
   };
 
-  // function getOtherUserName(room) {
-  //   let tempArray = [];
-  //   for (let user of room.users) {
-  //     // currentUser undefined
-  //     if (user.id !== currentUser.id) {
-  //       tempArray.push(user);
-  //     }
-  //   }
-  //   return tempArray[0].username;
-  // }
-
   function getInputValue(text) {
     setMsgToSend(text);
   }
@@ -158,7 +159,7 @@ function MyMessages() {
                       messages.map((msg, i) => (
                         <>
                           <ChatMessage
-                            key={msg + i}
+                            key={i}
                             message={msg}
                             sendTo={chatRoom}
                             otherUser={otherUserName}
@@ -170,7 +171,10 @@ function MyMessages() {
                         className="selectRoomContainer"
                         style={cosStyles.selectRoomContainer}
                       >
-                        <h4><i class="bi bi-arrow-left-short"></i> Select chat room </h4>
+                        <h4>
+                          <i class="bi bi-arrow-left-short"></i> Select chat
+                          room{" "}
+                        </h4>
                       </div>
                     )}
                   </MessageList>
@@ -197,6 +201,9 @@ function MyMessages() {
                   </form>
                 </div>
               )}
+              {!chatRoom && roomid && <div>
+                <p>Waiting to join chatroom (try page reload...)</p>
+              </div> }
             </>
           </div>
         </>
@@ -268,6 +275,6 @@ const cosStyles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    height: "100%"
-  }
+    height: "100%",
+  },
 };

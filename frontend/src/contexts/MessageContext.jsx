@@ -35,7 +35,6 @@ const MessageProvider = (props) => {
       let res = await fetch("/rest/chatroom/" + id);
       if (res.status == 200) {
         let fetchedItem = await res.json();
-        console.log(fetchedItem);
         return fetchedItem;
       }
       else {

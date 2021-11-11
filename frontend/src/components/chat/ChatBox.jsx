@@ -35,9 +35,9 @@ function ChatBox(props) {
         <h2>Room ID: {props.sendTo && props.sendTo.id}</h2>
       </div>
       {chatRooms && chatRooms.length > 0
-        ? chatRooms.map((room, index) => (
+        ? chatRooms.map((room) => (
             <div
-              key={index}
+              key={room.id}
               className="userWrapper"
               style={selectedChat(room)}
               onClick={() => emitChatRoom(room)}
