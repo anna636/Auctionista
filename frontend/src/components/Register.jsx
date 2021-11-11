@@ -1,7 +1,7 @@
-import React from 'react'
+import React from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import styled from "styled-components";
-import { UserContext } from "../contexts/UserContext"
+import { UserContext } from "../contexts/UserContext";
 import { useState, useContext } from "react";
 import { Modal, InputGroup, FormControl } from "react-bootstrap";
 
@@ -10,81 +10,79 @@ const ErrorMessage = styled.span`
   justify-content: center;
   background: red;
   color: white;
-  `
+`;
 
 const SuccessMessage = styled.span`
   display: flex;
   justify-content: center;
   background: green;
   color: white;
-`
+`;
 
 export function Register(props) {
+  function openPopup() {
+    props.func(true);
+  }
 
-    function openPopup() {
-      props.func(true);
-    }
- 
-  
-  const {
-    modal, toggle
-  } = props;
-  const { register , login } = useContext(UserContext)
+  const { modal, toggle } = props;
+  const { register, login } = useContext(UserContext);
 
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmedPassword] = useState('')
-  const [fullName, setFullName] = useState('')
-  const [email, setEmail] = useState('')
-  const [emailError, setEmailError] = useState(false)
-  const [errorMessage, setErrorMessage] = useState(false)
-  const [successMsg, setSuccessMsg] = useState(false)
-  const [passwordError, setpasswordError] = useState(false)
-  const [emailIsTaken, setEmailIsTaken]=useState(false)
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmedPassword] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(false);
+  const [successMsg, setSuccessMsg] = useState(false);
+  const [passwordError, setpasswordError] = useState(false);
+  const [emailIsTaken, setEmailIsTaken] = useState(false);
   async function registerUser(e) {
-    e.preventDefault()
-    if (password === '' || confirmPassword !== password) {
+    e.preventDefault();
+    if (password === "" || confirmPassword !== password) {
       setpasswordError(true);
       return;
-    } else { setpasswordError(false) }
-    if (!email.includes('@')) {
+    } else {
+      setpasswordError(false);
+    }
+    if (!email.includes("@")) {
       setEmailError(true);
       return;
-    } else { setEmailError(false) }
-    if(!username || !fullName) {
+    } else {
+      setEmailError(false);
+    }
+    if (!username || !fullName) {
       setErrorMessage(true);
       return;
-    } else { setErrorMessage(false) }
+    } else {
+      setErrorMessage(false);
+    }
     let user = {
       username: username,
       password: password,
       fullName: fullName,
-      email: email
-    }
+      email: email,
+    };
     let userLogin = {
       email: email,
       password: password,
-    }
-    const response = await register(user)
-   if (response.status === 201) {
-     console.log("new user has been registered");
+    };
+    const response = await register(user);
+    if (response.status === 201) {
+      console.log("new user has been registered");
 
-     let loginRes = await login(userLogin);
-     if (loginRes !== null) {
-       console.log("and logged in successfully!");
-     } else {
-       console.log("smth went wrong when logging in");
-     }
-   }
-   else if (response.status === 400) {
-    console.log("this email is already taken")
-     setEmailIsTaken(true);
-   }
-   else {
+      let loginRes = await login(userLogin);
+      if (loginRes !== null) {
+        console.log("and logged in successfully!");
+      } else {
+        console.log("smth went wrong when logging in");
+      }
+    } else if (response.status === 400) {
+      console.log("this email is already taken");
+      setEmailIsTaken(true);
+    } else {
       console.log("Smth went wrong when registering new user");
-   }
-  
-   
+    }
   }
   return (
     <div>
@@ -161,16 +159,14 @@ export function Register(props) {
           {successMsg && (
             <SuccessMessage>Successfully registered a new user!</SuccessMessage>
           )}
-          {emailIsTaken && (
-            <ErrorMessage>Email is already taken</ErrorMessage>
-          )}
+          {emailIsTaken && <ErrorMessage>Email is already taken</ErrorMessage>}
         </div>
         <Modal.Footer>
-          <button class="btn btn-dark btn-lg" onClick={(e) => registerUser(e)}>
+          <button className="btn btn-dark btn-lg" onClick={(e) => registerUser(e)}>
             Register
           </button>{" "}
         </Modal.Footer>
       </Modal>
     </div>
   );
-};
+}

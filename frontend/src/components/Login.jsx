@@ -93,7 +93,7 @@ export function Login(props) {
 
         <Modal.Footer>
           <div className="loginFooter" style={styles.loginFooter}>
-            <button class="btn btn-dark btn-lg" onClick={(e) => logIn(e)}>
+            <button className="btn btn-dark btn-lg" onClick={(e) => logIn(e)}>
               Login
             </button>{" "}
             <div className="social" style={styles.social}>
