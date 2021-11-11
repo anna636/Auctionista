@@ -71,7 +71,7 @@ public class SocketModule {
             client.joinRoom(roomName);
 
             // message room that client connected
-            emitToRoom(roomName, "join", "Client joined room: " + roomName);
+            emitToRoom(roomName, "join", roomName);
         };
     }
 
@@ -82,7 +82,7 @@ public class SocketModule {
             client.leaveRoom(roomName);
 
             // message room that client disconnected
-            emitToRoom(roomName, "leave", "Client left room: " + roomName);
+            emitToRoom(roomName, "leave", roomName);
         };
     }
 

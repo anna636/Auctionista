@@ -19,7 +19,13 @@ public class ChatRoomService {
     private UserRepository userRepository;
 
     public Optional<ChatRoom> getById(long id) {
-        return chatRoomRepository.findById(id);
+        Optional<ChatRoom> chatroom = chatRoomRepository.findById(id);
+
+        if (chatroom.isPresent()) {
+            return chatRoomRepository.findById(id);
+        } else {
+            return Optional.empty();
+        }
     }
 
     public ChatRoom createChatRoom(ChatRoom chatRoom) {

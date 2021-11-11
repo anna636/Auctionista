@@ -61,9 +61,11 @@ const UserContextProvider = (props) => {
       //setCurrentUser({ ...res });
       console.log("Current user not found", res);
       setCurrentUser(null);
+      return null;
     } else {
       console.log("found current user", res);
       setCurrentUser({ ...res });
+      return res
     }
   };
 

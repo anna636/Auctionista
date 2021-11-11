@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import {
   MainContainer,
   ChatContainer,
   MessageList,
-  TypingIndicator,
 } from "@chatscope/chat-ui-kit-react";
 import { useMessage } from "../contexts/MessageContext";
 import { UserContext } from "../contexts/UserContext";
@@ -15,71 +14,100 @@ import { useSocketContext } from "../contexts/SocketContext";
 
 function MyMessages() {
   const history = useHistory();
-  const { chatRoom, setChatRoom, messages, setMessages } = useMessage();
+  const { roomid } = useParams();
+  const {
+    chatRoom,
+    messages,
+    setMessages,
+    getRoomById,
+    setChatRooms,
+  } = useMessage();
   const [msgToSend, setMsgToSend] = useState("");
-  const { getCurrentUser, currentUser } = useContext(UserContext);
-  const [typing, setTyping] = useState(false);
+  const { currentUser, whoAmI } = useContext(UserContext);
   const [otherUserName, setOtherUserName] = useState("");
   const { socket } = useSocketContext();
-  const [connected, setConnected] = useState(false);
+  const [newMessage, setNewMessage] = useState({})
 
   useEffect(() => {
-    getCurrentUser();
-  }, [chatRoom]);
+    getUserChatRooms();
+  }, []);
 
   useEffect(() => {
-    connect();
-  }, [connected]);
+    if (roomid) {
+      joinRoomFromParams(roomid);
+      getMessages();
+      return () => { socket.emit("leave", "" + roomid)}
+    }
+  }, [roomid]);
 
-  function connect() {
-    setEventListeners();
+  useEffect(() => {
+    if (roomid) {
+      getMessages();
+    }
+  }, [newMessage])
+
+  useEffect(() => {
+    onChat()
+    return () => { socket.off("chat") }
+    }, [messages])
+
+  const onChat = () => {
+        socket.on("chat", function (data) {
+          console.log("Received message", data.message);
+          let tempObject = {
+            userId: data.userId,
+            message: data.message,
+          };
+          setMessages([...messages, tempObject]);
+        });
   }
 
-  function setEventListeners() {
-    socket.on("connect", () => {
-      setConnected(true);
-      console.log("socket connected");
-    });
+  const getUserChatRooms = async () => {
+    let user = await whoAmI();
+    if (user && user.chatrooms.length) {
+      setChatRooms(user.chatrooms)
+    }
+  };
 
-    socket.on("chat", function (data) {
-      console.log("Received message", data);
-      let tempObject = { userId: data.userId, message: data.message };
-      setMessages([...messages, tempObject]);
-    });
+  const joinRoomFromParams = async (id) => {
+    joinRoom(id);
+    // change so no fetch needed here?
+    // setOtherUserName(getOtherUserName(room));
+  };
 
-    // socket.on("join", function (message) {
-    //   setConnected(true);
-    //   console.log(message);
-    // });
+  const getMessages = async () => {
+    console.log("From getMessages")
+    let room = await getRoomById(roomid);
 
-    socket.on("leave", function (message) {
-      console.log(message);
-    });
+    if (room && room.messages.length) {
+      let tempArray = [];
+      room.messages.map((msg) => tempArray.push(msg));
+      setMessages(tempArray);
+    }
+    else {
+      console.log("Something went wrong")
+    }
+  };
 
-    socket.on("disconnect", function () {
-      setConnected(false);
-      console.log("socket disconnected");
-    });
-
-    socket.on("reconnect_attempt", (attempts) => {
-      console.log("Try to reconnect at " + attempts + " attempt(s).");
-    });
+  async function joinRoom(id) {
+    if (id) {
+      socket.emit("join", "" + id);
+    } else {
+      console.log("Room undefined");
+    }
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-
     let data = {
       chatroom: chatRoom,
       userId: currentUser.id + "",
       message: msgToSend,
     };
     postMessage(data);
-
-    console.log("Messages: ", messages);
+    setNewMessage(data);
 
     setMsgToSend("");
-    setTyping(false);
   }
 
   async function postMessage(data) {
@@ -91,39 +119,27 @@ function MyMessages() {
   }
 
   const pullChildData = (room) => {
-    joinRoom(room);
-    history.push("/chat/" + room.id);
-    setOtherUserName(getOtherUserName(room));
+    history.push("/my-messages/" + room.id);
   };
 
-  async function joinRoom(room) {
-    socket.emit("join", "" + room.id);
-    await socket
-      .on("join", function (message) {
-        setConnected(true);
-        setChatRoom(room);
-        console.log(message);
-      })
-  }
-
-  function getOtherUserName(room) {
-    let tempArray = [];
-    for (let user of room.users) {
-      if (user.id !== currentUser.id) {
-        tempArray.push(user);
-      }
-    }
-    return tempArray[0].username;
-  }
+  // function getOtherUserName(room) {
+  //   let tempArray = [];
+  //   for (let user of room.users) {
+  //     // currentUser undefined
+  //     if (user.id !== currentUser.id) {
+  //       tempArray.push(user);
+  //     }
+  //   }
+  //   return tempArray[0].username;
+  // }
 
   function getInputValue(text) {
     setMsgToSend(text);
-    setTyping(true);
   }
 
   return (
     <div className="chatWrapper" style={cosStyles.chatWrapper}>
-      {currentUser && currentUser.chatrooms.length && (
+      {currentUser && currentUser.chatrooms.length > 0 && (
         <>
           <div className="people" style={cosStyles.people}>
             <ChatBox
@@ -133,76 +149,59 @@ function MyMessages() {
           </div>
 
           <div style={{ position: "relative", height: "500px" }}>
-            {connected && (
-              <>
-                <MainContainer>
-                  <ChatContainer>
-                    <MessageList>
-                      <>
-                        {chatRoom.messages && chatRoom.messages.length > 0
-                          ? chatRoom.messages.map((msg, i) => (
-                              <>
-                                <ChatMessage
-                                  key={i}
-                                  message={msg}
-                                  sendTo={chatRoom}
-                                  otherUser={otherUserName}
-                                />
-                              </>
-                            ))
-                          : " "}
-                        {messages &&
-                          messages.length > 0 &&
-                          messages.map((msg, i) => (
-                            <>
-                              <ChatMessage
-                                key={i}
-                                message={msg}
-                                sendTo={chatRoom}
-                                otherUser={otherUserName}
-                              />
-                            </>
-                          ))}
-                        {/* {typing && (
-                        <TypingIndicator
-                          content={currentUser.username + " is typing"}
-                        />
-                      )} */}
-                      </>
-                    </MessageList>
-                  </ChatContainer>
-                </MainContainer>
+            <>
+              <MainContainer>
+                <ChatContainer>
+                  <MessageList>
+                    {messages &&
+                      messages.length > 0 &&
+                      messages.map((msg, i) => (
+                        <>
+                          <ChatMessage
+                            key={i}
+                            message={msg}
+                            sendTo={chatRoom}
+                            otherUser={otherUserName}
+                          />
+                        </>
+                      ))}
+                    {!roomid && (
+                      <div
+                        className="selectRoomContainer"
+                        style={cosStyles.selectRoomContainer}
+                      >
+                        <h4><i class="bi bi-arrow-left-short"></i> Select chat room </h4>
+                      </div>
+                    )}
+                  </MessageList>
+                </ChatContainer>
+              </MainContainer>
 
-                {chatRoom && (
-                  <div style={cosStyles.inputWrapper} className="chatWrapper">
-                    <form
-                      action=""
-                      onSubmit={handleSubmit}
-                      style={cosStyles.form}
-                    >
-                      <input
-                        type="text"
-                        style={cosStyles.input}
-                        onChange={(e) => getInputValue(e.target.value)}
-                        value={msgToSend}
-                        onSubmit={handleSubmit}
-                      />
+              {chatRoom && (
+                <div style={cosStyles.inputWrapper} className="chatWrapper">
+                  <form
+                    action=""
+                    onSubmit={handleSubmit}
+                    style={cosStyles.form}
+                  >
+                    <input
+                      type="text"
+                      style={cosStyles.input}
+                      onChange={(e) => getInputValue(e.target.value)}
+                      value={msgToSend}
+                    />
 
-                      <button style={cosStyles.sendBtn}>Send</button>
-                    </form>
-                  </div>
-                )}
-              </>
-            )}
-            {!connected && (
-              <div>
-                <h3>Connecting...</h3>
-              </div>
-            )}
+                    <button type="submit" style={cosStyles.sendBtn}>
+                      Send
+                    </button>
+                  </form>
+                </div>
+              )}
+            </>
           </div>
         </>
       )}
-      {currentUser && !currentUser.chatrooms && (
+      {currentUser && !currentUser.chatrooms.length && (
         <div>
           <h3>You have no chat messages</h3>
         </div>
@@ -265,4 +264,10 @@ const cosStyles = {
 
     flexDirection: "row",
   },
+  selectRoomContainer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100%"
+  }
 };
