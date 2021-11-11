@@ -31,12 +31,20 @@ const MessageProvider = (props) => {
   };
 
   const getRoomById = async (id) => {
-    let res = await fetch("/rest/chatroom/" + id);
     try {
-      let fetchedItem = await res.json();
-      return fetchedItem;
+      let res = await fetch("/rest/chatroom/" + id);
+      if (res.status == 200) {
+        let fetchedItem = await res.json();
+        console.log(fetchedItem);
+        return fetchedItem;
+      }
+      else {
+        return null
+      }
+
     } catch {
       console.log("No item found");
+      return null
     }
   };
 

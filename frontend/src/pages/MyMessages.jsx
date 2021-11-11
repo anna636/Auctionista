@@ -76,12 +76,16 @@ function MyMessages() {
   };
 
   const getMessages = async () => {
+    console.log("From getMessages")
     let room = await getRoomById(roomid);
 
     if (room && room.messages.length) {
       let tempArray = [];
       room.messages.map((msg) => tempArray.push(msg));
       setMessages(tempArray);
+    }
+    else {
+      console.log("Something went wrong")
     }
   };
 
