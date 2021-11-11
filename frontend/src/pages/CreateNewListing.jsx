@@ -49,23 +49,18 @@ function CreateNewListing() {
   };
 
   async function postNewItem() {
-
-
     if (
       !isNumber(reservationPrice) ||
       !isNumber(startPrice) ||
       title === "" ||
       description === "" ||
-      !reservationPrice > 0 || imgString.split(",")[0]==="" || reservationPrice < 0 || startPrice < 0
-    )
-    {
+      !reservationPrice > 0 ||
+      imgString.split(",")[0] === "" ||
+      reservationPrice < 0 ||
+      startPrice < 0
+    ) {
       setMyProp({ show: true, text: "Invalid data, please try again" });
-  
-      
-   
-    }
-    
-    else {
+    } else {
       const itemToPost = {
         title: title,
         description: description,
@@ -122,7 +117,7 @@ function CreateNewListing() {
               style={styles.input}
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              maxlength="60"
+              maxLength="60"
             />
           </div>
 
@@ -161,7 +156,7 @@ function CreateNewListing() {
               style={styles.textArea}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              maxlength="500"
+              maxLength="500"
             ></textarea>
           </div>
         </div>
@@ -202,7 +197,7 @@ const styles = {
     gridTemplateColumns: "80% 20%",
   },
   coolImg: {
-    width:"100%",
+    width: "100%",
     height: "980px",
   },
 
@@ -212,7 +207,7 @@ const styles = {
     top: "1vh",
     padding: "5vh 5vh 0 1vh",
     color: "white",
-   fontFamily: "Georgia, serif"
+    fontFamily: "Georgia, serif",
   },
   form: {
     width: "100%",

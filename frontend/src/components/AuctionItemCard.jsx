@@ -96,19 +96,19 @@ const AuctionItemCard = (props) => {
             <p>
               Current price:
               <strong>{item.bids[item.bids.length - 1].amount}</strong>{" "}
-              <i class="bi bi-currency-bitcoin"></i>
+              <i className="bi bi-currency-bitcoin"></i>
             </p>
           ) : (
             <p>
               Current price: <strong>{item.startPrice}</strong>{" "}
-              <i class="bi bi-currency-bitcoin"></i>
+              <i className="bi bi-currency-bitcoin"></i>
             </p>
           )}
           <p>
             Minimum bid:{" "}
             <strong>
               {item.minimumBid}
-              <i class="bi bi-currency-bitcoin"></i>{" "}
+              <i className="bi bi-currency-bitcoin"></i>{" "}
             </strong>
           </p>
           {location.pathname === "/" && getCurrentUser() && item.owner ? (

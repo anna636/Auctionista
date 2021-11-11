@@ -1,32 +1,27 @@
-
 const CustomModal = (prop) => {
-
   let styleType = () => {
     if (prop.prop.show) {
       if (prop.prop.colour === "green") {
-         return styles.showGreen;
+        return styles.showGreen;
       }
       if (prop.prop.colour === "red") {
-         return styles.showRed;
+        return styles.showRed;
       }
-        return styles.show;
+      return styles.show;
+    } else if (!prop.prop.show) {
+      return styles.hide;
     }
-    else if (!prop.prop.show) { return styles.hide }
-  }
-  
+  };
+
   function close() {
-     prop.func(false);
+    prop.func(false);
   }
- 
+
   return (
-    <div
-      style={styleType()}
-      className="customModal"
-      
-    >
+    <div style={styleType()} className="customModal">
       <div className="closeModal" style={styles.closeModal}>
         <p>
-        <i class="bi bi-x-square" color="white" onClick={close}></i>
+          <i className="bi bi-x-square" color="white" onClick={close}></i>
         </p>
       </div>
       <div className="mainInfo" style={styles.mainInfo}>
@@ -38,9 +33,9 @@ const CustomModal = (prop) => {
       </div>
     </div>
   );
-}
+};
 
-export default CustomModal
+export default CustomModal;
 
 const styles = {
   hide: {

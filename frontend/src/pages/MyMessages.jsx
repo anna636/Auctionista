@@ -158,7 +158,7 @@ function MyMessages() {
                       messages.map((msg, i) => (
                         <>
                           <ChatMessage
-                            key={i}
+                            key={msg + i}
                             message={msg}
                             sendTo={chatRoom}
                             otherUser={otherUserName}
