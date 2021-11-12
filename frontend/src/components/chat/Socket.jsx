@@ -27,29 +27,31 @@ function Socket() {
 
   return (
     <>
-      {getCurrentUser() !== null ?
+      {getCurrentUser() !== null ? (
         <SockJsClient
-        url="http://localhost:4000/chat"
-        topics={["/topic/messages/"+getCurrentUser().username]}
-        onConnect={() => {
-          console.log("connected");
-        }}
-        onDisconnect={() => {
-          console.log("Disconnected");
-        }}
-        onMessage={(msg) => {
-          setMessages([...messages, msg]);
-          if (!chatsWith.includes(msg.fromLogin)) {
-            setChatsWith([msg.fromLogin, ...chatsWith])
-          }
-          console.log(msg);
-         
-        }}
-        ref={(client) => {
-          clientRef = client;
-        }}
-      />: null}
-      
+          url="http://localhost:4000/chat"
+          topics={[
+            "/topic/messages/" + getCurrentUser().username,
+            "/topic/notifications",
+          ]}
+          onConnect={() => {
+            console.log("connected");
+          }}
+          onDisconnect={() => {
+            console.log("Disconnected");
+          }}
+          onMessage={(msg) => {
+            setMessages([...messages, msg]);
+            if (!chatsWith.includes(msg.fromLogin)) {
+              setChatsWith([msg.fromLogin, ...chatsWith]);
+            }
+            console.log(msg);
+          }}
+          ref={(client) => {
+            clientRef = client;
+          }}
+        />
+      ) : null}
     </>
   );
 }

@@ -1,10 +1,13 @@
 package com.example.demo.controllers;
 
+import com.example.demo.models.MessageModel;
 import com.example.demo.services.MessageService;
 import com.example.demo.sockets.ChatMessage;
 import com.example.demo.sockets.SocketModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,6 +33,20 @@ public class MessageController {
         else {
             return ResponseEntity.badRequest().build();
         }
+    }
+
+
+    @MessageMapping("/chat")
+    @SendTo("/topic/notifications")
+    public MessageModel updateItems(MessageModel message) {
+
+        System.out.println("recieveing msg for all");
+        // simpMessagingTemplate.convertAndSend("/topic/messages", message);
+
+        //Check if user reviecing message exists and send it then
+
+
+        return message;
     }
 }
 
