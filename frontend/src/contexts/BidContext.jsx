@@ -17,9 +17,8 @@ const BidProvider = (props) => {
   const fetchBidsByUserId = async (userId) => {
     try {
       let res = await fetch("/rest/bids/user-id/" + userId);
-      if (res.status == 200) {
+      if (res.status === 200) {
         let bids = await res.json()
-        console.log(bids)
         return bids
       }
       else {
@@ -33,7 +32,7 @@ const BidProvider = (props) => {
   const fetchAllBids = async () => {
     try {
       let response = await fetch("/rest/bids");
-      if (response.status == 200) {
+      if (response.status === 200) {
         setBids(await response.json());
       } else {
         console.log("Fetching bids failed");
