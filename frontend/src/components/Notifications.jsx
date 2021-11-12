@@ -17,7 +17,9 @@ function Notifications() {
 
   const checkForWonItems = async () => {
     console.log("Checking for won items");
-    await getAndSortBidsAndItems();
+    let auctionItems = await getAndSortBidsAndItems();
+
+    // ***CONTINUE with logic on how an item is won by user, deadline check, reservationPrice check
   };
 
   const getAndSortBidsAndItems = async () => {
@@ -25,19 +27,15 @@ function Notifications() {
     console.log(bids);
     if (bids && bids.length) {
       let auctionItemsWithDuplicates = []
-      // let auctionItemsWithDuplicatesIDs = []
       for (let bid of bids) {
         // CHANGE FALSE TO TRUE AFTER TESTING *************
         if (bid.auctionItem.sold === false)
         {
           auctionItemsWithDuplicates.push(bid.auctionItem)
-          // auctionItemsWithDuplicatesIDs.push(bid.auctionItem.id)
         }
-      }
-      
+      }     
       let auctionItems = removeDuplicates(auctionItemsWithDuplicates)
-
-
+      return auctionItems
     }
 
   };
