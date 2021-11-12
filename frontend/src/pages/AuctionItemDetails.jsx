@@ -76,9 +76,9 @@ function AuctionItemDetails() {
   };
 
   async function placeBid(bool) {
-    toggleShowPayment();
+    // toggleShowPayment();
 
-    if (bool) {
+   // if (bool) {
       if (currentUser === null || currentUser === undefined) {
         setMyProp({
           show: true,
@@ -114,7 +114,7 @@ function AuctionItemDetails() {
       } else {
         console.log("Bid too low");
       }
-    }
+   // }
   }
 
   function checkBid() {
@@ -220,7 +220,8 @@ function AuctionItemDetails() {
                       <Button
                         variant="success"
                         className="mt-2"
-                        onClick={toggleShowPayment}
+                        // onClick={toggleShowPayment}
+                        onClick = {placeBid}
                       >
                         Place bid
                       </Button>
@@ -266,12 +267,12 @@ function AuctionItemDetails() {
             </Col>
           </Row>
           <CustomModal prop={myProp} func={pull_data} />
-          <PaymentModal
+          {/* <PaymentModal
             toggle={toggleShowPayment}
             modal={showPayment}
             payment={bid}
             func={placeBid}
-          />
+          /> */}
         </Container>
       )}
     </div>

@@ -12,6 +12,7 @@ export const useSocketContext = () => {
 const SocketProvider = (props) => {
   const [socket, setSocket] = useState(socket1);
   const { setChatRoom, getRoomById } = useMessage();
+  const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
     connect();
@@ -23,7 +24,9 @@ const SocketProvider = (props) => {
 
   function setEventListeners() {
     socket.on("connect", () => {
+      setIsConnected(true);
       console.log("socket connected");
+      // check if currentuser, function for fetching bids to see if won
     });
 
     socket.on("join", async function (roomId) {
@@ -37,6 +40,7 @@ const SocketProvider = (props) => {
     });
 
     socket.on("disconnect", function () {
+      setIsConnected(false);
       console.log("socket disconnected");
     });
 
@@ -47,6 +51,7 @@ const SocketProvider = (props) => {
 
   const values = {
     socket,
+    isConnected,
   };
 
   return (

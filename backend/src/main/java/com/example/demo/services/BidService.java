@@ -8,6 +8,7 @@ import com.example.demo.repositories.BidRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,8 +31,6 @@ public class BidService {
         return bidRepository.findById(id);
     }
 
-
-
     public Bid saveBid(Bid bid){
 
         try{
@@ -52,5 +51,15 @@ public class BidService {
             return null;
         }
 
+    }
+
+    public List<Bid> getBidsByUserId(String userId) {
+        try {
+            List<Bid> bids = bidRepository.getBidsByUserId(userId);
+            return bids;
+        } catch(Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

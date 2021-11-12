@@ -88,13 +88,13 @@ public class SocketModule {
 
     private ConnectListener onConnected() {
         return client -> {
-            System.out.printf("Client[%s] - Connected to chat module.\n", client.getSessionId().toString());
+            System.out.printf("Client[%s] - Connected to module.\n", client.getSessionId().toString());
         };
     }
 
     private DisconnectListener onDisconnected() {
         return client -> {
-            System.out.printf("Client[%s] - Disconnected from chat module.\n", client.getSessionId().toString());
+            System.out.printf("Client[%s] - Disconnected from module.\n", client.getSessionId().toString());
         };
     }
 

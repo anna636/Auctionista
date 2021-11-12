@@ -12,10 +12,6 @@ const MessageProvider = (props) => {
   const [chatRoom, setChatRoom] = useState("");
   const [chatRooms, setChatRooms] = useState([]);
 
-  function updateMessages(newList) {
-    setMessages(newList);
-  }
-
   const createNewRoom = async (roomInfo) => {
     try {
       let response = await fetch("/rest/chatroom", {
@@ -50,7 +46,6 @@ const MessageProvider = (props) => {
   const values = {
     messages,
     setMessages,
-    updateMessages,
     chatRoom,
     setChatRoom,
     chatRooms,

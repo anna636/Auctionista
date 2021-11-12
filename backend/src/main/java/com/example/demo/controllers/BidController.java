@@ -45,6 +45,18 @@ public class BidController {
 
     }
 
+    @GetMapping("/bids/user-id/{userid}")
+    public ResponseEntity<List<Bid>> getBidsByUserId(@PathVariable long userid) {
+        List<Bid> bids = bidService.getBidsByUserId(String.valueOf(userid));
+        if(bids != null){
+            return ResponseEntity.ok(bids);
+        }
+        else{
+            return ResponseEntity.noContent().build();
+        }
+
+    }
+
     @PostMapping("/bids")
     public ResponseEntity<Bid> createBid(@RequestBody Bid bid) {
         Bid savedBid = bidService.saveBid(bid);
