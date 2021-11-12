@@ -10,6 +10,7 @@ import { useBidContext } from "../contexts/BidContext";
 
 import BootstrapModal from "./BootstrapModal";
 import PaymentModal from "./PaymentModal";
+import {updateItem} from "./chat/Socket"
 
 
 const AuctionItemCard = (props) => {
@@ -60,14 +61,15 @@ const AuctionItemCard = (props) => {
           auctionItem: item,
         };
 
-        let res = await postNewBid(bidToPost);
+       // let res = await postNewBid(bidToPost);
+        await updateItem("helo from updating item!")
 
-        if (!res.error) {
+       /*  if (!res.error) {
           setModalText("You placed bid worth of " + bidToPost.amount + " ₿");
         updateItem(item.id)
           toggleModal();
          
-        }
+        } */
       
       }
     }

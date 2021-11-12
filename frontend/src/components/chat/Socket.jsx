@@ -19,6 +19,11 @@ export const sendMessage = async (sendToUsername, msg) => {
 
 };
 
+
+export const updateItem = async (msg) => {
+  await clientRef.sendMessage("/app/chat", msg);
+};
+
 function Socket() {
 
   const { getCurrentUser, logout } = useContext(UserContext);

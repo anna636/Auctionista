@@ -38,15 +38,15 @@ public class MessageController {
 
     @MessageMapping("/chat")
     @SendTo("/topic/notifications")
-    public MessageModel updateItems(MessageModel message) {
+    public String updateItems(String msg) {
 
-        System.out.println("recieveing msg for all");
+        System.out.println("recieveing msg for all" + msg);
         // simpMessagingTemplate.convertAndSend("/topic/messages", message);
 
         //Check if user reviecing message exists and send it then
 
 
-        return message;
+        return msg;
     }
 }
 
