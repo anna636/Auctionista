@@ -182,20 +182,20 @@ function AuctionItemDetails() {
                     ? auctionItem.bids[auctionItem.bids.length - 1].amount
                     : auctionItem.startPrice}{" "}
                   <span>
-                    <i class="bi bi-currency-bitcoin"></i>{" "}
+                    <i className="bi bi-currency-bitcoin"></i>{" "}
                   </span>
                 </Card.Title>
                 {!checkUser() && (
                   <Card.Body>
                     <p className="text-success">
                       This is your auction item{" "}
-                      <i class="bi bi-emoji-smile"></i>
+                      <i className="bi bi-emoji-smile"></i>
                     </p>
                   </Card.Body>
                 )}
                 {checkUser() && (
                   <Card.Body>
-                    <Form className="mx-5">
+                    <Form className="mx-5" onSubmit={placeBid}>
                       <OverlayTrigger
                         placement="top"
                         overlay={
@@ -203,12 +203,13 @@ function AuctionItemDetails() {
                             The minimum bid that can be placed is:{" "}
                             <strong>{auctionItem.minimumBid}</strong>{" "}
                             <span>
-                              <i class="bi bi-currency-bitcoin"></i>{" "}
+                              <i className="bi bi-currency-bitcoin"></i>{" "}
                             </span>
                           </Tooltip>
                         }
                       >
                         <Form.Control
+                          required
                           size="sm"
                           type="number"
                           max="1000000"
@@ -218,10 +219,10 @@ function AuctionItemDetails() {
                         ></Form.Control>
                       </OverlayTrigger>
                       <Button
+                        type="submit"
                         variant="success"
                         className="mt-2"
                         // onClick={toggleShowPayment}
-                        onClick = {placeBid}
                       >
                         Place bid
                       </Button>
@@ -230,7 +231,7 @@ function AuctionItemDetails() {
                       <div style={{ color: "green" }} className="mt-2">
                         <strong> Your bid: {highestBid} </strong>
                         <span>
-                          <i class="bi bi-currency-bitcoin"></i>{" "}
+                          <i className="bi bi-currency-bitcoin"></i>{" "}
                         </span>
                       </div>
                     )}
