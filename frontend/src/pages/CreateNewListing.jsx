@@ -69,6 +69,7 @@ function CreateNewListing() {
         deadline: addDays(new Date(), 3),
         images: imgString,
         primaryImgIndex: indexOfPrimaryImg,
+        notificationSeen: false,
         sold: false,
         minimumBid: Math.round((110 / 100) * startPrice),
         owner: {

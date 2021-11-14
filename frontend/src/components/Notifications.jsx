@@ -1,14 +1,20 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useSocketContext } from "../contexts/SocketContext";
 import { UserContext } from "../contexts/UserContext";
 import { useBidContext } from "../contexts/BidContext";
 import { useAuctionItem } from "../contexts/AuctionItemContext";
+import CustomModal from "../components/CustomModal";
+import Confetti from "react-confetti";
 
 function Notifications() {
   const { currentUser } = useContext(UserContext);
   const { isConnected } = useSocketContext();
   const { fetchBidsByUserId } = useBidContext();
   const { updateAuctionItem } = useAuctionItem();
+  const [myProp, setMyProp] = useState({});
+    const [wonItem, setWonItem] = useState(false);
+
+
 
   useEffect(() => {
     console.log(isConnected);
@@ -33,7 +39,7 @@ function Notifications() {
       }
       let noDuplicates = removeDuplicates(auctionItemsWithDuplicates);
       let checkedDeadline = checkDeadline(noDuplicates);
-      let checkedReservationPrice = checkReservationPrice(checkedDeadline);
+      let checkedReservationPrice = checkReservationPriceAndSetSold(checkedDeadline);
 
       return checkedReservationPrice;
     }
@@ -56,7 +62,7 @@ function Notifications() {
     return deadlineReachedAuctionItems;
   }
 
-  async function checkReservationPrice(auctionItems) {
+  async function checkReservationPriceAndSetSold(auctionItems) {
     let reservationPriceReached = [];
 
     if (auctionItems && auctionItems.length) {
@@ -95,9 +101,35 @@ function Notifications() {
     return cleanArray;
   }
 
+  
+  function openModal() {
+    setMyProp({
+      show: true,
+      colour: "green",
+      header: "Congratulations!!",
+      text: "You have won the following auction: ",
+    });
+    setWonItem(true);
+  }
+
+   const pull_data = (data) => {
+   
+     setMyProp({
+       show: false,
+     });
+     setWonItem(false);
+   
+   };
+
   return (
     <div style={styles.box}>
-      <h2>This is a notification</h2>
+      <button onClick={openModal}>won</button>
+      {wonItem && (
+        <div className="wonContainer">
+          <CustomModal prop={myProp} func={pull_data} />
+          <Confetti opacity="0.7" numberOfPieces="700" recycle={false} />
+        </div>
+      )}{" "}
     </div>
   );
 }
@@ -107,10 +139,6 @@ export default Notifications;
 const styles = {
   box: {
     position: "absolute",
-    backgroundColor: "black",
-    color: "white",
-    height: "10rem",
-    width: "20rem",
   },
 
   // add display none

@@ -8,7 +8,6 @@ import { Register } from "../components/Register";
 import { Link } from "react-router-dom";
 import Search from "./search/Search";
 import CustomModal from "./CustomModal";
-import Confetti from "react-confetti";
 
 function Navbar() {
   const { getCurrentUser, logout } = useContext(UserContext);
@@ -18,7 +17,6 @@ function Navbar() {
   const toggleLogin = () => setLogin(!login);
   const toggleRegister = () => setRegister(!register);
   const [myProp, setMyProp] = useState({});
-  const [wonItem, setWonItem] = useState(false);
 
   const pull_data = (data) => {
     console.log(data);
@@ -26,25 +24,10 @@ function Navbar() {
     setMyProp({
       show: false,
     })
-    setWonItem(false)
     setTimeout(function () {
       setShowPopup(false);
     }, 4000);
   };
-
- 
-
-  function openModal() {
-      setMyProp({
-        show: true,
-        colour: "green",
-        header: "Congratulations!!",
-        text: "You have won the following auction: ",
-      })
-        setWonItem(true)
-    
-
-  }
 
 
   useEffect(() => {
@@ -150,11 +133,7 @@ function Navbar() {
       >
         <p>Logged in</p>
       </div>
-        <button onClick={openModal}>won</button>
-      { wonItem && <div className="wonContainer">
-        <CustomModal prop={myProp} func={pull_data} />
-        <Confetti opacity="0.7" numberOfPieces="700" recycle={false} />
-      </div>}
+      
     </nav>
   );
 }

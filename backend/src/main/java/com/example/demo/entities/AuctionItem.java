@@ -42,6 +42,7 @@ public class AuctionItem {
     private int startPrice;
     private int minimumBid;
     private int primaryImgIndex;
+    private boolean notificationSeen;
 
 
     public boolean isExpired() {
