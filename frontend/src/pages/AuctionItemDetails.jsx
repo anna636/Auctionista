@@ -21,12 +21,13 @@ import CustomModal from "../components/CustomModal";
 import { useMessage } from "../contexts/MessageContext";
 
 import PaymentModal from "../components/PaymentModal";
+import { sendNotification } from "../components/chat/Socket";
 
 function AuctionItemDetails() {
   const { id } = useParams();
   const history = useHistory();
-  const { fetchAuctionItem } = useAuctionItem();
-  const [auctionItem, setAuctionItem] = useState();
+  const { fetchAuctionItem, fetchedItem, fetchAuctionItem1 } = useAuctionItem();
+  //const [auctionItem, setAuctionItem] = useState();
   const { postNewBid } = useBidContext();
   const [bid, setBid] = useState("");
   const { currentUser, whoAmI } = useContext(UserContext);
@@ -39,24 +40,23 @@ function AuctionItemDetails() {
 
   useEffect(() => {
     getAuctionItem(id);
-  }, [id, highestBid]);
+  }, []);
 
   const toggleShowPayment = () => {
     setShowPayemtn(!showPayment);
   };
 
   const getAuctionItem = async (auctionItemId) => {
-    let fetchedItem = await fetchAuctionItem(auctionItemId);
-    setAuctionItem(fetchedItem);
+   //let fetchedItem1 = await fetchAuctionItem1(auctionItemId);
     orderImages(fetchedItem);
   };
 
   function orderImages(auctionItem) {
-    const origImageArray = auctionItem.images.split(",");
+    const origImageArray = fetchedItem.images.split(",");
     const imageArrayInOrder = [];
 
-    imageArrayInOrder.push(origImageArray[auctionItem.primaryImgIndex]);
-    origImageArray.splice(auctionItem.primaryImgIndex, 1);
+    imageArrayInOrder.push(origImageArray[fetchedItem.primaryImgIndex]);
+    origImageArray.splice(fetchedItem.primaryImgIndex, 1);
 
     if (origImageArray.length) {
       for (let image of origImageArray) {
@@ -69,7 +69,7 @@ function AuctionItemDetails() {
 
   const checkUser = () => {
     if (currentUser) {
-      return currentUser.id === auctionItem.owner.id ? false : true;
+      return currentUser.id === fetchedItem.owner.id ? false : true;
     } else {
       return true;
     }
@@ -92,7 +92,7 @@ function AuctionItemDetails() {
           amount: parseInt(bid),
           time: new Date(),
           user_id: currentUser.id.toString(),
-          auctionItem: auctionItem,
+          auctionItem: fetchedItem,
         };
 
         let res = await postNewBid(newBid);
@@ -104,6 +104,12 @@ function AuctionItemDetails() {
             text: "Bid placed!",
           });
           setBid("");
+           let notif = {
+             fromLogin: currentUser.email,
+             message: fetchedItem.id,
+             type: "notification",
+           };
+           sendNotification(notif);
         } else {
           setMyProp({
             show: true,
@@ -118,7 +124,7 @@ function AuctionItemDetails() {
   }
 
   function checkBid() {
-    return bid >= auctionItem.minimumBid ? true : false;
+    return bid >= fetchedItem.minimumBid ? true : false;
   }
 
   const pull_data = (data) => {
@@ -143,8 +149,8 @@ function AuctionItemDetails() {
     if (currentUser.chatrooms.length > 0) {
       for (let room of currentUser.chatrooms) {
         for (let user of room.users) {
-          if (user.id === auctionItem.owner.id) {
-            existingRoom = room
+          if (user.id === fetchedItem.owner.id) {
+            existingRoom = room;
           }
         }
       }
@@ -154,23 +160,23 @@ function AuctionItemDetails() {
 
   return (
     <div style={styles.mainPage}>
-      {!auctionItem && (
+      {!fetchedItem && (
         <Spinner animation="border" role="status" className="mt-5">
           <span className="visually-hidden">Loading...</span>
         </Spinner>
       )}
-      {auctionItem && (
+      {fetchedItem && (
         <Container className="p-5" fluid>
           <Row>
             <Col>
-              <h2>{auctionItem.title}</h2>
-              <p>{auctionItem.description}</p>
+              <h2>{fetchedItem.title}</h2>
+              <p>{fetchedItem.description}</p>
               <Card>
                 <Card.Title className="mt-3">
                   Current price:{" "}
-                  {auctionItem.bids.length
-                    ? auctionItem.bids[auctionItem.bids.length - 1].amount
-                    : auctionItem.startPrice}{" "}
+                  {fetchedItem.bids.length
+                    ? fetchedItem.bids[fetchedItem.bids.length - 1].amount
+                    : fetchedItem.startPrice}{" "}
                   <span>
                     <i class="bi bi-currency-bitcoin"></i>{" "}
                   </span>
@@ -191,7 +197,7 @@ function AuctionItemDetails() {
                         overlay={
                           <Tooltip id="tooltip-top">
                             The minimum bid that can be placed is:{" "}
-                            <strong>{auctionItem.minimumBid}</strong>{" "}
+                            <strong>{fetchedItem.minimumBid}</strong>{" "}
                             <span>
                               <i class="bi bi-currency-bitcoin"></i>{" "}
                             </span>
@@ -202,7 +208,7 @@ function AuctionItemDetails() {
                           size="sm"
                           type="number"
                           max="1000000"
-                          min={auctionItem.minimumBid}
+                          min={fetchedItem.minimumBid}
                           value={bid}
                           onChange={(e) => setBid(e.target.value)}
                         ></Form.Control>
@@ -226,7 +232,7 @@ function AuctionItemDetails() {
                   </Card.Body>
                 )}
                 <Card.Footer>
-                  <Counter dateFrom={auctionItem.deadline}></Counter>
+                  <Counter dateFrom={fetchedItem.deadline}></Counter>
                 </Card.Footer>
               </Card>
             </Col>

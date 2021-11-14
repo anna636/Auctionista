@@ -37,13 +37,26 @@ const AuctionItemProvider = (props) => {
   const fetchAuctionItem = async (id) => {
     let res = await fetch("/rest/auction-items/" + id);
     try {
-      let myFetchedItem = await res.json();
-      setFetchedItem(myFetchedItem)
+      let fetchedItem = await res.json();
+      
       return fetchedItem;
     } catch {
       console.log("No item found");
     }
   };
+
+  
+   const fetchAuctionItem1 = async (id) => {
+     let res = await fetch("/rest/auction-items/" + id);
+     try {
+       let myFetchedItem = await res.json();
+       setFetchedItem(myFetchedItem);
+       console.log(myFetchedItem);
+       return fetchedItem;
+     } catch {
+       console.log("No item found");
+     }
+   };
 
   const fetchAuctionItemByTitle = async (userInput) => {
     let res = await fetch("/api/auction-items/search?title=" + userInput);
@@ -100,6 +113,7 @@ const AuctionItemProvider = (props) => {
     setItemIdToUdate,
     fetchedItem,
     setFetchedItem,
+    fetchAuctionItem1,
   };
 
   return (

@@ -27,7 +27,7 @@ function Socket() {
   const { getCurrentUser, logout } = useContext(UserContext);
   
   const { messages, setMessages } = useMessage();
-  const { setItemIdToUdate, fetchAuctionItem } = useAuctionItem();
+  const { setItemIdToUdate, fetchAuctionItem1 } = useAuctionItem();
 
   return (
     <>
@@ -49,7 +49,7 @@ function Socket() {
               console.log("got notification ")
               setItemIdToUdate(msg.message)
               if (window.location.pathname === "/details/" + msg.message) {
-                await fetchAuctionItem(msg.message)
+                await fetchAuctionItem1(msg.message)
               }
             }
             else {
