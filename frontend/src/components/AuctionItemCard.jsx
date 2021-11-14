@@ -36,6 +36,11 @@ const AuctionItemCard = (props) => {
  
   }
 
+  async function sendNotif() {
+    
+    let response = await fetch("/api/bid-notifs/" + item.id);
+    
+  }
 
    const toggleModal = () => {
      setShow(!show);
@@ -66,6 +71,7 @@ const AuctionItemCard = (props) => {
           setModalText("You placed bid worth of " + bidToPost.amount + " ₿");
         updateItem(item.id)
           toggleModal();
+          sendNotif()
          
         }
       

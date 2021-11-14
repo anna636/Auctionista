@@ -36,6 +36,7 @@ public class SocketModule {
         // add custom message event listeners (ChatMessage gets stringified/parsed automatically)
         server.addEventListener("chat", ChatMessage.class, onChatReceived());
 
+
         // add room support (the data is the room name)
         server.addEventListener("join", String.class, onJoinRoom());
         server.addEventListener("leave", String.class, onLeaveRoom());
@@ -58,6 +59,16 @@ public class SocketModule {
     private DataListener<ChatMessage> onChatReceived() {
         return (client, data, ackSender) -> {
             System.out.printf("Client[%s] - Received chat message '%s'\n", client.getSessionId().toString(), data);
+
+            // send message to all connected clients
+            emit("chat", data);
+        };
+    }
+
+
+    private DataListener<String> onNotifReceived() {
+        return (client, data, ackSender) -> {
+            System.out.printf("Client[%s] - Received chat message '%s'\n");
 
             // send message to all connected clients
             emit("chat", data);

@@ -5,10 +5,7 @@ import com.example.demo.sockets.ChatMessage;
 import com.example.demo.sockets.SocketModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class MessageController {
@@ -30,6 +27,14 @@ public class MessageController {
         else {
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    @GetMapping("/api/bid-notifs/{id}")
+    public String updateItem(@PathVariable long id) {
+        socketModule.emit("updateItem", id);
+        System.out.println("Got notification about updating bid");
+        return "updating item with id "+ id;
+
     }
 }
 
