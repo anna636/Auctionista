@@ -14,10 +14,12 @@ export const sendMessage = async (sendToEmail, msg) => {
     JSON.stringify(msg)
     
   );
-  
-
 
 };
+
+export const sendNotification = async (itemIdToUdate) => {
+  await clientRef.sendMessage("/app/chat")
+}
 
 function Socket() {
 
@@ -27,27 +29,29 @@ function Socket() {
 
   return (
     <>
-      {getCurrentUser() !== null ?
+      {getCurrentUser() !== null ? (
         <SockJsClient
-        url="http://localhost:4000/chat"
-        topics={["/topic/messages/"+getCurrentUser().email]}
-        onConnect={() => {
-          console.log("connected");
-        }}
-        onDisconnect={() => {
-          console.log("Disconnected");
-        }}
-        onMessage={(msg) => {
-          setMessages([...messages, msg]);
-         
-          console.log(msg);
-         
-        }}
-        ref={(client) => {
-          clientRef = client;
-        }}
-      />: null}
-      
+          url="http://localhost:4000/chat"
+          topics={[
+            "/topic/messages/" + getCurrentUser().email,
+            "/topic/notifs/update",
+          ]}
+          onConnect={() => {
+            console.log("connected");
+          }}
+          onDisconnect={() => {
+            console.log("Disconnected");
+          }}
+          onMessage={(msg) => {
+            setMessages([...messages, msg]);
+
+            console.log(msg);
+          }}
+          ref={(client) => {
+            clientRef = client;
+          }}
+        />
+      ) : null}
     </>
   );
 }
