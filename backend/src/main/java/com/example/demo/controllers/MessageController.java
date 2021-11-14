@@ -2,6 +2,7 @@ package com.example.demo.controllers;
 
 import com.example.demo.services.MessageService;
 import com.example.demo.sockets.ChatMessage;
+import com.example.demo.sockets.Notification;
 import com.example.demo.sockets.SocketModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,11 +30,11 @@ public class MessageController {
         }
     }
 
-    @GetMapping("/api/bid-notifs/{id}")
-    public String updateItem(@PathVariable long id) {
-        socketModule.emit("updateItem", id);
+    @PostMapping("/api/bid-notifs")
+    public Notification updateItem(@RequestBody Notification notif) {
+        socketModule.emit("notifications", notif);
         System.out.println("Got notification about updating bid");
-        return "updating item with id "+ id;
+        return notif;
 
     }
 }

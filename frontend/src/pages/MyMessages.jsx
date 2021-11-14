@@ -51,13 +51,13 @@ function MyMessages() {
   }, [messages]);
 
   const onChat = () => {
-    socket.on("chat", function (data) {
-      console.log("Received message", data.message);
-      let tempObject = {
+    socket.on("notifications", function (data) {
+      console.log("Received message", data.notification);
+      /* let tempObject = {
         userId: data.userId,
         message: data.message,
       };
-      setMessages([...messages, tempObject]);
+      setMessages([...messages, tempObject]); */
     });
   };
 

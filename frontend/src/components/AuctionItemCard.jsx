@@ -37,8 +37,15 @@ const AuctionItemCard = (props) => {
   }
 
   async function sendNotif() {
-    
-    let response = await fetch("/api/bid-notifs/" + item.id);
+    let toSend = {
+      notification:"heloooo"
+    }
+
+    let response = await fetch("/api/bid-notifs", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(toSend),
+    });
     
   }
 
