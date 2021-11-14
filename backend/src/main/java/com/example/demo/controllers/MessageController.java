@@ -37,7 +37,7 @@ public class MessageController {
 
 
     @MessageMapping("/chat")
-    @SendTo("/topic/messages")
+    @SendTo("/topic/notifs/update")
     public MessageModel updateItems(MessageModel message) {
 
         System.out.println("recieveing msg for all");
