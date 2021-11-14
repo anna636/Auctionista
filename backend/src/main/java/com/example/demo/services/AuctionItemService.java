@@ -4,6 +4,7 @@ import com.example.demo.entities.AuctionItem;
 import com.example.demo.entities.Bid;
 import com.example.demo.repositories.AuctionItemRepository;
 import com.example.demo.repositories.BidRepository;
+import com.example.demo.util.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -75,16 +77,6 @@ public class AuctionItemService {
     }
 
 
-
-
-
-
-
-
-
-
-
-
     public Optional<AuctionItem> getAuctionItemById(long id){
         updateItems();
         return auctionItemRepository.findById(id);
@@ -140,6 +132,28 @@ public class AuctionItemService {
         return auctionItemRepository.save(item);
 
     }
+
+    public AuctionItem updateAuctionItemById(long id, Map values){
+        try{
+           Optional<AuctionItem> auctionItemOptional = getAuctionItemById(id);
+           if(auctionItemOptional.isPresent()){
+               var auctionItem = auctionItemOptional.get();
+
+               Utilities.updatePrivateFields(auctionItem, values);
+
+               return auctionItemRepository.save(auctionItem);
+           }
+           else{
+               return null;
+           }
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }
 
 

@@ -64,6 +64,16 @@ const AuctionItemProvider = (props) => {
     return response;
   };
 
+  const updateAuctionItem = async (id, values) => {
+    let response = await fetch("/rest/auction-items/" + id, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(values),
+    });
+    console.log(await response.json());
+    return response;
+  };
+
   const fetchMyListings = async (userId, sold, expired) => {
     let response = await fetch(
       "/api/my-auction-items?userId=" +
@@ -101,6 +111,7 @@ const AuctionItemProvider = (props) => {
     setAuctionItems,
     fetchMyListings,
     relistItem,
+    updateAuctionItem
   };
 
   return (

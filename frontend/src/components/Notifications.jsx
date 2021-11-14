@@ -2,11 +2,13 @@ import React, { useContext, useEffect } from "react";
 import { useSocketContext } from "../contexts/SocketContext";
 import { UserContext } from "../contexts/UserContext";
 import { useBidContext } from "../contexts/BidContext";
+import { useAuctionItem } from "../contexts/AuctionItemContext";
 
 function Notifications() {
   const { currentUser } = useContext(UserContext);
   const { isConnected } = useSocketContext();
   const { fetchBidsByUserId } = useBidContext();
+  const { updateAuctionItem } = useAuctionItem();
 
   useEffect(() => {
     console.log(isConnected);
@@ -24,7 +26,6 @@ function Notifications() {
 
   const getAndSortBidsAndItems = async () => {
     let bids = await fetchBidsByUserId(currentUser.id);
-    console.log(bids);
     if (bids && bids.length) {
       let auctionItemsWithDuplicates = [];
       for (let bid of bids) {
@@ -55,7 +56,7 @@ function Notifications() {
     return deadlineReachedAuctionItems;
   }
 
-  function checkReservationPrice(auctionItems) {
+  async function checkReservationPrice(auctionItems) {
     let reservationPriceReached = [];
 
     if (auctionItems && auctionItems.length) {
@@ -63,6 +64,14 @@ function Notifications() {
         if (item.bids && item.bids.length) {
           if (item.reservationPrice <= item.bids[item.bids.length - 1].amount) {
             reservationPriceReached.push(item);
+            let auctionItemObject = {
+              sold: true,
+            };
+            let returnedItem = await updateAuctionItem(
+              item.id,
+              auctionItemObject
+            );
+            console.log("returned ", returnedItem);
           }
         }
       }

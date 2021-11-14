@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -114,6 +115,12 @@ public class AuctionItemController {
         else{
             return ResponseEntity.noContent().build();
         }
+    }
+
+    @PutMapping("/rest/auction-items/{id}")
+    public AuctionItem updateAuctionItem(@PathVariable long id, @RequestBody Map values){
+        System.out.println("values " + values);
+        return auctionItemService.updateAuctionItemById(id, values);
     }
 
 
