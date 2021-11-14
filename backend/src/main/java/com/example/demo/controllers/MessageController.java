@@ -12,6 +12,8 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 @RestController
 public class MessageController {
 
@@ -25,7 +27,7 @@ public class MessageController {
     public MessageModel sendMessage(@DestinationVariable String to, MessageModel message) {
 
         System.out.println("handling send message: " + message + " to: " + to);
-        User userToFind =userRepository.findByUsername(to);
+        Optional<User> userToFind =userRepository.findByEmail(to);
         if(userToFind!=null){
             simpMessagingTemplate.convertAndSend("/topic/messages/" + to, message);
         }

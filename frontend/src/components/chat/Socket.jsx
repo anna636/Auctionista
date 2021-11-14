@@ -7,10 +7,10 @@ import {useMessage} from"../../contexts/MessageContext"
 
 let clientRef;
 
-export const sendMessage = async (sendToUsername, msg) => {
+export const sendMessage = async (sendToEmail, msg) => {
 
       await clientRef.sendMessage(
-    "/app/chat/"+sendToUsername,  //Who recievs msg
+    "/app/chat/"+sendToEmail,  //Who recievs msg
     JSON.stringify(msg)
     
   );
@@ -23,14 +23,14 @@ function Socket() {
 
   const { getCurrentUser, logout } = useContext(UserContext);
   
- const { messages, setMessages, updateMessages, chatsWith, setChatsWith } = useMessage();
+ const { messages, setMessages} = useMessage();
 
   return (
     <>
       {getCurrentUser() !== null ?
         <SockJsClient
         url="http://localhost:4000/chat"
-        topics={["/topic/messages/"+getCurrentUser().username]}
+        topics={["/topic/messages/"+getCurrentUser().email]}
         onConnect={() => {
           console.log("connected");
         }}
@@ -39,9 +39,7 @@ function Socket() {
         }}
         onMessage={(msg) => {
           setMessages([...messages, msg]);
-          if (!chatsWith.includes(msg.fromLogin)) {
-            setChatsWith([msg.fromLogin, ...chatsWith])
-          }
+         
           console.log(msg);
          
         }}

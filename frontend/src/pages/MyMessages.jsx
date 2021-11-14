@@ -10,13 +10,28 @@ import { useMessage } from "../contexts/MessageContext";
 import { UserContext } from "../contexts/UserContext";
 import ChatBox from "../components/chat/ChatBox";
 import ChatMessage from "../components/chat/ChatMessage";
+import { sendMessage } from "../components/chat/Socket";
+
+
+
 
 
 function MyMessages() {
+const { getCurrentUser, logout } = useContext(UserContext);
+  async function sendMsg() {
+    let msg = {
+      fromLogin: getCurrentUser().email,
+      message:"hello from new socket!"
+    }
+    sendMessage("neko.chuluxadze@mail.ru", msg);
+   }
+  
 
+    
   return (
     <div>
-     <h1>This is my messages</h1>
+      <h1>This is my messages</h1>
+      <button onClick={sendMsg}>Send</button>
     </div>
   );
 }

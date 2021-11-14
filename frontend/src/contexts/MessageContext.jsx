@@ -14,7 +14,9 @@ const MessageProvider = (props) => {
 
 
   const values = {
-  
+    messages,
+    setMessages,
+    
   };
 
   return (

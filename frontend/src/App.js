@@ -56,6 +56,7 @@ function App() {
                   <footer>
                     <div style={styles.line}> </div>
                   <Footer />
+                  <Socket/>
                   
                 </footer>
                 
