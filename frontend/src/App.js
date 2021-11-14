@@ -4,7 +4,6 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import SocketProvider from "./contexts/SocketContext";
-import GlobalProvider from "./contexts/GlobalContext";
 import AuctionItemProvider from "./contexts/AuctionItemContext";
 import AuctionItemDetails from "./pages/AuctionItemDetails";
 import CreateNewListing from "./pages/CreateNewListing";
@@ -14,62 +13,57 @@ import MyListings from "./pages/MyListings";
 import MyMessages from "./pages/MyMessages";
 import MyProfile from "./pages/MyProfile";
 import OAuth2RedirectHandler from "./components/OAuth2RedirectHandler";
-import Chat from "./pages/Chat";
 import MessageContextProvider from "./contexts/MessageContext";
+import Notifications from "./components/Notifications";
 
 function App() {
   return (
     <div className="App">
-      <SocketProvider>
-        <GlobalProvider>
-          <MessageContextProvider>
-            <UserContextProvider>
-              <AuctionItemProvider>
-                <BidProvider>
-                  <Router>
-                    <Navbar />
-                    <main>
-                      <Switch>
-                        <Route path="/" exact component={Home} />
-                        <Route
-                          path="/create-new-listing"
-                          exact
-                          component={CreateNewListing}
-                        />
-                        <Route
-                          exact
-                          path="/details/:id"
-                          component={AuctionItemDetails}
-                        />
-                        <Route
-                          exact
-                          path="/my-listings"
-                          component={MyListings}
-                        />
-                        <Route
-                          exact
-                          path="/my-messages"
-                          component={MyMessages}
-                        />
-                        <Route exact path="/my-profile" component={MyProfile} />
-                        <Route exact path="/chat/:roomid" component={MyMessages} />
-   <Route
-                    path="/oauth2/redirect"
-                    component={OAuth2RedirectHandler}
-                  ></Route>
-                      </Switch>
-                    </main>
-                    <footer>
-                      <div style={styles.line}> </div>
-                      <Footer />
-                    </footer>
-                  </Router>
-                </BidProvider>
-              </AuctionItemProvider>
-            </UserContextProvider>
-          </MessageContextProvider>
-        </GlobalProvider>
-      </SocketProvider>
+      <MessageContextProvider>
+        <UserContextProvider>
+          <SocketProvider>
+            <AuctionItemProvider>
+              <BidProvider>
+                <Router>
+                  <Navbar />
+                  <Notifications />
+                  <main>
+                    <Switch>
+                      <Route path="/" exact component={Home} />
+                      <Route
+                        path="/create-new-listing"
+                        exact
+                        component={CreateNewListing}
+                      />
+                      <Route
+                        exact
+                        path="/details/:id"
+                        component={AuctionItemDetails}
+                      />
+                      <Route exact path="/my-listings" component={MyListings} />
+                      <Route exact path="/my-messages" component={MyMessages} />
+                      <Route exact path="/my-profile" component={MyProfile} />
+                      <Route
+                        exact
+                        path="/my-messages/:roomid"
+                        component={MyMessages}
+                      />
+                      <Route
+                        path="/oauth2/redirect"
+                        component={OAuth2RedirectHandler}
+                      ></Route>
+                    </Switch>
+                  </main>
+                  <footer>
+                    <div style={styles.line}> </div>
+                    <Footer />
+                  </footer>
+                </Router>
+              </BidProvider>
+            </AuctionItemProvider>
+          </SocketProvider>
+        </UserContextProvider>
+      </MessageContextProvider>
     </div>
   );
 }

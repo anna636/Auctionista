@@ -1,6 +1,4 @@
-import React from "react";
-import { createContext, useContext, useState, useEffect } from "react";
-import { useAuctionItem } from "../contexts/AuctionItemContext";
+import React, { createContext, useContext, useState, useEffect } from "react";
 
 const BidContext = createContext();
 
@@ -8,32 +6,52 @@ export const useBidContext = () => {
   return useContext(BidContext);
 };
 
-
 const BidProvider = (props) => {
-
-  const [bids, setBids] = useState([])
-  const { fetchItemsInBatch, auctionItems } = useAuctionItem();
+  const [bids, setBids] = useState([]);
 
   useEffect(() => {
-      fetchAllBids()
-      }, []);
-   
-  const fetchAllBids = async () => { 
-    let response = await fetch("/rest/bids")
-    setBids(await response.json())
+    fetchAllBids();
+  }, []);
+
+
+  const fetchBidsByUserId = async (userId) => {
+    try {
+      let res = await fetch("/rest/bids/user-id/" + userId);
+      if (res.status === 200) {
+        let bids = await res.json()
+        return bids
+      }
+      else {
+        console.log("Fetching bids failed")
+      }
+    } catch {
+      console.log("Fetching bids failed")
+    }
+  }
+
+  const fetchAllBids = async () => {
+    try {
+      let response = await fetch("/rest/bids");
+      if (response.status === 200) {
+        setBids(await response.json());
+      } else {
+        console.log("Fetching bids failed");
+      }
+    } catch {
+      console.log("Fetching bids failed");
+    }
   };
 
   const fetchBid = async (id) => {
-    let res = await fetch("/rest/bids/" + id)
+    let res = await fetch("/rest/bids/" + id);
     try {
-      let fetchedItem = await res.json()
-      console.log("From fetchBid: ", fetchedItem)
+      let fetchedItem = await res.json();
+      console.log("From fetchBid: ", fetchedItem);
       return fetchedItem;
+    } catch {
+      console.log("No item found");
     }
-    catch {
-      console.log("No item found")
-    }
-  }
+  };
 
   const postNewBid = async (itemToPost) => {
     try {
@@ -45,27 +63,25 @@ const BidProvider = (props) => {
         }),
         body: JSON.stringify(itemToPost),
       });
-      console.log(await response.json())
-     // fetchItemsInBatch(auctionItems.length)
-      return response
+      console.log(await response.json());
+      // fetchItemsInBatch(auctionItems.length)
+      return response;
     } catch {
-      console.log("Posting bid failed")
+      console.log("Posting bid failed");
       return null;
     }
-   
-  }
+  };
 
   const values = {
     postNewBid,
     bids,
     fetchAllBids,
-    fetchBid
+    fetchBid,
+    fetchBidsByUserId,
   };
 
   return (
-    <BidContext.Provider value={values}>
-      {props.children}
-    </BidContext.Provider>
+    <BidContext.Provider value={values}>{props.children}</BidContext.Provider>
   );
 };
 

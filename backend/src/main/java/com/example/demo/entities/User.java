@@ -36,12 +36,22 @@ public class User {
     }
 
     private String password;
-    
 
     @OneToMany(mappedBy="owner")
     @JsonIgnoreProperties({"owner"})
     private List<AuctionItem> myAuctionItems;
 
+    @Enumerated(EnumType.STRING)
+    private AuthProvider provider;
+
+    private String providerId;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "user_chatrooms",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "chatroom_id")
+    )
+    private List<ChatRoom> chatrooms;
 
     public AuthProvider getProvider() {
         return provider;
@@ -59,19 +69,7 @@ public class User {
         this.providerId = providerId;
     }
 
-    @Enumerated(EnumType.STRING)
-    private AuthProvider provider;
-
-    private String providerId;
-   @ManyToMany(fetch = FetchType.LAZY)
-   @JoinTable(
-           name = "user_chatrooms",
-           joinColumns = @JoinColumn(name = "user_id"),
-           inverseJoinColumns = @JoinColumn(name = "chatroom_id")
-   )
-    private List<ChatRoom> chatrooms;
-
-   public void updateChatrooms(ChatRoom chatRoom) {
+    public void updateChatrooms(ChatRoom chatRoom) {
        this.chatrooms.add(chatRoom);
    }
 

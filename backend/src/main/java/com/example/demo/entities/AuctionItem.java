@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 
@@ -54,6 +56,7 @@ public class AuctionItem {
 
     @OneToMany(mappedBy = "auctionItem")
     @JsonIgnoreProperties({"auctionItem"})
+
     private List<Bid> bids = new ArrayList<>();
 
    @ManyToOne()

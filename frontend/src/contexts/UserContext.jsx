@@ -48,22 +48,27 @@ const UserContextProvider = (props) => {
 
   const whoAmI = async () => {
     console.log("local storage is", localStorage.getItem("accessToken"));
-    let res = await fetch("/api/user/me", {
-      method: "GET",
-      headers: new Headers({
-        Authorization: "Bearer " + localStorage.getItem("accessToken"),
-        "Content-Type": "application/json",
-      }),
-    });
-    res = await res.json();
+    try {
+      let res = await fetch("/api/user/me", {
+        method: "GET",
+        headers: new Headers({
+          Authorization: "Bearer " + localStorage.getItem("accessToken"),
+          "Content-Type": "application/json",
+        }),
+      });
+      res = await res.json();
 
-    if (res.status == 500) {
-      //setCurrentUser({ ...res });
-      console.log("Current user not found", res);
-      setCurrentUser(null);
-    } else {
-      console.log("found current user", res);
-      setCurrentUser({ ...res });
+      if (res.status == 500) {
+        console.log("Current user not found", res);
+        setCurrentUser(null);
+        return null;
+      } else {
+        console.log("found current user", res);
+        setCurrentUser({ ...res });
+        return res
+      }
+    } catch {
+      console.log("Current user not found")
     }
   };
 
@@ -73,6 +78,7 @@ const UserContextProvider = (props) => {
 
   const logout = async () => {
     localStorage.removeItem("accessToken");
+    let res=await fetch("/logout")
     setCurrentUser(null);
 
     console.log("You have been logged out");

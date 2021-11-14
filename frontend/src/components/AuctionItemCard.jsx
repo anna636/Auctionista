@@ -96,19 +96,19 @@ const AuctionItemCard = (props) => {
             <p>
               Current price:
               <strong>{item.bids[item.bids.length - 1].amount}</strong>{" "}
-              <i class="bi bi-currency-bitcoin"></i>
+              <i className="bi bi-currency-bitcoin"></i>
             </p>
           ) : (
             <p>
               Current price: <strong>{item.startPrice}</strong>{" "}
-              <i class="bi bi-currency-bitcoin"></i>
+              <i className="bi bi-currency-bitcoin"></i>
             </p>
           )}
           <p>
             Minimum bid:{" "}
             <strong>
               {item.minimumBid}
-              <i class="bi bi-currency-bitcoin"></i>{" "}
+              <i className="bi bi-currency-bitcoin"></i>{" "}
             </strong>
           </p>
           {location.pathname === "/" && getCurrentUser() && item.owner ? (
@@ -137,7 +137,9 @@ const AuctionItemCard = (props) => {
             </div>
           ) : null}
           <div style={styles.counter}>
-            <Counter dateFrom={props.props.deadline}></Counter>
+            {props.props.expired || props.props.sold ? null : (
+              <Counter dateFrom={props.props.deadline}></Counter>
+            )}
           </div>
         </div>
         <div style={styles.imageContainer}>

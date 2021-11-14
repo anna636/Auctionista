@@ -1,7 +1,9 @@
 package com.example.demo.services;
 
 import com.example.demo.entities.AuctionItem;
+import com.example.demo.entities.Bid;
 import com.example.demo.repositories.AuctionItemRepository;
+import com.example.demo.repositories.BidRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,9 @@ public class AuctionItemService {
 
     @Autowired
     private AuctionItemRepository auctionItemRepository;
+
+    @Autowired
+    private BidRepository bidRepository;
 
 
     public List<AuctionItem> getItemsInBatch(String offset, String id)
@@ -51,7 +56,9 @@ public class AuctionItemService {
 
         for(AuctionItem item : fetchedItems){
 
-            if(item.getDeadline().isBefore(currentTime)){
+            LocalDateTime itemDeadlie = item.getDeadline().plusHours(1);
+
+            if(itemDeadlie.isBefore(currentTime)){
 
                 item.setExpired(true);
 
@@ -105,6 +112,34 @@ public class AuctionItemService {
         return fetchedItems;
     }
 
+
+    public List<AuctionItem> getUsersItems (String id, String sold, String expired, String orderBy){
+        updateItems();
+
+        return auctionItemRepository.findUsersItems(id, sold, expired);
+    }
+
+    public AuctionItem relist(long id){
+
+
+        LocalDateTime relistingTime=LocalDateTime.now().plusDays(3);
+
+
+        AuctionItem item=getAuctionItemById(id).get();
+        item.setBids(new ArrayList<Bid>());
+        item.setExpired(false);
+        item.setSold(false);
+        item.setMinimumBid(item.getStartPrice());
+        item.setDeadline(relistingTime);
+        List<Bid> bids=bidRepository.findAll();
+        for(Bid bid:bids){
+            if(bid.getAuctionItem().getId()==item.getId()){
+                bidRepository.deleteById(bid.getId());
+            }
+        }
+        return auctionItemRepository.save(item);
+
+    }
 }
 
 

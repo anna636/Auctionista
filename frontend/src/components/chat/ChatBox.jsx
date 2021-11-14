@@ -1,22 +1,13 @@
 import React, { useContext, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { useMessage } from "../../contexts/MessageContext";
 import { UserContext } from "../../contexts/UserContext";
 
 function ChatBox(props) {
-  const { userChatRooms, setUserChatRooms } = useMessage();
+  const { roomid } = useParams();
   const { currentUser } = useContext(UserContext);
+  const { chatRooms } = useMessage();
 
-  useEffect(() => {
-    getUserChatRooms();
-  }, [currentUser]);
-
-  function getUserChatRooms() {
-    let tempRoomsArray = [];
-    for (let room of currentUser.chatrooms) {
-      tempRoomsArray.push(room);
-    }
-    setUserChatRooms(tempRoomsArray);
-  }
 
   function emitChatRoom(room) {
     props.emitFromChatBox(room);
@@ -32,24 +23,31 @@ function ChatBox(props) {
     return tempArray[0].username
   }
 
+  const selectedChat = (room) => {
+    return roomid == room.id
+      ? styles.chosen
+      : styles.userWrapper;
+  }
+
   return (
     <div className="chatsWrapper" style={styles.chatsWrapper}>
-      {userChatRooms && userChatRooms.length > 0
-        ? userChatRooms.map((room, index) => (
+      <div>
+        <h2>Room ID: {props.sendTo && props.sendTo.id}</h2>
+      </div>
+      {chatRooms && chatRooms.length > 0
+        ? chatRooms.map((room) => (
             <div
-              key={index}
+              key={room.id}
               className="userWrapper"
-              style={props.sendTo === room ? styles.chosen : styles.userWrapper}
+              style={selectedChat(room)}
               onClick={() => emitChatRoom(room)}
             >
               <img
                 src="https://www.pngkit.com/png/full/128-1280585_user-icon-fa-fa-user-circle.png"
                 alt=""
                 style={styles.img}
-              />
-              <p>
-              Chat with: {getOtherUserName(room)}
-              </p>
+            />
+              <p>Chat with: {getOtherUserName(room)}</p>
             </div>
           ))
         : " "}
