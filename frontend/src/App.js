@@ -14,6 +14,7 @@ import MyMessages from "./pages/MyMessages";
 import MyProfile from "./pages/MyProfile";
 import OAuth2RedirectHandler from "./components/OAuth2RedirectHandler";
 import MessageContextProvider from "./contexts/MessageContext";
+import Socket from "./components/chat/Socket";
 
 function App() {
   return (
@@ -54,8 +55,10 @@ function App() {
                   </main>
                   <footer>
                     <div style={styles.line}> </div>
-                    <Footer />
-                  </footer>
+                  <Footer />
+                  
+                </footer>
+                
                 </Router>
               </BidProvider>
             </AuctionItemProvider>
