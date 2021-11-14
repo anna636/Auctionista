@@ -12,7 +12,7 @@ function Notifications() {
   const { fetchBidsByUserId } = useBidContext();
   const { updateAuctionItem } = useAuctionItem();
   const [myProp, setMyProp] = useState({});
-    const [wonItem, setWonItem] = useState(false);
+  const [wonItems, setWonItems] = useState([]);
 
 
 
@@ -26,6 +26,7 @@ function Notifications() {
   const checkForWonItems = async () => {
     console.log("Checking for won items");
     let auctionItems = await getAndSortBidsAndItems();
+    setWonItems(auctionItems)
 
     // ***CONTINUE with logic on how an item is won by user, deadline check, reservationPrice check
   };
@@ -109,26 +110,30 @@ function Notifications() {
       header: "Congratulations!!",
       text: "You have won the following auction: ",
     });
-    setWonItem(true);
   }
 
-   const pull_data = (data) => {
-   
+   const pull_data = async (data) => {
+      // let auctionItemObject = {
+      //   sold: true,
+      // };
+      // let returnedItem = await updateAuctionItem(item.id, auctionItemObject);
+      // console.log("returned ", returnedItem);
+     
      setMyProp({
        show: false,
      });
-     setWonItem(false);
    
    };
 
   return (
     <div style={styles.box}>
       <button onClick={openModal}>won</button>
-      {wonItem && (
-        <div className="wonContainer">
+      {wonItems && wonItems.length > 0 && (
+        wonItems.map((item) => (  <div className="wonContainer">
           <CustomModal prop={myProp} func={pull_data} />
           <Confetti opacity="0.7" numberOfPieces="700" recycle={false} />
-        </div>
+        </div>))
+      
       )}{" "}
     </div>
   );
