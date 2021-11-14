@@ -33,7 +33,7 @@ function AuctionItemDetails() {
   const [myProp, setMyProp] = useState({});
   const [highestBid, setHighestBid] = useState();
   const [itemImages, setItemImages] = useState([]);
-  const { createNewRoom } = useMessage();
+
 
   const [showPayment, setShowPayemtn] = useState(false);
 
@@ -133,19 +133,9 @@ function AuctionItemDetails() {
   };
 
   async function onClickChat() {
-    let existingRoom = checkForExistingChatRooms()
-    if (!existingRoom) {
-      let chatRoomItem = {
-        users: [currentUser, auctionItem.owner],
-      };
-      let newRoom = await createNewRoom(chatRoomItem);
-      if (newRoom) {
-        whoAmI();
-        history.push("/my-messages/" + newRoom.id);
-      }
-    } else {
-      history.push("/my-messages/" + existingRoom.id);
-    }
+   
+        history.push("/my-messages");
+     
   }
 
   function checkForExistingChatRooms() {

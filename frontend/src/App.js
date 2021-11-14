@@ -3,7 +3,7 @@ import "./App.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
-import SocketProvider from "./contexts/SocketContext";
+
 import AuctionItemProvider from "./contexts/AuctionItemContext";
 import AuctionItemDetails from "./pages/AuctionItemDetails";
 import CreateNewListing from "./pages/CreateNewListing";
@@ -20,7 +20,7 @@ function App() {
     <div className="App">
       <MessageContextProvider>
         <UserContextProvider>
-          <SocketProvider>
+          
             <AuctionItemProvider>
               <BidProvider>
                 <Router>
@@ -59,7 +59,7 @@ function App() {
                 </Router>
               </BidProvider>
             </AuctionItemProvider>
-          </SocketProvider>
+        
         </UserContextProvider>
       </MessageContextProvider>
     </div>
