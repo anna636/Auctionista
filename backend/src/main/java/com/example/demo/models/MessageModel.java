@@ -5,6 +5,15 @@ public class MessageModel {
     private String message;
     private String fromLogin;
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    private String type;
     public String getMessage() {
         return message;
     }
@@ -21,11 +30,12 @@ public class MessageModel {
         this.fromLogin = fromLogin;
     }
 
+
+
     @Override
     public String toString() {
         return "MessageModel{" +
                 "message='" + message + '\'' +
-                ", fromLogin='" + fromLogin + '\'' +
-                '}';
+                ", fromLogin='" + fromLogin + " type=" + type;
     }
 }

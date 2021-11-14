@@ -10,13 +10,14 @@ import { useBidContext } from "../contexts/BidContext";
 
 import BootstrapModal from "./BootstrapModal";
 import PaymentModal from "./PaymentModal";
+import {sendNotification} from "../components/chat/Socket"
 
 
 const AuctionItemCard = (props) => {
 
    const location = useLocation(); 
   const history = useHistory();
-  const { fetchAuctionItem } = useAuctionItem()
+  const { fetchAuctionItem, itemIdToUpdate } = useAuctionItem()
   const [item, setItem] = useState({})
     const { getCurrentUser } = useContext(UserContext);
    const { postNewBid } = useBidContext();
@@ -66,6 +67,12 @@ const AuctionItemCard = (props) => {
           setModalText("You placed bid worth of " + bidToPost.amount + " ₿");
         updateItem(item.id)
           toggleModal();
+          let notif = {
+            fromLogin: getCurrentUser().email,
+            message: item.id,
+            type:"notification"
+          }
+          sendNotification(notif)
          
         }
       
