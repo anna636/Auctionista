@@ -17,8 +17,8 @@ export const sendMessage = async (sendToEmail, msg) => {
 
 };
 
-export const sendNotification = async (itemIdToUdate) => {
-  await clientRef.sendMessage("/app/chat")
+export const sendNotification = async (itemIdToUdate, msg) => {
+  await clientRef.sendMessage("/app/chat/update", JSON.stringify(msg))
 }
 
 function Socket() {

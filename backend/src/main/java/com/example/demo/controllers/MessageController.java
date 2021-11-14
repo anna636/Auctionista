@@ -38,7 +38,7 @@ public class MessageController {
     }
 
 
-    @MessageMapping("/chat")
+    @MessageMapping("/chat/update")
     @SendTo("/topic/notifs/update")
     public MessageModel updateItems(MessageModel message) {
 
