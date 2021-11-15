@@ -12,7 +12,6 @@ function Notifications() {
   const { fetchBidsByUserId } = useBidContext();
   const { updateAuctionItem, fetchAuctionItem } = useAuctionItem();
   const [myProp, setMyProp] = useState({});
-  const [wonItems, setWonItems] = useState([]);
   const [enableConfetti, setEnableConfetti] = useState(false);
 
   useEffect(() => {
@@ -20,7 +19,8 @@ function Notifications() {
       checkForWonItems();
     }
     return () => {
-      setEnableConfetti(false)
+      setEnableConfetti(false);
+      setMyProp({})
     };
   }, [isConnected, currentUser]);
 
@@ -29,12 +29,10 @@ function Notifications() {
     let auctionItems = await getAndSortBidsAndItems();
     console.log("auctionitems ", auctionItems);
     if (auctionItems && auctionItems.length > 0) {
-      setWonItems(auctionItems);
       auctionItems.map((item) => {
-        openModal(item)
-      })
+        openModal(item);
+      });
       setEnableConfetti(true);
-
     }
   };
 
@@ -46,15 +44,12 @@ function Notifications() {
         auctionItemsWithDuplicates.push(bid.auctionItem);
       }
       let noDuplicates = await removeDuplicates(auctionItemsWithDuplicates);
-      let checkedNotificationSeen = checkNotificationSeen(noDuplicates)
+      let checkedNotificationSeen = checkNotificationSeen(noDuplicates);
       let checkedLastBid = checkLastBid(checkedNotificationSeen);
       if (checkedLastBid.length > 0) {
         let checkedDeadline = checkDeadline(checkedLastBid);
-        console.log("Checked deadline: ", checkedDeadline);
         if (checkedDeadline.length > 0) {
-          let checkedReservationPrice =
-            checkReservationPriceAndSetSold(checkedDeadline);
-          console.log(checkedReservationPrice);
+          let checkedReservationPrice = checkReservationPrice(checkedDeadline);
           return checkedReservationPrice;
         }
       }
@@ -62,10 +57,10 @@ function Notifications() {
   };
 
   function checkNotificationSeen(auctionItems) {
-    let notificationNotSeenItems = []
+    let notificationNotSeenItems = [];
     for (let item of auctionItems) {
       if (!item.notificationSeen) {
-        notificationNotSeenItems.push(item)
+        notificationNotSeenItems.push(item);
       }
     }
     return notificationNotSeenItems;
@@ -98,7 +93,7 @@ function Notifications() {
     return deadlineReachedAuctionItems;
   }
 
-  async function checkReservationPriceAndSetSold(auctionItems) {
+  async function checkReservationPrice(auctionItems) {
     let reservationPriceReached = [];
 
     if (auctionItems && auctionItems.length) {
@@ -106,14 +101,6 @@ function Notifications() {
         if (item.bids && item.bids.length) {
           if (item.reservationPrice <= item.bids[item.bids.length - 1].amount) {
             reservationPriceReached.push(item);
-            let auctionItemObject = {
-              sold: true,
-            };
-            let returnedItem = await updateAuctionItem(
-              item.id,
-              auctionItemObject
-            );
-            console.log("returned ", returnedItem);
           }
         }
       }
@@ -145,23 +132,25 @@ function Notifications() {
 
   const pull_data = async (auctionItem) => {
     let auctionItemObject = {
-      notificationSeen: true
+      notificationSeen: true,
     };
+    setEnableConfetti(false);
     await updateAuctionItem(auctionItem.id, auctionItemObject);
     setMyProp({
       show: false,
-      auctionItem: null
+      auctionItem: null,
     });
+    await checkForWonItems();
   };
 
   return (
     <div style={styles.box}>
-      {enableConfetti &&
-          <div className="wonContainer">
-            <CustomModal prop={myProp} func={pull_data} />
-            <Confetti opacity="0.7" numberOfPieces="700" recycle={false} />
-          </div>
-        }
+      {enableConfetti && (
+        <div className="wonContainer">
+          <CustomModal prop={myProp} func={pull_data} />
+          <Confetti opacity="0.7" numberOfPieces="700" recycle={false} />
+        </div>
+      )}
     </div>
   );
 }

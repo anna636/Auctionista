@@ -20,8 +20,6 @@ import { UserContext } from "../contexts/UserContext";
 import CustomModal from "../components/CustomModal";
 import { useMessage } from "../contexts/MessageContext";
 
-import PaymentModal from "../components/PaymentModal";
-
 function AuctionItemDetails() {
   const { id } = useParams();
   const history = useHistory();
@@ -35,15 +33,9 @@ function AuctionItemDetails() {
   const [itemImages, setItemImages] = useState([]);
   const { createNewRoom } = useMessage();
 
-  const [showPayment, setShowPayemtn] = useState(false);
-
   useEffect(() => {
     getAuctionItem(id);
   }, [id, highestBid]);
-
-  const toggleShowPayment = () => {
-    setShowPayemtn(!showPayment);
-  };
 
   const getAuctionItem = async (auctionItemId) => {
     let fetchedItem = await fetchAuctionItem(auctionItemId);
@@ -220,7 +212,6 @@ function AuctionItemDetails() {
                         type="submit"
                         variant="success"
                         className="mt-2"
-                        // onClick={toggleShowPayment}
                       >
                         Place bid
                       </Button>
@@ -243,8 +234,8 @@ function AuctionItemDetails() {
             <Col>
               {itemImages.length > 1 && (
                 <Carousel variant="dark">
-                  {itemImages.map((image) => (
-                    <Carousel.Item style={{ width: "50rem" }}>
+                  {itemImages.map((image, i) => (
+                    <Carousel.Item style={{ width: "50rem" }} key={i}>
                       <div style={styles.imageContainer}>
                         <img src={image} alt="" style={{ height: "100%" }} />
                       </div>
@@ -266,12 +257,6 @@ function AuctionItemDetails() {
             </Col>
           </Row>
           <CustomModal prop={myProp} func={pull_data} />
-          {/* <PaymentModal
-            toggle={toggleShowPayment}
-            modal={showPayment}
-            payment={bid}
-            func={placeBid}
-          /> */}
         </Container>
       )}
     </div>
