@@ -1,3 +1,6 @@
+import { Link } from 'react-router-dom'
+
+
 const CustomModal = (prop) => {
   let styleType = () => {
     if (prop.prop.show) {
@@ -30,7 +33,11 @@ const CustomModal = (prop) => {
       <div className="mainInfo" style={styles.mainInfo}>
         <p>{prop.prop.text}</p>
       </div>
-
+      {prop.prop.auctionItem && (
+        <div>
+          <Link to={`/details/${prop.prop.auctionItem.id}`}>{prop.prop.auctionItem.title}</Link>
+        </div>
+      )}
       <div className="modalFooter" style={styles.modalFooter}>
         <p>{prop.prop.footerText}</p>
       </div>
