@@ -9,6 +9,7 @@ import { UserContext } from "../contexts/UserContext";
 import { useBidContext } from "../contexts/BidContext";
 
 import BootstrapModal from "./BootstrapModal";
+import { useSocketContext } from "../contexts/SocketContext";
 import PaymentModal from "./PaymentModal";
 
 
@@ -22,13 +23,42 @@ const AuctionItemCard = (props) => {
    const { postNewBid } = useBidContext();
    const [show, setShow] = useState(false);
    const [showPayment, setShowPayemtn] = useState(false);
-   const [modalText, setModalText] = useState("");
+  const [modalText, setModalText] = useState("");
+  const { socket } = useSocketContext();
+  
+  
+   
   
   useEffect( async () => {
     let auctionItem = await fetchAuctionItem(props.props.id)
     setItem(auctionItem);
+    onNotif()
   }, []);
 
+  async function sendNotif() {
+    console.log("sending id " + item.id);
+    let toSend = {
+      updateItemId: item.id,
+    };
+
+    let response = await fetch("/api/bid-notifs", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(toSend),
+    });
+  }
+
+  const onNotif = () => {
+    socket.on("notifications", function (data) {
+      if (window.location.pathname === "/") {
+       console.log("new notification received")
+        if (props.props.id == data.updateItemId) {
+           updateItem(data.updateItemId)
+        }
+       
+      }
+    });
+  };
 
   async function updateItem(itemId) {
     let auctionItem = await fetchAuctionItem(itemId)
@@ -36,6 +66,7 @@ const AuctionItemCard = (props) => {
  
   }
 
+  
 
    const toggleModal = () => {
      setShow(!show);
@@ -66,6 +97,8 @@ const AuctionItemCard = (props) => {
           setModalText("You placed bid worth of " + bidToPost.amount + " ₿");
         updateItem(item.id)
           toggleModal();
+          sendNotif()
+         
          
         }
       
@@ -94,8 +127,7 @@ const AuctionItemCard = (props) => {
         <div>
           {item.bids && item.bids.length > 0 ? (
             <p>
-              Current price:
-              <strong>{item.bids[item.bids.length - 1].amount}</strong>{" "}
+              Current price: <strong>{item.bids[item.bids.length - 1].amount}</strong>{" "}
               <i className="bi bi-currency-bitcoin"></i>
             </p>
           ) : (

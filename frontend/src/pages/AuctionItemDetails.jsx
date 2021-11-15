@@ -19,14 +19,15 @@ import { useBidContext } from "../contexts/BidContext";
 import { UserContext } from "../contexts/UserContext";
 import CustomModal from "../components/CustomModal";
 import { useMessage } from "../contexts/MessageContext";
+import { useSocketContext } from "../contexts/SocketContext";
 
 import PaymentModal from "../components/PaymentModal";
 
 function AuctionItemDetails() {
   const { id } = useParams();
   const history = useHistory();
-  const { fetchAuctionItem } = useAuctionItem();
-  const [auctionItem, setAuctionItem] = useState();
+  const { fetchAuctionItem, specificItem} = useAuctionItem();
+  //const [auctionItem, setAuctionItem] = useState();
   const { postNewBid } = useBidContext();
   const [bid, setBid] = useState("");
   const { currentUser, whoAmI } = useContext(UserContext);
@@ -34,29 +35,44 @@ function AuctionItemDetails() {
   const [highestBid, setHighestBid] = useState();
   const [itemImages, setItemImages] = useState([]);
   const { createNewRoom } = useMessage();
+    const { socket } = useSocketContext();
 
   const [showPayment, setShowPayemtn] = useState(false);
 
   useEffect(() => {
     getAuctionItem(id);
+
+    onNotif();
   }, [id, highestBid]);
 
   const toggleShowPayment = () => {
     setShowPayemtn(!showPayment);
   };
 
+  async function sendNotif() {
+    let toSend = {
+      updateItemId: specificItem.id,
+    };
+
+    let response = await fetch("/api/bid-notifs", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(toSend),
+    });
+  }
+
   const getAuctionItem = async (auctionItemId) => {
     let fetchedItem = await fetchAuctionItem(auctionItemId);
-    setAuctionItem(fetchedItem);
-    orderImages(fetchedItem);
+    //setAuctionItem(fetchedItem);
+    orderImages(specificItem);
   };
 
   function orderImages(auctionItem) {
-    const origImageArray = auctionItem.images.split(",");
+    const origImageArray = specificItem.images.split(",");
     const imageArrayInOrder = [];
 
-    imageArrayInOrder.push(origImageArray[auctionItem.primaryImgIndex]);
-    origImageArray.splice(auctionItem.primaryImgIndex, 1);
+    imageArrayInOrder.push(origImageArray[specificItem.primaryImgIndex]);
+    origImageArray.splice(specificItem.primaryImgIndex, 1);
 
     if (origImageArray.length) {
       for (let image of origImageArray) {
@@ -69,7 +85,7 @@ function AuctionItemDetails() {
 
   const checkUser = () => {
     if (currentUser) {
-      return currentUser.id === auctionItem.owner.id ? false : true;
+      return currentUser.id === specificItem.owner.id ? false : true;
     } else {
       return true;
     }
@@ -92,7 +108,7 @@ function AuctionItemDetails() {
           amount: parseInt(bid),
           time: new Date(),
           user_id: currentUser.id.toString(),
-          auctionItem: auctionItem,
+          auctionItem: specificItem,
         };
 
         let res = await postNewBid(newBid);
@@ -104,6 +120,7 @@ function AuctionItemDetails() {
             text: "Bid placed!",
           });
           setBid("");
+          sendNotif()
         } else {
           setMyProp({
             show: true,
@@ -118,7 +135,7 @@ function AuctionItemDetails() {
   }
 
   function checkBid() {
-    return bid >= auctionItem.minimumBid ? true : false;
+    return bid >= specificItem.minimumBid ? true : false;
   }
 
   const pull_data = (data) => {
@@ -132,11 +149,25 @@ function AuctionItemDetails() {
     }
   };
 
+    const onNotif = () => {
+      socket.on("notifications", function (data) {
+        if (data.updateItemId !== "all") {
+           if (window.location.pathname === "/details/" + data.updateItemId) {
+             fetchAuctionItem(data.updateItemId)
+             
+        }
+        
+        }
+       
+        
+      });
+  };
+  
   async function onClickChat() {
     let existingRoom = checkForExistingChatRooms()
     if (!existingRoom) {
       let chatRoomItem = {
-        users: [currentUser, auctionItem.owner],
+        users: [currentUser, specificItem.owner],
       };
       let newRoom = await createNewRoom(chatRoomItem);
       if (newRoom) {
@@ -153,8 +184,8 @@ function AuctionItemDetails() {
     if (currentUser.chatrooms.length > 0) {
       for (let room of currentUser.chatrooms) {
         for (let user of room.users) {
-          if (user.id === auctionItem.owner.id) {
-            existingRoom = room
+          if (user.id === specificItem.owner.id) {
+            existingRoom = room;
           }
         }
       }
@@ -164,23 +195,23 @@ function AuctionItemDetails() {
 
   return (
     <div style={styles.mainPage}>
-      {!auctionItem && (
+      {!specificItem && (
         <Spinner animation="border" role="status" className="mt-5">
           <span className="visually-hidden">Loading...</span>
         </Spinner>
       )}
-      {auctionItem && (
+      {specificItem && (
         <Container className="p-5" fluid>
           <Row>
             <Col>
-              <h2>{auctionItem.title}</h2>
-              <p>{auctionItem.description}</p>
+              <h2>{specificItem.title}</h2>
+              <p>{specificItem.description}</p>
               <Card>
                 <Card.Title className="mt-3">
                   Current price:{" "}
-                  {auctionItem.bids.length
-                    ? auctionItem.bids[auctionItem.bids.length - 1].amount
-                    : auctionItem.startPrice}{" "}
+                  {specificItem.bids.length
+                    ? specificItem.bids[specificItem.bids.length - 1].amount
+                    : specificItem.startPrice}{" "}
                   <span>
                     <i class="bi bi-currency-bitcoin"></i>{" "}
                   </span>
@@ -201,7 +232,7 @@ function AuctionItemDetails() {
                         overlay={
                           <Tooltip id="tooltip-top">
                             The minimum bid that can be placed is:{" "}
-                            <strong>{auctionItem.minimumBid}</strong>{" "}
+                            <strong>{specificItem.minimumBid}</strong>{" "}
                             <span>
                               <i class="bi bi-currency-bitcoin"></i>{" "}
                             </span>
@@ -212,7 +243,7 @@ function AuctionItemDetails() {
                           size="sm"
                           type="number"
                           max="1000000"
-                          min={auctionItem.minimumBid}
+                          min={specificItem.minimumBid}
                           value={bid}
                           onChange={(e) => setBid(e.target.value)}
                         ></Form.Control>
@@ -236,7 +267,7 @@ function AuctionItemDetails() {
                   </Card.Body>
                 )}
                 <Card.Footer>
-                  <Counter dateFrom={auctionItem.deadline}></Counter>
+                  <Counter dateFrom={specificItem.deadline}></Counter>
                 </Card.Footer>
               </Card>
             </Col>
