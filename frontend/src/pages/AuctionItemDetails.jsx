@@ -21,7 +21,7 @@ import CustomModal from "../components/CustomModal";
 import { useMessage } from "../contexts/MessageContext";
 import { useSocketContext } from "../contexts/SocketContext";
 
-import PaymentModal from "../components/PaymentModal";
+
 
 function AuctionItemDetails() {
   const { id } = useParams();
@@ -37,7 +37,7 @@ function AuctionItemDetails() {
   const { createNewRoom } = useMessage();
     const { socket } = useSocketContext();
 
-  const [showPayment, setShowPayemtn] = useState(false);
+ 
 
   useEffect(() => {
     getAuctionItem(id);
@@ -45,9 +45,7 @@ function AuctionItemDetails() {
     onNotif();
   }, [id, highestBid]);
 
-  const toggleShowPayment = () => {
-    setShowPayemtn(!showPayment);
-  };
+
 
   async function sendNotif() {
     let toSend = {
@@ -65,11 +63,13 @@ function AuctionItemDetails() {
    
   }
 
-  async function sendOutbiddenNotif() {
+  async function sendOutbiddenNotif(newBid) {
     let outbiddenNotif = {
       fromLogin: currentUser.username,
       toWho: specificItem.bids[specificItem.bids.length - 1].user_id,
       auctionItemid: specificItem.id,
+      auctionItemTitle: specificItem.title,
+      lastBidAmount: newBid,
     };
     
     if (specificItem.bids[specificItem.bids.length - 1].user_id !== currentUser.id.toString()) {
@@ -114,10 +114,10 @@ function AuctionItemDetails() {
     }
   };
 
-  async function placeBid(bool) {
-    toggleShowPayment();
+  async function placeBid() {
+    
 
-    if (bool) {
+    
       if (currentUser === null || currentUser === undefined) {
         setMyProp({
           show: true,
@@ -144,7 +144,7 @@ function AuctionItemDetails() {
           });
           setBid("");
           sendNotif()
-          sendOutbiddenNotif()
+          sendOutbiddenNotif(parseInt(bid));
         } else {
           setMyProp({
             show: true,
@@ -155,7 +155,7 @@ function AuctionItemDetails() {
       } else {
         console.log("Bid too low");
       }
-    }
+    
   }
 
   function checkBid() {
@@ -275,7 +275,7 @@ function AuctionItemDetails() {
                       <Button
                         variant="success"
                         className="mt-2"
-                        onClick={toggleShowPayment}
+                        onClick={placeBid}
                       >
                         Place bid
                       </Button>
@@ -321,12 +321,7 @@ function AuctionItemDetails() {
             </Col>
           </Row>
           <CustomModal prop={myProp} func={pull_data} />
-          <PaymentModal
-            toggle={toggleShowPayment}
-            modal={showPayment}
-            payment={bid}
-            func={placeBid}
-          />
+          
         </Container>
       )}
     </div>

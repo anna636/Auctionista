@@ -10,7 +10,7 @@ import { useBidContext } from "../contexts/BidContext";
 
 import BootstrapModal from "./BootstrapModal";
 import { useSocketContext } from "../contexts/SocketContext";
-import PaymentModal from "./PaymentModal";
+
 
 
 const AuctionItemCard = (props) => {
@@ -22,7 +22,7 @@ const AuctionItemCard = (props) => {
     const { getCurrentUser } = useContext(UserContext);
    const { postNewBid } = useBidContext();
    const [show, setShow] = useState(false);
-   const [showPayment, setShowPayemtn] = useState(false);
+ 
   const [modalText, setModalText] = useState("");
   const { socket } = useSocketContext();
   
@@ -94,9 +94,7 @@ const AuctionItemCard = (props) => {
      setShow(!show);
    };
 
-   const toggleShowPayment = () => {
-     setShowPayemtn(!showPayment);
-  };
+ 
   
   async function quickBid() {
     
