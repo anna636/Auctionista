@@ -37,12 +37,6 @@ function MyMessages() {
     }
   }, [roomid, newMessage]);
 
-  // useEffect(() => {
-  //   if (roomid) {
-  //     getMessages();
-  //   }
-  // }, [newMessage]);
-
   useEffect(() => {
     onChat();
     return () => {
@@ -74,12 +68,9 @@ function MyMessages() {
     } else {
       console.log("Room undefined");
     }
-
-    // joinRoom(id);
   };
 
   const getMessages = async () => {
-    console.log("From getMessages");
     let room = await getRoomById(roomid);
     if (room && room.messages.length) {
       let tempArray = [];
@@ -100,14 +91,6 @@ function MyMessages() {
       }
     }
   };
-
-  // async function joinRoom(id) {
-  //   if (id) {
-  //     socket.emit("join", "" + id);
-  //   } else {
-  //     console.log("Room undefined");
-  //   }
-  // }
 
   function handleSubmit(e) {
     e.preventDefault();

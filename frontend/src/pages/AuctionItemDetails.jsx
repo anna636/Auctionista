@@ -68,62 +68,59 @@ function AuctionItemDetails() {
   };
 
   async function placeBid(e) {
-    e.preventDefault()
+    e.preventDefault();
 
-      if (currentUser === null || currentUser === undefined) {
+    if (currentUser === null || currentUser === undefined) {
+      setMyProp({
+        show: true,
+        text: "You must log in to place a bid",
+      });
+      return;
+    }
+
+    if (checkBid) {
+      let newBid = {
+        amount: parseInt(bid),
+        time: new Date(),
+        user_id: currentUser.id.toString(),
+        auctionItem: auctionItem,
+      };
+
+      let res = await postNewBid(newBid);
+      if (res) {
+        setHighestBid(bid);
         setMyProp({
           show: true,
-          text: "You must log in to place a bid",
+          colour: "green",
+          text: "Bid placed!",
         });
-        return;
-      }
-
-      if (checkBid) {
-        let newBid = {
-          amount: parseInt(bid),
-          time: new Date(),
-          user_id: currentUser.id.toString(),
-          auctionItem: auctionItem,
-        };
-
-        let res = await postNewBid(newBid);
-        if (res) {
-          setHighestBid(bid);
-          setMyProp({
-            show: true,
-            colour: "green",
-            text: "Bid placed!",
-          });
-          setBid("");
-        } else {
-          setMyProp({
-            show: true,
-            colour: "red",
-            text: "Something went wrong, bid not placed",
-          });
-        }
+        setBid("");
       } else {
-        console.log("Bid too low");
+        setMyProp({
+          show: true,
+          colour: "red",
+          text: "Something went wrong, bid not placed",
+        });
       }
+    } else {
+      console.log("Bid too low");
+    }
   }
 
   function checkBid() {
     return bid >= auctionItem.minimumBid ? true : false;
   }
 
-  const pull_data = (data) => {
-    console.log(data);
-    if (data === false) {
-      setMyProp({
-        show: false,
-        colour: "",
-        text: "",
-      });
-    }
+  const pull_data = () => {
+    setMyProp({
+      show: false,
+      colour: "",
+      text: "",
+    });
   };
 
   async function onClickChat() {
-    let existingRoom = checkForExistingChatRooms()
+    let existingRoom = checkForExistingChatRooms();
     if (!existingRoom) {
       let chatRoomItem = {
         users: [currentUser, auctionItem.owner],
@@ -139,17 +136,17 @@ function AuctionItemDetails() {
   }
 
   function checkForExistingChatRooms() {
-    let existingRoom = null
+    let existingRoom = null;
     if (currentUser.chatrooms.length > 0) {
       for (let room of currentUser.chatrooms) {
         for (let user of room.users) {
           if (user.id === auctionItem.owner.id) {
-            existingRoom = room
+            existingRoom = room;
           }
         }
       }
     }
-    return existingRoom
+    return existingRoom;
   }
 
   return (
@@ -168,12 +165,16 @@ function AuctionItemDetails() {
               <Card>
                 <Card.Title className="mt-3">
                   Current price:{" "}
-                  {auctionItem.bids.length
-                    ? auctionItem.bids[auctionItem.bids.length - 1].amount
-                    : auctionItem.startPrice}{" "}
                   <span>
+                    {auctionItem.bids.length
+                      ? auctionItem.bids[auctionItem.bids.length - 1].amount
+                      : auctionItem.startPrice}{" "}
                     <i className="bi bi-currency-bitcoin"></i>{" "}
                   </span>
+                  {auctionItem.bids.length &&
+                    currentUser &&
+                    auctionItem.bids[auctionItem.bids.length - 1].user_id == currentUser.id &&
+                    <p style={{ color: "green", fontSize: "medium", marginTop: "0.5rem"}}>Your bid!</p>}
                 </Card.Title>
                 {!checkUser() && (
                   <Card.Body>
@@ -208,11 +209,7 @@ function AuctionItemDetails() {
                           onChange={(e) => setBid(e.target.value)}
                         ></Form.Control>
                       </OverlayTrigger>
-                      <Button
-                        type="submit"
-                        variant="success"
-                        className="mt-2"
-                      >
+                      <Button type="submit" variant="success" className="mt-2">
                         Place bid
                       </Button>
                     </Form>

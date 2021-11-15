@@ -20,7 +20,7 @@ const CustomModal = (prop) => {
     if (prop.prop.auctionItem) {
       prop.func(prop.prop.auctionItem);
     } else {
-      prop.func()
+      prop.func(false)
     }
   }
 
