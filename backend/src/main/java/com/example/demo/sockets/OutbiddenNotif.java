@@ -8,6 +8,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OutbiddenNotif {
+
+    private String fromLogin;
+    private String toWho;
+    private String auctionItemid;
+    private String auctionItemTitle;
+    private int lastBidAmount;
+
+
     public String getFromLogin() {
         return fromLogin;
     }
@@ -32,7 +40,23 @@ public class OutbiddenNotif {
         this.auctionItemid = auctionItemid;
     }
 
-    private String fromLogin;
-    private String toWho;
-    private String auctionItemid;
+
+
+    public String getAuctionItemTitle() {
+        return auctionItemTitle;
+    }
+
+    public void setAuctionItemTitle(String auctionItemTitle) {
+        this.auctionItemTitle = auctionItemTitle;
+    }
+
+    public int getLastBidAmount() {
+        return lastBidAmount;
+    }
+
+    public void setLastBidAmount(int lastBidAmount) {
+        this.lastBidAmount = lastBidAmount;
+    }
+
+
 }

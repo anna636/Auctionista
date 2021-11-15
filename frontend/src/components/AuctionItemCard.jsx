@@ -48,11 +48,13 @@ const AuctionItemCard = (props) => {
     });
   }
 
-    async function sendOutbiddenNotif() {
+    async function sendOutbiddenNotif(newBid) {
       let outbiddenNotif = {
         fromLogin: getCurrentUser().username,
         toWho: item.bids[item.bids.length - 1].user_id,
         auctionItemid: props.props.id,
+        auctionItemTitle: props.props.title,
+        lastBidAmount: newBid
       };
     
       if (
@@ -118,7 +120,7 @@ const AuctionItemCard = (props) => {
         updateItem(item.id)
           toggleModal();
           sendNotif()
-          sendOutbiddenNotif()
+          sendOutbiddenNotif(item.minimumBid)
          
          
         }

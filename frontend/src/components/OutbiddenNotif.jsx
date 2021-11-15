@@ -38,9 +38,9 @@ function OutbiddenNotif() {
           console.log(notif)
         }
 
-       /*  setTimeout(function () {
+       setTimeout(function () {
           setRenderPopup(false)
-        }, 4000); */
+        }, 8000); 
         
       });
   };
@@ -52,7 +52,11 @@ function OutbiddenNotif() {
     <>
       {renderPopup ? (
         <div className="notificationWrapper" style={styles.notificationWrapper}>
-          <p>You have been outbidden by {notif.fromLogin}</p>
+          <p>
+            You have been outbidden on{" "}
+            {notif.auctionItemTitle}
+          </p>
+          <p>Latest bid: {notif.lastBidAmount}₿</p>
           <p>
             Click <Link to={`/details/${notif.auctionItemid}`}>here</Link> to
             see the item
