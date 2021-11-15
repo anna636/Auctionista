@@ -3,11 +3,9 @@ import "bootstrap/dist/css/bootstrap.css";
 import { useHistory } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import Counter from "./Counter";
-
 import { useAuctionItem } from "../contexts/AuctionItemContext";
 import { UserContext } from "../contexts/UserContext";
 import { useBidContext } from "../contexts/BidContext";
-
 import BootstrapModal from "./BootstrapModal";
 import PaymentModal from "./PaymentModal";
 
@@ -72,9 +70,6 @@ const AuctionItemCard = (props) => {
       }
     }
   }
-  
-  
-
    
   function redirect() {
     history.push("/details/" + item.id)
@@ -94,8 +89,7 @@ const AuctionItemCard = (props) => {
         <div>
           {item.bids && item.bids.length > 0 ? (
             <p>
-              Current price:
-              <strong>{item.bids[item.bids.length - 1].amount}</strong>{" "}
+              Current price: <strong>{item.bids[item.bids.length - 1].amount}</strong>{" "}
               <i className="bi bi-currency-bitcoin"></i>
             </p>
           ) : (
@@ -199,26 +193,18 @@ const styles = {
     overflow: "hidden",
     display: "flex",
     justifyContent: "center",
+    cursor: "pointer",
   },
-  // img: {
-  //   width: "50%",
-  //   cursor: "pointer",
-  //   maxHeight: "152px",
-  //   borderRadius: "5px",
-  //   marginRight: "1rem",
-  // },
   title: {
     textAlign: "center",
     paddingTop: "3vh",
     fontFamily: "Montserrat, sans-serif",
   },
-
   btn: {
     border: "none",
     borderRadius: "5px",
     padding: "0.5vw",
   },
-
   hover: {
     color: "white",
   },
