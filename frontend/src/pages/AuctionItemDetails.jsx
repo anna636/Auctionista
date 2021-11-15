@@ -111,6 +111,14 @@ function AuctionItemDetails() {
     return bid >= auctionItem.minimumBid ? true : false;
   }
 
+  const checkIfDeadlinePassed = (item) => {
+    let now = new Date();
+    let itemDeadline = new Date(item.deadline);
+    let minusTime = now - itemDeadline;
+
+    return minusTime > 0 ? true : false 
+  };
+
   const pull_data = () => {
     setMyProp({
       show: false,
@@ -173,8 +181,18 @@ function AuctionItemDetails() {
                   </span>
                   {auctionItem.bids.length &&
                     currentUser &&
-                    auctionItem.bids[auctionItem.bids.length - 1].user_id == currentUser.id &&
-                    <p style={{ color: "green", fontSize: "medium", marginTop: "0.5rem"}}>Your bid!</p>}
+                    auctionItem.bids[auctionItem.bids.length - 1].user_id ==
+                      currentUser.id && (
+                      <p
+                        style={{
+                          color: "green",
+                          fontSize: "medium",
+                          marginTop: "0.5rem",
+                        }}
+                      >
+                        Your bid!
+                      </p>
+                    )}
                 </Card.Title>
                 {!checkUser() && (
                   <Card.Body>
@@ -224,7 +242,8 @@ function AuctionItemDetails() {
                   </Card.Body>
                 )}
                 <Card.Footer>
-                  <Counter dateFrom={auctionItem.deadline}></Counter>
+                  { !checkIfDeadlinePassed(auctionItem) &&
+                    <Counter dateFrom={auctionItem.deadline}></Counter>}
                 </Card.Footer>
               </Card>
             </Col>
