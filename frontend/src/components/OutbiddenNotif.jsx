@@ -2,6 +2,7 @@ import { render } from '@testing-library/react';
 import React, {useState, useEffect, useContext} from 'react'
 import { useSocketContext } from "../contexts/SocketContext";
 import { UserContext } from "../contexts/UserContext";
+import { Link } from "react-router-dom";
 
 function OutbiddenNotif() {
   const { socket } = useSocketContext();
@@ -49,18 +50,17 @@ function OutbiddenNotif() {
 
   return (
     <>
-      {renderPopup ?
+      {renderPopup ? (
         <div className="notificationWrapper" style={styles.notificationWrapper}>
           <p>You have been outbidden by {notif.fromLogin}</p>
-          <p>Click <a href="">here</a> to see the item</p>
-        
-
-      </div>
-     :   null}
-      
-    
-      </>
-  )
+          <p>
+            Click <Link to={`/details/${notif.auctionItemid}`}>here</Link> to
+            see the item
+          </p>
+        </div>
+      ) : null}
+    </>
+  );
 }
 
 export default OutbiddenNotif
