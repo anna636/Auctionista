@@ -98,9 +98,9 @@ const AuctionItemCard = (props) => {
      setShowPayemtn(!showPayment);
   };
   
-  async function quickBid(bool) {
-    toggleShowPayment()
-    if (bool) {
+  async function quickBid() {
+    
+    
       if (!getCurrentUser()) {
         setModalText("Please log in");
         toggleModal();
@@ -126,7 +126,7 @@ const AuctionItemCard = (props) => {
         }
       
       }
-    }
+    
   }
   
   
@@ -171,7 +171,7 @@ const AuctionItemCard = (props) => {
               <button
                 className="quickBid"
                 style={styles.btn}
-                onClick={toggleShowPayment}
+                onClick={quickBid}
                 disabled={
                   getCurrentUser().id === item.owner.id ? "disabled" : ""
                 }
@@ -183,12 +183,7 @@ const AuctionItemCard = (props) => {
                 modal={show}
                 text={modalText}
               />
-              <PaymentModal
-                toggle={toggleShowPayment}
-                modal={showPayment}
-                payment={props.props.minimumBid}
-                func={quickBid}
-              />
+              
             </div>
           ) : null}
           <div style={styles.counter}>
