@@ -3,6 +3,7 @@ package com.example.demo.controllers;
 import com.example.demo.services.MessageService;
 import com.example.demo.sockets.ChatMessage;
 import com.example.demo.sockets.Notification;
+import com.example.demo.sockets.OutbiddenNotif;
 import com.example.demo.sockets.SocketModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +37,13 @@ public class MessageController {
         System.out.println("Got notification about updating bid with id"+ notif.getUpdateItemId());
         return notif;
 
+    }
+
+    @PostMapping("/api/outbidden")
+    public OutbiddenNotif sendOutbiddenNotif(@RequestBody OutbiddenNotif notif){
+        socketModule.emit("outbidden", notif);
+        System.out.println("user with id "+notif.getToWho() + " has been outbidden by " + notif.getFromLogin() + " on item with id " + notif.getAuctionItemid());
+        return notif;
     }
 }
 

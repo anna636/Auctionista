@@ -48,10 +48,30 @@ const AuctionItemCard = (props) => {
     });
   }
 
+    async function sendOutbiddenNotif() {
+      let outbiddenNotif = {
+        fromLogin: getCurrentUser().username,
+        toWho: item.bids[item.bids.length - 1].user_id,
+        auctionItemid: setItem.id,
+      };
+    
+      if (
+        item.bids[item.bids.length - 1].user_id !== getCurrentUser().id.toString()) {
+        let res = await fetch("/api/outbidden", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(outbiddenNotif),
+        });
+      } else {
+        console.log("Last bid was your own bid");
+      }
+    }
+
   const onNotif = () => {
     socket.on("notifications", function (data) {
+      console.log("new notification about updating item received");
       if (window.location.pathname === "/") {
-       console.log("new notification received")
+       
         if (props.props.id == data.updateItemId) {
            updateItem(data.updateItemId)
         }
@@ -98,6 +118,7 @@ const AuctionItemCard = (props) => {
         updateItem(item.id)
           toggleModal();
           sendNotif()
+          sendOutbiddenNotif()
          
          
         }

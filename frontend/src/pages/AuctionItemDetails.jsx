@@ -54,13 +54,36 @@ function AuctionItemDetails() {
       updateItemId: specificItem.id,
     };
 
+    
+
     let response = await fetch("/api/bid-notifs", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(toSend),
     });
+
+   
   }
 
+  async function sendOutbiddenNotif() {
+    let outbiddenNotif = {
+      fromLogin: currentUser.username,
+      toWho: specificItem.bids[specificItem.bids.length - 1].user_id,
+      auctionItemid: specificItem.id,
+    };
+    
+    if (specificItem.bids[specificItem.bids.length - 1].user_id !== currentUser.id.toString()) {
+      let res = await fetch("/api/outbidden", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(outbiddenNotif)
+    }); 
+    }
+    else {
+      console.log("Last bid was your own bid")
+    }
+     
+  }
   const getAuctionItem = async (auctionItemId) => {
     let fetchedItem = await fetchAuctionItem(auctionItemId);
     //setAuctionItem(fetchedItem);
@@ -121,6 +144,7 @@ function AuctionItemDetails() {
           });
           setBid("");
           sendNotif()
+          sendOutbiddenNotif()
         } else {
           setMyProp({
             show: true,
