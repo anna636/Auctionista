@@ -11,7 +11,8 @@ const AuctionItemProvider = (props) => {
   const [auctionItems, setAuctionItems] = useState([]);
   const [primaryImgPath, setPrimaryImgPath] = useState("");
   const [imgPaths, setImgPaths] = useState([]);
-  const [specificItem, setSpecificItem]=useState({})
+  const [specificItem, setSpecificItem] = useState({})
+
 
   useEffect(() => {
       fetchItemsInBatch(0, 1);

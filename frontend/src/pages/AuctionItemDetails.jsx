@@ -153,7 +153,8 @@ function AuctionItemDetails() {
       socket.on("notifications", function (data) {
         if (data.updateItemId !== "all") {
            if (window.location.pathname === "/details/" + data.updateItemId) {
-          fetchAuctionItem(data.updateItemId)
+             fetchAuctionItem(data.updateItemId)
+             
         }
         
         }

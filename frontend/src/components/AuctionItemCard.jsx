@@ -51,16 +51,8 @@ const AuctionItemCard = (props) => {
   const onNotif = () => {
     socket.on("notifications", function (data) {
       if (window.location.pathname === "/") {
-        console.log("updating item with id " + data.updateItemId);
-         console.log(
-           "item id is " +
-             item.id +
-             " meanwhile update id is " +
-             data.updateItemId
-         );
+       console.log("new notification received")
         if (props.props.id == data.updateItemId) {
-         
-          console.log("going into if")
            updateItem(data.updateItemId)
         }
        
