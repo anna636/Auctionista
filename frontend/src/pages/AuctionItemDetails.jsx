@@ -19,6 +19,7 @@ import { useBidContext } from "../contexts/BidContext";
 import { UserContext } from "../contexts/UserContext";
 import CustomModal from "../components/CustomModal";
 import { useMessage } from "../contexts/MessageContext";
+import { useSocketContext } from "../contexts/SocketContext";
 
 import PaymentModal from "../components/PaymentModal";
 
@@ -34,16 +35,31 @@ function AuctionItemDetails() {
   const [highestBid, setHighestBid] = useState();
   const [itemImages, setItemImages] = useState([]);
   const { createNewRoom } = useMessage();
+    const { socket } = useSocketContext();
 
   const [showPayment, setShowPayemtn] = useState(false);
 
   useEffect(() => {
     getAuctionItem(id);
+
+    onNotif();
   }, [id, highestBid]);
 
   const toggleShowPayment = () => {
     setShowPayemtn(!showPayment);
   };
+
+  async function sendNotif() {
+    let toSend = {
+      notification: "heloooo from send notif",
+    };
+
+    let response = await fetch("/api/bid-notifs", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(toSend),
+    });
+  }
 
   const getAuctionItem = async (auctionItemId) => {
     let fetchedItem = await fetchAuctionItem(auctionItemId);
@@ -104,6 +120,7 @@ function AuctionItemDetails() {
             text: "Bid placed!",
           });
           setBid("");
+          sendNotif()
         } else {
           setMyProp({
             show: true,
@@ -132,6 +149,13 @@ function AuctionItemDetails() {
     }
   };
 
+    const onNotif = () => {
+      socket.on("notifications", function (data) {
+        console.log("Received message", data.notification);
+        
+      });
+  };
+  
   async function onClickChat() {
     let existingRoom = checkForExistingChatRooms()
     if (!existingRoom) {

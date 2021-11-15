@@ -42,7 +42,6 @@ function MyMessages() {
   //     getMessages();
   //   }
   // }, [newMessage]);
-
   useEffect(() => {
     onChat();
     return () => {
@@ -51,16 +50,15 @@ function MyMessages() {
   }, [messages]);
 
   const onChat = () => {
-    socket.on("notifications", function (data) {
-      console.log("Received message", data.notification);
-      /* let tempObject = {
+    socket.on("chat", function (data) {
+      console.log("Received message", data.message);
+      let tempObject = {
         userId: data.userId,
         message: data.message,
       };
-      setMessages([...messages, tempObject]); */
+      setMessages([...messages, tempObject]);
     });
   };
-
   const getUserChatRooms = async () => {
     let user = await whoAmI();
     if (user && user.chatrooms.length) {
