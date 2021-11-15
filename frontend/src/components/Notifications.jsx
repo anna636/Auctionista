@@ -45,10 +45,9 @@ function Notifications() {
       for (let bid of bids) {
         auctionItemsWithDuplicates.push(bid.auctionItem);
       }
-
       let noDuplicates = await removeDuplicates(auctionItemsWithDuplicates);
-      let checkedLastBid = checkLastBid(noDuplicates);
-      console.log("checked last bid: ", checkedLastBid);
+      let checkedNotificationSeen = checkNotificationSeen(noDuplicates)
+      let checkedLastBid = checkLastBid(checkedNotificationSeen);
       if (checkedLastBid.length > 0) {
         let checkedDeadline = checkDeadline(checkedLastBid);
         console.log("Checked deadline: ", checkedDeadline);
@@ -57,12 +56,20 @@ function Notifications() {
             checkReservationPriceAndSetSold(checkedDeadline);
           console.log(checkedReservationPrice);
           return checkedReservationPrice;
-
-          //****CHECK FOR NOTIFICATION SEEN */
         }
       }
     }
   };
+
+  function checkNotificationSeen(auctionItems) {
+    let notificationNotSeenItems = []
+    for (let item of auctionItems) {
+      if (!item.notificationSeen) {
+        notificationNotSeenItems.push(item)
+      }
+    }
+    return notificationNotSeenItems;
+  }
 
   function checkLastBid(auctionItems) {
     let lastBidCheckedAuctionItems = [];
@@ -115,16 +122,12 @@ function Notifications() {
   }
 
   async function removeDuplicates(arrayWithDuplicates) {
-    // Using IDs because each bid item is unique
     let arrayWithDuplicatesIDs = [];
     arrayWithDuplicates.map((item) => arrayWithDuplicatesIDs.push(item.id));
-    // Converting into Set and back again removes duplicates
     let cleanArrayIDs = [...new Set(arrayWithDuplicatesIDs)];
     let cleanArray = [];
-
     for (let id of cleanArrayIDs) {
       let auctionItem = await fetchAuctionItem(id);
-      // arrayWithDuplicates.find((item) => item.id === id);
       cleanArray.push(auctionItem);
     }
     return cleanArray;
@@ -140,15 +143,14 @@ function Notifications() {
     });
   }
 
-  const pull_data = async (data) => {
-    // let auctionItemObject = {
-    //   sold: true,
-    // };
-    // let returnedItem = await updateAuctionItem(item.id, auctionItemObject);
-    // console.log("returned ", returnedItem);
-
+  const pull_data = async (auctionItem) => {
+    let auctionItemObject = {
+      notificationSeen: true
+    };
+    await updateAuctionItem(auctionItem.id, auctionItemObject);
     setMyProp({
       show: false,
+      auctionItem: null
     });
   };
 
@@ -170,6 +172,4 @@ const styles = {
   box: {
     position: "absolute",
   },
-
-  // add display none
 };

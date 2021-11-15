@@ -17,7 +17,11 @@ const CustomModal = (prop) => {
   };
 
   function close() {
-    prop.func(false);
+    if (prop.prop.auctionItem) {
+      prop.func(prop.prop.auctionItem);
+    } else {
+      prop.func()
+    }
   }
 
   return (
