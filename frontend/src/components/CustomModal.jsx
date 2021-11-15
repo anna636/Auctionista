@@ -32,12 +32,14 @@ const CustomModal = (prop) => {
       </div>
       <div className="mainInfo" style={styles.mainInfo}>
         <p>{prop.prop.text}</p>
+        {prop.prop.auctionItem && (
+          <div className="auctionItemLink" style={styles.auctionItemLink}>
+            <Link to={`/details/${prop.prop.auctionItem.id}`} onClick={close}>
+              {prop.prop.auctionItem.title}
+            </Link>
+          </div>
+        )}
       </div>
-      {prop.prop.auctionItem && (
-        <div>
-          <Link to={`/details/${prop.prop.auctionItem.id}`}>{prop.prop.auctionItem.title}</Link>
-        </div>
-      )}
       <div className="modalFooter" style={styles.modalFooter}>
         <p>{prop.prop.footerText}</p>
       </div>
@@ -51,9 +53,10 @@ const styles = {
   hide: {
     display: "none",
   },
-
   show: {
-    display: "block",
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "center",
     position: "fixed",
     width: "30vw",
     height: "30vh",
@@ -65,9 +68,12 @@ const styles = {
     gridTemplateRows: "20% 50% 30%",
     padding: "1vw",
     color: "white",
+    zIndex: "100",
   },
   showGreen: {
-    display: "block",
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "center",
     position: "fixed",
     width: "30vw",
     height: "30vh",
@@ -79,9 +85,12 @@ const styles = {
     gridTemplateRows: "20% 50% 30%",
     padding: "1vw",
     color: "white",
+    zIndex: "100",
   },
   showRed: {
-    display: "block",
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "center",
     position: "fixed",
     width: "30vw",
     height: "30vh",
@@ -93,6 +102,7 @@ const styles = {
     gridTemplateRows: "20% 50% 30%",
     padding: "1vw",
     color: "white",
+    zIndex: "100"
   },
   closeModal: {
     textAlign: "right",
@@ -108,5 +118,9 @@ const styles = {
   header: {
     fontSize: "2em",
     fontWeight: "bold",
+  },
+  auctionItemLink: {
+    margin: "1rem",
+    color: "white",
   },
 };

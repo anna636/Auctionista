@@ -75,10 +75,9 @@ function AuctionItemDetails() {
     }
   };
 
-  async function placeBid(bool) {
-    // toggleShowPayment();
+  async function placeBid(e) {
+    e.preventDefault()
 
-   // if (bool) {
       if (currentUser === null || currentUser === undefined) {
         setMyProp({
           show: true,
@@ -114,7 +113,6 @@ function AuctionItemDetails() {
       } else {
         console.log("Bid too low");
       }
-   // }
   }
 
   function checkBid() {
