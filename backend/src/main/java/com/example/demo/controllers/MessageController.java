@@ -33,7 +33,7 @@ public class MessageController {
     @PostMapping("/api/bid-notifs")
     public Notification updateItem(@RequestBody Notification notif) {
         socketModule.emit("notifications", notif);
-        System.out.println("Got notification about updating bid");
+        System.out.println("Got notification about updating bid with id"+ notif.getUpdateItemId());
         return notif;
 
     }

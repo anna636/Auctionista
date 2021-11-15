@@ -1,13 +1,13 @@
 package com.example.demo.sockets;
 
 public class Notification {
-    public String getNotification() {
-        return notification;
+    public String getUpdateItemId() {
+        return updateItemId;
     }
 
-    public void setNotification(String notification) {
-        this.notification = notification;
+    public void setUpdateItemId(String updateItemId) {
+        this.updateItemId = updateItemId;
     }
 
-    private String notification;
+    private String updateItemId;
 }

@@ -11,6 +11,7 @@ const AuctionItemProvider = (props) => {
   const [auctionItems, setAuctionItems] = useState([]);
   const [primaryImgPath, setPrimaryImgPath] = useState("");
   const [imgPaths, setImgPaths] = useState([]);
+  const [specificItem, setSpecificItem]=useState({})
 
   useEffect(() => {
       fetchItemsInBatch(0, 1);
@@ -36,6 +37,7 @@ const AuctionItemProvider = (props) => {
     let res = await fetch("/rest/auction-items/" + id);
     try {
       let fetchedItem = await res.json();
+      setSpecificItem(fetchedItem)
       return fetchedItem;
     } catch {
       console.log("No item found");
@@ -94,6 +96,8 @@ const AuctionItemProvider = (props) => {
     setAuctionItems,
     fetchMyListings,
     relistItem,
+    specificItem,
+    setSpecificItem,
   };
 
   return (
