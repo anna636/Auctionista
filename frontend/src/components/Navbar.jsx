@@ -11,10 +11,12 @@ import Search from "./search/Search";
 
 
 function Navbar() {
-  const {getCurrentUser, logout} = useContext(UserContext)
+  const { getCurrentUser, logout, whoAmI, currentUserId } =
+    useContext(UserContext);
   const [login, setLogin] = useState(false);
   const [register, setRegister] = useState(false);
-  const [showPopup, setShowPopup]= useState(false)
+  const [showPopup, setShowPopup] = useState(false)
+ 
   const toggleLogin = () => setLogin(!login);
   const toggleRegister = () => setRegister(!register);
   
@@ -28,9 +30,11 @@ function Navbar() {
     
    };
 
+   
 
   useEffect(() => {
     getCurrentUser()
+    
 
   }, []);
 
@@ -133,6 +137,7 @@ function Navbar() {
       >
         <p>Logged in</p>
       </div>
+  
     </nav>
   );
 }

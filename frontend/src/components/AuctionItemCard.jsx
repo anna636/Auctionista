@@ -56,7 +56,7 @@ const AuctionItemCard = (props) => {
       };
     
       if (
-        item.bids[item.bids.length - 1].user_id !== getCurrentUser().id.toString()) {
+        item.bids && item.bids[item.bids.length - 1].user_id !== getCurrentUser().id.toString()) {
         let res = await fetch("/api/outbidden", {
           method: "POST",
           headers: { "Content-Type": "application/json" },

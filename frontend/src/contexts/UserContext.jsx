@@ -7,7 +7,7 @@ export const UserContext = createContext();
 const UserContextProvider = (props) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [users, setUsers] = useState([]);
-  const [currentUserId, setCurrentUserId]=useState(0)
+  const [currentUserId, setCurrentUserId]=useState("")
 
 
   const register = async (user) => {
@@ -57,8 +57,10 @@ const UserContextProvider = (props) => {
       } else {
         console.log("found current user", res);
        
-        await setCurrentUser({ ...res });
-        setCurrentUserId(res.id)
+        setCurrentUser({ ...res });
+        console.log("current user id whoami", currentUser)
+        setCurrentUserId(res.id.toString())
+       
 
         return res
       }
