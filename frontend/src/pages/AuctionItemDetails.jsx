@@ -26,7 +26,7 @@ import PaymentModal from "../components/PaymentModal";
 function AuctionItemDetails() {
   const { id } = useParams();
   const history = useHistory();
-  const { fetchAuctionItem, specificItem } = useAuctionItem();
+  const { fetchAuctionItem, specificItem} = useAuctionItem();
   //const [auctionItem, setAuctionItem] = useState();
   const { postNewBid } = useBidContext();
   const [bid, setBid] = useState("");
@@ -50,7 +50,6 @@ function AuctionItemDetails() {
   };
 
   async function sendNotif() {
-    console.log("sending id"+ specificItem.id)
     let toSend = {
       updateItemId: specificItem.id,
     };
@@ -152,11 +151,13 @@ function AuctionItemDetails() {
 
     const onNotif = () => {
       socket.on("notifications", function (data) {
-        console.log("Updating item with id ", data.updateItemId);
-        if (window.location.pathname === "/details/" + data.updateItemId) {
+        if (data.updateItemId !== "all") {
+           if (window.location.pathname === "/details/" + data.updateItemId) {
           fetchAuctionItem(data.updateItemId)
         }
         
+        }
+       
         
       });
   };
