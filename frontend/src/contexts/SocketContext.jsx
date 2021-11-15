@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { useMessage } from "../contexts/MessageContext";
+import {UserContext} from "../contexts/UserContext"
 import io from "socket.io-client";
 
 const socket1 = io("http://localhost:9092");
@@ -12,8 +13,10 @@ export const useSocketContext = () => {
 const SocketProvider = (props) => {
   const [socket, setSocket] = useState(socket1);
   const { setChatRoom, getRoomById } = useMessage();
+    const { currentUser, whoAmI } = useContext(UserContext);
 
-  useEffect(() => {
+  useEffect(async () => {
+await whoAmI()
     connect();
   }, []);
 
@@ -43,6 +46,7 @@ const SocketProvider = (props) => {
     socket.on("reconnect_attempt", (attempts) => {
       console.log("Try to reconnect at " + attempts + " attempt(s).");
     });
+
   }
 
   const values = {

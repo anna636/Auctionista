@@ -52,7 +52,7 @@ const AuctionItemCard = (props) => {
       let outbiddenNotif = {
         fromLogin: getCurrentUser().username,
         toWho: item.bids[item.bids.length - 1].user_id,
-        auctionItemid: setItem.id,
+        auctionItemid: props.props.id,
       };
     
       if (

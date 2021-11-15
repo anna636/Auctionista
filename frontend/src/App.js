@@ -14,6 +14,7 @@ import MyMessages from "./pages/MyMessages";
 import MyProfile from "./pages/MyProfile";
 import OAuth2RedirectHandler from "./components/OAuth2RedirectHandler";
 import MessageContextProvider from "./contexts/MessageContext";
+import OutbiddenNotif from "./components/OutbiddenNotif";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
               <BidProvider>
                 <Router>
                   <Navbar />
+                  <OutbiddenNotif/>
                   <main>
                     <Switch>
                       <Route path="/" exact component={Home} />
