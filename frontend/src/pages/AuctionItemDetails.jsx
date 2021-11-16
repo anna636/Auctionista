@@ -21,11 +21,10 @@ import CustomModal from "../components/CustomModal";
 import { useMessage } from "../contexts/MessageContext";
 import { useSocketContext } from "../contexts/SocketContext";
 
-
 function AuctionItemDetails() {
   const { id } = useParams();
   const history = useHistory();
-  const { fetchAuctionItem, specificItem} = useAuctionItem();
+  const { fetchAuctionItem, specificItem } = useAuctionItem();
   //const [auctionItem, setAuctionItem] = useState();
   const { postNewBid } = useBidContext();
   const [bid, setBid] = useState("");
@@ -34,77 +33,69 @@ function AuctionItemDetails() {
   const [highestBid, setHighestBid] = useState();
   const [itemImages, setItemImages] = useState([]);
   const { createNewRoom } = useMessage();
-    const { socket } = useSocketContext();
+  const { socket } = useSocketContext();
 
- 
-
-  useEffect(async () => {
-    await getAuctionItem(id);
-
+  useEffect(() => {
+    getAuctionItem(id);
     onNotif();
   }, [id, highestBid]);
-
-
 
   async function sendNotif() {
     let toSend = {
       updateItemId: specificItem.id,
     };
 
-    
-
     let response = await fetch("/api/bid-notifs", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(toSend),
     });
-
-   
   }
 
   async function sendOutbiddenNotif(newBid) {
-     if ( specificItem.bids.length > 0 && specificItem.bids[specificItem.bids.length - 1].user_id !==currentUser.id.toString()) {
-       let outbiddenNotif = {
-         fromLogin: currentUser.username,
-         toWho: specificItem.bids[specificItem.bids.length - 1].user_id,
-         auctionItemid: specificItem.id,
-         auctionItemTitle: specificItem.title,
-         lastBidAmount: newBid,
-       };
+    if (
+      specificItem.bids.length > 0 &&
+      specificItem.bids[specificItem.bids.length - 1].user_id !==
+        currentUser.id.toString()
+    ) {
+      let outbiddenNotif = {
+        fromLogin: currentUser.username,
+        toWho: specificItem.bids[specificItem.bids.length - 1].user_id,
+        auctionItemid: specificItem.id,
+        auctionItemTitle: specificItem.title,
+        lastBidAmount: newBid,
+      };
 
-       let res = await fetch("/api/outbidden", {
-         method: "POST",
-         headers: { "Content-Type": "application/json" },
-         body: JSON.stringify(outbiddenNotif),
-       });
-     } else {
-       console.log("Last bid was your own bid");
-     }
-     
+      let res = await fetch("/api/outbidden", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(outbiddenNotif),
+      });
+    } else {
+      console.log("Last bid was your own bid");
+    }
   }
   const getAuctionItem = async (auctionItemId) => {
     let fetchedItem = await fetchAuctionItem(auctionItemId);
     //setAuctionItem(fetchedItem);
-     orderImages(fetchedItem);
-    
+    orderImages(fetchedItem);
   };
 
-function orderImages(auctionItem) {
-  const origImageArray = auctionItem.images.split(",");
-  const imageArrayInOrder = [];
+  function orderImages(auctionItem) {
+    const origImageArray = auctionItem.images.split(",");
+    const imageArrayInOrder = [];
 
-  imageArrayInOrder.push(origImageArray[auctionItem.primaryImgIndex]);
-  origImageArray.splice(auctionItem.primaryImgIndex, 1);
+    imageArrayInOrder.push(origImageArray[auctionItem.primaryImgIndex]);
+    origImageArray.splice(auctionItem.primaryImgIndex, 1);
 
-  if (origImageArray.length) {
-    for (let image of origImageArray) {
-      imageArrayInOrder.push(image);
+    if (origImageArray.length) {
+      for (let image of origImageArray) {
+        imageArrayInOrder.push(image);
+      }
     }
-  }
- 
 
-  setItemImages(imageArrayInOrder);
-}
+    setItemImages(imageArrayInOrder);
+  }
 
   const checkUser = () => {
     if (currentUser) {
@@ -142,7 +133,7 @@ function orderImages(auctionItem) {
           text: "Bid placed!",
         });
         setBid("");
-        sendNotif()
+        sendNotif();
         sendOutbiddenNotif(parseInt(bid));
       } else {
         setMyProp({
@@ -165,7 +156,7 @@ function orderImages(auctionItem) {
     let itemDeadline = new Date(item.deadline);
     let minusTime = now - itemDeadline;
 
-    return minusTime > 0 ? true : false 
+    return minusTime > 0 ? true : false;
   };
 
   const pull_data = () => {
@@ -176,20 +167,16 @@ function orderImages(auctionItem) {
     });
   };
 
-    const onNotif = () => {
-      socket.on("notifications", function (data) {
-        if (data.updateItemId !== "all") {
-           if (window.location.pathname === "/details/" + data.updateItemId) {
-             fetchAuctionItem(data.updateItemId)
-             
+  const onNotif = () => {
+    socket.on("notifications", function (data) {
+      if (data.updateItemId !== "all") {
+        if (window.location.pathname === "/details/" + data.updateItemId) {
+          fetchAuctionItem(data.updateItemId);
         }
-        
-        }
-       
-        
-      });
+      }
+    });
   };
-  
+
   async function onClickChat() {
     let existingRoom = checkForExistingChatRooms();
     if (!existingRoom) {
@@ -237,12 +224,13 @@ function orderImages(auctionItem) {
                 <Card.Title className="mt-3">
                   Current price:{" "}
                   <span>
-                    {specificItem.bids.length > 0
+                    {specificItem.bids && specificItem.bids.length > 0
                       ? specificItem.bids[specificItem.bids.length - 1].amount
                       : specificItem.startPrice}{" "}
                     <i className="bi bi-currency-bitcoin"></i>{" "}
                   </span>
-                  {specificItem.bids.length > 0 &&
+                  {specificItem.bids &&
+                    specificItem.bids.length > 0 &&
                     currentUser &&
                     specificItem.bids[specificItem.bids.length - 1].user_id ==
                       currentUser.id && (
