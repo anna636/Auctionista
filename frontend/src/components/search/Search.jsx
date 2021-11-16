@@ -24,6 +24,9 @@ const Search = () => {
     } else {
       console.log("No items found");
       setPopoverMessage(true);
+        setTimeout(() => {
+          setPopoverMessage(false);
+        }, 3000);
     }
   };
 
