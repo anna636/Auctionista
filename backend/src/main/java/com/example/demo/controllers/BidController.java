@@ -19,8 +19,6 @@ public class BidController {
     @Autowired
     private BidService bidService;
 
-
-
     @GetMapping("/bids")
     public ResponseEntity<List<Bid>> getAllBids() {
 
@@ -42,7 +40,6 @@ public class BidController {
             else{
                 return ResponseEntity.noContent().build();
             }
-
     }
 
     @GetMapping("/bids/user-id/{userid}")
@@ -54,7 +51,6 @@ public class BidController {
         else{
             return ResponseEntity.noContent().build();
         }
-
     }
 
     @PostMapping("/bids")
@@ -66,7 +62,6 @@ public class BidController {
             return  ResponseEntity.badRequest().build();
         }
     }
-
 
 
 }

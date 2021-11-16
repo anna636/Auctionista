@@ -28,11 +28,8 @@ public class AuctionItemService {
     @Autowired
     private BidRepository bidRepository;
 
-
-    public List<AuctionItem> getItemsInBatch(String offset, String id)
-
-    {
-          updateItems();
+    public List<AuctionItem> getItemsInBatch(String offset, String id) {
+        updateItems();
         List <AuctionItem> fetchedItems =new ArrayList<>();
 
          if(offset.equals("0")){
@@ -43,39 +40,26 @@ public class AuctionItemService {
                fetchedItems=auctionItemRepository.getItemsInBatch(rowId);
          }
 
-
         return fetchedItems;
     }
 
-
-
     public void updateItems(){
-
         DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
         LocalDateTime currentTime=LocalDateTime.now();
         String formattedDateTime = currentTime.format(formatter); //Creating current time
         List<AuctionItem> fetchedItems=auctionItemRepository.findAll();
 
         for(AuctionItem item : fetchedItems){
-
             LocalDateTime itemDeadlie = item.getDeadline().plusHours(1);
-
             if(itemDeadlie.isBefore(currentTime)){
-
                 item.setExpired(true);
-
-
                 if(item.getBids().size()>0 && item.getBids().get(item.getBids().size()-1).getAmount() >= item.getReservationPrice()){
                     item.setSold(true);
                 }
-
             }
-
             auctionItemRepository.save(item);
         }
-
     }
-
 
     public Optional<AuctionItem> getAuctionItemById(long id){
         updateItems();
@@ -84,39 +68,30 @@ public class AuctionItemService {
 
     public AuctionItem createAuctionItem(AuctionItem auctionItem){
         try{
-            // Sets the minimumBid depending on the startPrice
             auctionItem.setMinimumBid((int) Math.round(auctionItem.getStartPrice() * 1.1));
             return auctionItemRepository.save(auctionItem);
         }
-
         catch(Exception e){
             e.printStackTrace();
             return null;
         }
-
     }
 
     public List<AuctionItem> getByTitle(String title){
 
         updateItems();
-        List <AuctionItem> fetchedItems=auctionItemRepository.customFindAllByTitleIgnoreCase(title);
+        List <AuctionItem> fetchedItems = auctionItemRepository.customFindAllByTitleIgnoreCase(title);
 
         return fetchedItems;
     }
 
-
     public List<AuctionItem> getUsersItems (String id, String sold, String expired, String orderBy){
         updateItems();
-
         return auctionItemRepository.findUsersItems(id, sold, expired);
     }
 
     public AuctionItem relist(long id){
-
-
         LocalDateTime relistingTime=LocalDateTime.now().plusDays(3);
-
-
         AuctionItem item=getAuctionItemById(id).get();
         item.setBids(new ArrayList<Bid>());
         item.setExpired(false);
@@ -130,7 +105,6 @@ public class AuctionItemService {
             }
         }
         return auctionItemRepository.save(item);
-
     }
 
     public AuctionItem updateAuctionItemById(long id, Map values){
@@ -146,7 +120,6 @@ public class AuctionItemService {
            else{
                return null;
            }
-
         }
         catch (Exception e){
             e.printStackTrace();
