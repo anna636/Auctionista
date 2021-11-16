@@ -65,7 +65,7 @@ function AuctionItemDetails() {
   async function sendOutbiddenNotif(newBid) {
     let outbiddenNotif = {
       fromLogin: currentUser.username,
-      toWho: specificItem.bids[specificItem.bids.length - 1].user_id,
+      toWho: specificItem.bids[specificItem.bids.length - 1].userId,
       auctionItemid: specificItem.id,
       auctionItemTitle: specificItem.title,
       lastBidAmount: newBid,

@@ -38,7 +38,11 @@ const CustomModal = (prop) => {
         <p>{prop.prop.text}</p>
         {prop.prop.auctionItem && (
           <div className="auctionItemLink" style={styles.auctionItemLink}>
-            <Link to={`/details/${prop.prop.auctionItem.id}`} onClick={close}>
+            <Link
+              style={styles.auctionItemLink}
+              to={`/details/${prop.prop.auctionItem.id}`}
+              onClick={close}
+            >
               {prop.prop.auctionItem.title}
             </Link>
           </div>
@@ -111,15 +115,19 @@ const styles = {
   closeModal: {
     textAlign: "right",
     cursor: "pointer",
+    paddingRight: "1rem",
+    
   },
   modalFooter: {
     borderTop: "1px solid white",
   },
   mainInfo: {
+    paddingTop: "2rem",
     fontSize: "1.3em",
     fontWeight: "bold",
   },
   header: {
+    paddingTop: "2rem",
     fontSize: "2em",
     fontWeight: "bold",
   },
