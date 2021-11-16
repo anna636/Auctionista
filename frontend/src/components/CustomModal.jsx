@@ -43,7 +43,8 @@ const CustomModal = (prop) => {
               to={`/details/${prop.prop.auctionItem.id}`}
               onClick={close}
             >
-              {prop.prop.auctionItem.title}
+              {prop.prop.auctionItem.title + " " }
+              <i class="bi bi-link"></i>
             </Link>
           </div>
         )}
