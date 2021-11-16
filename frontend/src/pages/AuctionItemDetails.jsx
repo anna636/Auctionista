@@ -236,12 +236,12 @@ function AuctionItemDetails() {
                 <Card.Title className="mt-3">
                   Current price:{" "}
                   <span>
-                    {specificItem.bids.length
+                    {specificItem.bids.length > 0
                       ? specificItem.bids[specificItem.bids.length - 1].amount
                       : specificItem.startPrice}{" "}
                     <i className="bi bi-currency-bitcoin"></i>{" "}
                   </span>
-                  {specificItem.bids.length &&
+                  {specificItem.bids.length > 0 &&
                     currentUser &&
                     specificItem.bids[specificItem.bids.length - 1].user_id ==
                       currentUser.id && (
