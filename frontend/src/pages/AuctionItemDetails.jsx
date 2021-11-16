@@ -38,8 +38,8 @@ function AuctionItemDetails() {
 
  
 
-  useEffect(() => {
-    getAuctionItem(id);
+  useEffect(async () => {
+    await getAuctionItem(id);
 
     onNotif();
   }, [id, highestBid]);
@@ -85,24 +85,26 @@ function AuctionItemDetails() {
   const getAuctionItem = async (auctionItemId) => {
     let fetchedItem = await fetchAuctionItem(auctionItemId);
     //setAuctionItem(fetchedItem);
-    orderImages(specificItem);
+     orderImages(fetchedItem);
+    
   };
 
-  function orderImages(auctionItem) {
-    const origImageArray = specificItem.images.split(",");
-    const imageArrayInOrder = [];
+function orderImages(auctionItem) {
+  const origImageArray = auctionItem.images.split(",");
+  const imageArrayInOrder = [];
 
-    imageArrayInOrder.push(origImageArray[specificItem.primaryImgIndex]);
-    origImageArray.splice(specificItem.primaryImgIndex, 1);
+  imageArrayInOrder.push(origImageArray[auctionItem.primaryImgIndex]);
+  origImageArray.splice(auctionItem.primaryImgIndex, 1);
 
-    if (origImageArray.length) {
-      for (let image of origImageArray) {
-        imageArrayInOrder.push(image);
-      }
+  if (origImageArray.length) {
+    for (let image of origImageArray) {
+      imageArrayInOrder.push(image);
     }
-
-    setItemImages(imageArrayInOrder);
   }
+ 
+
+  setItemImages(imageArrayInOrder);
+}
 
   const checkUser = () => {
     if (currentUser) {
