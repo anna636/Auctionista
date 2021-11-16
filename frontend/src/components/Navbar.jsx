@@ -112,11 +112,6 @@ function Navbar() {
                   Chat
                 </Link>
               </NavDropdown.Item>
-              <NavDropdown.Item>
-                <Link to="/my-profile" className="link">
-                  My profile
-                </Link>
-              </NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item onClick={logout}>
                 <Link to="/" className="link">
