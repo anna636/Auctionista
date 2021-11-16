@@ -54,7 +54,6 @@ function MyMessages() {
       setMessages([...messages, tempObject]);
     });
   };
-
   const getUserChatRooms = async () => {
     let user = await whoAmI();
     if (user && user.chatrooms.length) {

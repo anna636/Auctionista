@@ -12,6 +12,8 @@ const AuctionItemProvider = (props) => {
   const [auctionItems, setAuctionItems] = useState([]);
   const [primaryImgPath, setPrimaryImgPath] = useState("");
   const [imgPaths, setImgPaths] = useState([]);
+  const [specificItem, setSpecificItem] = useState({})
+
 
 
   useEffect(() => {
@@ -24,9 +26,11 @@ const AuctionItemProvider = (props) => {
       "/rest/auction-items/batch/" + offsetValue + "/" + id
     );
     let items = await response.json();
+    console.log("items in batch are ", items);
 
     if (auctionItems.length === 0) {
       setAuctionItems(items);
+    
     } else {
       console.log("fetching when not 0");
       setAuctionItems([...auctionItems, ...items]);
@@ -37,6 +41,7 @@ const AuctionItemProvider = (props) => {
     let res = await fetch("/rest/auction-items/" + id);
     try {
       let fetchedItem = await res.json();
+      setSpecificItem(fetchedItem)
       return fetchedItem;
     } catch {
       console.log("No item found");
@@ -110,7 +115,9 @@ const AuctionItemProvider = (props) => {
     setAuctionItems,
     fetchMyListings,
     relistItem,
-    updateAuctionItem
+    updateAuctionItem,
+    specificItem,
+    setSpecificItem,
   };
 
   return (

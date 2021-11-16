@@ -7,16 +7,8 @@ export const UserContext = createContext();
 const UserContextProvider = (props) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [users, setUsers] = useState([]);
+  const [currentUserId, setCurrentUserId]=useState("")
 
-  const fetchUsers = async () => {
-    let res = await fetch("/rest/users");
-    res = await res.json();
-    setUsers(res);
-  };
-
-  useEffect(() => {
-    fetchUsers();
-  }, []);
 
   const register = async (user) => {
     let res = await fetch("/api/signup", {
@@ -64,7 +56,12 @@ const UserContextProvider = (props) => {
         return null;
       } else {
         console.log("found current user", res);
+       
         setCurrentUser({ ...res });
+        console.log("current user id whoami", currentUser)
+        setCurrentUserId(res.id.toString())
+       
+
         return res
       }
     } catch {
@@ -85,8 +82,8 @@ const UserContextProvider = (props) => {
 
   };
 
-  useEffect(() => {
-    whoAmI();
+  useEffect(async () => {
+    await whoAmI();
   }, []);
 
   const values = {
@@ -97,6 +94,7 @@ const UserContextProvider = (props) => {
     whoAmI,
     currentUser,
     users,
+    currentUserId
   };
 
   return (

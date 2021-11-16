@@ -15,6 +15,8 @@ import MyProfile from "./pages/MyProfile";
 import OAuth2RedirectHandler from "./components/OAuth2RedirectHandler";
 import MessageContextProvider from "./contexts/MessageContext";
 import Notifications from "./components/Notifications";
+import OutbiddenNotif from "./components/OutbiddenNotif";
+
 
 function App() {
   return (
@@ -27,6 +29,7 @@ function App() {
                 <Router>
                   <Navbar />
                   <Notifications />
+                  <OutbiddenNotif/>
                   <main>
                     <Switch>
                       <Route path="/" exact component={Home} />

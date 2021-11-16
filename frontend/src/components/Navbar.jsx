@@ -10,10 +10,12 @@ import Search from "./search/Search";
 import CustomModal from "./CustomModal";
 
 function Navbar() {
-  const { getCurrentUser, logout } = useContext(UserContext);
+  const { getCurrentUser, logout, whoAmI, currentUserId } =
+    useContext(UserContext);
   const [login, setLogin] = useState(false);
   const [register, setRegister] = useState(false);
-  const [showPopup, setShowPopup] = useState(false);
+  const [showPopup, setShowPopup] = useState(false)
+ 
   const toggleLogin = () => setLogin(!login);
   const toggleRegister = () => setRegister(!register);
   const [myProp, setMyProp] = useState({});
@@ -29,9 +31,12 @@ function Navbar() {
     }, 4000);
   };
 
+   
 
   useEffect(() => {
-    getCurrentUser();
+    getCurrentUser()
+    
+
   }, []);
 
   return (
@@ -133,7 +138,7 @@ function Navbar() {
       >
         <p>Logged in</p>
       </div>
-      
+  
     </nav>
   );
 }
