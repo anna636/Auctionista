@@ -178,6 +178,33 @@ RESPONSE:
 
 ```
 
+## /rest/bids/user-id/id
+### METHOD: GET
+RESPONSE: 
+```json
+{
+    "id": 4,
+    "amount": 22,
+    "time": "2021-10-29T11:07:25.472",
+    "user_id": "1",
+    "auctionItem": {
+        "id": 3,
+        "title": "test2",
+        "description": "sdcsc",
+        "reservationPrice": 100,
+        "deadline": "2021-11-01T13:59:59.298",
+        "images": "/uploads/Food-Tank-28-Livestock-Farmers.jpeg",
+        "sold": false,
+        "expired":false,
+        "startPrice": 121,
+        "currentPrice": null,
+        "minimumBid": 133,
+        "primaryImgIndex": 0
+    }
+}
+
+```
+
 
 ## /api/auction-items/search?title={title}
 ### METHOD: GET
@@ -294,6 +321,56 @@ RESPONSE:
 
 ## /rest/auction-items/{id}
 ### METHOD: GET
+RESPONSE:
+```json
+
+{
+    "id": 38,
+    "title": "test22",
+    "description": "sdcsc",
+    "reservationPrice": 100,
+    "deadline": "2021-11-01T13:59:59.298",
+    "images": "/uploads/Food-Tank-28-Livestock-Farmers.jpeg",
+    "sold": false,
+    "expired":false,
+    "currentPrice": 121,
+    "minimumBid": 133,
+    "primaryImgIndex": 0,
+    "bids": [],
+    "owner": {
+        "id": 1,
+        "fullName": "anna",
+        "username": "anna"
+    }
+}
+```
+
+## /rest/auction-items/{id}
+### METHOD: PUT
+REQUEST:
+
+```json
+{
+    
+    "title": "test22",
+    "description": "sdcsc",
+    "reservationPrice": 100,
+    "deadline": "2021-11-01T13:59:59.298",
+    "images": "/uploads/Food-Tank-28-Livestock-Farmers.jpeg",
+    "sold": false,
+    "startPrice": 121,
+    "expired":false,
+    "minimumBid": 133,
+    "primaryImgIndex": 0,
+    "bids": [],
+    "owner": {
+        "id": 1,
+        "fullName": "anna",
+        "username": "anna"
+    }
+}
+```
+
 RESPONSE:
 ```json
 
