@@ -36,7 +36,6 @@ public class MessageController {
         socketModule.emit("notifications", notif);
         System.out.println("Got notification about updating bid with id"+ notif.getUpdateItemId());
         return notif;
-
     }
 
     @PostMapping("/api/outbidden")

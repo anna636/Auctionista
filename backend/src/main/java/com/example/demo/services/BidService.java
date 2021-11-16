@@ -40,6 +40,7 @@ public class BidService {
             if( Long.parseLong(bid.getUser_id()) == auctionItem.getOwner().getId()) {
                 System.out.println("User can't place bid on their own items");
                 return null;
+
             }
 
             auctionItem.updateValues(bid);

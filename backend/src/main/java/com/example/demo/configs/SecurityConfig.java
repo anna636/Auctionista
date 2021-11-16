@@ -82,7 +82,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/chat/**").permitAll()
                 .antMatchers(HttpMethod.POST,"/rest/bids").authenticated() //User should be logged in when placing a bid
                 //.antMatchers(HttpMethod.GET,"/api/whoami").authenticated()  //User shoould be logged in to get information about this user
-                .antMatchers(HttpMethod.POST,"/rest/auctionItems").permitAll()
+                .antMatchers(HttpMethod.POST,"/rest/auctionItems").authenticated()
                 .antMatchers(HttpMethod.GET,"/rest/bids").permitAll()
                 //User should be logged in to post new auction item
                 //Chat with others?
