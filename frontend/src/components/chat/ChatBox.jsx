@@ -31,9 +31,6 @@ function ChatBox(props) {
 
   return (
     <div className="chatsWrapper" style={styles.chatsWrapper}>
-      <div>
-        <h2>Room ID: {props.sendTo && props.sendTo.id}</h2>
-      </div>
       {chatRooms && chatRooms.length > 0
         ? chatRooms.map((room) => (
             <div

@@ -63,24 +63,23 @@ function AuctionItemDetails() {
   }
 
   async function sendOutbiddenNotif(newBid) {
-    let outbiddenNotif = {
-      fromLogin: currentUser.username,
-      toWho: specificItem.bids[specificItem.bids.length - 1].userId,
-      auctionItemid: specificItem.id,
-      auctionItemTitle: specificItem.title,
-      lastBidAmount: newBid,
-    };
-    
-    if (specificItem.bids[specificItem.bids.length - 1].user_id !== currentUser.id.toString()) {
-      let res = await fetch("/api/outbidden", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(outbiddenNotif)
-    }); 
-    }
-    else {
-      console.log("Last bid was your own bid")
-    }
+     if ( specificItem.bids.length > 0 && specificItem.bids[specificItem.bids.length - 1].user_id !==currentUser.id.toString()) {
+       let outbiddenNotif = {
+         fromLogin: currentUser.username,
+         toWho: specificItem.bids[specificItem.bids.length - 1].user_id,
+         auctionItemid: specificItem.id,
+         auctionItemTitle: specificItem.title,
+         lastBidAmount: newBid,
+       };
+
+       let res = await fetch("/api/outbidden", {
+         method: "POST",
+         headers: { "Content-Type": "application/json" },
+         body: JSON.stringify(outbiddenNotif),
+       });
+     } else {
+       console.log("Last bid was your own bid");
+     }
      
   }
   const getAuctionItem = async (auctionItemId) => {
@@ -236,12 +235,12 @@ function AuctionItemDetails() {
                 <Card.Title className="mt-3">
                   Current price:{" "}
                   <span>
-                    {specificItem.bids.length
+                    {specificItem.bids.length > 0
                       ? specificItem.bids[specificItem.bids.length - 1].amount
                       : specificItem.startPrice}{" "}
                     <i className="bi bi-currency-bitcoin"></i>{" "}
                   </span>
-                  {specificItem.bids.length &&
+                  {specificItem.bids.length > 0 &&
                     currentUser &&
                     specificItem.bids[specificItem.bids.length - 1].user_id ==
                       currentUser.id && (
