@@ -36,8 +36,12 @@ public class AuctionItemService {
              fetchedItems =auctionItemRepository.getItemsInBatch(offset);
          }
            else{
+
                String rowId=auctionItemRepository.getRowId(id);
-               fetchedItems=auctionItemRepository.getItemsInBatch(rowId);
+
+             Integer myI=Integer.parseInt(rowId)-1;
+
+               fetchedItems=auctionItemRepository.getItemsInBatch(myI.toString());
          }
 
         return fetchedItems;
