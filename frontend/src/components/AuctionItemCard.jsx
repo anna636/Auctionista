@@ -46,24 +46,23 @@ const AuctionItemCard = (props) => {
     });
   }
 
-    async function sendOutbiddenNotif(newBid) {
-      let outbiddenNotif = {
-        fromLogin: getCurrentUser().username,
-        toWho: item.bids[item.bids.length - 1].user_id,
-        auctionItemid: props.props.id,
-        auctionItemTitle: props.props.title,
-        lastBidAmount: newBid
-      };
-    
-      if (
-        item.bids && item.bids[item.bids.length - 1].user_id !== getCurrentUser().id.toString()) {
+  async function sendOutbiddenNotif(newBid) {
+      if (item.bids.length > 0 &&item.bids[item.bids.length - 1].user_id !==getCurrentUser().id.toString()) {
+        let outbiddenNotif = {
+          fromLogin: getCurrentUser().username,
+          toWho: item.bids[item.bids.length - 1].user_id,
+          auctionItemid: props.props.id,
+          auctionItemTitle: props.props.title,
+          lastBidAmount: newBid,
+        };
+
         let res = await fetch("/api/outbidden", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(outbiddenNotif),
         });
       } else {
-        console.log("Last bid was your own bid");
+        console.log("Last bid was your own bid or you are the first bidder");
       }
     }
 
