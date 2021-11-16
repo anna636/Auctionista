@@ -22,9 +22,6 @@ public class AuctionItemController {
     @Autowired
     private AuctionItemService auctionItemService;
 
-
-
-
     @GetMapping("/rest/auction-items/batch/{offset}/{id}")
     public ResponseEntity<List<AuctionItem>> getItemsInBatch(@PathVariable String offset, @PathVariable  String id)
     {
@@ -37,10 +34,6 @@ public class AuctionItemController {
         }
     }
 
-
-
-
-    //Get auction item by id
     @GetMapping("/rest/auction-items/{id}")
     public ResponseEntity<Optional<AuctionItem>>getById(@PathVariable long id){
 
@@ -49,11 +42,9 @@ public class AuctionItemController {
         if(auctionItem.isPresent()){
             return ResponseEntity.ok(auctionItem);
         }
-
         else{
             return ResponseEntity.noContent().build();
         }
-
     }
 
     @GetMapping("/api/relist/{id}")
@@ -67,10 +58,7 @@ public class AuctionItemController {
         }
     }
 
-
-    //Create new auction item
     @PostMapping("/rest/auction-items")
-    //sätta not null på alla fält av auctionItem
     public ResponseEntity<AuctionItem> createAuctionItem(@RequestBody AuctionItem auctionItem){
 
         AuctionItem auctionItemToSave=auctionItemService.createAuctionItem(auctionItem);
@@ -80,7 +68,6 @@ public class AuctionItemController {
         else{
             return ResponseEntity.badRequest().build();
         }
-
     }
 
     @GetMapping("/api/auction-items/search")
@@ -96,7 +83,6 @@ public class AuctionItemController {
         else{
             return ResponseEntity.noContent().build();
         }
-
     }
 
     @GetMapping("/api/my-auction-items")
