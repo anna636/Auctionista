@@ -1,11 +1,9 @@
 import React, { useContext } from "react";
 import { Message } from "@chatscope/chat-ui-kit-react";
 import { UserContext } from "../../contexts/UserContext";
-import { useMessage } from "../../contexts/MessageContext";
 
 function ChatMessage(props) {
   const { currentUser } = useContext(UserContext);
-    const { chatRoom } = useMessage();
 
   return (
     <>
