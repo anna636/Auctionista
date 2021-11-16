@@ -93,6 +93,10 @@ text-align: center !important;
   -ms-animation: fadeOut 15s;
   position: relative;
 }
+.bi-x-square::before{
+  margin-right:-38vh;
+}
+
 
 
 
