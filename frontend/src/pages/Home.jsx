@@ -5,7 +5,6 @@ import AuctionItemCard from "../components/AuctionItemCard";
 
 function Home() {
   const [offsetY, setOffsetY] = useState(0);
-
   const { auctionItems, fetchItemsInBatch, setAuctionItems } = useAuctionItem();
   const handleScroll = () => setOffsetY(window.pageYOffset);
 
